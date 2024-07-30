@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Untitled-1.png";
 import { BiSearch, BiShoppingBag, BiPlus } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import Megamenu from "../MegaMenu/Megamenu";
@@ -8,6 +7,7 @@ import LeftDrawer from "../Drawers/LeftDrawer";
 import MobileNav from "../MobileNav/MobileNav";
 import { useRef, useState } from "react";
 import "./Navbar.css"
+import Logo from "../reusablesUI/Logo";
 
 const links = [
   {
@@ -48,29 +48,12 @@ const Navbar = () => {
     setVisible(!visible)
   }
   
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-      if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
-       Navref.current.style.top = "10";
-      } else {
-       Navref.current.style.top = "-150px";
-      }
-    } 
   
 
   return (
-    <nav ref={Navref}  className="flex justify-around items-center py-12  h-20 ">
+    <nav className="flex justify-around items-center py-12  h-20 ">
       <div className="logo-container z-50 pb-2">
-        {isLogo ? (
-          <Link to="/">
-            <img src={Logo} alt="logo" className="h-12" />
-          </Link>
-        ) : (
-          <Link to="/">
-            <p>Company Logo</p>
-          </Link>
-        )}
+       <Logo/>
       </div>
       {/*  */}
       <ul className="lg:flex items-center gap-8 hidden ">

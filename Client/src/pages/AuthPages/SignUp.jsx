@@ -10,7 +10,7 @@ import { CiPhone } from "react-icons/ci";
 import SocialAuthUI from '../../components/reusablesUI/SocialAuthUI';
 
 
-let Passpattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+// let Passpattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
 
 
 const SignUp = () => {
@@ -20,8 +20,19 @@ const SignUp = () => {
   const [error, setError] = useState(null);
   const [pnumber , setPhone] = useState()
   var isLogo = true
-  const handleLogin = async (e) => {
-   
+
+  const handleSignUp = async (e) => {
+    
+    e.preventDefault();
+    // console.log(name , email, password , error, pnumber)
+    try{
+        
+    }
+    catch{
+      
+    }
+
+    alert("user created")
   };
 
   return (
@@ -43,7 +54,7 @@ const SignUp = () => {
         <p className='text-xs'>or use your email to signin</p>
       </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSignUp}>
         <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
               Name
@@ -96,7 +107,6 @@ const SignUp = () => {
               onChange={(e) => e.target.value.length<=10 && setPhone(e.target.value)}
               className="w-full px-3 py-2 border outline-none"
               required
-              max={10}
             />
            </div>
           </div>

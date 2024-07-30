@@ -27,9 +27,11 @@ const Megamenu = ({title ,icon}) => {
               Adding fuel to every fitness fanatics passion with the best
               equipment in India.
             </p>
-            <button className="font-bold text-white w-fit uppercase bg-black  text-[18px] py-2 px-2 shadow-md mt-12">
-              Shop All Fitness Products
-            </button>
+             <Link to="/product">
+              <div className="">
+                Shop All Fitness Products
+              </div>
+             </Link>
           </div>
           {/* section-1 end */}
           <Divider orientation="vertical" variant="middle" flexItem />
@@ -38,11 +40,16 @@ const Megamenu = ({title ,icon}) => {
             <ul className="">
               {links.map((item) => (
                 <Link
+                 to={`/product-category${item.route}`}
                   key={item.Head}
                   className="p-2 hover:underline duration-300 underline-offset-8 flex items-center gap-1"
                 >
                   <GoDash className="text-indigo-500 font-bold" />
-                  <li className="hover:pl-2 duration-300">{item.name}</li>
+                  <li className="hover:pl-2 duration-300">{item.name}
+                    {
+                      item.submenu && <li className="text-xl font-bold text-red-500">{console.log(item?.sublink?.label)}</li>
+                    }
+                  </li>
                 </Link>
               ))}
             </ul>

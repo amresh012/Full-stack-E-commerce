@@ -20,10 +20,11 @@ const payRoute = require("./routes/paymentRoute");
 const couponRoute = require("./routes/couponRoute");
 const imageRoute = require("./routes/imageRoute");
 const ccavReqHandler = require("./controller/ccavenue/ccavRequestHandler");
-const ccavResHandler = require("./controller/ccavenue/ccavResponseHandler");
+// const ccavResHandler = require("./controller/ccavenue/ccavResponseHandler");
 const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
+const os = require("os");
 const PORT = process.env.PORT || 7021;
 dotenv.config();
 const app = express();
@@ -65,16 +66,13 @@ app.post("/ccavRequestHandler", function (request, response) {
 
 app.use(notFound);
 app.use(errorHandler);
-const os = require("os");
 
-// const ipAddress = Object.values(os.networkInterfaces())
-//   .flat()
-//   .find(({ family, internal }) => family === "IPv4" && !internal).address;
 
-// app.listen(PORT, ipAddress, () => {
-//   console.log(`Server listening on http://${ipAddress}:${PORT}`);
-// });
 
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`Server listening on http://${"127.0.0.1"}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server listening on:${PORT}`);
 });
+
+
+// password Ca57Fj1DM5LFnBzd
+// username :deepnapsoftech

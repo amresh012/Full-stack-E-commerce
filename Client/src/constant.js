@@ -1,10 +1,12 @@
 export const links = [
   {
     name: "Accessories",
-    submenu: false
+    route:"/accessories",
+    submenu: false,
   },
   {
     name: "Benches and Racks",
+    route:"/benches-and-racks",
     submenu: true,
     sublink: [
       {
@@ -23,6 +25,7 @@ export const links = [
   },
   {
     name: "Cardio",
+    route:"/cardio-equipment-setup",
     submenu: true,
     sublinks: [
       {
@@ -45,6 +48,7 @@ export const links = [
   },
   {
     name: "Strength",
+    route:'/strenght-equipment',
     submenu: true,
     sublinks: [
       {
