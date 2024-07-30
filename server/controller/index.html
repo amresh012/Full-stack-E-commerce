@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400&family=Roboto+Slab&family=Rubik&display=swap");
+      body {
+        font-family: "Poppins", sans-serif;
+        font-family: "Roboto Slab", serif;
+        box-sizing: border-box;
+        font-family: "Rubik", sans-serif;
+      }
+      .mainContainer {
+        border: 1px solid black;
+        /* width: 100%; */
+      }
+      .nameContainer {
+        border-bottom: 1px solid black;
+        display: flex;
+        flex-direction: column !important;
+        padding: 8px;
+      }
+      .gst {
+        width: 100%;
+        display: flex;
+        justify-content: space-between !important;
+      }
+      .gst h5 {
+        margin: 0;
+      }
+      .w-full {
+        width: 100%;
+      }
+      .flex {
+        display: flex;
+      }
+      .jsustify-center {
+        justify-content: center;
+      }
+      .jsustify-between {
+        justify-content: space-between;
+      }
+      .flex-col {
+        flex-direction: column;
+      }
+      .m-0 {
+        margin: 0;
+      }
+      .underline {
+        text-decoration: underline;
+      }
+      .border {
+        border: 1px solid black;
+      }
+      .textc {
+        text-align: center;
+      }
+      .pt-3 {
+        padding-top: 10px !important;
+      }
+      .text-center {
+        width: 100%;
+        text-align: center;
+        margin: 1px;
+      }
+      .pb {
+        padding-bottom: 4px;
+      }
+      .border-b {
+        border-bottom: 1px solid black;
+      }
+      .border-l {
+        border-left: 1px solid black;
+      }
+      .border-r {
+        border-right: 1px solid black;
+      }
+      .w-50 {
+        width: 50%;
+      }
+      /* @media (min-width: 768px) {
+        .w-50 {
+          width: 50%;
+        }
+      } */
+      .pb-4 {
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .mb-4 {
+        margin-bottom: 40px;
+      }
+      h5 span {
+        color: rgba(43, 41, 41, 0.836);
+      }
+      .no {
+        text-wrap: nowrap;
+      }
+      .bill strong {
+        display: block;
+        margin: 4px 0px;
+      }
+      .mainContainer table {
+        width: 100%;
+        border-bottom: none !important;
+      }
+      .mainContainer table,
+      th,
+      td {
+        border: 1px solid black;
+        text-align: center;
+        border-collapse: collapse;
+        padding: 8px;
+      }
+
+      .mainContainer tfoot tr td,
+      tfoot tr {
+        border: none;
+      }
+      .text-end{
+        width: 100%;
+        padding-left: 10px;
+        box-sizing: border-box;
+        text-align: end;
+      }
+      .pb-10 {
+        padding: 10px 40px 4px 40px;
+        box-sizing: border-box;
+      }
+      .pb-9 {
+        padding: 4px 40px 10px 40px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mainContainer">
+      <div class="nameContainer">
+        <div class="gst w-full">
+          <h5>GSTIN : <strong>07AERFS7014R1Z4</strong></h5>
+          <h5>Original copy</h5>
+        </div>
+        <h4 class="m-0 underline pt-3 textc w-full pb h4">TAX INVOICE</h4>
+        <h2 class="textc w-full m-0 h2">Shreenathji Sai Company</h2>
+        <h5 class="text-center h5">
+          A-91, SECOND FLOOR,DERAWAL NAGAR.DELHI, NEW DELHI-110009
+        </h5>
+        <p class="text-center m-0">Tel. : 8882758900, 7827730205 email : shreenathjisai@gmail.com</p>
+      </div>
+      <div class="dateCont border-b flex">
+        <div class="w-50 border-r pb-4">
+          <h5 class="m-0 pb no h5"><span>Invoice No</span> : 15/233434</h5>
+          <h5 class="m-0 no h5"><span>Dated</span> : 15/233434</h5>
+        </div>
+        <div class="w-50 border-l pb-4">
+          <h5 class="m-0 pb no h5">
+            <span>Place of Supply </span> : 15/233434
+          </h5>
+          <h5 class="m-0 no h5"><span>Revese Charges No</span> : N</h5>
+        </div>
+      </div>
+      <div class="shipp border-b flex mb-4">
+        <div class="w-50 border-r pb-4">
+          <h5 class="m-0 pb bill h5">
+            <span>Billed to</span> :
+            <strong>
+              MEMORA INDIA PVT LTD MEMORA INDIA PVT LTD C-55/2, WAZIRPUR INDL.
+              AREA, WAZIRPUR, C-55/2, WAZIRPUR INDL. AREA, WAZIRPUR, DELHI -
+              110052
+            </strong>
+          </h5>
+          <h5 class="m-0 pb bill h3">
+            <span>GST NO.</span> :
+             12ABCDE1234F1Z5
+          </h5>
+        </div>
+        <div class="w-50 border-l pb-4">
+          <h5 class="m-0 pb bill h5">
+            <span>Shipped to</span> :
+            <strong>
+              MEMORA INDIA PVT LTD MEMORA INDIA PVT LTD C-55/2, WAZIRPUR INDL.
+              AREA, WAZIRPUR, C-55/2, WAZIRPUR INDL. AREA, WAZIRPUR, DELHI -
+              110052
+            </strong>
+          </h5>
+        </div>
+      </div>
+      <div class="">
+        <table>
+          <tr class="border-b">
+            <th>S.N.</th>
+            <th>Description of Goods</th>
+            <th>HSN/SAC Code</th>
+            <th>Qty</th>
+            <th>Unit</th>
+            <th>Price</th>
+            <th>Amount (₹)</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Description of Goods</td>
+            <td>HSN/SAC Code</td>
+            <td>Qty</td>
+            <td>Unit</td>
+            <td>Price</td>
+            <td>Amount (₹)</td>
+          </tr>
+        </table>
+        <h4 class="text-end pb-10 m-0 h5"><span>Coupon Discount <span>(&nbsp;Newuser50&nbsp;)</span> :</span > &nbsp;- 10000 ₹</h4>
+        <h4 class="text-end  pb-9 m-0 h5"><span>Total :</span> &nbsp; 10000 ₹</h4>
+        <p class="text-end border-b pb-9 m-0 ">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est nihil expedita atque nostrum eum tempore asperiores, eos animi consequatur ipsum impedit? Distinctio aspernatur dolore ut.</p>
+        <h5 class="border-b pb-4 m-0 h5"><span>Bank Details :</span> &nbsp; BANK NAME:- YES BANK BRANCH:- B7 & B8 Gujranwala Town New Delhi 110009
+            Account No:- 008363400002351 IFSC Code:- YESB0000083    </h5>
+            <div class="shipp border-b flex">
+                <div class="w-50 border-r pb-4">
+                  <h5 class="m-0 pb bill h5">
+                    <span class="underline pb-1">Terms & Conditions</span> :
+                    <strong>
+                        E.& O.E.
+                        1. Goods once sold will not be taken back.
+                        <br>
+                        2. Interest @ 18% p.a. will be charged if the payment
+                        <br>
+                        is not made with in the stipulated time.
+                        <br>
+                        3. Subject to 'Delhi' Jurisdiction only.
+                    </strong>
+                  </h5>
+                </div>
+                <div class="w-50 border-l">
+                    <h5 class="border-b pb-4 m-0">
+                        <span>Receiver's Signature</span> :
+
+                    </h5>
+                  <h3 class="text-end m-0 pb-4">For Shreenathji Sai Company</h3>
+                  <br>
+                  <h5 class="text-end m-0 pb-4">Authorised Signatory</h5>
+                </div>
+              </div>
+
+      </div>
+    </div>
+  </body>
+</html>
