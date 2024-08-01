@@ -91,47 +91,55 @@ const Home = () => {
     </div>
    </div>
 {/*  secton-unknown-end */}
-
-
-
-
-
-
-
-
-
-
-
-
     {/* best selling */}
       <div className="bestsellers flex flex-col   gap-12 mt-24 ">
       <div className="border-l-8 border-blue-500 px-2 mx-28  flex justify-between">
-  <h1 className='text-[3rem] font-bold'>Best Selling Products</h1>
+       <h1 className='text-[3rem] font-bold'>Best Selling Products</h1>
           <button className='bg-black/90 px-12 text-white'>View More</button>
-  </div>
+         </div>
         <div className="flex items-center justify-center">
           <Bestsellers/>
         </div>
       </div>
 
-  
+  {/*facility seting section  */}
+  <div className="h-[60vh] bg-zinc-300 flex flex-col  items-center justify-center gap-12">
+  <div className="font-bold text-[3rem] Font-oswald flex items-center justify-around   flex-col gap-4">
+    <h1>Setting Up Fiteness Facility?</h1>
+    <p className='text-xl'>We offer custom solutions to help you set up your fitness facility from start to finish.
+    </p>
+  </div>
+  <div className="flex flex-col gap-12 w-full justify-around items-center">
+    <div className="image">
+    </div>
+    <div className="">
+      <h1 className='Font-oswald'>1.Consult</h1>
+      <p>We start with a need analysis to understand your unique and specific requirements & preferences.
+     </p>
+    </div>
+  </div>
+ </div>
 
 
 
 {/* our clients */}
-    {/* <div className="Our clients my-12">
-      <h1 className='text-[3rem]  font-bold '>Our Clients</h1>
+    <div className="Our clients my-12 flex flex-col gap-12 items-start px-12">
+    <div className="border-l-8 border-blue-500 px-2">
+  <h1 className='text-[3rem] font-bold'>Our Clients</h1>
+  </div>
       <div className="client-infinite-scroll flex  flex-wrap justify-around ">
           {
             Clients.map((client)=>(
-              <div className="flex items-center flex-col m-2 grayscale hover:grayscale-0 hover:shadow-md hover:scale-105  duraton-300 cursor-pointer" key={client.id}>
-                <img src={client.imgurl} alt={client.location}  className='h-44'/>
+              <div className="flex 
+              items-center flex-col m-2 grayscale hover:grayscale-0 hover:shadow-md hover:scale-105 
+               duraton-300 cursor-pointer" key={client.id}>
+                <img src={client.imgurl} alt={client.location}   data-aos="zoom-in"  className='h-44'/>
                 <span className=' font-bold'>{client.location}</span>
               </div>
             ))
           }
       </div>
-    </div> */}
+    </div>
     {/* our client section end */}
     </>
   )
