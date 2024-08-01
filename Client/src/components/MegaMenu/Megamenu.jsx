@@ -37,19 +37,25 @@ const Megamenu = ({title ,icon}) => {
           <Divider orientation="vertical" variant="middle" flexItem />
           {/* section-2 */}
           <div className="w-[25rem]">
-            <ul className="">
+            <ul className="overflow-y-scroll max-h-[20rem] no-scrollbar">
               {links.map((item) => (
                 <Link
                  to={`/product-category${item.route}`}
                   key={item.Head}
-                  className="p-2 hover:underline duration-300 underline-offset-8 flex items-center gap-1"
+                  className="p-2  duration-300 underline-offset-8 flex flex-col  gap-1"
                 >
-                  <GoDash className="text-indigo-500 font-bold" />
-                  <li className="hover:pl-2 duration-300">{item.name}
-                    {
-                      item.submenu && <li className="text-xl font-bold text-red-500">{console.log(item?.sublink?.label)}</li>
-                    }
-                  </li>
+                  {/* <GoDash className="text-indigo-500 font-bold" /> */}
+                  <li className="bg-black text-white p-2 text-xl">{item.name}</li>
+                  {
+                    item.submenu && item.sublink.map((sublink)=>(
+                    <ul className=" flex flex-col gap-2 justify-start  font-medium hover:underline-none items-start">
+                       <Link to={sublink.route} className="flex">
+                       <GoDash/>
+                       <li className="hover:underline-none hover:font-bold hover:pl-2 duration-300" key={sublink.key}>{sublink.label}</li>
+                     </Link>
+                    </ul>
+                    ))
+                  }
                 </Link>
               ))}
             </ul>

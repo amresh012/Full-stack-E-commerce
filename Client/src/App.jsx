@@ -11,6 +11,7 @@ import ForgotPassword from './pages/AuthPages/ForgotPassword'
 import Otp from './pages/AuthPages/Otp'
 import Contact from './pages/Home/Contact'
 import ProductPage from './pages/Product/ProductPage'
+import Bestsellers from './pages/Bestsellers'
 
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
       <Route path='/about' element={<About/>}/>
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/product" element={<ProductPage/>}/>
+      <Route path="/bestsellers" element={<Bestsellers/>}/>
+
       </Route>
 
 

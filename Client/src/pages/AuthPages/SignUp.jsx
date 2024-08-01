@@ -1,6 +1,5 @@
 // src/Login.js
-import React, { useState } from 'react';
-// import { auth } from './firebase';
+import React from 'react';
 import {Link} from "react-router-dom"
 import Logo from "../../assets/Untitled-1.png"
 import { CiMail } from "react-icons/ci";
@@ -8,34 +7,34 @@ import {FaRegUser } from "react-icons/fa6";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiPhone } from "react-icons/ci";
 import SocialAuthUI from '../../components/reusablesUI/SocialAuthUI';
-
-
-// let Passpattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+import {useFormik} from "formik"
+import axios from "axios"
+import {toast, Toaster} from "react-hot-toast"
 
 
 const SignUp = () => {
-  const [name , setName] = useState("")
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [pnumber , setPhone] = useState()
-  var isLogo = true
+    var isLogo = true;
+    const {values, handleBlur , handleSubmit, handleChange} =  useFormik({
+      initialValues:{
+        name:"",
+        emal:"",
+        password:"",
+        phone:undefined
 
-  const handleSignUp = async (e) => {
-    
-    e.preventDefault();
-    // console.log(name , email, password , error, pnumber)
-    try{
-        
-    }
-    catch{
-      
-    }
+      },
+      onSubmit: async(values)=>{
+        console.log(values);
+       const res =  await axios.post("/api/user/register", values)
+       toast.success("sucessfully sumitted form")
 
-    alert("user created")
-  };
+      }
+    })
 
+
+ 
   return (
+    <>
+    <Toaster/>
     <div className="min-h-[50vh]  flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md ">
       <div className="logo-container z-50 h-24 grid place-items-center">
@@ -53,8 +52,8 @@ const SignUp = () => {
         <h1 className='text-2xl font-bold'>Create account</h1>
         <p className='text-xs'>or use your email to signin</p>
       </div>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleSignUp}>
+        {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
+        <form onSubmit={handleSubmit}>
         <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
               Name
@@ -66,8 +65,8 @@ const SignUp = () => {
            <input
               // type="text"
               id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={values.name}
+              onChange={handleChange}
               className="w-full px-3 py-2 border outline-none h-12 relative"
               required
             />
@@ -84,11 +83,11 @@ const SignUp = () => {
            <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={values.email}
+              onChange={handleChange}
               className="w-full px-3 py-2 border outline-none  relative"
               required
-            />
+              />
            </div>
           </div>
           {/* number */}
@@ -102,12 +101,12 @@ const SignUp = () => {
             </div>
            <input
               type="number"
-              id="email"
-              value={pnumber}
-              onChange={(e) => e.target.value.length<=10 && setPhone(e.target.value)}
+              id="phone"
+              value={values.phone}
+              onChange={handleChange}
               className="w-full px-3 py-2 border outline-none"
               required
-            />
+              />
            </div>
           </div>
           {/* number-end */}
@@ -122,17 +121,17 @@ const SignUp = () => {
            <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={values.password}
+              onChange={handleChange}
               className="w-full px-3 py-2 border outline-none  relative"
               required
-            />
+              />
            </div>
           </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded font-medium hover:bg-blue-700"
-          >
+            >
             Create Account
           </button>
         </form>
@@ -145,6 +144,7 @@ const SignUp = () => {
         <SocialAuthUI/>
       </div>
     </div>
+            </>
   );
 };
 

@@ -7,7 +7,7 @@ const AuthLayout = () => {
     <div>
         <Navabr/>
       <Outlet/>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   )
 }
