@@ -14,13 +14,13 @@ const Home = () => {
 
   return (
     <>
-    <div className='h-[80vh] bg-black hero_section items-center justify-start flex'>
+    <div className='h-[80vh] bg-black/50 hero_section items-center justify-start flex'>
       <div className=" h-[30rem] w-[45rem] ml-4">
         <h1 className='flex items-center  gap-4 text-white text-2xl'>
           <p className='pt-1'>Welome to</p>
           <img src={Logo} alt="" className='h-12 ' />
         </h1>
-        <div className="text-white font-bold capitalize text-[4rem] heading" data-aos="fade-in" data-aos-duration="900" >
+        <div className="text-white font-bold capitalize text-[4rem] heading" data-aos="fade-in" >
           <h1>The Ultimate Fitness</h1>
           <h1>Equipment Brand</h1>
         </div>
@@ -32,13 +32,24 @@ const Home = () => {
         </button>
       </div>
     </div>
-{/*  secton-unknown */}
+    {/* best selling */}
+      <div className="bestsellers flex flex-col   gap-12 mt-24 ">
+      <div className="border-l-8 border-blue-500 px-2 mx-28  flex justify-between">
+       <h1 className='text-[3rem] font-bold'>Best Selling Products</h1>
+          <button className='bg-black/90 hover:bg-black/50 px-12 text-white duration-300'>View More</button>
+         </div>
+        <div className="flex items-center justify-center">
+          <Bestsellers/>
+        </div>
+      </div>
+
+      {/*  secton-unknown */}
 <div className="p-24  gap-12 flex flex-col">
   <div className="border-l-8 border-blue-500 px-2">
   <h1 className='text-[3rem] font-bold'>Range Of Products</h1>
   </div>
     <div className="">
-    <div className="child-1 flex items-center gap-12">
+    <div className="child-1 flex items-center gap-12 " data-aos="fade-down">
       <div className="image-container ">
         <img
         className='' 
@@ -55,7 +66,7 @@ const Home = () => {
       </div>
      </div>
      {/* section-2 */}
-     <div className="child-2 flex items-center gap-12">
+     <div className="child-2 flex items-center gap-12" data-aos="fade-left">
       <div className="space-y-12">
         <h1 className=' font-bold text-[3rem] Font-oswald'>Strength</h1>
         <p className='text-xl leading-8 pr-12'>Boost endurance with our cutting-edge cardio machines at Energie Fitness.
@@ -72,7 +83,7 @@ const Home = () => {
       </div>
      </div>
      {/* section-3 */}
-     <div className="child-3 flex items-center gap-12">
+     <div className="child-3 flex items-center gap-12" data-aos="fade-right">
       <div className="image-container ">
         <img
         className='' 
@@ -91,16 +102,6 @@ const Home = () => {
     </div>
    </div>
 {/*  secton-unknown-end */}
-    {/* best selling */}
-      <div className="bestsellers flex flex-col   gap-12 mt-24 ">
-      <div className="border-l-8 border-blue-500 px-2 mx-28  flex justify-between">
-       <h1 className='text-[3rem] font-bold'>Best Selling Products</h1>
-          <button className='bg-black/90 px-12 text-white'>View More</button>
-         </div>
-        <div className="flex items-center justify-center">
-          <Bestsellers/>
-        </div>
-      </div>
 
   {/*facility seting section  */}
   <div className="h-[60vh] bg-zinc-300 flex flex-col  items-center justify-center gap-12">
@@ -124,14 +125,14 @@ const Home = () => {
 
 {/* our clients */}
     <div className="Our clients my-12 flex flex-col gap-12 items-start px-12">
-    <div className="border-l-8 border-blue-500 px-2">
+    <div className="border-l-8 border-blue-500 px-2" data-aos="fade-right">
   <h1 className='text-[3rem] font-bold'>Our Clients</h1>
   </div>
       <div className="client-infinite-scroll flex  flex-wrap justify-around ">
           {
             Clients.map((client)=>(
               <div className="flex 
-              items-center flex-col m-2 grayscale hover:grayscale-0 hover:shadow-md hover:scale-105 
+              items-center flex-col m-2 grayscale hover:grayscale-0 duraion-300 hover:scale-105 
                duraton-300 cursor-pointer" key={client.id}>
                 <img src={client.imgurl} alt={client.location}   data-aos="zoom-in"  className='h-44'/>
                 <span className=' font-bold'>{client.location}</span>

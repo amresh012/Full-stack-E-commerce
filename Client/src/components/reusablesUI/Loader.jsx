@@ -1,11 +1,11 @@
 import React from 'react'
-import "./Loader.css"
 const Loader = () => {
   return (
-    <div class="loader">
-  <div class="loader-text">Loading...</div>
-  <div class="loader-bar"></div>
-</div>
+  <>
+   <div className="h-[50vh] w-[100vw] overflow-clip flex  items-center justify-center">
+    <div className="w-12 h-12 rounded-full border-blue-500 border-dashed border-8 p-2 animate-spin duration-500"></div>
+   </div>
+  </>
 
   )
 }
