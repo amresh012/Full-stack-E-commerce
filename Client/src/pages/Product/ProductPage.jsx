@@ -5,7 +5,7 @@ import Loader from '../../components/reusablesUI/Loader'
 
 const Product = () => {
   
-  const [data , setData] = useState(false)
+  const [data , setData] = useState(true)
   
    const handleProductView = ()=>{
     setData(!data)

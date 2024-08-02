@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { LikeItem } from '../../constant';
 import rupee from '../../assets/image.png'
+import { Link } from 'react-router-dom';
 
 let CartCount = 0
 
@@ -52,9 +53,11 @@ export default function SwipeableTemporaryDrawer({icon}) {
               Your Cart Is Empty !
             </h1>
             <p className="pt-2">Add Your Favourite Item Here</p>
-            <button className="w-full px-12 py-2 bg-black mt-4 text-white uppercase">
+           <Link to="/product" className='w-full'>
+           <button className="w-full px-12 py-2 bg-black mt-4 text-white uppercase">
               Shop Now
             </button>
+           </Link>
           </div>
           <div className="cart-container max-h-96 overflow-y-scroll  no-scrollbar"></div>
         </div>

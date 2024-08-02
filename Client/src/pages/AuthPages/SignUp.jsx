@@ -6,7 +6,7 @@ import { CiMail } from "react-icons/ci";
 import {FaRegUser } from "react-icons/fa6";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiPhone } from "react-icons/ci";
-import SocialAuthUI from '../../components/reusablesUI/SocialAuthUI';
+// import SocialAuthUI from '../../components/reusablesUI/SocialAuthUI';
 import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
@@ -141,7 +141,7 @@ const SignUp = () => {
            <p className='text-blue-500 underline'>Login</p>
           </Link>
         </div>
-        <SocialAuthUI/>
+        {/* <SocialAuthUI/> */}
       </div>
     </div>
             </>

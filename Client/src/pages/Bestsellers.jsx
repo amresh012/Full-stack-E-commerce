@@ -1,7 +1,7 @@
 import React from 'react'
 import { bestsellers } from '../constant'
-import { FaPlus, FaStar } from 'react-icons/fa6'
-const Bestsellers = () => {
+import { Rating } from '@mui/material'
+const Bestsellers = ({classname}) => {
   return (
     <div className='flex flex-wrap justify-start items-center gap-4 pl-24'>
       {
@@ -16,11 +16,7 @@ const Bestsellers = () => {
                     <h1 className='text-2xl font-bold hover:underline Font-oswald'>{item.title}</h1>
                     <div className="flex gap-1 items-center">
                      <div className="flex gap-1 text-white">
-                        {
-                            [...Array(5)].map(()=>(
-                                <FaStar/>
-                            ))
-                        }
+                     <Rating name="read-only" value={item.rating} readOnly precision={0.5}  />
                      </div>
                         <span className=''>{item.rating}</span>
                     </div>

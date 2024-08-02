@@ -28,7 +28,7 @@ const Megamenu = ({title ,icon}) => {
               equipment in India.
             </p>
              <Link to="/product">
-              <div className="">
+              <div className="p-2 bg-black px-2 shadow-md py-2 text-white text-xl">
                 Shop All Fitness Products
               </div>
              </Link>

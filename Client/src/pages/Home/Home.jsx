@@ -4,6 +4,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Bestsellers from '../Bestsellers';
 import { Clients } from '../../constant';
+import Footer from '../../components/Footer';
 
 const Home = () => {
 
@@ -14,7 +15,7 @@ const Home = () => {
 
   return (
     <>
-    <div className='h-[80vh] bg-black/50 hero_section items-center justify-start flex'>
+    <div className='h-screen bg-black/50 hero_section items-center justify-start flex'>
       <div className=" h-[30rem] w-[45rem] ml-4">
         <h1 className='flex items-center  gap-4 text-white text-2xl'>
           <p className='pt-1'>Welome to</p>
@@ -104,19 +105,45 @@ const Home = () => {
 {/*  secton-unknown-end */}
 
   {/*facility seting section  */}
-  <div className="h-[60vh] bg-zinc-300 flex flex-col  items-center justify-center gap-12">
+  <div className="h-[60vh] bg-zinc-200 flex flex-col  items-center justify-center gap-12">
   <div className="font-bold text-[3rem] Font-oswald flex items-center justify-around   flex-col gap-4">
-    <h1>Setting Up Fiteness Facility?</h1>
-    <p className='text-xl'>We offer custom solutions to help you set up your fitness facility from start to finish.
+    <h1>Why KFS Fitness?</h1>
+    <p className='text-xl w-1/2 text-center tracking-wider font-light'>We constantly embrace innovation in our products each time we 
+      bring you something new, or in upgrades, to our exisiting product line.
     </p>
   </div>
-  <div className="flex flex-col gap-12 w-full justify-around items-center">
+  <div className="flex justify-center px-24 gap-12 items-center cursor-pointer">
+    <div className="flex items-center gap-4 hover:border-b-4 border-blue-500 duration-75 " data-aos="zoom-out">
     <div className="image">
+      <img src="https://cdn.shopify.com/s/files/1/0264/6900/7383/files/Quality.svg?v=1631514936" alt="" className='h-44' />
     </div>
     <div className="">
-      <h1 className='Font-oswald'>1.Consult</h1>
-      <p>We start with a need analysis to understand your unique and specific requirements & preferences.
+      <h1 className='Font-oswald font-bold trackingg-wider'>1.Consult</h1>
+      <p className=''>We start with a need analysis to understand your unique and specific requirements & preferences.
      </p>
+    </div>
+    </div>
+    {/* 2 */}
+    <div className="flex items-center gap-4 hover:border-b-4 border-blue-500 duration-75" data-aos="zoom-out">
+    <div className="image">
+      <img src="https://cdn.shopify.com/s/files/1/0264/6900/7383/files/Quality.svg?v=1631514936" alt="" className='h-44' />
+    </div>
+    <div className="">
+      <h1 className='Font-oswald font-bold trackingg-wider'>1.Consult</h1>
+      <p className=''>We start with a need analysis to understand your unique and specific requirements & preferences.
+     </p>
+    </div>
+    </div>
+    {/* 3 */}
+    <div className="flex items-center gap-4 hover:border-b-4 border-blue-500 duration-75" data-aos="zoom-out">
+    <div className="image">
+      <img src="https://cdn.shopify.com/s/files/1/0264/6900/7383/files/Quality.svg?v=1631514936" alt="" className='h-44' />
+    </div>
+    <div className="">
+      <h1 className='Font-oswald font-bold trackingg-wider'>1.Consult</h1>
+      <p className=''>We start with a need analysis to understand your unique and specific requirements & preferences.
+     </p>
+    </div>
     </div>
   </div>
  </div>
@@ -142,6 +169,7 @@ const Home = () => {
       </div>
     </div>
     {/* our client section end */}
+    {/* <Footer/> */}
     </>
   )
 }

@@ -24,13 +24,14 @@ const links = [
     },
   {
     label: "Commercial Setup",
-    route: "/Commercial-Setup",
+    route: "/commercial-gym",
   },
   {
     label: "Products",
   },
   {
     label: "Blog",
+    route:"/blog"
   },
   {
     label: "Contact Us",

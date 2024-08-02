@@ -3,7 +3,6 @@ import {Link} from "react-router-dom"
 import Logo from "../../assets/Untitled-1.png"
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
-import SocialAuthUI from '../../components/reusablesUI/SocialAuthUI';
 import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
@@ -32,20 +31,6 @@ const Login = () => {
 
 
 
-  // const handleShowPassword=()=> {
-  //   var x = document.getElementById("password")
-  //   // console.log(x.value)
-  //  if(x.value===" ")
-  //  {
-  //    alert("No Password")
-  //    return
-  //  }
-  //   if (x.type === "password") {
-  //     x.type = "text";
-  //   } else {
-  //     x.type = "password";
-  //   }
-  // }
 
   return (
     <div className="min-h-[50vh] flex items-center justify-center p-4">
@@ -102,9 +87,7 @@ const Login = () => {
               className="w-full px-3 py-2 border outline-none"
               required
             />
-            {/* <div className="absolute right-3 top-3" onClick={handleShowPassword}>
-             <FaEye/>
-            </div> */}
+          
            </div>
            <div className="py-2">
            <Link to="/auth/forgot-password" >
@@ -125,7 +108,6 @@ const Login = () => {
            <p className='text-blue-500 underline'>SignIn</p>
           </Link>
         </div>
-        <SocialAuthUI/>
       </div>
     </div>
   );

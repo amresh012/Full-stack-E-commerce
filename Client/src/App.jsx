@@ -12,6 +12,9 @@ import Otp from './pages/AuthPages/Otp'
 import Contact from './pages/Home/Contact'
 import ProductPage from './pages/Product/ProductPage'
 import Bestsellers from './pages/Bestsellers'
+import CommercialGym from './pages/CommercialGym'
+import Blog from './pages/Home/Blog'
+import Footer from './components/Footer'
 
 
 function App() {
@@ -26,7 +29,8 @@ function App() {
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/product" element={<ProductPage/>}/>
       <Route path="/bestsellers" element={<Bestsellers/>}/>
-
+      <Route path="/commercial-gym" element={<CommercialGym/>}/>
+      <Route path="/blog" element={<Blog/>}/>
       </Route>
 
 
@@ -38,7 +42,6 @@ function App() {
         <Route path='otp' element={<Otp/>}/>
       </Route>
     </Routes>
-
    </Suspense>     
   )
 }
