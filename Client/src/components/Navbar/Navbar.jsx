@@ -43,7 +43,6 @@ const Navbar = () => {
   const [visible , setVisible] = useState(false)
   let isLogo = true;
 
-  let Navref= useRef()
   
   const handleSearch=()=>{
     setVisible(!visible)

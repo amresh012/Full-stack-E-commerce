@@ -14,8 +14,8 @@ import ProductPage from './pages/Product/ProductPage'
 import Bestsellers from './pages/Bestsellers'
 import CommercialGym from './pages/CommercialGym'
 import Blog from './pages/Home/Blog'
-import Footer from './components/Footer'
-
+import Dashboard from './pages/Admin/Dashboard'
+import AdminLayout from './Layout/AdminLayout'
 
 function App() {
 
@@ -40,6 +40,12 @@ function App() {
         <Route path="Signup" element={<SignUp/>}/>
         <Route path='forgot-password' element={<ForgotPassword/>}/>
         <Route path='otp' element={<Otp/>}/>
+      </Route>
+
+      {/* Admin Routes */}
+
+      <Route element={<AdminLayout/>}>
+      <Route path="/admin" element={<Dashboard/>}/>
       </Route>
     </Routes>
    </Suspense>     
