@@ -1,5 +1,5 @@
 // import React from 'react'
-
+import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 const MobileNav = () => {
 
     const handleClick = () => {
@@ -7,8 +7,8 @@ const MobileNav = () => {
     }
 
   return (
-      <div className="lg:hidden flex" onClick={handleClick}>
-          <h1>Click Me</h1>
+      <div className="lg:hidden flex text-[2rem]" onClick={handleClick}>
+          <HiOutlineBars3BottomRight/>
    </div>
   )
 }

@@ -26,12 +26,11 @@ const {
   isAdmin,
   isSuper,
 } = require("../middlewares/authMiddleware");
-
 const router = express.Router();
 
 router.post("/check", checkSignup);
 router.post("/verify", verifyUser);
-router.post("/register", createUser);
+router.post("/register",createUser);
 router.get("/isadmin",authMiddleware,isAdminuser);
 router.post("/forgot-password-token", forgetPasswordToken);
 router.put("/reset-password/:token", resetPassword);

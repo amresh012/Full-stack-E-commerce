@@ -3,6 +3,8 @@ import React from 'react'
 import {blog} from "../../constant"
 import { Pagination } from '@mui/material'
 
+
+
 const Blog = () => {
   return (
     <>
@@ -12,7 +14,8 @@ const Blog = () => {
              but remember that every step you take brings you closer to your goals.
              Whether you're pushing through a tough set or just lacing up your shoes, you're investing in your future self.
               Consistency is key, and every workout, no matter how small, is a victory.</p>
-              <p className='text-white italic text-xl bg-black/20 backdrop-blur-md p-2 mt-8'>By <span>Arnold Shewcggher</span> </p>
+              <p className='text-white italic text-xl bg-black/20 backdrop-blur-md p-2 mt-8'>By <span>
+              Arnold Schwarzenegger</span> </p>
        </div>            
     </div>
     <div className="flex items-center justify-around flex-col">
@@ -34,32 +37,8 @@ const Blog = () => {
             </div>
             <div className="text-xl">{blog[0].title}</div>
          </div>
-         <div className="flex flex-wrap items-center justify-center">
-          {
-            blog.map((item)=>(
-                <>
-              <div className="m-4 flex flex-col justify-center w-[30rem] hover:scale-105 duration-300    ">
-              <div className="flex  items-start gap-2 p-2">
-                 <div className="flex">
-                 <img src={faker.image.avatar()} alt="" className='h-12 w-12 rounded-full' />
-                 </div>
-                 <div className="">
-                 <p>@{faker.person.fullName()}</p>
-                 <small>{item.date} {item.time}</small>
-                 </div>
-               </div>
-                 <div className="">
-                   <img
-                    src="https://sfhealthtech.com/cdn/shop/articles/10_Ways_Rowing_Machines_Can_Benefit_Your_Health_1080x.webp?v=1715158879"
-                     alt="" width={500} />
-                 </div>
-                 <div className="text-xl">{item.title}</div>
-              </div>
-                </>
-            ))
-          }
-         </div>
-    </div>
+         <BlogCard/>
+        </div>
 
     <div className="flex items-center justify-center mt-12">
     <Pagination count={blog.length} variant="outlined" color="primary" />    
@@ -68,4 +47,31 @@ const Blog = () => {
   )
 }
 
+export const BlogCard = ({start=0, end=0})=>{
+  <div className="flex flex-wrap items-center justify-center">
+  {
+    blog.slice(start , end).map((item)=>(
+        <>
+      <div key={item.time} className="m-4 flex flex-col justify-center w-[30rem] hover:scale-105 duration-300    ">
+      <div className="flex  items-start gap-2 p-2">
+         <div className="flex">
+         <img src={faker.image.avatar()} alt="" className='h-12 w-12 rounded-full' />
+         </div>
+         <div className="">
+         <p>@{item.author_name}</p>
+         <small>{item.date} {item.time}</small>
+         </div>
+       </div>
+         <div className="">
+           <img
+            src="https://sfhealthtech.com/cdn/shop/articles/10_Ways_Rowing_Machines_Can_Benefit_Your_Health_1080x.webp?v=1715158879"
+             alt="" width={500} />
+         </div>
+         <div className="text-xl">{item.title}</div>
+      </div>
+        </>
+    ))
+  }
+ </div>
+}
 export default Blog

@@ -1,35 +1,47 @@
 // src/Login.js
-import React from 'react';
+import React, { useState } from 'react';
 import {Link} from "react-router-dom"
 import Logo from "../../assets/Untitled-1.png"
 import { CiMail } from "react-icons/ci";
 import {FaRegUser } from "react-icons/fa6";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiPhone } from "react-icons/ci";
-// import SocialAuthUI from '../../components/reusablesUI/SocialAuthUI';
 import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
+import { base_url } from '../../Utils/baseUrl';
 
 
 const SignUp = () => {
+  const [error , setError] = useState("")
     var isLogo = true;
-    const {values, handleBlur , handleSubmit, handleChange} =  useFormik({
-      initialValues:{
-        name:"",
-        emal:"",
-        password:"",
-        phone:undefined
-
+    const {values , handleChange  , handleSubmit } = useFormik({
+      initialValues: {
+        name: '',
+        email: '',
+        password: '',
+        mobile: '',
       },
-      onSubmit: async(values)=>{
-        console.log(values);
-       const res =  await axios.post("/api/user/register", values)
-       toast.success("sucessfully sumitted form")
-
+      onSubmit: async (values, { setSubmitting }) => {
+        try {
+          const response = await axios.post(`${base_url}api/user/register`, values,
+            {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer',
+            }
+          });
+          toast.success('Form submitted successfully!');
+          window.location.href = '/auth/login';
+        } catch (error) {
+          toast.error('Error while submitting form');
+          // console.error(error.response.data);
+          setError(error.response.data.message)
+        } finally {
+          setSubmitting(false);
+        }
       }
-    })
-
+    });
 
  
   return (
@@ -52,7 +64,7 @@ const SignUp = () => {
         <h1 className='text-2xl font-bold'>Create account</h1>
         <p className='text-xs'>or use your email to signin</p>
       </div>
-        {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
         <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
@@ -100,9 +112,9 @@ const SignUp = () => {
               <CiPhone/>
             </div>
            <input
-              type="number"
-              id="phone"
-              value={values.phone}
+              type="text"
+              id="mobile"
+              value={values.mobile}
               onChange={handleChange}
               className="w-full px-3 py-2 border outline-none"
               required

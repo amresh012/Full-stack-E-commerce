@@ -5,6 +5,7 @@ import 'aos/dist/aos.css';
 import Bestsellers from '../Bestsellers';
 import { Clients } from '../../constant';
 import Footer from '../../components/Footer';
+import { BlogCard } from './Blog';
 
 const Home = () => {
 
@@ -169,7 +170,9 @@ const Home = () => {
       </div>
     </div>
     {/* our client section end */}
-    {/* <Footer/> */}
+    {/* blog */}
+     <BlogCard/>
+     
     </>
   )
 }

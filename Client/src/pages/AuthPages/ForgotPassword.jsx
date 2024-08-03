@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
+import {toast, Toaster} from "react-hot-toast"
+import axios from "axios"
+import { base_url } from '../../Utils/baseUrl';
 
 const ForgotPassword = ()=> {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle forgot password logic (e.g., send reset link to the email)
-    setMessage('If an account with that email exists, a password reset link has been sent.');
-    window.location.href="/auth/otp"
+  const handleSubmit =async (e) => {
+      e.preventDefault();
+      try {
+        await axios.post(`${base_url}api/user/forgot-password-token`, { email });
+        toast.success('Password reset email sent');
+        setMessage('Password reset email sent');
+      } catch (error) {
+        toast.error('Error sending password reset email');
+        setMessage('Error sending password reset email');
+        console.error(error.response?.data?.message);
+      }
   };
 
   return (
+    <>
+    <Toaster/>
     <div className="flex justify-center items-center ">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded shadow">
         <h2 className="text-2xl font-bold text-center">Forgot Password</h2>
@@ -44,9 +55,10 @@ const ForgotPassword = ()=> {
             
           </div>
         </form>
-        {message && <p className="mt-4 text-center text-green-600">{message}</p>}
+        {message && <p className="mt-4 text-center text-red-600">{message}</p>}
       </div>
     </div>
+                </>
   );
 }
 

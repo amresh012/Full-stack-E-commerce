@@ -6,6 +6,7 @@ import { CiMail } from 'react-icons/ci';
 import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
+import { base_url } from '../../Utils/baseUrl';
 
 
 
@@ -13,18 +14,22 @@ const Login = () => {
  
   var isLogo = true
   
-  const {values, handleBlur , handleSubmit, handleChange} =  useFormik({
-    initialValues:{
-      emal:"",
-      password:"",
+  const {values , error, handleChange , handleSubmit} = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
     },
-    onSubmit: async(values)=>{
-     const res =  await axios.get("/api/user/check", values)
-     toast.success("logged in successfully", res)
-
-    }
-  })
-
+    onSubmit: async (values) => {
+      try {
+        const res = await axios.post(`${base_url}api/user/login`, values); // changed to POST request
+        toast.success('Logged in successfully');
+        window.location.href = '/';
+      } catch (error) {
+        toast.error('Error while logging in');
+        console.error(error); // changed to console.error
+      }
+    },
+  });
 
 
 
@@ -51,7 +56,7 @@ const Login = () => {
         <h1 className='text-2xl font-bold'>SignIn</h1>
         <p className='text-xs'>or use your account</p>
       </div>
-        {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4 ">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">

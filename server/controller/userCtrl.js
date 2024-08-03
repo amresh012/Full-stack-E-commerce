@@ -43,7 +43,7 @@ const checkSignup = async (req, res) => {
 
 const verifyUser = asyncHandler(async (req, res) => {
   let token;
-  // console.log(req?.headers)
+  console.log(req?.headers)
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1];
     try {
