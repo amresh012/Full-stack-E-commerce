@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { bestsellers } from '../constant'
 import { Rating } from '@mui/material'
 import {useSelector, useDispatch} from "react-redux"
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 const Bestsellers = ({classname}) => {
+
+  
+  useEffect(() => {
+    AOS.init();
+  }, [])
+
   return (
     <div className='flex flex-wrap justify-start items-center gap-4 pl-24'>
       {
         bestsellers.map((item)=>(
-            <div className=" w-[25rem] flex flex-col items-start justify-start p-4 relative hover:-translate-y-2 duration-300">
+            <div data-aos="flip-left"
+            className=" w-[25rem] flex flex-col items-start justify-start p-4 relative hover:-translate-y-2 duration-300">
                 <div className="img w-full flex items-center justify-center bg-gray-100 ">
                     <img src={item.ImgUrl} alt={item.name}  />
                     <div className="absolute top-0 left-0 bg-red-500 px-12">

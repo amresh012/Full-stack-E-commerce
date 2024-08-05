@@ -93,7 +93,9 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Logo/>
+          <div className="">
+            <Logo/>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -119,8 +121,8 @@ export default function PersistentDrawerLeft() {
           {['Dashboard', 'Users', 'Orders', 'Contact-us'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <PeopleOutlineIcon /> : <Avatar label="Product"/>}
+                <ListItemIcon className=''>
+                  {index % 2 !==0 ? <PeopleOutlineIcon />: <img src="/public/order-delivery.png" alt ="" className='h-6'/>}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
@@ -134,7 +136,7 @@ export default function PersistentDrawerLeft() {
               <ListItemButton>
                 <ListItemIcon>
                   {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                  <img src="/public/box.png" alt="" className='h-12' />
+                  <img src="/public/box.png" alt="" className='h-6' />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>

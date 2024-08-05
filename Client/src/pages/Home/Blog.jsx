@@ -5,7 +5,7 @@ import { Pagination } from '@mui/material'
 
 
 
-const Blog = () => {
+const Blog = ({start ,end}) => {
   return (
     <>
       <div className="contact-header bg-black/50  min-h-[50vh] flex items-center w-full p-4">
@@ -37,18 +37,7 @@ const Blog = () => {
             </div>
             <div className="text-xl">{blog[0].title}</div>
          </div>
-         <BlogCard/>
-        </div>
-
-    <div className="flex items-center justify-center mt-12">
-    <Pagination count={blog.length} variant="outlined" color="primary" />    
-    </div>
-    </>
-  )
-}
-
-export const BlogCard = ({start=0, end=0})=>{
-  <div className="flex flex-wrap items-center justify-center">
+         <div className="flex flex-wrap items-center justify-center">
   {
     blog.slice(start , end).map((item)=>(
         <>
@@ -73,5 +62,40 @@ export const BlogCard = ({start=0, end=0})=>{
     ))
   }
  </div>
+        </div>
+
+    <div className="flex items-center justify-center mt-12">
+    <Pagination count={blog.length} variant="outlined" color="primary" />    
+    </div>
+    </>
+  )
 }
+
+// export const BlogCard = ({start=0, end=0})=>{
+//   <div className="flex flex-wrap items-center justify-center">
+//   {
+//     blog.slice(start , end).map((item)=>(
+//         <>
+//       <div key={item.time} className="m-4 flex flex-col justify-center w-[30rem] hover:scale-105 duration-300    ">
+//       <div className="flex  items-start gap-2 p-2">
+//          <div className="flex">
+//          <img src={faker.image.avatar()} alt="" className='h-12 w-12 rounded-full' />
+//          </div>
+//          <div className="">
+//          <p>@{item.author_name}</p>
+//          <small>{item.date} {item.time}</small>
+//          </div>
+//        </div>
+//          <div className="">
+//            <img
+//             src="https://sfhealthtech.com/cdn/shop/articles/10_Ways_Rowing_Machines_Can_Benefit_Your_Health_1080x.webp?v=1715158879"
+//              alt="" width={500} />
+//          </div>
+//          <div className="text-xl">{item.title}</div>
+//       </div>
+//         </>
+//     ))
+//   }
+//  </div>
+// }
 export default Blog
