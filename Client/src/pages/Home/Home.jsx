@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <>
-    <div className='h-screen bg-black hero_section items-center justify-start flex'>
+    <div className='h-screen bg-black/80 hero_section items-center justify-start flex'>
       <div className=" h-[30rem] w-[45rem] ml-4">
         <h1 className='flex items-center  gap-4 text-white text-2xl'>
           <p className='pt-1'>Welome to</p>
