@@ -134,6 +134,7 @@ export default function PersistentDrawerLeft() {
               <ListItemButton>
                 <ListItemIcon>
                   {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+                  <img src="/public/box.png" alt="" className='h-12' />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
