@@ -1,6 +1,7 @@
 import React from 'react'
 import { bestsellers } from '../constant'
 import { Rating } from '@mui/material'
+import {useSelector, useDispatch} from "react-redux"
 const Bestsellers = ({classname}) => {
   return (
     <div className='flex flex-wrap justify-start items-center gap-4 pl-24'>

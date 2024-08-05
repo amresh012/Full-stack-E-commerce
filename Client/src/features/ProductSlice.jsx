@@ -1,9 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { base_url } from "../utils/baseUrl";
-
+import { base_url } from "../Utils/baseUrl";
 import axios from "axios";
-import { config } from "../utils/axiosConfig";
+import { config } from "../Utils/axiosConfig";
 import {toast} from "react-hot-toast"
 const initialState = {
   products: [],

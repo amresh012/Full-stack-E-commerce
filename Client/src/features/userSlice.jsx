@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { config } from "../utils/axiosConfig";
-import { base_url } from "../utils/baseUrl";
+import { config } from "../Utils/axiosConfig";
+import { base_url } from "../Utils/baseUrl";
 import axios from "axios";
 const initialState = {
   value: 0,

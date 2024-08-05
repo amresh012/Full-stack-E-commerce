@@ -28,11 +28,11 @@ const SignUp = () => {
             {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer',
+              'Authorization': `Bearer`,
             }
           });
           toast.success('Form submitted successfully!');
-          window.location.href = '/auth/login';
+          window.location.href = '/';
         } catch (error) {
           toast.error('Error while submitting form');
           // console.error(error.response.data);

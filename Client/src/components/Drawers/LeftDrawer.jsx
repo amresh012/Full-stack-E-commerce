@@ -59,12 +59,15 @@ export default function SwipeableTemporaryDrawer({icon}) {
             </button>
            </Link>
           </div>
-          <div className="cart-container max-h-96 overflow-y-scroll  no-scrollbar"></div>
+          <div className="cart-container max-h-96 overflow-y-scroll  no-scrollbar">
+            {/* cart items here */}
+          </div>
         </div>
         {/* cart-end */}
         {/* ************************************************** */}
 
         {/* like section */}
+        {/* bastsellers category products */}
         <div className="like-item-wrapper">
           <div className="p-4 text-center uppercase bg-black font-bold text-white">
             <h1>You May Also Like</h1>

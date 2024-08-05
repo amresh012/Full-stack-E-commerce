@@ -10,7 +10,6 @@ import { HiMagnifyingGlassPlus } from "react-icons/hi2";
 import { IoMdHome } from "react-icons/io";
 import { FaRegHandPaper } from "react-icons/fa";
 import Paper from '@mui/material/Paper';
-import BasicMenu from './Bascmenu';
 
 
 const options =["Download PNG", "Download SVG","Download CSV"]
@@ -19,11 +18,11 @@ const title = ["Users", "Product", "Contact us", "Bulk Request"]
 
 const GraphVisual = () => {
   return (
-    <div className=' mt-12 flex flex-wrap items-center justify-center  gap-12'>
+    <div className=' mt-12 flex flex-wrap items-center justify-center  g gap-10'>
       {
         [...Array(4)].map((_,i)=>(
-         <Paper elevate={3}>
-             <div className="w-[40rem] h-[30rem] shadow-lg">
+         <Paper key={i} elevate={3}>
+             <div className="w-[35rem] h-[25rem] shadow-lg">
             <div className="header flex items-center justify-between p-4">
                 {/* left-side */}
                 <div className="flex text-xl items-center gap-2">
@@ -49,9 +48,6 @@ const GraphVisual = () => {
                   <HiMagnifyingGlassPlus  size={20}/>
                   <FaRegHandPaper  size={20}/>
                   <IoMdHome  size={20}/>
-                  <div className="">
-                  <BasicMenu icon={<FaBars  size={20}/>} array={options}/>
-                  </div>
                 </div>
             <LineChart
                 xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11]}]}
@@ -65,8 +61,8 @@ const GraphVisual = () => {
                         showMark: ({ index }) => index % 2 === 0,
                     },
                 ]}
-                width={600}
-                height={390}
+                width={550}
+                height={320}
               /> 
             </div>
           </div> 
