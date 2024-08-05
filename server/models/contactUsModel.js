@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 const contactusShema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      require: true,
-    },
-    lastName: {
+    fullname: {
       type: String,
       require: true,
     },
@@ -28,6 +24,12 @@ const contactusShema = new mongoose.Schema(
     remarks: {
       type: String,
       default: "No Remarks",
+    },
+    remarks: {
+      type: String,
+    },
+    remarks: {
+      type: String,
     },
   },
   {

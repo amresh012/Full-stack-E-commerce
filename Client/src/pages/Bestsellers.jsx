@@ -1,21 +1,32 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { bestsellers } from '../constant'
 import { Rating } from '@mui/material'
-import {useSelector, useDispatch} from "react-redux"
+// import {useSelector, useDispatch} from "react-redux"
+import {base_url} from "../Utils/baseUrl"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const Bestsellers = ({classname}) => {
-
+  const [product , setProduct] = useState([])
+  const [isLoading  ,setIsLoading] = useState(false)
   
   useEffect(() => {
+    const FetchProduct = async () => {
+      let response = await fetch(`${base_url}api/product`);
+      let data = await response.json();
+      setProduct(data);
+      setIsLoading(false);
+    };
+    FetchProduct();
+    
     AOS.init();
   }, [])
-
+  
+  console.log(product)
   return (
     <div className='flex flex-wrap justify-start items-center gap-4 pl-24'>
       {
-        bestsellers.map((item)=>(
+        product.map((item)=>(
             <div data-aos="flip-left"
             className=" w-[25rem] flex flex-col items-start justify-start p-4 relative hover:-translate-y-2 duration-300">
                 <div className="img w-full flex items-center justify-center bg-gray-100 ">

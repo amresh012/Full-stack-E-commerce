@@ -36,7 +36,7 @@ const socialMedia = [
     link:""
    }
 ]
-const label=["Full Name" , "Mobile No. 10* Digit" , "Email Address"]
+const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
 
 
     return (
@@ -123,8 +123,11 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email Address"]
                           {
                             label.map((label)=>(
                                <div className="flex flex-col gap-2">
-                                <label htmlFor={label}>{label}</label>
-                                 <TextField id="outlined-basic" label={label} variant="outlined" />
+                                <label htmlFor={label}>{label.slice(0,10)}</label>
+                                <input 
+                                type="text" 
+                                className='h-12 '
+                                />
                                </div>
                             ))
                           }
