@@ -37,7 +37,7 @@ const GraphVisual = () => {
                     </p>
                 </div>
                 {/* right-side */}
-                <Link to="/users" className='pl-20'>
+                <Link to="/admin/users" className='pl-20'>
                 <Button variant="contained">View</Button>
                 </Link>
             </div>

@@ -45,12 +45,12 @@ const Home = () => {
       </div>
 
       {/*  secton-unknown */}
-<div className="p-24  gap-12 flex flex-col">
+<div className="lg:p-24 p-12  gap-12 flex flex-col">
   <div className="border-l-8 border-blue-500 px-2">
-  <h1 className='text-[3rem] font-bold'>Range Of Products</h1>
+  <h1 className='lg:text-[3rem] font-bold'>Range Of Products</h1>
   </div>
-    <div className="">
-    <div className="child-1 flex items-center gap-12 " data-aos="fade-down">
+    <div className="w-full flex lg:flex-row flex-col">
+    <div className="child-1 flex flex-col lg:flex-row w-full items-center gap-12 " data-aos="fade-down">
       <div className="image-container ">
         <img
         className='' 
@@ -58,7 +58,7 @@ const Home = () => {
       </div>
       <div className="space-y-12">
         <h1 className=' font-bold text-[3rem] Font-oswald'>Cardio</h1>
-        <p className='text-xl leading-8 pr-12'>Boost endurance with our cutting-edge cardio machines at Energie Fitness.
+        <p className='text-xl leading-8 lg:pr-12'>Boost endurance with our cutting-edge cardio machines at Energie Fitness.
            Elevate your fitness journey and achieve your goals with our advanced equipment lineup.
            </p>
         <div className="bg-[#1f1f21] w-fit p-4 text-white">
@@ -67,7 +67,7 @@ const Home = () => {
       </div>
      </div>
      {/* section-2 */}
-     <div className="child-2 flex items-center gap-12" data-aos="fade-left">
+     <div className="child-2 flex flex-col lg:flex-row w-full items-center gap-12" data-aos="fade-left">
       <div className="space-y-12">
         <h1 className=' font-bold text-[3rem] Font-oswald'>Strength</h1>
         <p className='text-xl leading-8 pr-12'>Boost endurance with our cutting-edge cardio machines at Energie Fitness.
@@ -84,10 +84,10 @@ const Home = () => {
       </div>
      </div>
      {/* section-3 */}
-     <div className="child-3 flex items-center gap-12" data-aos="fade-right">
+     <div className="child-3 flex flex-col lg:flex-row w-full items-center gap-12" data-aos="fade-right">
       <div className="image-container ">
         <img
-        className='' 
+        className='block hidden' 
         src="https://energiefitness.in/cdn/shop/files/Accessories_c338a851-65b7-4d14-bbdf-19cb46080506.png?v=1702278778&width=750" alt="" />
       </div>
       <div className="space-y-12">
@@ -98,6 +98,11 @@ const Home = () => {
         <div className="bg-[#1f1f21] w-fit p-4 text-white">
           <button>Buy Now</button>
         </div>
+      </div>
+      <div className="image-container ">
+        <img
+        className='lg:hidden block' 
+        src="https://energiefitness.in/cdn/shop/files/Accessories_c338a851-65b7-4d14-bbdf-19cb46080506.png?v=1702278778&width=750" alt="" />
       </div>
      </div>
     </div>

@@ -1,8 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {FaInstagram, FaTwitter, FaFacebook, FaYoutube, FaPinterest, FaTelegram} from "react-icons/fa"
 import TextField from '@mui/material/TextField';
+import {useFormik} from "formik"
+import { base_url } from '../../Utils/baseUrl';
+import toast, {Toaster } from 'react-hot-toast';
+import axios from "axios"
 const Contact = () => {
 
+// Form Controll
+const {values ,errors, handleBlur , handleSubmit , handleChange} = useFormik({
+    initialValues:{
+        fullname:"",
+        email:"",
+        mobile:"",
+        reason:"",
+        remarks:""
+    },
+    onSubmit: async(values, { setSubmitting }) => {
+        // console.log(values)
+        try {
+          const response = await axios.post(`${base_url}api/contact`, values);
+        //   console.log(response)
+          toast.success('Form submitted successfully!');
+        } catch (error) {
+            console.log("error while submitting form")
+        } finally {
+          setSubmitting(false);
+        }
+      }
+})
 
 const socialMedia = [
    {
@@ -36,19 +62,39 @@ const socialMedia = [
     link:""
    }
 ]
-const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
-
-
+const formfield = [
+    {
+        id:"fullname",
+        label:"Full Name",
+        type:"text",
+        email:"",
+        fullname:values.fullname
+    },
+    {
+        id:"mobile",
+        label:"Monile No.",
+        type:"text",
+        mobile:values.mobile,
+    },
+    {
+        id:"email",
+        label:"Email",
+        type:"email",
+        email:values.email,
+    }
+]
     return (
+    <>
+    <Toaster/>
         <div className='h-screen flex flex-col gap-12'>
-            <div className="contact-header min-h-[50vh] flex items-center w-full p-4">
-                <div className="h-32 flex items-start justify-center flex-col text-white w-1/2 text-[2rem] uppercase bg-white/20 ml-4 backdrop-blur-md p-4">
+            <div className="contact-header min-h-[50vh] bg-black/20 flex items-center w-full p-4">
+                <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
                     <h1>KFS Fitness Contact us</h1>
-                    <p className=' capitalize text-base'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, magnam accusamus sapiente quae delectus!</p>
+                    <p className=' capitalize lg:text-base text-xs'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, magnam accusamus sapiente quae delectus!</p>
                 </div>
             </div>
             {/* form section */}
-            <div className="flex flex-collg:flex-row items-start justify-around gap-12 p-12">
+            <div className="flex flex-col lg:flex-row items-start justify-around gap-12 lg:p-12 p-4">
                 <div className="lg:w-1/2 ">
                  <div className="inner_child ">
                     <div className="heading p-4">
@@ -59,7 +105,7 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
                         <div className="visit-us w-48 m-12 ">
                             <div className="flex flex-col gap-2">
                             <h1 className='text-3xl font-bold '>Visit-Us at:</h1>
-                            <span className='lg:w-24 w-full  h-2 bg-blue-500 rounded-md'></span>
+                            <span className='lg:w-24 w-full  h-1 bg-blue-500 rounded-md'></span>
                             </div>
                             <p>
                             Kuber Tower, Ajronda, Sec- 20B 
@@ -82,7 +128,7 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
                         <div className="visit-us w-48 m-12 ">
                             <div className="flex flex-col gap-2">
                             <h1 className='text-3xl font-bold '>Reach-Us at:</h1>
-                            <span className='w-24 h-2 bg-blue-500 rounded-md'></span>
+                            <span className='w-24 h-1 bg-blue-500 rounded-md'></span>
                             </div>
                             <p>
                             +91 9650 104 416
@@ -93,7 +139,7 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
                         <div className="visit-us w-48 m-12 ">
                             <div className="flex flex-col gap-2">
                             <h1 className='text-3xl font-bold '>Follow-us On:</h1>
-                            <span className='w-24 h-2 bg-blue-500 rounded-md'></span>
+                            <span className='w-24 h-1 bg-blue-500 rounded-md'></span>
                             </div>
                            <div className="flex gap-4 py-4 text-xl">
                             {
@@ -103,7 +149,7 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
                                         <span className='text-xs'>{media.name}</span>
                                     </div>
                                 ))
-
+                                
                             }
                             </div>
                         </div>
@@ -112,21 +158,26 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
                 </div>
 
                 {/* form section */}
-                <div className="lg:w-1/2 p-2 grid place-items-center bg-gray-100 space-y-12 mt-20 border-b-4 border-blue-500 shadow-md">
+                <div className="lg:w-1/2 w-full  p-2 flex flex-col bg-gray-100 space-y-12 mt-20 border-b-4 border-blue-500 shadow-md">
                   <div className="flex items-start mx-12 justify-around flex-col">
                   <h3 className='text-3xl text-center relative p-2'>Leave Us Your Message</h3>
                   <span className='h-2 w-12 bg-red-500 rounded-md mx-2'></span>
                   </div>
-                    <div class="container">
-                       <form className=''>
+                    <div class="">
+                    {/* {error&& <p className='text-red-500'>{error}</p>} */}
+                       <form className='w-full' onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-12">
                           {
-                            label.map((label)=>(
+                            formfield.map((feild)=>(
                                <div className="flex flex-col gap-2">
-                                <label htmlFor={label}>{label.slice(0,10)}</label>
+                                <label htmlFor={feild.label}>{feild.label.slice(0,10)}</label>
                                 <input 
-                                type="text" 
-                                className='h-12 '
+                                type={feild.type}
+                                id={feild.id} 
+                                value={values.value}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className='h-12  rounded-md border-2 bg-zinc-100 focus:bg-white focus:shadow-md outline-none px-2 focus:outline-blue-500'
                                 />
                                </div>
                             ))
@@ -134,13 +185,16 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
                         </div>
                        <div className="mt-8 space-y-2">
                         <label htmlFor="Purpose">Purpose</label>
-                        <select name="Choose" className=' p-4 w-full bg-zinc-100 border-2 border-gray-300 rounded-md outline-none '>
-                            <option value="">Choose</option>
-                            <option value="">GYM Setup</option>
-                            <option value="">Purpose</option>
+                        <select
+                        id="reason"
+                        onChange={handleChange}
+                         className=' p-4 w-full bg-zinc-100 border-2 border-gray-300 rounded-md outline-none '>
+                            <option value="Choose">Choose</option>
+                            <option value="GYM Setup">GYM Setup</option>
+                            <option value="Purpose">Purpose</option>
                         </select>
                        </div>
-                        <textarea placeholder='write your query here...' cols={90}  className='mt-8 outline-none  px-2 py-2 border-2 rounded-md resize-none no-scrollbar'></textarea>
+                        <textarea id="remarks" onChange={handleChange} placeholder='write your query here...'   className='mt-8 w-full outline-none  px-2 py-2 border-2 rounded-md resize-none no-scrollbar'></textarea>
                         <div className="space-y-4 mt-8">
                             <h1 className='pl-8 text-xl'>Address</h1>
                             <div className="flex gap-12 items-center justify-around">
@@ -155,7 +209,7 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
                             </div>
                         </div>
                         <div className="flex mt-8 items-center gap-2 text-xl bg-blue-400 w-fit p-4 text-white mx-10 my-4">
-                            <button type="submit">Submit Now</button>
+                            <button type="submit" >Submit Now</button>
                             <FaTelegram/>
                         </div>
                        </form>
@@ -174,6 +228,7 @@ const label=["Full Name" , "Mobile No. 10* Digit" , "Email"]
              </iframe>
            </div>
         </div>
+            </>
     )
 }
 

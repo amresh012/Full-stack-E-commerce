@@ -64,3 +64,6 @@
  
 
 /* dropdown */
+input[type=file]::-webkit-file-upload-button{
+  display: none;
+}

@@ -25,12 +25,16 @@ const contactusShema = new mongoose.Schema(
       type: String,
       default: "No Remarks",
     },
-    remarks: {
-      type: String,
-    },
-    remarks: {
-      type: String,
-    },
+    address:[
+     {
+      city:{
+        type:String
+      },
+      state:{
+        type:String
+      },
+     }
+    ]
   },
   {
     timestamps: true,

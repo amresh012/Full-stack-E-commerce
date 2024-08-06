@@ -16,12 +16,22 @@ import CommercialGym from './pages/CommercialGym'
 import Blog from './pages/Home/Blog'
 import Dashboard from './pages/Admin/Dashboard'
 import AdminLayout from './Layout/AdminLayout'
+import Users from './pages/Admin/Users'
+import Loader from "./components/reusablesUI/Loader"
+import AddProduct from './pages/Admin/AddProduct'
+import WebsitePage from './pages/Admin/WebsitePage'
+import ListProduct from './pages/Admin/ListProduct'
+import Contactus from "./pages/Admin/Contactus"
+import Orders from './pages/Admin/Orders'
+import Copoun from './pages/Admin/Copoun'
+import CopounList from './pages/Admin/CopounList'
+import AddBulkProduct from './pages/Admin/AddBulkProduct'
+import BulkImage from './pages/Admin/BulkImage'
 
 function App() {
 
   return (
-   <Suspense>
-
+   <Suspense fallback={<Loader/>}>
     <Routes>
       <Route element ={<Layout/>}>
       <Route path='/' element={<Home/>}/>
@@ -33,7 +43,6 @@ function App() {
       <Route path="/blog" element={<Blog/>}/>
       </Route>
 
-
       {/* Auth Routes */}
       <Route path="/auth/*" element={<AuthLayout/>}>
         <Route path="login" element={<Login/>}/>
@@ -44,8 +53,18 @@ function App() {
 
       {/* Admin Routes */}
 
-      <Route element={<AdminLayout/>}>
-      <Route path="/admin" element={<Dashboard/>}/>
+      <Route path="/admin/*" element={<AdminLayout/>}>
+      <Route index element={<Dashboard/>}/>
+      <Route path="users" element={<Users/>}/>
+      <Route path="products" element={<AddProduct/>}/>
+      <Route path="bulk-product" element={<AddBulkProduct/>}/>
+      <Route path="bulk-images" element={<BulkImage/>}/>
+      <Route path="website" element={<WebsitePage/>}/>
+      <Route path="product-list" element={<ListProduct/>}/>
+      <Route path="contactus" element={<Contactus/>}/>
+      <Route path="orders" element={<Orders/>}/>
+      <Route path="coupon" element={<Copoun/>}/>
+      <Route path="coupon-list" element={<CopounList/>}/>
       </Route>
     </Routes>
    </Suspense>     

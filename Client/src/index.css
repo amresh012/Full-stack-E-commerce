@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 *{
-  font-family: "Oswald";
+  /* font-family: "Oswald"; */
 }
 @layer utilities {
       /* Hide scrollbar for Chrome, Safari and Opera */
@@ -20,4 +20,7 @@
   }
   .Font-oswald{
     font-family: "Oswald";
+  }
+  input[type=number]::-webkit-inner-spin-button{
+    appearance: none;
   }

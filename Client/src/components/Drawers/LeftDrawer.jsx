@@ -40,6 +40,7 @@ export default function SwipeableTemporaryDrawer({icon}) {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
+      className="no-scrollbar"
     >
       <div className="wrapper-main">
         <div className="top text-center p-4 font-bold  text-black uppercase">
@@ -72,7 +73,7 @@ export default function SwipeableTemporaryDrawer({icon}) {
           <div className="p-4 text-center uppercase bg-black font-bold text-white">
             <h1>You May Also Like</h1>
           </div>
-          <div className="like-item_container max-h-[30rem] flex flex-col gap-4 w-full overflow-y-scroll pt-4  no-scrollbar">
+          <div className="like-item_container max-h-full flex flex-col gap-4 w-full overflow-y-scroll pt-4  no-scrollbar">
             {LikeItem.map((item) => (
               <div className="flex gap-4 w-full items-center " key={item.name}>
                 <div className="flex gap-2 p-2 ">

@@ -13,27 +13,27 @@ const WebsiteSchema = new mongoose.Schema(
     },
     mainbg: {
       type: String,
-      required: true,
+      // required: true,
     },
     primarybg: {
       type: String,
-      required: true,
+      // required: true,
     },
     secondarybg: {
       type: String,
-      required: true,
+      // required: true,
     },
     headerCol: {
       type: String,
-      required: true,
+      // required: true,
     },
     footerCol: {
       type: String,
-      required: true,
+      // required: true,
     },
     textCol: {
       type: String,
-      required: true,
+      // required: true,
     },
     homepageBanner: {
       type: Array,
