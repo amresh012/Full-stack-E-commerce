@@ -1,9 +1,40 @@
 import React from 'react'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { FaFunnelDollar } from 'react-icons/fa';
+import BasicTable from '../../components/AdminComponents/BasicTable';
+import Ordata from "../../MOCK_DATA (4).json"
+
+const column = [
+  {
+      header:"Sr.No.",
+      accessorKey:"id"
+  },
+  {
+      header:"Invoice No.",
+      accessorKey:"full_name"
+  },
+  {
+      header:"OrderdBy",
+      accessorKey:"email"
+  },
+  {
+      header:"Contact Details",
+      accessorKey:"mobile"
+  },
+  {
+      header:"Amount in Rs",
+      accessorKey:"Role"
+  },
+  {
+      header:"Status",
+      accessorKey:"status"
+  },
+  {
+    header:"Action",
+  }
+]
+
 const Orders = () => {
+
+
   return (
     <div className='border-2 rounded-md shadow-md  h-auto flex flex-col items-start justify-around mx-12'>
       <div className="p-12 flex flex-col w-full gap-4 ">
@@ -19,7 +50,6 @@ const Orders = () => {
             </div>
             <div className=" h-full w-fit gap-1 px-2 hover:bg-blue-500 hover:text-white duration-300  mt-5  border-blue-500 border-2 text-xl flex items-center justify-center">
                 <button className='px-2 py-2'>Filter</button>
-                <FaFunnelDollar/>
             </div>
         </div>
       </div>
@@ -36,11 +66,14 @@ const Orders = () => {
             <option value="">100</option>
            </select>
         </div>
-        <div className="bg-black">
-            <input type="search" className='h-10 w-60  focus:shadow-md  outline-none px-2' />
-            <button className="p-2 text-white">Search</button>
+        <div className="flex rounded-md overflow-clip">
+            <input type="search" className='h-10 w-60    outline-none px-2 border-2' />
+            <button className="bg-gray-200 font-bold p-2 active:scale-95">Search</button>
         </div>
       </div>
+     <div className="w-full p-4">
+     <BasicTable /> 
+     </div>
     </div>
   )
 }

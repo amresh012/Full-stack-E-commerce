@@ -1,8 +1,9 @@
 import React from 'react'
+import BasicTable from '../../components/AdminComponents/BasicTable'
 
 const ListProduct = () => {
   return (
-    <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto'>
+    <div className=' rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around lg:mx-24 p-6'>
        <div className="flex justify-between px-12 items-center w-full p-12">
         <h1 className='text-3xl'>List Of Contacts from website</h1>
         <div className="bg-black">
@@ -10,9 +11,9 @@ const ListProduct = () => {
             <button className="p-2 text-white">Search</button>
         </div>
        </div>
-       <div className="contact-table">
-        <h1>Contat table here</h1>
-       </div>
+      <div className="w-full">
+      <BasicTable/>
+      </div>
     </div>
   )
 }

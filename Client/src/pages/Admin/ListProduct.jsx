@@ -1,4 +1,5 @@
 import React from 'react'
+import BasicTable from '../../components/AdminComponents/BasicTable'
 
 const ListProduct = () => {
   return (
@@ -9,6 +10,9 @@ const ListProduct = () => {
             <input type="search" className='h-10 w-60  focus:shadow-md  outline-none px-2' />
             <button className="p-2 text-white">Search</button>
         </div>
+       </div>
+       <div className="w-full">
+        <BasicTable/>
        </div>
     </div>
   )

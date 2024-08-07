@@ -24,7 +24,7 @@ const SignUp = () => {
       },
       onSubmit: async (values, { setSubmitting }) => {
         try {
-          const response = await axios.post(`${base_url}api/user/register`, values,
+          const response = await axios.post(`${base_url}user/register`, values,
             {
             headers: {
               'Content-Type': 'application/json',

@@ -7,13 +7,13 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Loader from ".././components/reusablesUI/Loader"
 
-const Bestsellers = ({classname}) => {
+const Bestsellers = () => {
   const [product , setProduct] = useState([])
   const [isLoading  ,setIsLoading] = useState(true)
   
   useEffect(() => {
     const FetchProduct = async () => {
-      let response = await fetch(`${base_url}api/product`);
+      let response = await fetch(`${base_url}product`);
       let data = await response.json();
       setProduct(data);
       setIsLoading(false);
@@ -25,7 +25,7 @@ const Bestsellers = ({classname}) => {
   
   // console.log(product)
   return (
-    <div className='flex flex-wrap justify-center items-center gap-4 w-screen overflow-clip'>
+    <div className='flex flex-wrap justify-center items-center gap-4 overflow-clip'>
       {
         isLoading ?<Loader/>:
         product?.map((item)=>(

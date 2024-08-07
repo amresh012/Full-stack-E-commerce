@@ -27,11 +27,13 @@ import Copoun from './pages/Admin/Copoun'
 import CopounList from './pages/Admin/CopounList'
 import AddBulkProduct from './pages/Admin/AddBulkProduct'
 import BulkImage from './pages/Admin/BulkImage'
+import ScrollToTop from "./essentials/ScrollToTop"
 
 function App() {
 
   return (
    <Suspense fallback={<Loader/>}>
+      <ScrollToTop/>
     <Routes>
       <Route element ={<Layout/>}>
       <Route path='/' element={<Home/>}/>

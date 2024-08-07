@@ -66,4 +66,31 @@
 /* dropdown */
 input[type=file]::-webkit-file-upload-button{
   display: none;
+  opacity: 0  ;
 }
+
+
+/* table style */
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+ th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+}
+td{
+  text-align: left;
+  padding: 20px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+/* tr:hover{
+  background: gray;
+  cursor: pointer;
+} */

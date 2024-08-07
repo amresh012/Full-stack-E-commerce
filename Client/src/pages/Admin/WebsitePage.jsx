@@ -1,14 +1,21 @@
-import { Autocomplete, Button, TextField } from '@mui/material'
-import React from 'react'
+import React, { useReducer } from 'react'
 import {toast , Toaster} from "react-hot-toast"
 
 const WebsitePage = () => {
+
+    // const [state, dispatch] = useReducer(reducer, initialState);
+
+
 
 // handle change functon
 const handleChange = (event, value) => {
    toast.success("Website confgured successfully")
 }
 
+const handleSubmit= (e)=>{
+    e.preventDefault()
+   alert("reducer invoked")
+}
 
 
 const configlabel=[
@@ -39,10 +46,12 @@ const configlabel=[
     {
         id:6,
         label:"Add Website logo :",
+        id:"logo"
     },
     {
         id:7,
         label:"Banner Image",
+        id:"banner"
     },
     {
         id:8,
@@ -71,11 +80,13 @@ const configlabel=[
       </div>
       {/* section-2 */}
       {/* form */}
-      <form className='w-full h-full p-12 flex  flex-col gap-12'>
+      <form
+      onSubmit={handleSubmit} 
+      className='w-full h-full p-12 flex  flex-col gap-12'>
       <div className="flex gap-12 items-center justify-around w-full">
         {
             configlabel.slice(8).map((label)=>(
-                <div className="input-1 w-full flex-col flex">
+                <div key={label.id} className="input-1 w-full flex-col flex">
                 <label htmlFor="">{label.label}:</label>
                 <input type="text" className='h-12 border-2 rounded-md outline-none px-2 ' />
                 </div>
@@ -117,7 +128,7 @@ const configlabel=[
             <div className="input-1 w-full flex-col flex">
             <label htmlFor="">{item.label}</label>
            <div className="flex items-center ">
-            <button  type="submit" className=' p-[9px] bg-gray-200 border-2 font-bold'>Choose File</button>
+            <button  type="file" className=' p-[9px] bg-gray-200 border-2 font-bold'>Choose File</button>
            <input type="file" className='h-11 border   outline-none px-2 ' />
            </div>
         </div>

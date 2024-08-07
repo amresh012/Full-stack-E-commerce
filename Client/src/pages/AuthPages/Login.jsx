@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Link} from "react-router-dom"
 import Logo from "../../assets/Untitled-1.png"
 import { IoLockClosedOutline } from 'react-icons/io5';
@@ -11,22 +11,26 @@ import { base_url } from '../../Utils/baseUrl';
 
 
 const Login = () => {
- 
+  const [error , setError] = useState("")
   var isLogo = true
   
-  const {values , error, handleChange , handleSubmit} = useFormik({
+  const {values , handleChange , handleSubmit} = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         const res = await axios.post(`${base_url}api/user/login`, values); // changed to POST request
+        // console.log(res)
         toast.success('Logged in successfully');
-        window.location.href = '/';
       } catch (error) {
         toast.error('Error while logging in');
-        console.error(error); // changed to console.error
+        setError(error.res.data)    
+        console.log(error.res.data)    
+      }
+      finally {
+        setSubmitting(false);
       }
     },
   });

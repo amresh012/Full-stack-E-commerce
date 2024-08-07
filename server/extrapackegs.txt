@@ -23,3 +23,35 @@
 
 
 height weight length breadth
+
+
+//models of product
+
+// silverdiscount: {
+    //   type: String,
+    //   validate: {
+    //     validator: function (value) {
+    //       return (
+    //         /^\d+(\.\d+)?$/.test(value) &&
+    //         parseFloat(value) >= 0 &&
+    //         parseFloat(value) <= 100
+    //       );
+    //     },
+    //     message: (props) =>
+    //       `${props.value} is not a valid discount percentage.`,
+    //   },
+    // },
+    // golddiscount: {
+    //   type: String,
+    //   validate: {
+    //     validator: function (value) {
+    //       return (
+    //         /^\d+(\.\d+)?$/.test(value) &&
+    //         parseFloat(value) >= 0 &&
+    //         parseFloat(value) <= 100
+    //       );
+    //     },
+    //     message: (props) =>
+    //       `${props.value} is not a valid discount percentage.`,
+    //   },
+    // },

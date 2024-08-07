@@ -6,7 +6,6 @@ import { config } from "../Utils/axiosConfig";
 import {toast} from "react-hot-toast"
 const initialState = {
   products: [],
-
   loading: false,
   error: false,
 };

@@ -4,7 +4,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Bestsellers from '../Bestsellers';
 import { Clients } from '../../constant';
-import Footer from '../../components/Footer';
 
 const Home = () => {
 
@@ -21,7 +20,7 @@ const Home = () => {
           <p className='pt-1'>Welome to</p>
           <img src={Logo} alt="" className='h-12 ' />
         </h1>
-        <div className="text-white font-bold capitalize text-[4rem] heading" data-aos="fade-in" >
+        <div className="text-white font-bold capitalize text-[4rem] heading" data-aos="fade-in"  data-aos-once="true">
           <h1>The Ultimate Fitness</h1>
           <h1>Equipment Brand</h1>
         </div>

@@ -7,7 +7,7 @@ const Dropdown = ({dataArray}) => {
     <select className=' p-2 outline-none border-2 border-gray-500'>
       {
          dataArray?.map((option)=>(
-            <option key={option?.id}>{option?.items}{"   "} {option.value}</option>
+            <option key={option?.id}>{option.value}</option>
            ))
       }
     </select>

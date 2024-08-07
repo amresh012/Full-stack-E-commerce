@@ -560,3 +560,64 @@ export const Clients =
       "device_name": "Smartphone"
     }
   ]
+
+
+
+  // product category
+  export const gym_equipment = [
+    "Treadmill",
+    "Elliptical Machine",
+    "Stationary Bike",
+    "Rowing Machine",
+    "Dumbbells",
+    "Barbells",
+    "Kettlebells",
+    "Resistance Bands",
+    "Pull-Up Bar",
+    "Cable Machine",
+    "Leg Press Machine",
+    "Smith Machine",
+    "Bench Press",
+    "Squat Rack",
+    "Medicine Ball",
+    "Exercise Mat",
+    "Foam Roller",
+    "Stability Ball",
+    "Battle Ropes",
+    "Plyo Box",
+    "Jump Rope",
+    "Lat Pulldown Machine",
+    "Leg Curl Machine",
+    "Chest Press Machine",
+    "Ab Wheel"
+]
+
+
+// price list
+export const  gym_product_pricing_inr = [
+    "₹41,500 - ₹2,49,000",
+    "₹24,900 - ₹2,07,500", 
+    "₹16,600 - ₹1,66,000", 
+    "₹16,600 - ₹1,24,500",
+    "₹1,660 - ₹41,500",   
+    "₹8,300 - ₹66,400",  
+    "₹1,245 - ₹24,900",     
+    "₹830 - ₹8,300",       
+    "₹1,660 - ₹12,450",     
+    "₹83,000 - ₹3,32,000", 
+    "₹1,24,500 - ₹4,15,000", 
+    "₹83,000 - ₹2,90,500", 
+    "₹8,300 - ₹41,500",     
+    "₹16,600 - ₹1,24,500", 
+    "₹1,245 - ₹8,300",     
+    "₹830 - ₹8,300",
+    "₹830 - ₹4,980",        
+    "₹1,245 - ₹6,225",     
+    "₹4,150 - ₹16,600",    
+    "₹4,150 - ₹16,600",  
+    "₹415 - ₹4,150",      
+    "₹41,500 - ₹2,07,500",  
+    "₹83,000 - ₹2,49,000", 
+    "₹83,000 - ₹3,32,000", 
+    "₹830 - ₹4,150"      
+]
