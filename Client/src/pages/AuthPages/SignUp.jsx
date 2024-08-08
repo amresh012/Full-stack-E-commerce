@@ -10,6 +10,7 @@ import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
+import {config} from "../../Utils/axiosConfig"
 
 
 const SignUp = () => {
@@ -26,16 +27,18 @@ const SignUp = () => {
         try {
           const response = await axios.post(`${base_url}user/register`, values,
             {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer`,
-            }
+            headers: config
           });
-          toast.success('Form submitted successfully!');
-          window.location.href = '/';
+          if(response.data.error){
+            throw new Error(response.data.error)
+          }
+          else{
+              toast.success(response.data.success);
+          }
+          window.location.href = '/product';
         } catch (error) {
-          toast.error('Error while submitting form');
-          // console.error(error.response.data);
+         
+          toast.error(error.response.data.message)
           setError(error.response.data.message)
         } finally {
           setSubmitting(false);

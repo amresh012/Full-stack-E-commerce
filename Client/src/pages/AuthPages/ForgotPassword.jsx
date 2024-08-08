@@ -12,9 +12,16 @@ const ForgotPassword = ()=> {
   const handleSubmit =async (e) => {
       e.preventDefault();
       try {
-        await axios.post(`${base_url}api/user/forgot-password-token`, { email });
-        toast.success('Password reset email sent');
-        setMessage('Password reset email sent');
+        const res=  await axios.post(`${base_url}user/forgot-password-token`, { email });
+         console.log(res)
+        if(!res.data){
+          throw new Error(res.data)
+        }
+        else{
+          toast.success('Password reset email sent');
+          setMessage('Password reset email sent');
+          }
+          window.location.href="/auth/otp"
       } catch (error) {
         toast.error('Error sending password reset email');
         setMessage('Error sending password reset email');

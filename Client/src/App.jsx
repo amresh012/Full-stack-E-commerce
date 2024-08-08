@@ -33,7 +33,7 @@ function App() {
 
   return (
    <Suspense fallback={<Loader/>}>
-      <ScrollToTop/>
+      
     <Routes>
       <Route element ={<Layout/>}>
       <Route path='/' element={<Home/>}/>

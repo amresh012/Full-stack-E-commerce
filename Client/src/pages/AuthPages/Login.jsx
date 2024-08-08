@@ -11,7 +11,6 @@ import { base_url } from '../../Utils/baseUrl';
 
 
 const Login = () => {
-  const [error , setError] = useState("")
   var isLogo = true
   
   const {values , handleChange , handleSubmit} = useFormik({
@@ -21,13 +20,17 @@ const Login = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const res = await axios.post(`${base_url}api/user/login`, values); // changed to POST request
-        // console.log(res)
-        toast.success('Logged in successfully');
-      } catch (error) {
-        toast.error('Error while logging in');
-        setError(error.res.data)    
-        console.log(error.res.data)    
+        const res = await axios.post(`${base_url}user/login`, values); // changed to POST request
+        if(!res.data){
+          throw new Error(res.data)
+        }
+        else{
+            toast.success("LoggedIn Successfuly");
+          }
+          window.location.href="/"
+        } catch (error) {
+        console.log(error)
+        toast.error(error.message)
       }
       finally {
         setSubmitting(false);
@@ -60,7 +63,7 @@ const Login = () => {
         <h1 className='text-2xl font-bold'>SignIn</h1>
         <p className='text-xs'>or use your account</p>
       </div>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
         <form onSubmit={handleSubmit}>
           <div className="mb-4 ">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
