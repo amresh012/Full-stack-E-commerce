@@ -206,7 +206,7 @@ export default function PersistentDrawerLeft() {
               </Link>
               {
                 item.submenu && item.sublink?.map((link)=>(
-                 <ul className="flex  gap-2 justify-start hover:bg-blue-500 hover:text-white font-medium hover:underline-none items-start pl-12 ">
+                 <ul key={link.label} className="flex  gap-2 justify-start hover:bg-blue-500 hover:text-white font-medium hover:underline-none items-start pl-12 ">
                     <Link to={link.route} key={link.label} className='flex items-center gap-2 p-2'>
                   <img src={link.icon} alt={link.label} className='h-4' />
                   <li className="list-none text-lg ">{link.label}</li>
@@ -223,7 +223,7 @@ export default function PersistentDrawerLeft() {
        
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
+        {/* <DrawerHeader /> */}
        
       </Main>
     </Box>

@@ -21,12 +21,6 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // subItems: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "product",
-    //   },
-    // ],
     itemCode: {
       type: String,
     },
@@ -58,17 +52,17 @@ const ProductSchema = new mongoose.Schema(
     },
     corporate_discount: {
       type: String,
-      // validate: {
-      //   validator: function (value) {
-      //     return (
-      //       /^\d+(\.\d+)?$/.test(value) &&
-      //       parseFloat(value) >= 0 &&
-      //       parseFloat(value) <= 100
-      //     );
-      //   },
-      //   message: (props) =>
-      //     `${props.value} is not a valid discount percentage.`,
-      // },
+      validate: {
+        validator: function (value) {
+          return (
+            /^\d+(\.\d+)?$/.test(value) &&
+            parseFloat(value) >= 0 &&
+            parseFloat(value) <= 100
+          );
+        },
+        message: (props) =>
+          `${props.value} is not a valid discount percentage.`,
+      },
     },
     mindiscription: {
       type: String,

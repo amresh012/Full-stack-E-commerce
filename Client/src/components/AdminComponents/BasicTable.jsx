@@ -9,39 +9,13 @@ import {
 import Mdata from "../../MOCK_DATA (3).json";
 import { TablePagination } from "@mui/material";
 import {FaArrowUp , FaArrowDown} from "react-icons/fa"
-const BasicTable = ({}) => {
+const BasicTable = ({columns, data}) => {
   const [sorting, setSorting] = useState([]);
 
-  const columns = [
-    {
-      header: "Sr.No.",
-      accessorKey: "id",
-    },
-    {
-      header: "Name",
-      accessorKey: "full_name",
-    },
-    {
-      header: "Email",
-      accessorKey: "email",
-    },
-    {
-      header: "Contact",
-      accessorKey: "mobile",
-    },
-    {
-      header: "Role",
-      accessorKey: "Role",
-    },
-    {
-      header: "Action",
-    },
-  ];
-
-  const data = useMemo(() => Mdata, []);
+  // const data1 = useMemo(() => data, []);
   const table = useReactTable({
-    data,
-    columns,
+    data : data ,
+    columns : columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(20),
     getSortedRowModel: getSortedRowModel(),
@@ -104,12 +78,12 @@ const BasicTable = ({}) => {
           ))}
         </tbody>
       </table>
-      <div className="">showing entries {table.getRowCount()}</div>
+      <div className="space-x-4 p-4 m-4 border-2 w-fit ">showing {table.getPageCount()} entries {table.getRowCount()}</div>
       <div className="w-full flex gap-12 p-4  items-center justify-center">
         <button
           className={
             !table.getCanPreviousPage()
-              ? "cursor-not-allowed  opacity-0 "
+              ? "cursor-not-allowed    "
               : "p-2 bg-gray-200 "
           }
           disabled={!table.getCanPreviousPage()}
@@ -120,7 +94,7 @@ const BasicTable = ({}) => {
         <button
           className={
             !table.getCanPreviousPage()
-              ? "cursor-not-allowed  opacity-0 "
+              ? "cursor-not-allowed    "
               : "p-2  text-xl font-bold bg-gray-200 "
           }
           disabled={!table.getCanPreviousPage()}
@@ -131,7 +105,7 @@ const BasicTable = ({}) => {
         <button
           className={
             !table.getCanNextPage()
-              ? "cursor-not-allowed opacity-0"
+              ? "cursor-not-allowed "
               : "p-2 text-xl font-bold bg-gray-200 "
           }
           disabled={!table.getCanNextPage()}
@@ -142,7 +116,7 @@ const BasicTable = ({}) => {
         <button
           className={
             !table.getCanNextPage()
-              ? "cursor-not-allowed opacity-0"
+              ? "cursor-not-allowed "
               : "p-2 bg-gray-200 "
           }
           disabled={!table.getCanNextPage()}

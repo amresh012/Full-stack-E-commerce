@@ -7,8 +7,8 @@ const xlsx = require("xlsx");
 const addProduct = asyncHandle(async (req, res) => {
   let product = req.body;
   const alreadyavail = await ProductModel.findOne({ name: product.name });
-  const subproducts = req.body.subItems?.map((ele) => ele?._id);
-  product.subItems = subproducts;
+  // const subproducts = req.body.subItems?.map((ele) => ele?._id);
+  // product.subItems = subproducts;
   if (alreadyavail) {
     try {
       const updateproduct = await ProductModel.findOneAndUpdate(
@@ -91,7 +91,7 @@ const searchProduct = asyncHandle(async (req, res) => {
     if (brand) {
       filter.brand = brand;
     }
-    const products = await ProductModel.find(filter).populate("subItems");
+    const products = await ProductModel.find(filter).populate("subcategory");
     res.json(products);
   } catch (error) {
     console.error("Error searching products:", error);
@@ -100,7 +100,7 @@ const searchProduct = asyncHandle(async (req, res) => {
 });
 
 const getallProduct = asyncHandle(async (req, res, next) => {
-  const Product = await ProductModel.find().populate("subItems");
+  const Product = await ProductModel.find().populate("subcategory");
   if (req.query) {
     next();
   } else {
@@ -145,16 +145,13 @@ const uploadBulkProduct = expressAsyncHandler(async (req, res) => {
       price: row["price"],
       category: row["category"],
       subcategory: row["subcategory"],
-      brand: row["brand"],
       itemCode: row["itemcode"],
       hsnCode: row["hsncode"],
       perpiece: row["priceperpiece"],
       unitMeausrement: row["unitofmeasurement"],
       measurement: row["meausrement"],
-      retaildiscount: row["retaildiscount"],
-      silverdiscount: row["silverdiscount"],
-      golddiscount: row["golddiscount"],
-      platinumdiscount: row["platinumdiscount"],
+      Individual_discount: row["retaildiscount"],
+      corporate_discount: row["platinumdiscount"],
       mindiscription: row["minidiscription"],
       datasheet: row["datasheet"],
     };

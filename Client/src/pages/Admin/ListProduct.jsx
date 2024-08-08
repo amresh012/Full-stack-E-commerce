@@ -1,7 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
+import { base_url } from '../../Utils/baseUrl'
 
 const ListProduct = () => {
+  const [product , setProduct] = useState([])
+  const [isLoading  ,setIsLoading] = useState(true)
+  
+  useEffect(() => {
+    const FetchProduct = async () => {
+      let response = await fetch(`${base_url}product`);
+      let data = await response.json();
+      setProduct(data);
+      setIsLoading(false);
+    };
+    FetchProduct();
+    console.log(product)
+    
+  }, [])
+
+  const columns = [
+    {
+      header: "Sr.No.",
+      accessorKey: "_id",
+    },
+    {
+      header: "Product Name",
+      accessorKey: "name",
+    },
+    {
+      header: "Price",
+      accessorKey: "price",
+    },
+    {
+      header: "Category",
+      accessorKey: "category",
+    },
+    {
+      header: "Action",
+    },
+  ];
   return (
     <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto'>
        <div className="flex justify-between px-12 items-center w-full p-12">
@@ -12,7 +49,7 @@ const ListProduct = () => {
         </div>
        </div>
        <div className="w-full">
-        <BasicTable/>
+        <BasicTable  columns={columns}  data={product}/>
        </div>
     </div>
   )

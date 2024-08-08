@@ -1,15 +1,15 @@
 import { Button } from '@mui/material';
 import React from 'react'
 import { BsCloudUpload } from 'react-icons/bs';
-import BasicTable from '../../components/AdminComponents/BasicTable';
+// import BasicTable from '../../components/AdminComponents/BasicTable';
 
 const BulkImage = () => {
   const handleUpload = ()=>{
     alert('Upload button clicked')
   }
   return (
-    <div className=' rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around lg:mx-24'>
-     <div className="space-y-4 w-full">
+    <div className=' rounded-md shadow-md gap-12 h-auto mt-24 flex flex-col items-center justify-around lg:mx-24'>
+     <div className="space-y-4 w-full m-auto">
              <div className="relative cursor-pointer">
                 <input type="file" className='border-dashed border-2 z-50 h-44 rounded-md focus:shadow-md w-full' accept=".png, .jpg, .jpeg" />
                 <div className="-z-10 absolute top-12 left-[40%] flex items-center flex-col gap-2">
@@ -34,7 +34,7 @@ const BulkImage = () => {
           </div>
           {/* upload list */}
           <div className="w-full">
-            <BasicTable/>
+            {/* <BasicTable/> */}
           </div>
         </div>
     </div>

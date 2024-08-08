@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Dropdown from '../components/reusablesUI/Dropdown'
 // import ProductPage from "../pages/Product/ProductPage"
-import Bestsellers from './Bestsellers'
+// import Bestsellers from './Bestsellers'
 import {gym_equipment,gym_product_pricing_inr} from "../constant"
 
 
@@ -89,7 +89,7 @@ const CommercialGym = () => {
                     <div className="border-l-8 border-blue-500  ml-28 px-2">
                    <h1 className='text-xl font-bold hover:pl-4 duration-300' >{title}</h1>
                 </div>
-                    <Bestsellers/>
+                    {/* <Bestsellers/> */}
                 </div>
             ))
         }

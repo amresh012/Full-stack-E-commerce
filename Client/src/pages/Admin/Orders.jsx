@@ -2,18 +2,20 @@ import React from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import Ordata from "../../MOCK_DATA (4).json"
 
-const column = [
+
+// "id":8,"Invoice":542458,"orderd_by":"Jatri","Amount":7942,"mobile":7756482517,"sataus":"return Successfully"
+const columns = [
   {
       header:"Sr.No.",
       accessorKey:"id"
   },
   {
       header:"Invoice No.",
-      accessorKey:"full_name"
+      accessorKey:"Invoice"
   },
   {
       header:"OrderdBy",
-      accessorKey:"email"
+      accessorKey:"orderd_by"
   },
   {
       header:"Contact Details",
@@ -21,11 +23,11 @@ const column = [
   },
   {
       header:"Amount in Rs",
-      accessorKey:"Role"
+      accessorKey:"Amount"
   },
   {
       header:"Status",
-      accessorKey:"status"
+      accessorKey:"sataus"
   },
   {
     header:"Action",
@@ -72,7 +74,7 @@ const Orders = () => {
         </div>
       </div>
      <div className="w-full p-4">
-     <BasicTable /> 
+     <BasicTable columns={columns} data={Ordata} /> 
      </div>
     </div>
   )

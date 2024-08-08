@@ -38,7 +38,7 @@ const AddProduct = () => {
             toast.success('Product Added Successfully')
           }
         } catch (error) {
-          console.log(error.message)
+           console.log(error.message)
         } finally {
           setSubmitting(false);
         }
@@ -107,6 +107,15 @@ const AddProduct = () => {
                 value={values.perpiece }
                 onChange={handleChange}
                 className='h-14 border-2 rounded-md outline-none  px-2 'placeholder='enter product price' />
+            </div>
+            <div className="input-1 w-full flex-col flex">
+                <label htmlFor="">Product Qunatity</label>
+                <input 
+                type="text"
+                id="quantity"
+                value={values.quantity}
+                onChange={handleChange}
+                className='h-14 border-2 rounded-md outline-none  px-2 'placeholder='enter quantity' />
             </div>
         </div>
         {/* section-3 */}

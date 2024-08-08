@@ -1,7 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
+import { base_url } from '../../Utils/baseUrl';
 
 const Users = () => {
+
+  const columns = [
+    {
+      header: "Sr.No.",
+      accessorKey: "_id",
+    },
+    {
+      header: "Name",
+      accessorKey: "name",
+    },
+    {
+      header: "Email",
+      accessorKey: "email",
+    },
+    {
+      header: "Contact",
+      accessorKey: "mobile",
+    },
+    {
+      header: "Role",
+      accessorKey: "role",
+    },
+    {
+      header: "Action",
+    },
+  ];
+
+  const [product , setProduct] = useState([])
+  const [isLoading  ,setIsLoading] = useState(true)
+  
+  useEffect(() => {
+    const FetchUsers = async () => {
+      let response = await fetch(`${base_url}user/all-users`);
+      let data = await response.json();
+      setProduct(data);
+      setIsLoading(false);
+    };
+    FetchUsers();
+    
+  }, [])
+  
+
   return (
     <div className=' border-2 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around lg:mx-24 p-6'>
       <div className="w-full">
@@ -25,7 +68,7 @@ const Users = () => {
       </div>
       </div>
       <div className="w-full">
-      <BasicTable/>
+      <BasicTable columns={columns} data={product}/>
       </div>
     </div>
   )

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Logo from "../../assets/Untitled-1.png"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Bestsellers from '../Bestsellers';
 import { Clients } from '../../constant';
 
 const Home = () => {
@@ -39,7 +38,7 @@ const Home = () => {
           <button className='bg-black/90 hover:bg-black/50 px-12 text-white duration-300'>View More</button>
          </div>
         <div className="flex items-center justify-center">
-          <Bestsellers/>
+          {/* <Bestsellers/> */}
         </div>
       </div>
 
@@ -86,7 +85,7 @@ const Home = () => {
      <div className="child-3 flex flex-col lg:flex-row w-full items-center gap-12" data-aos="fade-right">
       <div className="image-container ">
         <img
-        className='block hidden' 
+        className='hidden' 
         src="https://energiefitness.in/cdn/shop/files/Accessories_c338a851-65b7-4d14-bbdf-19cb46080506.png?v=1702278778&width=750" alt="" />
       </div>
       <div className="space-y-12">

@@ -1,7 +1,5 @@
-import { Input, Skeleton, Slider } from '@mui/material'
-import React, { useState } from 'react'
-import Bestsellers from '../Bestsellers'
-import Loader from '../../components/reusablesUI/Loader'
+import { Input, Slider } from '@mui/material'
+import React from 'react'
 import {gym_equipment,gym_product_pricing_inr} from "../../constant"
 const Product = () => {
    
@@ -41,7 +39,7 @@ const Product = () => {
       <Slider/>
       <Input placeholder='enter price range'/>
       </div>
-      <div className="h-[30vh] overflow-y-scroll ">
+      <div className=" overflow-y-scroll ">
        {
         gym_product_pricing_inr.map((item , index)=>(
           <div className="flex gap-2 p-2 hover:bg-blue-300" key={index}>
@@ -74,7 +72,7 @@ const Product = () => {
       </div>
       {/* product list */}
       <div className="product-list_container">
-        <Bestsellers/>
+       
       </div>
      </div>
      </div>
