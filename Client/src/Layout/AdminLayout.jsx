@@ -7,7 +7,7 @@ const AdminLayout = () => {
   return (
     <>
     <LeftDrawer/>
-    <Outlet/>
+    {/* <Outlet/> */}
     </>
   )
 }

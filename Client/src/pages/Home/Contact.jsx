@@ -93,7 +93,7 @@ const formfield = [
     return (
     <>
     <Toaster/>
-        <div className='h-screen flex flex-col gap-12 p-4 '>
+        <div className=' flex flex-col gap-12 p-4 '>
             <div className="contact-header min-h-[50vh] bg-black/20 flex items-center w-full p-4">
                 <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
                     <h1>KFS Fitness Contact us</h1>

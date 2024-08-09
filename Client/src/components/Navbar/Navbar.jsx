@@ -51,7 +51,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className="flex justify-around items-center py-12  h-20 ">
+    <nav className="flex justify-around items-center py-12 bg-slate-950 text-white  h-20 ">
       <div className="logo-container z-50 pb-2">
        <Logo/>
       </div>
@@ -70,7 +70,7 @@ const Navbar = () => {
       {/*  */}
       <div className="lg:flex items-center  justify-center gap-2  cursor-pointer z-50 hidden ">
       <div className=" text-blue-600 text-2xl" onClick={handleSearch}>
-            <BiSearch className='hover:scale-105 duration-150 cursor-pointer mt-2' />
+            <BiSearch className='hover:scale-105 duration-150 cursor-pointer mt-2 text-white' />
             {
               visible && <div className=" searchbar absolute bg-transparent rounded-md overflow-hidden border-black border w-1/2 focus:outline-sky-500  right-2 top-20 flex">
               <input type="text"
@@ -83,13 +83,13 @@ const Navbar = () => {
             }
         </div>
         <Link to="/auth/login">
-        <div className=" text-2xl font-bold text-blue-600 mt-1 ml-3">
+        <div className=" text-2xl font-bold  mt-1 ml-3">
           <RxAvatar/>
         </div>
         </Link>
         <div className="">
           <Badge badgeContent={4} color="secondary" aria-label="cart">
-            <LeftDrawer icon={<BiShoppingBag size={25} />} />
+            <LeftDrawer icon={<BiShoppingBag size={25} className="text-white" />} />
           </Badge>
         </div>
       </div>

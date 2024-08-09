@@ -36,7 +36,7 @@ const ProductSchema = new mongoose.Schema(
     quantity: {
       type: Number,
     },
-    Individual_discount: {
+    individualdiscount: {
       type: String,
       validate: {
         validator: function (value) {
@@ -50,7 +50,7 @@ const ProductSchema = new mongoose.Schema(
           `${props.value} is not a valid discount percentage.`,
       },
     },
-    corporate_discount: {
+    corporateDiscount: {
       type: String,
       validate: {
         validator: function (value) {

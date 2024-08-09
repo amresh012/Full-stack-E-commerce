@@ -3,7 +3,6 @@ import './App.css'
 import AuthLayout from './Layout/AuthLayout'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './Layout/Layout'
-import Home from './pages/Home/Home'
 import Login from './pages/AuthPages/Login'
 import SignUp from './pages/AuthPages/SignUp'
 import About from './pages/about/About'
@@ -26,6 +25,7 @@ import Copoun from './pages/Admin/Copoun'
 import CopounList from './pages/Admin/CopounList'
 import AddBulkProduct from './pages/Admin/AddBulkProduct'
 import BulkImage from './pages/Admin/BulkImage'
+import HomePage from './pages/Home/HomePage'
 
 function App() {
 
@@ -34,7 +34,7 @@ function App() {
       
     <Routes>
       <Route element ={<Layout/>}>
-      <Route path='/' element={<Home/>}/>
+      <Route path='/' element={<HomePage/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/product" element={<ProductPage/>}/>

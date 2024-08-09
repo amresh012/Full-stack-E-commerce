@@ -39,6 +39,7 @@ const AddProduct = () => {
           }
         } catch (error) {
            console.log(error.message)
+           toast.error(error.message)
         } finally {
           setSubmitting(false);
         }
@@ -199,7 +200,7 @@ const AddProduct = () => {
                 </div>
              </div>
              <div
-        className="border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400">
+            className="border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400">
            <button type="submit">Add Product</button>
         </div>
         </div>

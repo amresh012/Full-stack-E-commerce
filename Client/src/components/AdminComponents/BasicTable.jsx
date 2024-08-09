@@ -27,7 +27,7 @@ const BasicTable = ({columns, data}) => {
   return (
     <div className="border-2 shadow-md  bg-transparent">
       {/* <TablePagination
-        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: data.length }]}
+        rowsPerPageOptions={[5, 10, 25,100, { label: 'All', value: data.length }]}
         component="div"
         count={table.getFilteredRowModel().rows.length}
         rowsPerPage={pageSize}

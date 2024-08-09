@@ -1,6 +1,7 @@
 import React from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import Ordata from "../../MOCK_DATA (4).json"
+import { Autocomplete, TextField } from '@mui/material';
 
 
 // "id":8,"Invoice":542458,"orderd_by":"Jatri","Amount":7942,"mobile":7756482517,"sataus":"return Successfully"
@@ -34,6 +35,8 @@ const columns = [
   }
 ]
 
+const entries = [5,10 , 20 ,50 ,100]
+
 const Orders = () => {
 
 
@@ -57,16 +60,15 @@ const Orders = () => {
       </div>
       {/* section-2 */}
       <div className="flex items-center justify-between px-24 w-full">
-        <div className="entries flex gap-2">
+        <div className="entries flex gap-2 items-center ">
            <label htmlFor="">Entries:</label>
-           <select name="" className='w-24'>
-            <option value="">05</option>
-            <option value="">10</option>
-            <option value="">15</option>
-            <option value="">20</option>
-            <option value="">50</option>
-            <option value="">100</option>
-           </select>
+           <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={entries}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Entries per page" />}
+          />
         </div>
         <div className="flex rounded-md overflow-clip">
             <input type="search" className='h-10 w-60    outline-none px-2 border-2' />

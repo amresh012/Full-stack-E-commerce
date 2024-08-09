@@ -6,9 +6,9 @@ const Dropdown = ({dataArray}) => {
     <div className="">
     <select className=' p-2 outline-none border-2 border-gray-500'>
       {
-         dataArray?.map((option)=>(
-            <option key={option?.id}>{option.value}</option>
-           ))
+        Array.isArray(dataArray)&&  dataArray?.map((option)=>(
+          <option key={option?.id}>{option.value}</option>
+         ))
       }
     </select>
 </div>

@@ -18,11 +18,11 @@ const title = ["Users", "Product", "Contact us", "Bulk Request"]
 
 const GraphVisual = () => {
   return (
-    <div className=' mt-12 flex flex-wrap items-center justify-center  g gap-10'>
+    <div className=' mt-12 flex flex-wrap items-center justify-center  g gap-10 p-4'>
       {
         [...Array(4)].map((_,i)=>(
          <Paper key={i} elevate={3}>
-             <div className="w-[35rem] h-[25rem] shadow-lg">
+             <div className="w-[30rem] h-[25rem] shadow-lg overflow-clip ">
             <div className="header flex items-center justify-between p-4">
                 {/* left-side */}
                 <div className="flex text-xl items-center gap-2">
@@ -63,6 +63,7 @@ const GraphVisual = () => {
                 ]}
                 width={550}
                 height={320}
+                sx={{padding:"4px"}}
               /> 
             </div>
           </div> 

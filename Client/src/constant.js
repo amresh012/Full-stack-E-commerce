@@ -218,7 +218,8 @@ export const Clients =
  }
 ]
 
-
+// entries array
+export const entries = [5,10 , 20 ,50 ,100]
 // blog
 
   export const blog=[

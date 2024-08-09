@@ -40,10 +40,10 @@ const OTPComponent = () => {
       setOtp(value);
       console.log(value)
 };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e , value) => {
     e.preventDefault();
     // Handle OTP submission logic
-    alert('Submitted OTP:', otp);
+    alert('Submitted OTP:', value);
     window.location.href="/"
   };
 

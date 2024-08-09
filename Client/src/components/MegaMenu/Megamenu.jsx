@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const Megamenu = ({title ,icon}) => {
   return (
-    <div className="dropdown">
+    <div className="dropdown bg-slate-950">
       <button className="dropbtn">
         <p className="uppercase font-semibold">{title}</p>
         <span className="icon-1"> {icon}</span>
@@ -15,7 +15,7 @@ const Megamenu = ({title ,icon}) => {
           <GoDash />
         </span>
       </button>
-      <div className="dropdown-content">
+      <div className="dropdown-content bg-slate-950">
         <div className="header h-12"></div>
         <div className="h-[23rem] flex justify-around border-t-4 border-blue-500 pt-4">
           {/* section-1 */}
@@ -23,12 +23,12 @@ const Megamenu = ({title ,icon}) => {
             <h1 className="text-2xl font-bold leading-10">
               Fitness Equipment Built to Perfection
             </h1>
-            <p className="font-medium capitalize text-gray-900">
+            <p className="font-medium capitalize">
               Adding fuel to every fitness fanatics passion with the best
               equipment in India.
             </p>
              <Link to="/product">
-              <div className="p-2 bg-black px-2 shadow-md py-2 text-white text-xl">
+              <div className="p-2 bg-slate-900 px-2 shadow-md py-2 text-white text-xl">
                 Shop All Fitness Products
               </div>
              </Link>
@@ -45,7 +45,7 @@ const Megamenu = ({title ,icon}) => {
                   className="p-2  duration-300 underline-offset-8 flex flex-col  gap-1"
                 >
                   {/* <GoDash className="text-indigo-500 font-bold" /> */}
-                  <li className="bg-black text-white p-2 text-xl">{item.name}</li>
+                  <li className="bg-slate-900 text-white p-2 text-xl">{item.name}</li>
                   {
                     item.submenu && item.sublink.map((sublink)=>(
                     <ul className=" flex flex-col gap-2 justify-start  font-medium hover:underline-none items-start">

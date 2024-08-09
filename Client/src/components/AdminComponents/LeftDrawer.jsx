@@ -2,24 +2,17 @@ import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Logo from "../reusablesUI/Logo"
+import {  Button } from '@mui/material';
+import { Link, Outlet } from 'react-router-dom';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import Logo from "../reusablesUI/Logo"
-import GraphVisual from './GraphVisual';
-import { Avatar } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 const drawerWidth = 300;
 
@@ -149,6 +142,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [visible , setVisible] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -157,23 +151,27 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const habdleSubmenu = () =>{
+    setVisible(!visible)
+  }
+
 
   return (
-    <Box sx={{ display: 'flex' , justifyContent:"flex-start" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
+    <Box sx={{ display: 'flex' , justifyContent:"flex-start"}}>
+      <AppBar position="fixed" open={open} sx={{bgcolor:"white" , boxShadow:"none"}}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            // edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }),bgcolor:"#1565C0" }}
           >
             <MenuIcon />
           </IconButton>
-          <div className="">
+          <div className="flex justify-between w-full items-center">
             <Logo/>
+            <Button variant="contained">LogOut</Button>
           </div>
         </Toolbar>
       </AppBar>
@@ -200,16 +198,30 @@ export default function PersistentDrawerLeft() {
         {
           links.map((item)=>(
             <div className="px-2 flex flex-col  py-2" key={item.label}>
-              <Link to={item.route} className='flex gap-2 p-4 hover:bg-zinc-300'>
-              <img src={item.icon} alt={item.label} className='h-8' />
-              <li className="list-none text-xl">{item.label}</li>
+              <Link to={item.route} className='flex gap-2 p-2 items-center hover:bg-zinc-300'>
+              <div className="">
+              <img src={item.icon} alt={item.label} className='h-6' />
+              </div>
+               <div className="flex  p-2 w-full">
+               <li className="list-none text-base font-bold">
+                {item.submenu?
+                <div className="flex" onClick={habdleSubmenu}>
+                  <p>{item.label}</p>
+                  <ExpandMoreIcon/>
+                </div>
+                :
+                item.label}
+                </li>
+               </div>
               </Link>
               {
-                item.submenu && item.sublink?.map((link)=>(
-                 <ul key={link.label} className="flex  gap-2 justify-start hover:bg-blue-500 hover:text-white font-medium hover:underline-none items-start pl-12 ">
-                    <Link to={link.route} key={link.label} className='flex items-center gap-2 p-2'>
-                  <img src={link.icon} alt={link.label} className='h-4' />
-                  <li className="list-none text-lg ">{link.label}</li>
+                item.submenu && visible && item.sublink?.map((link)=>(
+                 <ul  key={link.label} className="flex  gap-2 justify-start hover:bg-blue-500 hover:text-white font-medium hover:underline-none items-start pl-12 ">
+                    <Link  to={link.route} key={link.label} className='flex items-center gap-2 p-2'>
+                    <div className="bg-zinc-200 p-2 rounded-full">
+                    <img src={item.icon} alt={item.label} className='h-6' />
+                    </div>
+                  <li className="list-none text-base ">{link.label}</li>
                   </Link>
                  </ul>
                 ))
@@ -224,7 +236,7 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open}>
         {/* <DrawerHeader /> */}
-       
+        <Outlet/>
       </Main>
     </Box>
   );
