@@ -82,7 +82,6 @@ const links =
   }, 
   {
     label:"Coupon",
-    route:"/admin/coupon",
     icon:"/public/coupon.png",
     submenu:true,
     sublink:[

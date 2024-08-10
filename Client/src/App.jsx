@@ -43,7 +43,7 @@ function App() {
       </Route>
 
       {/* Auth Routes */}
-      <Route path="/auth/*" element={<AuthLayout/>}>
+      <Route path="/*" element={<AuthLayout/>}>
         <Route path="login" element={<Login/>}/>
         <Route path="Signup" element={<SignUp/>}/>
         <Route path='forgot-password' element={<ForgotPassword/>}/>
