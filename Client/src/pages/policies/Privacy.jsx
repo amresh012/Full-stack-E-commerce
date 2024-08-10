@@ -93,6 +93,24 @@ We collect personally identifiable information (email address, name, phone numbe
       <ol className="item-decimal px-12">
         <li className="font-bold text-xl ">Links to Other Sites</li>
         <p>Our Website links to other websites that may collect personally identifiable information about you. www.sfhealthtech.com is not responsible for the privacy practices or the content of those linked websites.</p>
+
+        <li className="font-bold text-xl ">Security Precautions</li>
+        <p>Our Website has stringent security measures in place to protect the loss, misuse, and alteration of the information under our control. Whenever you change or access your account information, we offer the use of a secure server. Once your information is in our possession we adhere to strict security guidelines, protecting it against unauthorized access.</p>
+        <br/>
+
+        <li className="font-bold text-xl ">Your Consent</li>
+        <p>By using the Website and/ or by providing your information, you consent to the collection and use of the information you disclose on the Website in accordance with this Privacy Policy, including but not limited to Your consent for sharing your information as per this privacy policy.</p>
+        <br/>
+        <p>If we decide to change our privacy policy, we will post those changes on this page so that you are always aware of what information we collect, how we use it, and under what circumstances we disclose it.</p>
+
+        <li className="font-bold text-xl ">Grievance</li>
+        <p>In case if you have any grievance, you can reach us at:</p>
+        <br/>
+        <br/>
+        <p className="text-start italic text-slate-500">Email: <a href="">contact@kfsFitness.com</a></p>
+        <br/>
+
+
       </ol>
         </div>
       </div>
