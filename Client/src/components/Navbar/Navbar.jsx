@@ -58,7 +58,7 @@ const Navbar = () => {
       {/*  */}
       <ul className="lg:flex items-center gap-8 hidden ">
         {links.map((item) => (
-          <Link to={item.route} key={item.label}className="hover:border-b-2 hover:border-black uppercase font-semibold text-sm ">
+          <Link to={item.route} key={item.label} className="hover:border-b-2 hover:border-black uppercase font-semibold text-sm ">
             {item.label == "Products" ||  item.label=="Home Gym" ? (
               <Megamenu title={item.label} icon={<BiPlus size={12} />} />
             ) : (

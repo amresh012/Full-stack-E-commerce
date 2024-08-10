@@ -26,6 +26,8 @@ import CopounList from './pages/Admin/CopounList'
 import AddBulkProduct from './pages/Admin/AddBulkProduct'
 import BulkImage from './pages/Admin/BulkImage'
 import HomePage from './pages/Home/HomePage'
+import ProductdetailPage from './pages/Product/ProductdetailPage'
+import {Privacy, Policies } from './pages/policies'
 
 function App() {
 
@@ -38,8 +40,12 @@ function App() {
       <Route path='/about' element={<About/>}/>
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/product" element={<ProductPage/>}/>
+      <Route path="/product/:id" element={<ProductdetailPage/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
+      <Route path="/policies/*" element={<Policies/>}>
+       <Route path = 'privacy-policy' element = {<Privacy/>}/>
+      </Route>
       </Route>
 
       {/* Auth Routes */}

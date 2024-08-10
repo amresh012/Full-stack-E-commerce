@@ -2,6 +2,7 @@ import React from 'react'
 import Logo from './reusablesUI/Logo'
 import { FaFacebook, FaInstagram, FaPinterest, FaTwitter, FaYoutube } from 'react-icons/fa'
 import {Amex,Mastercard,Rupay,Visa}from "../assets/images"
+import { Link } from 'react-router-dom'
 
 const socialMedia = [
   {
@@ -47,6 +48,46 @@ const prod = ["Barbells & Plates" ,
    "Strength Training Machines"
 
   ]
+  const polocies=[
+    {
+      id:1,
+      name:"Return Policy",
+    },
+    {
+      id:2,
+      name:"Privacy Policy",
+      route:"/policies/privacy-policy"
+    },
+    {
+      id:3,
+      name:"Refund Policy",
+    },
+    {
+      id:4,
+      name:"Terms & Services ",
+    },
+    {
+      id:5,
+      name:"Pre-order T&C",
+    },
+    {
+      id:6,
+      name:"Payment Policy",
+    },
+    {
+      id:7,
+      name:"Shipping  Policy",
+    },
+    {
+      id:8,
+      name:"Contact Information",
+    },
+    {
+      id:8,
+      name:"Equipment Warranty",
+    },
+
+  ]
 const Footer = () => {
   return (
    <footer className=' bg-black w-full text-white flex flex-col'>
@@ -86,8 +127,8 @@ const Footer = () => {
               <h1 className='text-xl font-bold'>Info</h1>
                <ul className="lg:h-[300px] cursor-pointer flex flex-col flex-wrap">
                 {
-                  prod.map((item, index) => (
-                    <li className='p-2 hover:pl-2  hover:underline' key={index}>{item}</li>
+                  polocies.map((item, index) => (
+                    <li className='p-2 hover:pl-2  hover:underline' key={item.id}>{item.name}</li>
                   ))
                 }
                </ul>
@@ -97,7 +138,9 @@ const Footer = () => {
 
     <div className=" flex justify-between items-center lg:p-4 gap-4 p-8 cursor-pointer lg:flex-row flex-col-reverse  ">
      <ul className='flex lg:gap-12 items-center justify-around'>
+      <Link to="/policies/privacy-policy">
       <li className="">Privacy Policy</li>
+      </Link>
       <li className="">Terms & Conditions</li>
       <li className="">Refund Policy</li>
       <li className="">Shipping Policy</li>

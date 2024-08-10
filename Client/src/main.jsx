@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={Store}>
    <BrowserRouter>
       <App />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
       <ScrollToTop/>
     </BrowserRouter>
    </Provider>

@@ -46,12 +46,12 @@ const configlabel=[
     {
         id:6,
         label:"Add Website logo :",
-        id:"logo"
+        Id:"logo"
     },
     {
         id:7,
         label:"Banner Image",
-        id:"banner"
+        Id:"banner"
     },
     {
         id:8,

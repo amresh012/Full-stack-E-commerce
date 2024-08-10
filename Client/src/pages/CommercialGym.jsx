@@ -9,7 +9,7 @@ const CommercialGym = () => {
 
   return (
    <>
-    <div className="flex items-start p-12 gap-4 overflow-clip">
+    <div className="flex items-start p-12 gap-4 ">
         <div className="flex flex-col gap-4">
             <div className="w-full b-blue-100 flex rounded-md  overflow-hidden">
                 <input type="search"  className='border-2 h-12 rounded-l-md placeholder:px-2 px-2 outline-none' placeholder='search...' />
@@ -18,7 +18,7 @@ const CommercialGym = () => {
         <Filter/>
         </div>
        <div className="flex flex-col gap-4">
-        <div className="h-24 bg-gray-300"></div>
+        <div className="h-12 bg-gray-300"></div>
        <div className=" flex flex-col  gap-2 h-[100vh] overflow-y-scroll no-scrollbar ">
            {
             gym_equipment.slice(0,7).map((title , i)=>(
