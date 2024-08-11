@@ -6,9 +6,9 @@ import {BrowserRouter} from "react-router-dom"
 import  Store from "./store/Store.js"
 import {Provider} from "react-redux"
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
+  // useQuery,
+  // useMutation,
+  // useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'

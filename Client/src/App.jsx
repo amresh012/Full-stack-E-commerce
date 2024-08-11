@@ -44,7 +44,7 @@ function App() {
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
       <Route path="/policies/*" element={<Policies/>}>
-       <Route path = 'privacy-policy' element = {<Privacy/>}/>
+      <Route path='privacy-policy' element = {<Privacy/>}/>
       </Route>
       </Route>
 

@@ -67,7 +67,7 @@ const createUser = asyncHandler(async (req, res) => {
   if (!findUser) {
     try {
       const newUser = await User.create(req.body);
-      res.json(newUser);
+      res.status(200).json(newUser);
     } catch (error) {
       mongooseError(error, res);
     }

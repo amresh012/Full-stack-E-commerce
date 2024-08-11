@@ -5,7 +5,7 @@ import Megamenu from "../MegaMenu/Megamenu";
 import { Badge } from "@mui/material";
 import LeftDrawer from "../Drawers/LeftDrawer";
 import MobileNav from "../MobileNav/MobileNav";
-import { useRef, useState } from "react";
+import {  useState } from "react";
 import "./Navbar.css"
 import Logo from "../reusablesUI/Logo";
 
@@ -41,7 +41,6 @@ const links = [
 
 const Navbar = () => {
   const [visible , setVisible] = useState(false)
-  let isLogo = true;
 
   
   const handleSearch=()=>{
@@ -82,7 +81,7 @@ const Navbar = () => {
             </div>
             }
         </div>
-        <Link to="/auth/login">
+        <Link to="/login">
         <div className=" text-2xl font-bold  mt-1 ml-3">
           <RxAvatar/>
         </div>

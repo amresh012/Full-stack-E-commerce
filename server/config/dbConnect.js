@@ -11,7 +11,7 @@ const dbConnect = () => {
 };
 module.exports = dbConnect;
 
-MONGODB_URL='mongodb+srv://deepnapsoftech:Ca57Fj1DM5LFnBzd@kfsecommerce.mnkaatw.mongodb.net/?retryWrites=true&w=majority&appName=KfsEcommerce'
+// MONGODB_URL='mongodb+srv://deepnapsoftech:Ca57Fj1DM5LFnBzd@kfsecommerce.mnkaatw.mongodb.net/?retryWrites=true&w=majority&appName=KfsEcommerce'
 // # MONGODB_URL='mongodb+srv://123:123@cluster0.4fsmznz.mongodb.net/JHEVDummy'
 // PORT=8000
 // JWT_SECRET='mysecretghfhcfhgvhgfhgfhgfhgfhgfhgfhg'

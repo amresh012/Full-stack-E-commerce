@@ -1,5 +1,5 @@
 // src/Login.js
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import {Link} from "react-router-dom"
 import Logo from "../../assets/Untitled-1.png"
 import { CiMail } from "react-icons/ci";
@@ -10,7 +10,6 @@ import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
-import {config} from "../../Utils/axiosConfig"
 
 
 const SignUp = () => {
@@ -25,10 +24,8 @@ const SignUp = () => {
       },
       onSubmit: async (values, { setSubmitting }) => {
         try {
-          const response = await axios.post(`${base_url}user/register`, values,
-            {
-            headers: config
-          });
+          const response = await axios.post(`${base_url}user/register`, values,);
+          // localStorage.setItem("token",response.data.token)
           if(response.data.error){
             throw new Error(response.data.error)
           }
@@ -37,7 +34,6 @@ const SignUp = () => {
           }
           window.location.href = '/product';
         } catch (error) {
-         
           toast.error(error.response.data.message)
           setError(error.response.data.message)
         } finally {
@@ -152,7 +148,7 @@ const SignUp = () => {
         </form>
         <div className="flex  items-center w-full gap-2 justify-center p-4">
           <p>Already Have Acount ?</p>
-          <Link to="/auth/login">
+          <Link to="/login">
            <p className='text-blue-500 underline'>Login</p>
           </Link>
         </div>

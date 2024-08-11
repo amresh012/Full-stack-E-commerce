@@ -15,7 +15,7 @@ const columns = [
       accessorKey:"Invoice"
   },
   {
-      header:"OrderdBy",
+      header:"Orderd By",
       accessorKey:"orderd_by"
   },
   {

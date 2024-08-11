@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import {Link} from "react-router-dom"
 import Logo from "../../assets/Untitled-1.png"
 import { IoLockClosedOutline } from 'react-icons/io5';
@@ -21,6 +21,7 @@ const Login = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const res = await axios.post(`${base_url}user/login`, values); // changed to POST request
+        localStorage.setItem("token", res.data.token)
         if(!res.data){
           throw new Error(res.data)
         }
@@ -102,7 +103,7 @@ const Login = () => {
           
            </div>
            <div className="py-2">
-           <Link to="/auth/forgot-password" >
+           <Link to="/forgot-password" >
            <p>Forget Password?</p>
            </Link>
            </div>
@@ -115,8 +116,8 @@ const Login = () => {
           </button>
         </form>
         <div className="flex  items-center w-full gap-2 justify-center p-4">
-          <p>Dont't have account</p>
-          <Link to="/auth/Signup">
+          <p>Dont&apos;t have account</p>
+          <Link to="/Signup">
            <p className='text-blue-500 underline'>SignIn</p>
           </Link>
         </div>

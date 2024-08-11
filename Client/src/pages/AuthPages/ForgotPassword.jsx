@@ -25,7 +25,6 @@ const ForgotPassword = ()=> {
       } catch (error) {
         toast.error('Error sending password reset email');
         setMessage('Error sending password reset email');
-        // console.error(error.response?.data?.message);
       }
   };
 
@@ -64,10 +63,10 @@ const ForgotPassword = ()=> {
            <Divider/>
         </form>
         <div className="flex flex-col items-center justify-center text-blue-500 text-xl underline">
-          <Link to="/auth/SignUp">
+          <Link to="/SignUp">
            <p className="">Create Account!</p>
           </Link>
-          <Link to="/auth/login">
+          <Link to="/login">
            <p className="">Already Have Account? Login!</p>
           </Link>
         </div>
