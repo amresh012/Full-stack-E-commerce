@@ -21,19 +21,15 @@ const Login = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const res = await axios.post(`${base_url}user/login`, values); 
-        console.log(res)// changed to POST request
         if(res.data){
           throw new Error(res.data)
         }
         else{
           toast.success("LoggedIn Successfuly");
         }
-        // console.log(localStorage.setItem("token"))
-          window.location.href="/"
 
         } catch (error) {
-        // console.log(error)
-        toast.error(error.message)
+          console.log(error)
       }
       finally {
         setSubmitting(false);
