@@ -1,79 +1,79 @@
 export const links = [
   {
     name: "Accessories",
-    route: "/accessories",
+    route: "/accessories/*",
     submenu: false,
   },
   {
     name: "Benches and Racks",
-    route: "/benches-and-racks",
+    route: "/benches-and-racks/*",
     submenu: true,
     sublink: [
       {
         label: "Benches",
-        route: "/",
+        route: "Benches",
       },
       {
         label: "Functional Trainers",
-        route: "/",
+        route: "Functional-trainers",
       },
       {
         label: "Smith Machine",
-        route: "/",
+        route: "Smith-machine",
       },
     ],
   },
   {
     name: "Cardio",
-    route: "/cardio-equipment-setup",
+    route: "/cardio-equipment-setup/*",
     submenu: true,
     sublink: [
       {
         label: "TreadMill",
-        route: "/",
+        route: "TreadMill",
       },
       {
         label: "Cross Trainers",
-        route: "/",
+        route: "Cross Trainers",
       },
       {
         label: "Excrise Bikes",
-        route: "/",
+        route: "Excrise Bikes",
       },
       {
         label: "HIIT",
-        route: "/",
+        route: "HIIT",
       },
     ],
   },
   {
     name: "Strength",
-    route: '/strenght-equipment',
+    route: '/strenght-equipment/*',
     submenu: true,
     sublink: [
       {
         label: "GL SERIES",
-        route: "/",
+        route: "GL SERIES",
       },
       {
         label: "M5 SERIES",
-        route: "/",
+        route: "M5 SERIES",
       },
       {
         label: "M5S SERIES",
-        route: "/",
+        route: "M5S SERIES",
       },
       {
         label: "MG LUXUORY SERIES",
-        route: "/",
+        route: "MG LUXUORY SERIES",
       },
       {
         label: "T8 PREMIUM SERIES",
-        route: "/",
+        route: "T8 PREMIUM SERIES",
       },
       {
         label: "M8F",
-        route: "/",
+        route: "M8F",
       },
       {
         label: "PLATE LOAD",

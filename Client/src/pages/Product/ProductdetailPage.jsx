@@ -13,7 +13,7 @@ import {toast, Toaster}from "react-hot-toast"
    const [quantity, setQuantity] = useState(0)
    const [reviewvisible , setReviewVisible] = useState(false)
    const [endrating, setEndRating] = useState(4)
-   const [isLoggedIn, setIsLoggedIn] = useState(true)
+   const [isLoggedIn, setIsLoggedIn] = useState(false)
    const collection = [
     { src: Spin, caption: "Caption eleven" },
     { src: Spin1, caption: "Caption twelve" },
@@ -21,10 +21,16 @@ import {toast, Toaster}from "react-hot-toast"
   ];
 
   const handleLoadReviews  = ()=>{
+    if(localStorage.getItem("token")){
+      setIsLoggedIn(true)
+    }
     isLoggedIn ? setEndRating(endrating+2) : toast.error("Your Are Not Logged In")
   }
   
   const handleReviewView= ()=>{
+    if(localStorage.getItem("token")){
+      setIsLoggedIn(true)
+    }
     isLoggedIn ? setReviewVisible(!reviewvisible) : toast.error("Your Are Not Logged In")
   }
 

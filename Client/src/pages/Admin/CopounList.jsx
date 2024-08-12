@@ -1,6 +1,9 @@
 import React from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
 import Cdata  from "../../MOCK_DATA (5).json"
+import { List } from '@mui/material';
+import BasicModal from '../../components/Models/Model';
+import { FaEye, FaPen, FaPenAlt, FaTrash } from 'react-icons/fa';
 
 const CopounList = () => {
   const columns = [
@@ -22,6 +25,12 @@ const CopounList = () => {
     },
     {
       header: "Action",
+      cell:()=>
+      <List className='flex items-center justify-center text-xl'>
+        <BasicModal className="text-red-500" icon={<FaTrash/>}/>
+        <BasicModal icon={<FaEye/>}/>
+         <BasicModal icon={<FaPenAlt/>}/>
+      </List>
     },
   ];
   return (
@@ -39,6 +48,7 @@ const CopounList = () => {
  </div>
   )
 }
+
 
 
 export default CopounList

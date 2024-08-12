@@ -1,5 +1,5 @@
 import { Autocomplete, Button, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { BsCloudUpload } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 import {gym_equipment} from "../../constant"
@@ -9,11 +9,9 @@ import { base_url } from '../../Utils/baseUrl';
 import {toast ,Toaster} from 'react-hot-toast';
 
 const AddProduct = () => {
-    const [error , setError] = useState("")
    const {values , handleBlur, handleSubmit , handleChange} = useFormik({
     initialValues: {
         name:"",
-        images:[],
         price: "",
         category:"",
         subcategory:"",
@@ -30,7 +28,7 @@ const AddProduct = () => {
     onSubmit: async (values, { setSubmitting }) => {
         try {
           const response = await axios.post(`${base_url}product/add`, values,);
-          console.log(response)
+          console.log(values)
           if(response.data.error){
              throw new Error(response.data.error)
           }
@@ -38,7 +36,7 @@ const AddProduct = () => {
             toast.success('Product Added Successfully')
           }
         } catch (error) {
-           console.log(error.message)
+        //    console.log(error.message)
            toast.error(error.message)
         } finally {
           setSubmitting(false);
@@ -46,13 +44,13 @@ const AddProduct = () => {
       }
 
    })
-
+  const fileRef = useRef(null)
 
 
   return (
     <>
     <Toaster/>
-    <div className='border-2 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around lg:mx-24 p-6'>
+    <div className='border-2 mt-24 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around lg:mx-24 p-6'>
      <div className="text-3xl font-bold ">
        <Link to="/admin/product-list">
        Add Products
@@ -192,7 +190,11 @@ const AddProduct = () => {
         {/* section-6 */}
         <div className="space-y-4">
              <div className="relative">
-                <input type="file" name="" id="" className='border-dashed border-2 h-44 rounded-md focus:shadow-md w-full' />
+                <input type="file" 
+                 name="files"
+                 ref={fileRef}
+                 multiple
+                 id="file_input" className='border-dashed border-2 h-44 rounded-md focus:shadow-md w-full' />
                 <div className="absolute top-12 left-[40%] flex items-center flex-col gap-2">
                   <BsCloudUpload/>
                 <h1>Drag n Drop some files,or click to select files</h1>

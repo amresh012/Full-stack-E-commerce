@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
 import { base_url } from '../../Utils/baseUrl'
+import { FaAddressCard, FaEye, FaPen, FaTrash } from 'react-icons/fa'
+import { List } from '@mui/material'
 
 const ListProduct = () => {
   const [product , setProduct] = useState([])
@@ -14,7 +16,7 @@ const ListProduct = () => {
       setIsLoading(false);
     };
     FetchProduct();
-    console.log(product)
+    // console.log(product)
     
   }, [])
 
@@ -37,6 +39,11 @@ const ListProduct = () => {
     },
     {
       header: "Action",
+      cell:()=> <List sx={{display:"flex" , alignItems:"center", gap:4 , justifyContent:"center" , cursor:"pointer"}}>
+       <FaTrash className='text-red-500'/>
+       <FaEye className='text-blue-500'/>
+       <FaPen/>
+      </List >
     },
   ];
   return (

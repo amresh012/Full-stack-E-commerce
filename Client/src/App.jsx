@@ -28,6 +28,10 @@ import BulkImage from './pages/Admin/BulkImage'
 import HomePage from './pages/Home/HomePage'
 import ProductdetailPage from './pages/Product/ProductdetailPage'
 import {Privacy, Policies } from './pages/policies'
+import Setting from './pages/UserDashboard/Setting'
+import UserProfile from './Layout/UserProfile'
+import Shipping from './pages/UserDashboard/Shipping'
+import Invoice from './pages/UserDashboard/Invoice'
 
 function App() {
 
@@ -55,6 +59,14 @@ function App() {
         <Route path='forgot-password' element={<ForgotPassword/>}/>
         <Route path='otp' element={<Otp/>}/>
       </Route>
+      
+       {/* UserDashboard Routes */}
+         <Route path="/profile" element={<UserProfile/>}>
+         <Route index element={<Setting/>}/>
+         <Route path="shipping-add" element={<Shipping/>}/>
+         <Route path="my-invoice" element={<Invoice/>}/>
+         </Route>
+     
 
       {/* Admin Routes */}
 

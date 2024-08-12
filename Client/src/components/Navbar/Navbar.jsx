@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import { BiSearch, BiShoppingBag, BiPlus } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import Megamenu from "../MegaMenu/Megamenu";
-import { Badge } from "@mui/material";
+import { Avatar, Badge } from "@mui/material";
 import LeftDrawer from "../Drawers/LeftDrawer";
 import MobileNav from "../MobileNav/MobileNav";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import "./Navbar.css"
 import Logo from "../reusablesUI/Logo";
+import { FaUser } from "react-icons/fa";
+import AccountMenu from "../UserDashComp/AccountMenu";
 
 const links = [
   {
@@ -41,17 +43,23 @@ const links = [
 
 const Navbar = () => {
   const [visible , setVisible] = useState(false)
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   
   const handleSearch=()=>{
     setVisible(true)
   }
-  
+  useEffect(()=>{
+    const token = localStorage.getItem('token')
+    if(token){
+      setIsLoggedIn(true)
+    }
+
+  },[isLoggedIn])
   
 
   return (
     <nav className="flex justify-around items-center py-12 bg-slate-950 text-white  h-20 ">
-      <div className="logo-container z-50 pb-2">
+      <div className="logo-container z-50 ">
        <Logo/>
       </div>
       {/*  */}
@@ -81,11 +89,16 @@ const Navbar = () => {
             </div>
             }
         </div>
-        <Link to="/login">
-        <div className=" text-2xl font-bold  mt-1 ml-3">
-          <RxAvatar/>
-        </div>
-        </Link>
+       {
+         isLoggedIn ?
+         <AccountMenu/>
+         :
+          <Link to="/login">
+         <div className=" text-2xl font-bold  mt-1 ml-3">
+           <RxAvatar/>
+         </div>
+         </Link>
+       }
         <div className="">
           <Badge badgeContent={4} color="secondary" aria-label="cart">
             <LeftDrawer icon={<BiShoppingBag size={25} className="text-white" />} />
