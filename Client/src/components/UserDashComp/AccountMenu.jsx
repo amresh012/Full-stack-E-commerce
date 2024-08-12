@@ -12,7 +12,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,11 +27,11 @@ export default function AccountMenu() {
     if( localStorage.getItem("token")){
       localStorage.removeItem("token");
       toast.success("logged Out Successfully")
-      window.location.href="/"
     }
   }
   return (
     <React.Fragment>
+      <Toaster/>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton

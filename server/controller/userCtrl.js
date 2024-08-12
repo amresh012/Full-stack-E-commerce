@@ -120,10 +120,10 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
           super: findUser?.super,
         });
       } else {
-        res.send({ message: "you are block by  Super Admin" });
+        res.send({ message: "you are block by Super Admin" });
       }
     } else {
-      res.send("Invalid Credentials");
+      res.status(401).send("Invalid Credentials");
     }
   } else {
     res.json("User not Found");
