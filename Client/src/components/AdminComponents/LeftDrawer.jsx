@@ -169,7 +169,7 @@ export default function PersistentDrawerLeft() {
             <MenuIcon />
           </IconButton>
           <div className="flex justify-between w-full items-center">
-            <Logo/>
+           {open ? null :  <Logo/>}
             <Button variant="contained">LogOut</Button>
           </div>
         </Toolbar>
@@ -187,7 +187,8 @@ export default function PersistentDrawerLeft() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
+        <DrawerHeader sx={{display:"flex" , justifyContent:"space-between" , padding:"0px 12px"}}>
+          <Logo/>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>

@@ -25,7 +25,7 @@ const BasicTable = ({columns, data}) => {
     onSortingChange: setSorting,
   });
   return (
-    <div className="border-2 shadow-md  bg-transparent">
+    <div className="">
       {/* <TablePagination
         rowsPerPageOptions={[5, 10, 25,100, { label: 'All', value: data.length }]}
         component="div"
