@@ -27,6 +27,7 @@ export default function AccountMenu() {
     if( localStorage.getItem("token")){
       localStorage.removeItem("token");
       toast.success("logged Out Successfully")
+      window.location.href="/"
     }
   }
   return (
@@ -97,7 +98,7 @@ export default function AccountMenu() {
         <Link to="/profile">
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <Settings fontSize="small" />
+            <Settings fontSize="small" sx={{width:12 , height:12}} />
           </ListItemIcon>
           Settings
         </MenuItem>

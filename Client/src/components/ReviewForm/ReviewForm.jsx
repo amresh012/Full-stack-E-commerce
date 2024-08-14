@@ -65,12 +65,12 @@ const ReviewForm = () => {
         <div className="review-description w-full  flex flex-col">
             <label htmlFor="">Description</label>
             <div className="input-1 w-full flex-col flex">
-                <input
+                <textarea
                  type="text"
                  value={desc}
                  onChange={(e)=>setDesc(e.target.value)}
                  id="corporateDiscount"
-                 className='h-[10rem] border-2 rounded-md outline-none px-2 ' />
+                 className=' h-24 border-2 rounded-md outline-none p-2 Font-oswald ' />
             </div>
            
         </div>

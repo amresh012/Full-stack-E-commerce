@@ -33,6 +33,10 @@ const ProductSchema = new mongoose.Schema(
     meausrement: {
       type: String,
     }, 
+    rating:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref: 'Rating'
+    },
     quantity: {
       type: Number,
     },

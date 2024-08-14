@@ -6,18 +6,24 @@ import {FaCheckCircle , FaGlobe, FaLock } from 'react-icons/fa'
 import ReviewForm from '../../components/ReviewForm/ReviewForm'
 import Ratingdata from "../../MOCK_DATA (6).json"
 import {toast, Toaster}from "react-hot-toast"
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 
  const  ProductdetailPage = () => { 
    const {id} = useParams()
    let isStock = false
-   const [quantity, setQuantity] = useState(0)
+   const [quantity, setQuantity] = useState(1)
    const [reviewvisible , setReviewVisible] = useState(false)
    const [endrating, setEndRating] = useState(4)
    const [isLoggedIn, setIsLoggedIn] = useState(false)
+   const [price, setPrice] = useState(5220)
    const collection = [
     { src: Spin, caption: "Caption eleven" },
     { src: Spin1, caption: "Caption twelve" },
-    { src: Spin2, caption: "Caption thirteen" }
+    { src: Spin2, caption: "Caption thirteen" },
+    { src: Spin2, caption: "Caption thirteen" },
+    { src: Spin1, caption: "Caption thirteen" },
+    { src: Spin, caption: "Caption thirteen" }
   ];
 
   const handleLoadReviews  = ()=>{
@@ -35,10 +41,10 @@ import {toast, Toaster}from "react-hot-toast"
   }
 
    const handleIncr = ()=>{
-    quantity < 20 &&  setQuantity(quantity+1)
+    quantity < 5 &&  (setQuantity(quantity+1),setPrice(price + 5220))
    }
    const handleDecr = ()=>{
-    quantity >0 && setQuantity(quantity-1)
+    quantity > 0 &&  price !==5220 && (setQuantity(quantity-1),setPrice(price - 5220))
    }
   
   return (
@@ -47,18 +53,16 @@ import {toast, Toaster}from "react-hot-toast"
     <div className="">
     <div className=" p-12  flex gap-12 ">
      {/* image-container */}
-    <div className=" flex flex-col gap-4 h-full w-[100vw] p-2 ">
-        <img src={Spin} alt="" className='object-cover' />
-        <div className="flex  gap-4">
-      {
-        collection.map((item , index)=>(
-          <div key={index} className='flex gap-4'>
-            <img src={item.src} alt={item.caption} />
-          </div>
+    <div className="w-full">
+    <Carousel autoplay={true}>
+       {
+        collection.map((item, index) => (
+          <img src={item.src} alt="" />
         ))
-      }
-      </div>
-     </div>
+       }
+       
+      </Carousel>
+    </div>
      {/* image-container-end */}
      <div className="details-container flex flex-col ">
       <h1 className='font-bold space-x-12 bg-gray-200 w-fit p-2 rounded-md mb-4'>Home / <span>Collectiom</span></h1>
@@ -67,7 +71,7 @@ import {toast, Toaster}from "react-hot-toast"
       <span>Variant : SKP: SF-FOO3-C</span>
       <div className="price space-x-4">
         <span className="text-2xl font-bold line-through text-red-500">Rs 5,500.00</span>
-        <span className="text-2xl font-bold">Rs 5,202.00</span>
+        <span className="text-2xl font-bold">Rs{price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</span>
       </div>
       {/* <div className="dimensions flex flex-col gap-2">
         <h1 className='font-bold text-xl'>Net-Weights</h1>
@@ -84,17 +88,17 @@ import {toast, Toaster}from "react-hot-toast"
         </div>
       </div> */}
       <div className="description mt-4 leading-8 tracking-wider ">
-        <p className="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro eum libero quisquam facere iusto? Eaque, nemo possimus alias saepe, aut sequi officia aliquid asperiores eius culpa consectetur repellendus expedita aperiam.</p>
+        <p className="Font-oswald">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro eum libero quisquam facere iusto? Eaque, nemo possimus alias saepe, aut sequi officia aliquid asperiores eius culpa consectetur repellendus expedita aperiam.</p>
       </div>
-      <div className="">
+      <div className="pt-2 text-gray-500 font-bold italic">
         <p>UPI & Cards Accepted , Online approvalsin 2 minute</p>
       </div>
-      <div className="qua space-y-4  mt-12">
+      <div className="qua space-y-4  mt-2">
         <h1 className='font-bold  text-xl'>Quantity</h1>
-        <div className="flex  w-fit bg-gray-200">
-          <button className=' py-2 px-6  text-xl font-bold' onClick={handleIncr}>+</button>
-           <p className='py-2 px-6 font-bold bg-white border-2'>{quantity}</p>
-          <button  className=' py-2 px-6 text-xl font-bold' onClick={handleDecr}>-</button>
+        <div className="flex">
+          <button className='p-2 bg-black text-white active:scale-95' onClick={handleIncr}>+</button>
+           <p className='p-2 px- font-bold bg-white'>{quantity}</p>
+          <button  className='p-2 bg-black text-white active:scale-95' onClick={handleDecr}>-</button>
         </div>
       </div>
       <div className="action-buttons flex flex-col gap-4 mt-12 p-12">
@@ -107,7 +111,7 @@ import {toast, Toaster}from "react-hot-toast"
       </div>
       <div className="availibility">
         {
-          isStock ? 
+          quantity >0 ? 
           <p className='flex items-center gap-2 text-xl text-green-500 font-medium'><div className='w-2 h-2 rounded-full bg-green-500 animate-pulse'></div>In Stock, Ready to Ship</p>
           :
           <p className='flex items-center gap-2 text-xl text-red-500 font-medium'><div className='w-2 h-2 rounded-full  bg-red-500 animate-pulse'></div>Out Of Stock</p>
@@ -131,6 +135,7 @@ import {toast, Toaster}from "react-hot-toast"
      </div>
     </div>
     </div>
+    {/* ********************************************************************************************************************* */}
     {/* customer reviews */}
     <div className="">
       <div className="heading px-4 p-2 font-bold text-3xl">Customer Reviews</div>

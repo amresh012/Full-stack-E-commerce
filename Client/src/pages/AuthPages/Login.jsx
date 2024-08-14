@@ -7,39 +7,52 @@ import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
+import { useState } from "react";
 
 
 
 const Login = () => {
-  var isLogo = true
-  
-  const {values , handleChange , handleSubmit} = useFormik({
+  const [isLogo, setIsLogo] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {values, errors, handleBlur,handleSubmit , handleChange} = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
+    validate: (values) => {
+      const errors = {};
+      if (!values.email) {
+        errors.email = 'Required';
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
+      }
+      if (!values.password) {
+        errors.password = 'Required';
+      }
+      return errors;
+    },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const res = await axios.post(`${base_url}user/login`, values); 
-        if(res.data){
-          throw new Error(res.data)
-        }
-        else{
-          toast.success("LoggedIn Successfuly");
-        }
+        const res = await axios.post(`${base_url}user/login`, values);
 
-        } catch (error) {
-          console.log(error)
-      }
-      finally {
+        if (res.status === 200) {
+          toast.success('Logged in successfully! You will be redirected to the dashboard.');
+          localStorage.setItem("token" , res.data.token)
+          setTimeout(() => {
+            window.location.href = '/profile';
+          },3000)
+        } else {
+          toast.error('Invalid credentials');
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('An error occurred. Please try again.');
+      } finally {
         setSubmitting(false);
       }
     },
   });
-
-
-
-
 
 
 

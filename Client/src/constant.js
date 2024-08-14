@@ -90,6 +90,30 @@ export const links = [
   },
 ];
 
+export const range_of_products = 
+[
+  {
+    id:0,
+    label:"HOME RANGE"
+  },
+  {
+    id:0,
+    label:"CARDIO"
+  },
+  {
+    id:0,
+    label:"STRENGTH"
+  },
+  {
+    id:0,
+    label:"BENCHES AND RACKS"
+  },
+  {
+    id:0,
+    label:"COMMERCIAL SETUP"
+  }
+]
+
 export const LikeItem = [
   {
     name: "45 Degree Leg Press",

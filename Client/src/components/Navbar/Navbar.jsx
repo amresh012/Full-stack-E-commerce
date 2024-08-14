@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { BiSearch, BiShoppingBag, BiPlus } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import Megamenu from "../MegaMenu/Megamenu";
-import { Avatar, Badge } from "@mui/material";
+import {Badge } from "@mui/material";
 import LeftDrawer from "../Drawers/LeftDrawer";
 import MobileNav from "../MobileNav/MobileNav";
 import {  useEffect, useState } from "react";
 import "./Navbar.css"
 import Logo from "../reusablesUI/Logo";
-import { FaUser } from "react-icons/fa";
 import AccountMenu from "../UserDashComp/AccountMenu";
+import { useSelector } from "react-redux";
 
 const links = [
   {
@@ -42,6 +42,8 @@ const links = [
 ];
 
 const Navbar = () => {
+  const {carts} = useSelector((state) => state.cart);
+  console.log(carts)
   const [visible , setVisible] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   
@@ -58,7 +60,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className="flex justify-around items-center py-12 bg-slate-950 text-white  h-20 ">
+    <nav className="flex justify-around items-center py-12  h-20 ">
       <div className="logo-container z-50 ">
        <Logo/>
       </div>
@@ -77,7 +79,7 @@ const Navbar = () => {
       {/*  */}
       <div className="lg:flex items-center  justify-center gap-2  cursor-pointer z-50 hidden ">
       <div className=" text-blue-600 text-2xl" onClick={handleSearch}>
-            <BiSearch className='hover:scale-105 duration-150 cursor-pointer mt-2 text-white' />
+            <BiSearch className='hover:scale-105 duration-150 cursor-pointer mt-2 ' />
             {
               visible && <div className=" searchbar absolute bg-transparent rounded-md overflow-hidden border-black border w-1/2 focus:outline-sky-500  right-2 top-20 flex">
               <input type="text"
@@ -94,14 +96,14 @@ const Navbar = () => {
          <AccountMenu/>
          :
           <Link to="/login">
-         <div className=" text-2xl font-bold  mt-1 ml-3">
+         <div className=" text-2xl text-blue-500 font-bold  mt-1 ml-3">
            <RxAvatar/>
          </div>
          </Link>
        }
         <div className="">
-          <Badge badgeContent={4} color="secondary" aria-label="cart">
-            <LeftDrawer icon={<BiShoppingBag size={25} className="text-white" />} />
+          <Badge badgeContent= {carts.length || 0} color="secondary" aria-label="cart">
+            <LeftDrawer icon={<BiShoppingBag size={25} className="" />} />
           </Badge>
         </div>
       </div>

@@ -13,7 +13,7 @@ const Invoice = () => {
             Invoices.slice(0,6).map((invoice, index) => (
                 <div className="border-2 p-4 flex justify-between items-center">
                     <p className='font-bold px-2'>Invoice No: <span className='font-medium'>{invoice.Invoice}</span></p>
-                    <button className='p-2 bg-blue-500 text-white font-bold'>Show Invoices</button>
+                    <button className='p-2 bg-blue-500 text-white font-bold'>View Invoice</button>
                 </div>
             ))
         }

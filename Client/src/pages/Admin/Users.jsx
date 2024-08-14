@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
 import { base_url } from '../../Utils/baseUrl';
+import { FaEye, FaPen, FaTrash } from 'react-icons/fa';
+import { List } from '@mui/material';
 
 const Users = () => {
 
@@ -27,6 +29,11 @@ const Users = () => {
     },
     {
       header: "Action",
+      cell:()=> <List sx={{display:"flex" , alignItems:"center", gap:4 , justifyContent:"center" , cursor:"pointer"}}>
+       <FaTrash className='text-red-500'/>
+       <FaEye className='text-blue-500'/>
+       <FaPen/>
+      </List >
     },
   ];
 
@@ -46,7 +53,7 @@ const Users = () => {
   
 
   return (
-    <div className=' border-2 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around lg:mx-24 p-6'>
+    <div className=' border-2 mt-24 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around lg:mx-24 p-6'>
       <div className="w-full">
         <h1 className='text-3xl font-bold'>List Of Registerd Users on KFS</h1>
         <div className="flex items-center justify-between px-24 w-full">

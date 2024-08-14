@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const Megamenu = ({title ,icon}) => {
   return (
-    <div className="dropdown bg-slate-950">
+    <div className="dropdown ">
       <button className="dropbtn">
         <p className="uppercase font-semibold">{title}</p>
         <span className="icon-1"> {icon}</span>
@@ -15,7 +15,7 @@ const Megamenu = ({title ,icon}) => {
           <GoDash />
         </span>
       </button>
-      <div className="dropdown-content bg-slate-950">
+      <div className="dropdown-content ">
         <div className="header h-12"></div>
         <div className="h-[23rem] flex justify-around border-t-4 border-blue-500 pt-4">
           {/* section-1 */}

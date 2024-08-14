@@ -3,13 +3,14 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
-// import List from '@mui/material/List';
+import { useSelector, useDispatch } from "react-redux";
 import Divider from '@mui/material/Divider';
 import { LikeItem } from '../../constant';
 import rupee from '../../assets/image.png'
 import { Link } from 'react-router-dom';
-
-let CartCount = 0
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+// import {resetCart} from "../../features/cartSlice"
 
 export default function SwipeableTemporaryDrawer({icon}) {
   const [state, setState] = React.useState({
@@ -18,6 +19,8 @@ export default function SwipeableTemporaryDrawer({icon}) {
     bottom: false,
     right: false,
   });
+//  cart 
+
 
   const toggleDrawer =
     (anchor, open) =>
@@ -34,6 +37,17 @@ export default function SwipeableTemporaryDrawer({icon}) {
       setState({ ...state, [anchor]: open });
     };
 
+    // carthandles
+    const cartItems = useSelector((state) => {
+      return state.cart;
+    });
+    const { carts ,loading , error } = cartItems;
+    const dipatch = useDispatch();
+    
+    const handleCartReset = () => {
+      dipatch(resetCart());
+    };
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450 }}
@@ -42,34 +56,73 @@ export default function SwipeableTemporaryDrawer({icon}) {
       onKeyDown={toggleDrawer(anchor, false)}
       className="no-scrollbar"
     >
-      <div className="wrapper-main">
+      <div className="wrapper-main w-full">
         <div className="top text-center p-4 font-bold  text-black uppercase">
-          <p>Your Cart {CartCount}</p>
+          <p>Your Cart {carts.length || 0}</p>
         </div>
         <Divider />
         {/* cart **************************************************/}
-        <div className="cart-wrapper min-h-32 flex items-center flex-col ">
+        <div className="cart-wrapper min-h-32 flex items-center flex-col p-4 ">
           <div className="flex flex-col items-center w-full p-4">
-            <h1 className="text-2xl font-bold tracking-wide uppercase">
-              Your Cart Is Empty !
-            </h1>
-            <p className="pt-2">Add Your Favourite Item Here</p>
+           {
+             carts.length ===0 &&  <h1 className="text-2xl font-bold tracking-wide uppercase">
+             Your Cart Is Empty !
+           </h1>
+           }
+            {
+              carts.length ===0 ?  <p className="pt-2">Add Your Favourite Item Here</p> : <p className="font-bold text-xl uppercase">Your Cart have {carts.length} Items</p>
+            }
            <Link to="/product" className='w-full'>
-           <button className="w-full px-12 py-2 bg-black mt-4 text-white uppercase">
-              Shop Now
-            </button>
            </Link>
           </div>
-          <div className="cart-container max-h-96 overflow-y-scroll  no-scrollbar">
+          <div className="cart-container w-full flex flex-col gap-2 items-center justify-around max-h-[50vh] overflow-y-scroll  no-scrollbar">
             {/* cart items here */}
+            {carts.length !== 0 && carts.map((item) => (
+         <div className="flex justify-start h-[20rem] border-2 w-full items-center gap-2 p-2" key={item.id}>
+           <div className="img p-2 bg-gray-300/20 w-1/2 h-24">
+               <Carousel showThumbs={false} dynamicHeight={true} autoplay={true} showIndicators={false}>
+                {
+                  item.images.map((image) => (
+                    <img src={image} alt={item.name} className=" object-cover"/>
+                  ))
+                }
+              </Carousel>
+           </div>
+           <div className="flex items-start w-full  justify-around flex-col">
+             <p className="font-bold">{item.name.slice(0,20)}</p>
+             <p className="flex items-center">
+               <img src={rupee} alt="" className="h-3" />
+               {item.price}
+             </p>
+           <div className="quantity">
+             
+           </div>
+           </div>
+         </div>
+        ))}
           </div>
+          {
+             carts.length !== 0 ?
+              <div className="flex gap-2 w-full items-center justify-center p-4">
+                <button className=" p-2 bg-blue-500  text-white uppercase">
+                 Check Out
+                </button>
+                <button onClick={handleCartReset} className=" p-2 bg-black  text-white uppercase">
+                 Reset Cart
+                </button>
+              </div>
+             : 
+             <button className="w-full px-12 py-2 bg-black mt-4 text-white uppercase">
+             Shop Now
+           </button>
+           }
         </div>
         {/* cart-end */}
         {/* ************************************************** */}
 
         {/* like section */}
         {/* bastsellers category products */}
-        <div className="like-item-wrapper">
+        <div className="like-item-wrapper mt-12">
           <div className="p-4 text-center uppercase bg-black font-bold text-white">
             <h1>You May Also Like</h1>
           </div>

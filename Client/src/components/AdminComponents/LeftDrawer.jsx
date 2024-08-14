@@ -197,12 +197,12 @@ export default function PersistentDrawerLeft() {
         {
           links.map((item)=>(
             <div className="px-2 flex flex-col  py-2" key={item.label}>
-              <Link to={item.route} className='flex gap-2 p-2 items-center hover:bg-zinc-300'>
+              <Link to={item.route} className='flex gap-2 p-2 items-center'>
               <div className="">
               <img src={item.icon} alt={item.label} className='h-6' />
               </div>
                <div className="flex  p-2 w-full">
-               <li className="list-none text-base font-bold">
+               <li className="list-none font-bold text-xl">
                 {item.submenu?
                 <div className="flex" onClick={habdleSubmenu}>
                   <p>{item.label}</p>

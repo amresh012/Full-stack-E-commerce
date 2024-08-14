@@ -1,11 +1,12 @@
-@import url(https://fonts.googleapis.com/css?family=Oswald:200,300,regular,500,600,700);
 @import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic);
+@import url(https://fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,regular,italic,700,700italic,900,900italic);
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 *{
-  /* font-family: "Oswald"; */
+  font-family: "Roboto";
 }
 @layer utilities {
       /* Hide scrollbar for Chrome, Safari and Opera */
@@ -19,7 +20,7 @@
     }
   }
   .Font-oswald{
-    font-family: "Oswald";
+    font-family: "Poppins";
   }
   input[type=number]::-webkit-inner-spin-button{
     appearance: none;
