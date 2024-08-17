@@ -4,41 +4,51 @@ import { base_url } from '../../Utils/baseUrl';
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa';
 import { List } from '@mui/material';
 
+
+const columns = [
+  {
+    header: "Sr.No.",
+    accessorKey: "_id",
+  },
+  {
+    header: "Name",
+    accessorKey: "name",
+  },
+  {
+    header: "Email",
+    accessorKey: "email",
+  },
+  {
+    header: "Contact",
+    accessorKey: "mobile",
+  },
+  {
+    header: "Role",
+    accessorKey: "role",
+  },
+  {
+    header: "Action",
+    cell: () => (
+      <List
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 4,
+          justifyContent: "center",
+          cursor: "pointer",
+        }}
+      >
+        <FaTrash className="text-red-500" />
+        <FaEye className="text-blue-500" />
+        <FaPen />
+      </List>
+    ),
+  },
+];
+
 const Users = () => {
-
-  const columns = [
-    {
-      header: "Sr.No.",
-      accessorKey: "_id",
-    },
-    {
-      header: "Name",
-      accessorKey: "name",
-    },
-    {
-      header: "Email",
-      accessorKey: "email",
-    },
-    {
-      header: "Contact",
-      accessorKey: "mobile",
-    },
-    {
-      header: "Role",
-      accessorKey: "role",
-    },
-    {
-      header: "Action",
-      cell:()=> <List sx={{display:"flex" , alignItems:"center", gap:4 , justifyContent:"center" , cursor:"pointer"}}>
-       <FaTrash className='text-red-500'/>
-       <FaEye className='text-blue-500'/>
-       <FaPen/>
-      </List >
-    },
-  ];
-
-  const [product , setProduct] = useState([])
-  const [isLoading  ,setIsLoading] = useState(true)
+   const [product, setProduct] = useState([]);
+   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     const FetchUsers = async () => {
@@ -50,6 +60,7 @@ const Users = () => {
     FetchUsers();
     
   }, [])
+  console.log(product)
   
 
   return (

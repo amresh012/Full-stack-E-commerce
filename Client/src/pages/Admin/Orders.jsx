@@ -1,84 +1,156 @@
-import React from 'react'
+// import React from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable';
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField } from "@mui/material";
+import { FaSearch } from 'react-icons/fa';
 
 
-// "id":8,"Invoice":542458,"orderd_by":"Jatri","Amount":7942,"mobile":7756482517,"sataus":"return Successfully"
 const columns = [
   {
-      header:"Sr.No.",
-      accessorKey:"id"
+    header: "Sr.No.",
+    accessorKey: "id",
   },
   {
-      header:"Invoice No.",
-      accessorKey:"Invoice"
+    header: "Invoice No.",
+    accessorKey: "Invoice",
   },
   {
-      header:"Orderd By",
-      accessorKey:"orderd_by"
+    header: "Orderd By",
+    accessorKey: "orderd_by",
   },
   {
-      header:"Contact Details",
-      accessorKey:"mobile"
+    header: "Contact Details",
+    accessorKey: "mobile",
   },
   {
-      header:"Amount in Rs",
-      accessorKey:"Amount"
+    header: "Amount in Rs",
+    accessorKey: "Amount",
   },
   {
-      header:"Status",
-      accessorKey:"sataus"
+    header: "Status",
+    accessorKey: "sataus",
   },
   {
-    header:"Action",
-  }
-]
+    header: "Action",
+    
+  },
+];
 
-const entries = [5,10 , 20 ,50 ,100]
 
 const Orders = () => {
+  const statusArray = Ordata.map((item) => item.sataus);
+  const UniqueStatus = new Set(statusArray);
+  // console.log(UniqueStatus);
+  // status 
+  const statusCount = Ordata.reduce((acc, item) => {
 
+    const status = item.sataus;
+    // console.log(status);
+    if (acc[status]) {
+      acc[status]++;
+    } else {
+      acc[status] = 1;
+    }
+    return acc;
+  }, {});
+
+  const label = [
+    {
+      id: 1,
+      label: "Show By",
+      data: ["05", 10, 15, 20, 100],
+      showlabel: "Rows",
+    },
+    {
+      id: 2,
+      label: "Status By",
+      data: [...UniqueStatus],
+      showlabel: "status",
+    },
+  ];
   return (
-    <div className='border-2 rounded-md shadow-md  h-auto flex flex-col items-start justify-around mx-12'>
-      <div className="p-12 flex flex-col w-full gap-4 ">
-        <h1 className='text-4xl font-bold'>Orders</h1>
-        <div className=" flex gap-12 justify-around items-center w-full ">
-            <div className="flex flex-col w-full ">
-                <label htmlFor="" className='text-xl font-bold'>Starting Date</label>
-                <input type="datetime-local" className='border-2 h-12 p-2 w-full'min="2018-01-01" max="2018-12-31" />
-            </div>
-            <div className="flex flex-col w-full">
-                <label htmlFor="" className='text-xl font-bold'>Ending Date</label>
-                <input type="datetime-local" className='border-2 h-12 p-2  w-full' value={Date.now()} min={Date.now()} max="2018-12-31" />
-            </div>
-            <div className=" h-full w-fit gap-1 px-2 hover:bg-blue-500 hover:text-white duration-300  mt-5  border-blue-500 border-2 text-xl flex items-center justify-center">
-                <button className='px-2 py-2'>Filter</button>
-            </div>
+    <>
+      <div className="header flex h-12  rounded-md mt-12 p-10 border-2 bg-white shadow-sm justify-between items-center">
+        <h1 className="font-bold text-3xl">Orders List</h1>
+        <div className="bg-gray-200 p-2 rounded-md text-slate-900">
+          admin / Orders
         </div>
       </div>
-      {/* section-2 */}
-      <div className="flex items-center justify-between px-24 w-full">
-        <div className="entries flex gap-2 items-center ">
-           <label htmlFor="">Entries:</label>
-           <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={entries}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Entries per page" />}
-          />
+      <div className="Order-Status py-4 m-4 ">
+        <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
+          {Object.keys(statusCount)
+            .slice(0, 6)
+            .map((status) => (
+              <li
+                className=" w-[20rem] p-4 rounded-md shadow-md  bg-gradient-to-bl to-purple-500 from-purple-600 text-white "
+                key={status}
+              >
+                <p className="text-2xl">{statusCount[status]}</p>
+                <h1 className="text-xl">{status}</h1>
+              </li>
+            ))}
+        </ul>
+      </div>
+      {/* table col */}
+      <div className=" w-full border rounded-md p-4 max-h-max">
+        <div className="flex items-center justify-between px-4 py-4 ">
+          <h1 className="font-bold text-xl">Order information</h1>
+          <BsThreeDotsVertical />
         </div>
-        <div className="flex rounded-md overflow-clip">
-            <input type="search" className='h-10 w-60    outline-none px-2 border-2' />
-            <button className="bg-gray-200 font-bold p-2 active:scale-95">Search</button>
+        <div className="flex items-center justify-around mt-4">
+          {label.map((item) => (
+            <div className="" key={item.id}>
+              <label htmlFor="" className="uppercase">
+                {item.label}
+              </label>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={item.data}
+                sx={{ width: 200 }}
+                renderInput={(params) => (
+                  <TextField {...params} label={item.showlabel} />
+                )}
+              />
+            </div>
+          ))}
+          <div className="flex flex-col">
+            <label htmlFor="" className="uppercase">
+              Date
+            </label>
+            <input
+              type="date"
+              className="border-[1px] border-black/30 p-2 h-14 w-[12rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="" className="uppercase">
+              Search
+            </label>
+            <div className="relative">
+              <input
+                type="search"
+                className="border-[1px] border-black/30 p-2 h-14 w-[17rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
+                placeholder="id / name / email"
+              />
+              <div className="absolute top-5 right-4">
+                <FaSearch />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full p-4">
+          <BasicTable columns={columns} data={Ordata} />
         </div>
       </div>
-     <div className="w-full p-4">
-     <BasicTable columns={columns} data={Ordata} /> 
-     </div>
-    </div>
-  )
+    </>
+  );
 }
 
 export default Orders
+
+{/* <div className="w-full p-4">
+<BasicTable columns={columns} data={Ordata} /> 
+</div> */}

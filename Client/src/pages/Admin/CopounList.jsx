@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
 import Cdata  from "../../MOCK_DATA (5).json"
 import { List } from '@mui/material';

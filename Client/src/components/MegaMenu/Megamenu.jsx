@@ -15,23 +15,23 @@ const Megamenu = ({title ,icon}) => {
           <GoDash />
         </span>
       </button>
-      <div className="dropdown-content ">
-        <div className="header h-12"></div>
-        <div className="h-[23rem] flex justify-around border-t-4 border-blue-500 pt-4">
+      <div className="dropdown-content">
+        <div className="header h-12 bg-transparent pt-4 bg-blue-100"></div>
+        <div className="h-[23rem] flex justify-around ">
           {/* section-1 */}
-          <div className="w-[20rem]  h-full flex flex-col gap-2  items-start justify-start px-2">
-            <h1 className="text-2xl font-bold leading-10">
+          <div className="w-[20rem]  h-full flex flex-col gap-6 p-2  items-start justify-start ">
+            <h1 className=" font-extrabold text-4xl  w-full">
               Fitness Equipment Built to Perfection
             </h1>
             <p className="font-medium capitalize">
               Adding fuel to every fitness fanatics passion with the best
               equipment in India.
             </p>
-             <Link to="/product">
+            <Link to="/product">
               <div className="p-2 bg-slate-900 px-2 shadow-md py-2 text-white text-xl">
                 Shop All Fitness Products
               </div>
-             </Link>
+            </Link>
           </div>
           {/* section-1 end */}
           <Divider orientation="vertical" variant="middle" flexItem />
@@ -40,22 +40,31 @@ const Megamenu = ({title ,icon}) => {
             <ul className="overflow-y-scroll max-h-[20rem] no-scrollbar">
               {links.map((item) => (
                 <Link
-                 to={`/product-category${item.route}`}
+                  to={`/product-category${item.route}`}
                   key={item.Head}
                   className="p-2  duration-300 underline-offset-8 flex flex-col  gap-1"
                 >
                   {/* <GoDash className="text-indigo-500 font-bold" /> */}
-                  <li className="bg-slate-900 text-white p-2 text-xl">{item.name}</li>
-                  {
-                    item.submenu && item.sublink.map((sublink)=>(
-                    <ul className=" flex flex-col gap-2 justify-start  font-medium hover:underline-none items-start">
-                       <Link to={sublink.route} className="flex">
-                       <GoDash/>
-                       <li className="hover:underline-none hover:font-bold hover:pl-2 duration-300" key={sublink.key}>{sublink.label}</li>
-                     </Link>
-                    </ul>
-                    ))
-                  }
+                  <li className="">
+                    {item.name}
+                  </li>
+                  {/* {item.submenu &&
+                    item.sublink.map((sublink) => (
+                      <ul
+                        className=" flex flex-col gap-2 justify-start  font-medium hover:underline-none items-start"
+                        key={sublink.label}
+                      >
+                        <Link to={sublink.route} className="flex">
+                          <GoDash />
+                          <li
+                            className="hover:underline-none hover:font-bold hover:pl-2 duration-300"
+                            key={sublink.key}
+                          >
+                            {sublink.label}
+                          </li>
+                        </Link>
+                      </ul>
+                    ))} */}
                 </Link>
               ))}
             </ul>

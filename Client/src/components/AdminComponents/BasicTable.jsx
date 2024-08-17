@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+/* eslint-disable react/prop-types */
+import React, {  useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -6,9 +7,8 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import Mdata from "../../MOCK_DATA (3).json";
-import { TablePagination } from "@mui/material";
-import {FaArrowUp , FaArrowDown} from "react-icons/fa"
+// import { TablePagination } from "@mui/material";
+// import {FaArrowUp , FaArrowDown} from "react-icons/fa"
 const BasicTable = ({columns, data}) => {
   const [sorting, setSorting] = useState([]);
 
@@ -25,7 +25,7 @@ const BasicTable = ({columns, data}) => {
     onSortingChange: setSorting,
   });
   return (
-    <div className="">
+    <div className="shadow-md">
       {/* <TablePagination
         rowsPerPageOptions={[5, 10, 25,100, { label: 'All', value: data.length }]}
         component="div"
@@ -48,7 +48,7 @@ const BasicTable = ({columns, data}) => {
         ActionsComponent={TablePaginationActions}
       /> */}
 
-      <table>
+      <table className="">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>

@@ -193,7 +193,9 @@ const AddProduct = () => {
                 <input type="file" 
                  name="files"
                  ref={fileRef}
-                 multiple
+                              multiple
+                              onChange={(e)=> console.log(e.target.files)}
+                              accept='images/*'
                  id="file_input" className='border-dashed border-2 h-44 rounded-md focus:shadow-md w-full' />
                 <div className="absolute top-12 left-[40%] flex items-center flex-col gap-2">
                   <BsCloudUpload/>

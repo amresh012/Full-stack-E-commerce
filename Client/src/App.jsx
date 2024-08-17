@@ -32,6 +32,7 @@ import Setting from './pages/UserDashboard/Setting'
 import UserProfile from './Layout/UserProfile'
 import Shipping from './pages/UserDashboard/Shipping'
 import Invoice from './pages/UserDashboard/Invoice'
+import CheckOut from './pages/Product/CheckOut'
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/product" element={<ProductPage/>}/>
       <Route path="/product/:id" element={<ProductdetailPage/>}/>
+      <Route path="/checkout" element={<CheckOut/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
       <Route path="/policies/*" element={<Policies/>}>

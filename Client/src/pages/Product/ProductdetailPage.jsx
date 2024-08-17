@@ -57,7 +57,7 @@ import { Carousel } from 'react-responsive-carousel';
     <Carousel autoplay={true}>
        {
         collection.map((item, index) => (
-          <img src={item.src} alt="" />
+          <img src={item.src} alt="" key={index} />
         ))
        }
        

@@ -8,7 +8,7 @@ const Setting = () => {
     alert("form submitted successfully")
   }
   return (
-    <div className='border-2 h-[60vh] mt-12 shadow-md w-[70vw] b-white'>
+    <div className='border-2  mt-12 shadow-md w-[70vw] b-white'>
       <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
        <div className="bg-blue-500 p-2 text-white rounded-full"><IoSettingsOutline/></div>
         <h1>Profile Settings</h1>

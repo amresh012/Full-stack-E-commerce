@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import {gym_equipment} from "../../constant"
 import { base_url } from '../../Utils/baseUrl'
@@ -71,15 +72,15 @@ const Product = () => {
 
   return (
    <>
-    <div className="main-wrapper p-4 h-auto flex items-start justify-start  ">
+    <div className="main-wrapper p-4  flex items-start justify-start  ">
       <div className="h-12"></div>
       {/* filter */}
-     <div className="fillter_wrapper w-[50vw] space-y-6 flex justify-around  flex-col    relative  ">
+     <div className="fillter_wrapper max-w-1/3 space-y-6 flex justify-around  flex-col    relative  ">
       <div className="h-2"></div>
        <div className="h-12   w-full  flex items-center justify-center text-3xl ">
         <h1 className='bg-slate-950 w-full  text-white uppercase p-2'>Filter</h1>
       </div>
-      <div className="p-2 space-y-2 border-b-2 h-screen">
+      <div className="p-2 space-y-2 ">
       <h1 className='font-bold'>Category</h1>
       <div className=" flex flex-col gap-2  ">
        <input type="search" 
@@ -87,11 +88,11 @@ const Product = () => {
        onChange={(e)=>setSearch(e.target.value)}
         className='border-b-2 outline-none h-8 border-black' placeholder="search categories" />
       </div>
-      <div className="no-scrollbar ">
+      <div className="no-scrollbar cursor-pointer ">
        {
         filteredCategory.map((item , index)=>(
           <div className="flex gap-2 p-2 hover:bg-blue-300 " key={index}>
-            <input type="checkbox"  />
+            <input type="checkbox"  className='cursor-pointer' />
             <p>{item}</p>
           </div>
         ))
@@ -126,15 +127,15 @@ const Product = () => {
           <Loader/>
           :
           sortedProducts.map((item)=>(
-            <div className="product-card border-2 h-auto w-[20rem] relative">
+            <div className="product-card border-2 h-auto w-[20rem] relative" key={item.id}>
               <div className="badge absolute">
                   <Badge discount={item.corporateDiscount}/>
                 </div>
               <div className="image-container h-56 bg-gray-200 ">
               <Carousel>
                 {
-                  item.images.map((image)=>(
-                    <img src={image} alt="product image" className="w-full h-full object-cover"/>
+                  item.images.map((image, i )=>(
+                    <img src={image} alt="product image" className="w-full h-full object-cover" key={i} />
                   ))
                 }
              </Carousel>
@@ -154,7 +155,6 @@ const Product = () => {
                 </div>
                 <div className="button flex  flex-col gap-2">
                   <button className="addtocart p-2 border-2" onClick={()=>handleAdd(item)}>Add To Cart</button>
-                  <button className="addtocart p-2 bg-black/50">Buy It Now</button>
                 </div>
               </div>
             </div>

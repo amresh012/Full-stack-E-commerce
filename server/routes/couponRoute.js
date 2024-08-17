@@ -12,7 +12,7 @@ const {  addcoupon,
 const router = express.Router();
 router.get("/", getCoupon);
 // router.get("/admin",authMiddleware,isAdmin, getCoupon);
-router.post("/",authMiddleware,isAdmin, addcoupon);
-router.put("/",authMiddleware,isAdmin, updateCoupon);
+router.post("/", authMiddleware, isAdmin, addcoupon);
+router.put("/",isAdmin, updateCoupon);
 router.delete("/:_id",authMiddleware,isAdmin,deleteCoupon)
 module.exports = router;
