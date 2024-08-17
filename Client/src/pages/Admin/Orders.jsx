@@ -3,12 +3,13 @@ import BasicTable from '../../components/AdminComponents/BasicTable';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
 import { Autocomplete, TextField } from "@mui/material";
-import { FaSearch } from 'react-icons/fa';
+import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
+import { List } from 'antd';
 
 
 const columns = [
   {
-    header: "Sr.No.",
+    header: "ID",
     accessorKey: "id",
   },
   {
@@ -30,9 +31,15 @@ const columns = [
   {
     header: "Status",
     accessorKey: "sataus",
+    cell:(info)=>
+    console.log(info)
   },
   {
     header: "Action",
+    cell:()=> <div className='flex w-full justify-around gap-2 '>
+       <FaTrash className='text-red-500'/>
+       <FaEye className='text-blue-500'/>
+      </div >
     
   },
 ];
@@ -77,21 +84,21 @@ const Orders = () => {
           admin / Orders
         </div>
       </div>
-      <div className="Order-Status py-4 m-4 ">
-        <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
-          {Object.keys(statusCount)
-            .slice(0, 6)
-            .map((status) => (
-              <li
-                className=" w-[20rem] p-4 rounded-md shadow-md  bg-gradient-to-bl to-purple-500 from-purple-600 text-white "
-                key={status}
-              >
-                <p className="text-2xl">{statusCount[status]}</p>
-                <h1 className="text-xl">{status}</h1>
-              </li>
-            ))}
-        </ul>
-      </div>
+        {/* <div className="Order-Status py-4 m-4 ">
+          <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
+            {Object.keys(statusCount)
+              .slice(0, 3)
+              .map((status) => (
+                <li
+                  className=" w-[15rem] p-4 rounded-md shadow-md bg-[#038CCC] text-white "
+                  key={status}
+                >
+                  <p className="text-2xl">{statusCount[status]}</p>
+                  <h1 className="text-xl">{status}</h1>
+                </li>
+              ))}
+          </ul>
+        </div> */}
       {/* table col */}
       <div className=" w-full border rounded-md p-4 max-h-max">
         <div className="flex items-center justify-between px-4 py-4 ">
@@ -141,7 +148,7 @@ const Orders = () => {
           </div>
         </div>
 
-        <div className="w-full p-4">
+        <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md">
           <BasicTable columns={columns} data={Ordata} />
         </div>
       </div>

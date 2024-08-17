@@ -46,19 +46,8 @@ const SignUp = () => {
   return (
     <>
     <Toaster/>
-    <div className="min-h-[50vh]  flex items-center justify-center p-4">
+    <div className="  flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md ">
-      <div className="logo-container z-50 h-24 grid place-items-center">
-        {isLogo ? (
-          <Link to="/">
-            <img src={Logo} alt="logo" className="" />
-          </Link>
-        ) : (
-          <Link to="/" className='bg-blue-500 text-white p-2'>
-            <p className='text-[2rem] font-semibold'>KFS GYM EQUIPMENTS</p>
-          </Link>
-        )}
-      </div>
       <div className="flex flex-col items-center justify-center mt-4">
         <h1 className='text-2xl font-bold'>Create account</h1>
         <p className='text-xs'>or use your email to signin</p>

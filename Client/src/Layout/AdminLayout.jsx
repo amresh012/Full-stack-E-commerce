@@ -5,10 +5,14 @@ import LeftDrawer from "../components/AdminComponents/LeftDrawer"
 
 const AdminLayout = () => {
   return (
-    <>
-    <LeftDrawer/>
-    {/* <Outlet/> */}
-    </>
+    <div className='flex w-full'>
+   <div className="w-1/4">
+   <LeftDrawer/>
+   </div>
+    <div className="w-full">
+      <Outlet/>
+    </div>
+    </div>
   )
 }
 

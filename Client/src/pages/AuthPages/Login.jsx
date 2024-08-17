@@ -12,8 +12,7 @@ import { useState } from "react";
 
 
 const Login = () => {
-  const [isLogo, setIsLogo] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+    
 
   const {values, errors, handleBlur,handleSubmit , handleChange} = useFormik({
     initialValues: {
@@ -57,19 +56,18 @@ const Login = () => {
 
 
   return (
-    <div className="min-h-[50vh] flex items-center justify-center p-4">
+    <div className=" flex   items-around justify-center">
       <Toaster/>
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-      <div className="logo-container z-50 h-24 grid place-items-center">
-        {isLogo ? (
-          <Link to="/">
-            <img src={Logo} alt="logo" className="" />
-          </Link>
-        ) : (
-          <Link to="/">
-            <p>Company Logo</p>
-          </Link>
-        )}
+      <div className="flex  items-center justify-center gap-12">
+        <div className="flex gap-2 items-center text-xl checked:border-b-2">
+          <input type="checkbox" name="" id="" />
+          <label htmlFor="">User</label>
+        </div>
+        <div className="flex gap-2 items-center text-xl checked:border-b-2">
+          <input type="checkbox" name="" id="" />
+          <label htmlFor="">Admin</label>
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center mt-4">
         <h1 className='text-2xl font-bold'>SignIn</h1>
