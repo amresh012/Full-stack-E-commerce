@@ -32,7 +32,7 @@ const columns = [
     header: "Status",
     accessorKey: "sataus",
     cell:(info)=>
-    console.log(info)
+    console.log()
   },
   {
     header: "Action",
