@@ -7,13 +7,13 @@ import {FaRegUser } from "react-icons/fa6";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiPhone } from "react-icons/ci";
 import {useFormik} from "formik"
-import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
-import { base_url } from '../../Utils/baseUrl';
-
+import { useDispatch } from "react-redux"
+import {RegisterApi} from "../../features/authSlice"
 
 const SignUp = () => {
-  const [error , setError] = useState("")
+  // const [error, setError] = useState("")
+  const dispatch = useDispatch()
     var isLogo = true;
     const {values , handleChange  , handleSubmit } = useFormik({
       initialValues: {
@@ -21,32 +21,18 @@ const SignUp = () => {
         email: '',
         password: '',
         mobile: '',
+        role:"admin"
       },
-      onSubmit: async (values, { setSubmitting }) => {
-        try {
-          const response = await axios.post(`${base_url}user/register`, values,);
-          // localStorage.setItem("token",response.data.token)
-          if(response.data.error){
-            throw new Error(response.data.error)
-          }
-          else{
-              toast.success(response.data.success);
-          }
-          window.location.href = '/product';
-        } catch (error) {
-          toast.error(error.response.data.message)
-          setError(error.response.data.message)
-        } finally {
-          setSubmitting(false);
-        }
-      }
+      onSubmit:dispatch(RegisterApi(values))
     });
 
  
   return (
     <>
-    <Toaster/>
-    <div className="min-h-[50vh]  flex items-center justify-center p-4">
+      <Toaster />
+      <div className="min-h-[50vh]  flex items-center justify-center p-4">
+        <div className="">
+        </div>
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md ">
       <div className="logo-container z-50 h-24 grid place-items-center">
         {isLogo ? (
