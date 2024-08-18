@@ -5,13 +5,13 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import { Carousel } from "react-responsive-carousel";
 import { CgGym } from "react-icons/cg";
-import { Collapse } from 'antd';
-
+// import { Collapse } from 'antd';
+// import Marquee from "react-fast-marquee";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import {Hero1,Hero2,Hero3,Hero4,Hero5,Hero6,Spin} from "../../assets/images"
 import { useEffect } from "react";
-import { Clients, faqs } from "../../constant";
+// import { Clients, faqs } from "../../constant";
 const HomePage = () => {
 
   useEffect(() => {
@@ -154,10 +154,12 @@ const HomePage = () => {
             </div>
           ))}
         </div>
-        <div className="p-4 rounded-md bg-gradient-to-t
+        <div
+          className="p-4 rounded-md bg-gradient-to-t
          from-slate-800 to-slate-900 text-white flex
           items-center w-fit justify-center hover:-translate-y-2
-           duration-300 cursor-pointer hover:shadow-2xl shadow-black">
+           duration-300 cursor-pointer hover:shadow-2xl shadow-black"
+        >
           <button className="px-12 ">Get a Custom Quote</button>
         </div>
       </div>
@@ -201,36 +203,41 @@ const HomePage = () => {
       </div>
 
       {/* our clients */}
-      <div className="flex flex-col items-center  gap-12">
-        <div className="text-[4rem] font-bold underline">
+      {/* <div className="flex h-screen items-center justify-center   gap-12">
+        <div className="text-[4rem] font-bold  w-1/2">
           <h1>Our Clients</h1>
         </div>
-    <div class='flex flex-wrap gap-4 items-center justify-center'>
-      {
-        Clients.map((item)=>(
-          <div className="flex flex-col gap-2  items-center " key={item.id}>
-            <img src={item.imgurl} alt="" className="h-44 w-44"/>
-            <span>{item.location}</span>
-          </div>
-        ))
-      }
-    </div>
-    <div class='fade'></div>
-      </div>
-{/* \end{code} */}
-      <div className="faqs h-screen flex flex-col items-center justify-center">
+        <div className=" w-1/2 h-full relative">
+          <Marquee className="flex gap-2 ">
+            {Clients.map((item) => (
+              <div
+                className="flex flex-col gap-2 p-2 items-center "
+                key={item.id}
+              >
+                <img src={item.imgurl} alt="" className="h-44 w-44" />
+                <span>{item.location}</span>
+              </div>
+            ))}
+          </Marquee>
+        </div>
+      </div> */}
+      {/* \end{code} */}
+      {/* <div className="faqs h-screen flex flex-col items-center justify-center">
         <div className="flex  items-center justify-center flex-col gap-2">
-          <h1 className="font-extrabold tracking-wider text-[3rem] w-2/3 text-center underline underline-offset-4">Frequently Asked Question's</h1>
-          <p className="w-1/2 font-serif text-center ">Do You need some help with something or do you have questions on some products</p>
+          <h1 className="font-extrabold tracking-wider text-[3rem] w-2/3 text-center underline underline-offset-4">
+            Frequently Asked Question's
+          </h1>
+          <p className="w-1/2 font-serif text-center ">
+            Do You need some help with something or do you have questions on
+            some products
+          </p>
         </div>
         <div className="">
-          {
-            faqs.map((item)=>(
-              <Collapse items={item} bordered={false} />
-            ))
-          }
+          {faqs.map((item) => (
+            <Collapse items={item} bordered={false} key={item.id} />
+          ))}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

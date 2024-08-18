@@ -1,14 +1,21 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
 import { base_url } from '../../Utils/baseUrl';
-import { FaEye, FaPen, FaTrash } from 'react-icons/fa';
+import { FaEye,  FaTrash } from 'react-icons/fa';
 import { List } from '@mui/material';
-
+import { MdBlockFlipped } from "react-icons/md";
+import { Space, Switch } from "antd";
+import { CgUnblock } from "react-icons/cg";
 
 const columns = [
   {
     header: "Sr.No.",
     accessorKey: "_id",
+    cell: ({ row }) => {
+      const id = row.original._id;
+      return <span>{id.slice(0, 3)}</span>;
+    },
   },
   {
     header: "Name",
@@ -25,6 +32,27 @@ const columns = [
   {
     header: "Role",
     accessorKey: "role",
+    cell: ({ row }) => {
+      const [role, setRole] = useState(row.original.role);
+
+      const handleStatusChange = (event) => {
+        setRole(event.target.value);
+        // Add your logic here to update the status in your data source
+      };
+
+      return (
+        <select
+          value={role}
+          onChange={handleStatusChange}
+          className="border-2 p-2 outline-none rounded-md border-[#038CCC]"
+        >
+          <option value="Admin">Admin</option>
+          <option value="Śuper Admin">Śuper Admin</option>
+          <option value="Individual">Individual</option>
+          <option value="Bussiness">Bussiness</option>
+        </select>
+      );
+    },
   },
   {
     header: "Action",
@@ -38,9 +66,19 @@ const columns = [
           cursor: "pointer",
         }}
       >
-        <FaTrash className="text-red-500" />
-        <FaEye className="text-blue-500" />
-        <FaPen />
+        <div className="bg-red-200 p-2 rounded-md">
+          <FaTrash className="text-red-500" />
+        </div>
+        <div className="bg-blue-200 p-2 rounded-md">
+          <FaEye className="text-blue-500 " />
+        </div>
+        <Space direction="vertical">
+          <Switch
+            checkedChildren={<MdBlockFlipped className="mt-[5px]" />}
+            unCheckedChildren={<CgUnblock />}
+            defaultChecked
+          />
+        </Space>
       </List>
     ),
   },
@@ -60,36 +98,23 @@ const Users = () => {
     FetchUsers();
     
   }, [])
-  console.log(product)
+  // console.log(product)
   
 
   return (
-    <div className=' border-2 mt-24 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around  p-6'>
-      <div className="w-full">
-        <h1 className='text-3xl font-bold'>List Of Registerd Users on KFS</h1>
-        <div className="flex items-center justify-between px-24 w-full">
-        <div className="entries flex gap-2">
-           <label htmlFor="">Entries:</label>
-           <select name="" className='w-24'>
-            <option value="">05</option>
-            <option value="">10</option>
-            <option value="">15</option>
-            <option value="">20</option>
-            <option value="">50</option>
-            <option value="">100</option>
-           </select>
-        </div>
-        <div className="flex rounded-md overflow-clip">
-            <input type="search" className='h-10 w-60    outline-none px-2 border-2' />
-            <button className="bg-gray-200 font-bold p-2 active:scale-95">Search</button>
+    <>
+      <div className=" border-2 mt-10 mx-12 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around  p-6">
+        <div className="w-full">
+          <h1 className="text-2xl font-bold uppercase">
+            List Of Registerd Users on KFS
+          </h1>
         </div>
       </div>
+      <div className="m-12 shadow-md border-2 rounded-md p-2">
+        <BasicTable columns={columns} data={product} />
       </div>
-      <div className="w-full">
-      <BasicTable columns={columns} data={product}/>
-      </div>
-    </div>
-  )
+    </>
+  );
 }
 
 export default Users

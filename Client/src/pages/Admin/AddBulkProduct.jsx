@@ -1,28 +1,67 @@
 import { Button } from '@mui/material'
-import React from 'react'
+// import React from 'react'
 import { SiMicrosoftexcel } from "react-icons/si";
+import { message, Upload } from "antd";
+import { base_url } from "../../Utils/baseUrl";
+
 
 const AddBulkProduct = () => {
+
+  const { Dragger } = Upload;
+
+  const props = {
+    name: "file",
+    multiple: true,
+    accept:".xls,.xlsx ,.csv" ,
+    action: `${base_url}uploads/`,
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
  
   return (
-    <div className='flex flex-col w-full h-screen items-center justify-start gap-12 px-12'>
-      <h1 className='text-4xl text-center'>Upload Products in bulk using Excel file</h1>
-      <div className="upload relative">
-        <input type="file" id="inputFile" className='h-[300px] w-[30rem] border-dashed border-2 z-50 ' accept='.csv, .xlsx, .xlsm ,.xlt' />
-        <div className="-z-10 absolute top-20 left-40 flex flex-col items-center gap-2 bg-white">
-          <SiMicrosoftexcel size={80} className='text-green-800'/>
-           <span className=''>Click to upload Excel</span>
-        </div>
-      </div>
-      <p className='w-1/2 text-center text-blue-400'>Make sure before upload your excel file that your excel is written in right format.
-if it not fomat in correct way it will not uplaoded !!
-Here is reference excel file download it and start uploading</p>
-<span className='text-red-500'>** Make a comma sepration in image field in excel to add multiple mages</span>
-   <a href="/">
-   <Button variant='contained'>Download Excel</Button>
-   </a>
+    <div className="flex mt-24 flex-col w-full h-screen items-center justify-start gap-12 px-12">
+      <h1 className="text-4xl text-center">
+        Upload Products in bulk using Excel file
+      </h1>
+      <Dragger {...props}>
+        <p className="ant-upload-drag-icon">
+          <div className=" flex items-center justify-center text-green-800 ">
+            <SiMicrosoftexcel size={80} />
+         </div>
+        </p>
+        <p className="ant-upload-text">
+          Click or drag file to this area to upload
+        </p>
+        <p className="ant-upload-hint"> 
+          Support for a single or bulk upload. Strictly prohibited from
+          uploading company data or other banned files.
+        </p>
+      </Dragger>
+      <p className="w-1/2 text-center text-blue-400">
+        Make sure before upload your excel file that your excel is written in
+        right format. if it not fomat in correct way it will not uplaoded !!
+        Here is reference excel file download it and start uploading
+      </p>
+      <span className="text-red-500">
+        ** Make a comma sepration in image field in excel to add multiple mages
+      </span>
+      <a href="#">
+        <Button variant="contained">Download Excel</Button>
+      </a>
     </div>
-  )
+  );
 }
 
 export default AddBulkProduct

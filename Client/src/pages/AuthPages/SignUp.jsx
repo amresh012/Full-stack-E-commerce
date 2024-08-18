@@ -1,29 +1,40 @@
+/* eslint-disable no-unused-vars */
 // src/Login.js
-import  { useState } from 'react';
 import {Link} from "react-router-dom"
-import Logo from "../../assets/Untitled-1.png"
 import { CiMail } from "react-icons/ci";
 import {FaRegUser } from "react-icons/fa6";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiPhone } from "react-icons/ci";
 import {useFormik} from "formik"
 import {toast, Toaster} from "react-hot-toast"
-import { useDispatch } from "react-redux"
-import {RegisterApi} from "../../features/authSlice"
+import { useDispatch , useSelector } from "react-redux"
+import {RegisterApi, addSignupdata , adduser} from "../../features/authSlice"
 
 const SignUp = () => {
-  // const [error, setError] = useState("")
   const dispatch = useDispatch()
-    var isLogo = true;
-    const {values , handleChange  , handleSubmit } = useFormik({
+  console.log(RegisterApi)
+  const authentication = useSelector((state) => state.auth);
+  console.log(authentication)
+    const { values, handleChange, handleSubmit } = useFormik({
       initialValues: {
-        name: '',
-        email: '',
-        password: '',
-        mobile: '',
-        role:"admin"
+        name: "",
+        email: "",
+        password: "",
+        mobile: "",
       },
-      onSubmit:dispatch(RegisterApi(values))
+      onSubmit: async (values, { setSubmitting }) => {
+        try {
+          dispatch(RegisterApi(values));
+          dispatch(addSignupdata(values));
+          toast.success("Registerd Successfully")
+          window.location.href="/"
+        } catch (error) {
+          console.log("error",error)
+          toast.error("An error occurred while SigningIn.");
+        } finally {
+          setSubmitting(false);
+        }
+      },
     });
 
  
@@ -36,7 +47,6 @@ const SignUp = () => {
         <h1 className='text-2xl font-bold'>Create account</h1>
         <p className='text-xs'>or use your email to signin</p>
       </div>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
         <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">

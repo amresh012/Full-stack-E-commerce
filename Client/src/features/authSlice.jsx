@@ -68,7 +68,7 @@ export const authSlice = createSlice({
           if (action.payload.role === "admin") {
             return (window.location.href = "/admin");
           }
-          window.location.href = "/users";
+          window.location.href = "/profile";
         } else {
           toast.error(action.payload);
         }

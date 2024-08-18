@@ -14,17 +14,17 @@ const ForgotPassword = ()=> {
       try {
         const res=  await axios.post(`${base_url}user/forgot-password-token`, { email });
          console.log(res)
-        if(!res.data){
-          throw new Error(res.data)
+        if(res.data.error){
+          throw new Error(res.data.error)
         }
         else{
           toast.success('Password reset email sent');
-          setMessage('Password reset email sent');
           }
-          window.location.href="/auth/otp"
+        setTimeout(() => {
+            window.location.href = "/otp"
+          },5000)
       } catch (error) {
-        toast.error('Error sending password reset email');
-        setMessage('Error sending password reset email');
+        setMessage(error.message);
       }
   };
 
@@ -52,7 +52,8 @@ const ForgotPassword = ()=> {
               />
             </div>
           </div>
-          <div>
+            <div>
+              {message && <p className='text-italic text-center w-full p-2 text-red-500'>{message}</p> }
             <button
               type="submit"
               className="w-full px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
@@ -70,7 +71,6 @@ const ForgotPassword = ()=> {
            <p className="">Already Have Account? Login!</p>
           </Link>
         </div>
-        {/* {message && <p className="mt-4 text-center text-red-600">{message}</p>} */}
       </div>
     </div>
                 </>

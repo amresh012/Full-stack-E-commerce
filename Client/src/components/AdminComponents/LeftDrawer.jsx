@@ -1,44 +1,93 @@
-import React from 'react'
+// import React from 'react'
 import {Kfs_logo} from "../../assets/images"
 import { linksAdmin } from '../../constant';
 import {Link} from "react-router-dom"
 import { RiMenu5Line } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { BsChevronBarRight, BsChevronBarLeft } from "react-icons/bs";
 
 
 const LeftDrawer = () => {
+  const [expanded, setExpanded] = useState(true)
+  const location = useLocation();
+ 
+
   return (
     <>
-    <nav className=' flex flex-col items-center justify-between border-r-2 h-full'>
-      <div className="h-24 w-full border-b-2 flex items-center justify-around">
-       <img src={Kfs_logo} alt="" className='h-12' />
-      <div className=" shadow-sm bg-zinc-100 mt-3 rounded-full p-2">
-      <RiMenu5Line size={25} className=''/>
-      </div>
-      </div>
-        {/* navlinks */}
-         
-         <ul className="h-full w-full items-center justify-around">
-          {
-            linksAdmin.map((item)=>(
-             <div className="hover:bg-[#038CCC] hover:text-white duration-300 text-xl">
-              <Link to={item.route} key={item.id} className='flex p-4 items-center  '>
-               <div className="">
-                {<item.icon size={30}/>}
-               </div>
-              <li className="p-2 uppercase">{item.label}</li>
-             </Link>
-             </div>
-            ))
-          }
-         </ul>
-        <div className="text-center flex items-center justify-center gap-2 w-full rounded-md logOut bg-[#038CCC] text-xl p-2 text-white">
-          <button className='uppercase'>LogOut</button>
-          <FiLogOut/>
+      <nav
+        className={
+          expanded
+            ? "flex flex-col items-center justify-between border-r-2 h-full"
+            : "w-0 overflow-hidden"
+        }
+      >
+        <div className="h-24 w-full border-b-2 flex items-center justify-around">
+          <img
+            src={Kfs_logo}
+            alt=""
+            className={`overflow-hidden transition-all ${
+              expanded ? "w-48" : "w-0"
+            }`}
+          />
+          <button
+            onClick={() => setExpanded((curr) => !curr)}
+            className="p-2.5 mt-2 rounded-full bg-gray-100 hover:bg-gray-200"
+          >
+            {expanded ? (
+              <BsChevronBarRight size={20} />
+            ) : (
+              <BsChevronBarLeft size={20} />
+            )}
+          </button>
         </div>
-    </nav>
+        {/* navlinks */}
+
+        <ul className="h-full w-full items-center justify-around">
+          {linksAdmin.map((item) => (
+            <>
+              <div
+                className="hover:bg-[#038CCC] hover:text-white duration-300 text-xl"
+                key={item.id}
+              >
+                <Link
+                  to={item.route}
+                  key={item.id}
+                  className={
+                    location.pathname === item.route
+                      ? "flex p-4 items-center bg-[#038CCC] text-white"
+                      : "flex p-4 items-center"
+                  }
+                >
+                  <div className="">{<item.icon size={30} />}</div>
+                  <li className="p-2 uppercase">{item.label}</li>
+                </Link>
+              </div>
+              <ul className="flex  flex-col items-center justify-start w-full">
+                {item.submenu &&
+                  item.sublink.map((link) => (
+                    <Link
+                      key={link.id}
+                      to={link.route}
+                      className={
+                        location.pathname === link.route
+                          ? "flex items-center px-12 w-full justify-start bg-[#038CCC]/80 p-2 text-white"
+                          : "flex items-center px-12 w-full justify-start hover:bg-[#038CCC]/80 p-2 hover:text-white"
+                      }
+                    >
+                      {<item.icon size={20} />}
+                      <li className="p-2 uppercase">{link.label}</li>
+                    </Link>
+                  ))}
+              </ul>
+            </>
+          ))}
+        </ul>
+        <div className=""></div>
+      </nav>
     </>
-  )
+  );
 }
 
 export default LeftDrawer

@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     mobile: {
       type: String,
       required: true,
-      unique:true,
+      unique: true,
       validate: {
         validator: function (value) {
           return /^[6-9]\d{9}$/.test(value);
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
       validate: {
         validator: function (value) {
           // GST number format validation
-          if(value){
+          if (value) {
             return /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/.test(
               value
             );
@@ -57,9 +57,9 @@ const userSchema = new mongoose.Schema(
       validate: {
         validator: function (value) {
           // PAN number format validation
-         if(value){
-           return /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value);
-         }
+          if (value) {
+            return /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value);
+          }
         },
         message: (props) => `${props.value} is not a valid PAN number.`,
       },
@@ -70,7 +70,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "user",
+      default: "Individual",
+      roles: ["Admin", "Super Admin", "Individual", "Bussiness"],
     },
     super: {
       type: Boolean,
@@ -120,9 +121,9 @@ const userSchema = new mongoose.Schema(
         state: {
           type: String,
         },
-        gstNo:{
-          type:String
-        }
+        gstNo: {
+          type: String,
+        },
       },
     ],
     refreshToken: {

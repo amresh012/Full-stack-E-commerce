@@ -150,7 +150,6 @@ const uploadBulkProduct = expressAsyncHandler(async (req, res) => {
       perpiece: row["priceperpiece"],
       unitMeausrement: row["unitofmeasurement"],
       measurement: row["meausrement"],
-      Individual_discount: row["Individual_discount"],
       corporate_discount: row["corporate_discount"],
       mindiscription: row["minidiscription"],
       datasheet: row["datasheet"],

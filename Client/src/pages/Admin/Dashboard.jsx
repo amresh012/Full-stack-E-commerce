@@ -14,10 +14,6 @@ import { Progress } from 'antd';
 import {Equip1}from "../../assets/images"
 
 const Dashboard = () => {
-  const [AdminName, setAdminName] = useState("Nova Doe")
-  const checklogin = ()=>{
-    
-  }
 
   function getGreeting() {
     const now = new Date();
@@ -34,7 +30,6 @@ const Dashboard = () => {
 
     return greeting;
 }
-const data=["this week" , "this month" , "this year"]
  
   return (
     <>
@@ -58,7 +53,7 @@ const data=["this week" , "this month" , "this year"]
       <div className="flex flex-col justify-between items-center pl-4 ">
         {/* section-2 */}
         <div className="header-right w-full  h-24 p-4">
-        <h1 className='text-3xl'>{getGreeting()},{AdminName}! </h1>
+        <h1 className='text-3xl'>{getGreeting()}! </h1>
         <p>Weclome tO Admin DashBoard</p>
         </div>
         <div className="analytics flex gap-2">
@@ -205,8 +200,8 @@ const data=["this week" , "this month" , "this year"]
           </div>
           <div className="p-2 h-full space-y-2 border-2 rounded-md ">
             {
-              [...Array(6)].map((_id)=>(
-                <div className="border-2  rounded-md flex items-center p2 justify-between gap-2 ">
+              [...Array(6)].map((_,id)=>(
+                <div className="border-2  rounded-md flex items-center p2 justify-between gap-2 " key={id}>
                 <div className="flex items-center gap-2">
                 <div className="image bg-[#038CCC]/20 w-fit">
                   <img src={Equip1} alt="" className='h-12 w-12'/>

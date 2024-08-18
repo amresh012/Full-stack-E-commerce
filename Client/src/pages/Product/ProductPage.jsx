@@ -30,6 +30,7 @@ const Product = () => {
     };
     fetchProducts();
   }, []);
+  console.log(products);
 
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
@@ -71,101 +72,137 @@ const Product = () => {
 
 
   return (
-   <>
-    <div className="main-wrapper p-4  flex items-start justify-start  ">
-      <div className="h-12"></div>
-      {/* filter */}
-     <div className="fillter_wrapper max-w-1/3 space-y-6 flex justify-around  flex-col    relative  ">
-      <div className="h-2"></div>
-       <div className="h-12   w-full  flex items-center justify-center text-3xl ">
-        <h1 className='bg-slate-950 w-full  text-white uppercase p-2'>Filter</h1>
-      </div>
-      <div className="p-2 space-y-2 ">
-      <h1 className='font-bold'>Category</h1>
-      <div className=" flex flex-col gap-2  ">
-       <input type="search" 
-       value={search}
-       onChange={(e)=>setSearch(e.target.value)}
-        className='border-b-2 outline-none h-8 border-black' placeholder="search categories" />
-      </div>
-      <div className="no-scrollbar cursor-pointer ">
-       {
-        filteredCategory.map((item , index)=>(
-          <div className="flex gap-2 p-2 hover:bg-blue-300 " key={index}>
-            <input type="checkbox"  className='cursor-pointer' />
-            <p>{item}</p>
+    <>
+      <div className="main-wrapper p-4  flex items-start justify-start  ">
+        <div className="h-12"></div>
+        {/* filter */}
+        <div className="fillter_wrapper max-w-1/3 space-y-6 flex justify-around  flex-col    relative  ">
+          <div className="h-2"></div>
+          <div className="h-12   w-full  flex items-center justify-center text-3xl ">
+            <h1 className="bg-slate-950 w-full  text-white uppercase p-2">
+              Filter
+            </h1>
           </div>
-        ))
-       }
-      </div>
-      </div>
-     </div>
-     {/* filter end */}
+          <div className="p-2 space-y-2 ">
+            <h1 className="font-bold">Category</h1>
+            <div className=" flex flex-col gap-2  ">
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="border-b-2 outline-none h-8 border-black"
+                placeholder="search categories"
+              />
+            </div>
+            <div className="no-scrollbar cursor-pointer ">
+              {filteredCategory.map((item, index) => (
+                <div className="flex gap-2 p-2 hover:bg-blue-300 " key={index}>
+                  <input type="checkbox" className="cursor-pointer" />
+                  <p>{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* filter end */}
 
-     {/* product list all */}
-     <div className="product_list_all flex flex-col justify-between">
-      {/* product header */}
-      <div className="h-24 w-full flex  items-center justify-between px-10">
-        <p className='text-2xl'>Products {"("}{products.length}{")"}</p>
-        <div className="flex items-center gap-2">
-          <span className=''>Sort by:</span>
-          <select
-           value={selectedOption}
-           onChange={handleSelectChange} 
-          className='outline-none p-2 rounded-md border-2 text-black'>
-            <option value="Low to High">Low to High</option>
-            <option value="High to Low">High to Low</option>
-            <option value="Alphabetical A-Z">Alphabetical A-Z</option>
-            <option value="Alphabetical Z-A">Alphabetical Z-A</option>
-          </select>
+        {/* product list all */}
+        <div className="product_list_all flex flex-col justify-between">
+          {/* product header */}
+          <div className="h-24 w-full flex  items-center justify-between px-10">
+            <p className="text-2xl">
+              Products {"("}
+              {products.length}
+              {")"}
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="">Sort by:</span>
+              <select
+                value={selectedOption}
+                onChange={handleSelectChange}
+                className="outline-none p-2 rounded-md border-2 text-black"
+              >
+                <option value="Low to High">Low to High</option>
+                <option value="High to Low">High to Low</option>
+                <option value="Alphabetical A-Z">Alphabetical A-Z</option>
+                <option value="Alphabetical Z-A">Alphabetical Z-A</option>
+              </select>
+            </div>
+          </div>
+          {/* product list */}
+          <div className="product-list_container flex flex-wrap gap-12 w-full  items-start justify-start pl-12">
+            {isLoading ? (
+              <Loader />
+            ) : (
+              sortedProducts.map((item) => (
+                <div
+                  className="product-card border-2 h-auto w-[20rem] relative"
+                  key={item.id}
+                >
+                  <div className="badge absolute">
+                    <Badge discount={item.corporateDiscount} />
+                  </div>
+                  <div className="image-container h-56 bg-gray-200 ">
+                    <Carousel autoplay={true} showThumbs={false}>
+                      {item.images.map((image, i) => (
+                        <img
+                          src={image}
+                          alt={image}
+                          className="w-12 h-12 object-cover"
+                          key={i}
+                        />
+                      ))}
+                    </Carousel>
+                  </div>
+                  <div className="product-detail space-y-2 p-4 bg-black/80 text-white">
+                    <p className=" font-bold text-xl break-words hover:underline">
+                      {item.name}
+                    </p>
+                    <div className="rating flex items-center gap-2">
+                      <Rating
+                        name="size-small"
+                        value={item.Rating}
+                        defaultValue={4.5}
+                        precision={0.5}
+                      />
+                      <span>4.5</span>
+                    </div>
+                    <div className="prices flex gap-4 ">
+                      <p
+                        className={
+                          item.corporateDiscount
+                            ? "line-through text-red-500"
+                            : "font-bold"
+                        }
+                      >
+                        Rs {item.price}
+                      </p>
+                      <p className="discount-price">
+                        {/* calculate discount price from price and discount percentage  */}
+                        {item.corporateDiscount &&
+                          `Rs${(
+                            item.price *
+                            (1 - item.corporateDiscount / 100)
+                          ).toFixed(2)}`}
+                      </p>
+                    </div>
+                    <div className="button flex  flex-col gap-2">
+                      <button
+                        className="addtocart p-2 border-2"
+                        onClick={() => handleAdd(item)}
+                      >
+                        Add To Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
-      {/* product list */}
-      <div className="product-list_container flex flex-wrap gap-12 w-full  items-start justify-start pl-12">
-        {
-          isLoading ? 
-          <Loader/>
-          :
-          sortedProducts.map((item)=>(
-            <div className="product-card border-2 h-auto w-[20rem] relative" key={item.id}>
-              <div className="badge absolute">
-                  <Badge discount={item.corporateDiscount}/>
-                </div>
-              <div className="image-container h-56 bg-gray-200 ">
-              <Carousel>
-                {
-                  item.images.map((image, i )=>(
-                    <img src={image} alt="product image" className="w-full h-full object-cover" key={i} />
-                  ))
-                }
-             </Carousel>
-              </div>
-              <div className="product-detail space-y-2 p-4 bg-black/80 text-white">
-                <p className=" font-bold text-xl break-words hover:underline">{item.name}</p>
-               <div className="rating flex items-center gap-2">
-               <Rating name="size-small" value={item.Rating} defaultValue={4.5} precision={0.5} />
-               <span>4.5</span>
-               </div>
-                <div className="prices flex gap-4 ">
-                  <p className={item.corporateDiscount ? "line-through text-red-500":"font-bold"}>Rs{" "}{item.price}</p>
-                   <p className="discount-price">
-                    {/* calculate discount price from price and discount percentage  */}
-                      {item.corporateDiscount && `Rs${(item.price * (1 - item.corporateDiscount/100)).toFixed(2)}`}
-                   </p>
-                </div>
-                <div className="button flex  flex-col gap-2">
-                  <button className="addtocart p-2 border-2" onClick={()=>handleAdd(item)}>Add To Cart</button>
-                </div>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-     </div>
-    </div>
-    
-   </>
-  )
+    </>
+  );
 }
 
 export default Product

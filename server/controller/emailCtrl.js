@@ -7,8 +7,6 @@ const sendEmail = asyncHandle(async (data) => {
     host: "smtp.gmail.com",
     port: 587,
     auth: {
-      // user: "amreshmishra67099@gmail.com", // generated ethereal user
-      // pass:"Google#Acc@123.#", // generated ethereal password
       user: process.env.MAIL_ID, // generated ethereal user
       pass: process.env.MP, // generated ethereal password
     },

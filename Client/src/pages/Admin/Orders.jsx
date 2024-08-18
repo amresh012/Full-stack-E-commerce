@@ -4,7 +4,27 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
 import { Autocomplete, TextField } from "@mui/material";
 import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
-import { List } from 'antd';
+import { useState } from 'react';
+
+
+const getStatusColor = (status) => {
+  switch (status.toLowerCase()) {
+    case "return":
+      return "bg-red-200 p-2 text-red-500 rounded-md"; // Red color for "Return"
+    case "cod":
+      return "text-yellow-500 bg-yellow-200 p-2 rounded-md"; // Yellow color for "COD"
+    case "not processed":
+      return "text-gray-500 bg-gray-200 p-2 rounded-md"; // Gray color for "Not Processed"
+    case "shipped":
+      return "text-blue-500  bg-blue-200 p-2 rounded-md"; // Blue color for "Shipped"
+    case "out of delivery":
+      return "text-purple-500  bg-purple-200 p-2 rounded-md"; // Purple color for "Out Of Delivery"
+    case "cancelled":
+      return "text-black  bg-black/20 p-2 rounded-md"; // Black color for "Cancelled"
+    default:
+      return "text-gray-800  bg-gray-200 p-2 rounded-md"; // Default color
+  }
+};
 
 
 const columns = [
@@ -31,29 +51,31 @@ const columns = [
   {
     header: "Status",
     accessorKey: "sataus",
-    cell:(info)=>
-    console.log()
+    cell: ({ row }) => {
+      const status = row.original.sataus;
+      return <span className={getStatusColor(status)}>{status}</span>;
+    },
   },
   {
     header: "Action",
-    cell:()=> <div className='flex w-full justify-around gap-2 '>
-       <FaTrash className='text-red-500'/>
-       <FaEye className='text-blue-500'/>
-      </div >
-    
+    cell: () => (
+      <div className="flex w-full justify-around gap-2 ">
+        <FaTrash className="text-red-500" />
+        <FaEye className="text-blue-500" />
+      </div>
+    ),
   },
 ];
 
 
 const Orders = () => {
+  const [search , setSearch] = useState()
   const statusArray = Ordata.map((item) => item.sataus);
   const UniqueStatus = new Set(statusArray);
-  // console.log(UniqueStatus);
   // status 
   const statusCount = Ordata.reduce((acc, item) => {
 
     const status = item.sataus;
-    // console.log(status);
     if (acc[status]) {
       acc[status]++;
     } else {
@@ -76,6 +98,8 @@ const Orders = () => {
       showlabel: "status",
     },
   ];
+
+  
   return (
     <>
       <div className="header flex h-12  rounded-md mt-12 p-10 border-2 bg-white shadow-sm justify-between items-center">
@@ -84,7 +108,7 @@ const Orders = () => {
           admin / Orders
         </div>
       </div>
-        {/* <div className="Order-Status py-4 m-4 ">
+      {/* <div className="Order-Status py-4 m-4 ">
           <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
             {Object.keys(statusCount)
               .slice(0, 3)
@@ -138,6 +162,8 @@ const Orders = () => {
             <div className="relative">
               <input
                 type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 className="border-[1px] border-black/30 p-2 h-14 w-[17rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
                 placeholder="id / name / email"
               />
