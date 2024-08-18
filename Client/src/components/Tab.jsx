@@ -11,7 +11,9 @@ const Tabs = () => {
     };
     
     useEffect(() => {
-      AOS.init();
+      AOS.init({
+        once:true
+      });
       AOS.refresh();
     }, []);
 
@@ -24,7 +26,7 @@ const Tabs = () => {
             activeTab === "London" ? "border-blue-800 duration-1000" : ""
           }`}
           onClick={() => openCity("London")}
-          data-aos="zoom-out"
+
         >
           {/* <div className="image p-2">
                       <img src={Equip3} alt="" className="h-24 "/>
@@ -44,7 +46,7 @@ const Tabs = () => {
               : "hover:bg-gray-200"
           }`}
           onClick={() => openCity("Paris")}
-          data-aos="zoom-out"
+          
         >
           <h1 className="text-2xl">All India Hassle free service</h1>
           <p className="font-normal text-sm tracking-wide">
@@ -58,7 +60,7 @@ const Tabs = () => {
               : "hover:bg-gray-200"
           }`}
           onClick={() => openCity("Tokyo")}
-          data-aos="zoom-out"
+          
         >
           <h1 className="text-2xl">Sales & demand support</h1>
           <p className="font-normal text-sm tracking-wide">
@@ -73,7 +75,7 @@ const Tabs = () => {
               : "hover:bg-gray-200"
           }`}
           onClick={() => openCity("Mumbia")}
-          data-aos="zoom-out"
+          
         >
           <h1 className="text-2xl">Sales & demand support</h1>
           <p className="font-normal text-sm tracking-wide">
@@ -84,6 +86,7 @@ const Tabs = () => {
         {/* button */}
         <div
           data-aos="fade-in"
+          data-aos-once="true"
           className="button flex items-center gap-2 bg-blue-800 p-4 text-xl font-bold text-white w-2/3 shadow-md"
         >
           <button>Get In Touch</button>

@@ -1,3 +1,12 @@
+import { GrBarChart } from "react-icons/gr";
+import { FaUsers } from "react-icons/fa";
+import { BiSolidDiscount } from "react-icons/bi";
+import { GoChecklist } from "react-icons/go";
+import { AiOutlineProduct } from "react-icons/ai";
+import { CgWebsite } from "react-icons/cg";
+import { FaBlog } from "react-icons/fa";
+
+
 export const links = [
   {
     name: "Accessories",
@@ -468,4 +477,146 @@ export const  gym_product_pricing_inr = [
     "₹83,000 - ₹2,49,000", 
     "₹83,000 - ₹3,32,000", 
     "₹830 - ₹4,150"      
+]
+
+
+// faqs
+export
+const faqs = [
+  {
+      question: "What is this app used for?",
+      answer: "This app helps users find and compare prices of various gym equipment. Whether you're setting up a home gym or outfitting a fitness center, you can browse through a wide range of equipment and see estimated price ranges."
+  },
+  {
+      question: "How are the prices determined?",
+      answer: "The prices shown in the app are estimated ranges based on market research and typical retail prices. Prices may vary depending on factors like brand, quality, and where you purchase the equipment."
+  },
+  {
+      question: "Are the prices shown in real-time?",
+      answer: "No, the prices in the app are general estimates and may not reflect real-time changes in the market. Always check with the seller or retailer for the most current pricing."
+  },
+  {
+      question: "Can I purchase gym equipment directly through the app?",
+      answer: "This app is designed for price comparison and information purposes only. It does not facilitate direct purchases. You will need to visit a retailer's website or store to make a purchase."
+  },
+  {
+      question: "Is the pricing shown inclusive of taxes and shipping?",
+      answer: "The pricing ranges provided do not include taxes or shipping costs. Be sure to check with the retailer for any additional charges that may apply."
+  },
+  {
+      question: "Can I search for specific brands or models?",
+      answer: "Currently, the app provides general categories of gym equipment with pricing ranges. Brand-specific searches and model comparisons may be added in future updates."
+  },
+  {
+      question: "How do I convert the prices into my local currency?",
+      answer: "The app currently displays prices in Indian Rupees (INR). If you need to convert prices to another currency, you can use an online currency converter."
+  },
+  {
+      question: "Can I save my favorite equipment or price searches?",
+      answer: "Yes, the app allows you to bookmark your favorite gym equipment and save your searches for quick access later."
+  },
+  {
+      question: "How often is the pricing information updated?",
+      answer: "The app is periodically updated to reflect changes in the market. However, prices can fluctuate, and we recommend checking with retailers for the latest information."
+  },
+  {
+      question: "How can I contact customer support?",
+      answer: "For any questions or issues, you can reach out to our customer support team via the 'Contact Us' section in the app. We’re here to help!"
+  }
+];
+
+
+
+// admin content
+export const linksAdmin = 
+[
+  {
+    id:0,
+    label:"Dashboard",
+    route:"/admin",
+    icon: GrBarChart
+  },
+  {
+    id:1,
+    label:"Users",
+    route:"/admin/users",
+    icon:FaUsers
+  },
+  {
+    id:0,
+    label:"Orders",
+    route:"/admin/orders",
+    icon:GoChecklist
+  },
+  {
+    id:0,
+    label:"Contact US",
+    route:"/admin/contactus",
+    icon:FaUsers
+  },
+  {
+    id:0,
+    label:"Products",
+    icon:AiOutlineProduct,
+    submenu:true,
+    sublink:[
+      {
+        label:"List Products",
+        route:"/admin/product-list",
+        icon:AiOutlineProduct
+      },
+      {
+        label:"Add Products",
+        route:"/admin/products",
+        icon:AiOutlineProduct
+      },
+      {
+        label:"Bulk Add",
+        route:"/admin/bulk-product",
+        icon:AiOutlineProduct
+      },
+      {
+        label:"Add Image",
+        route:"/admin/bulk-images",
+        icon:AiOutlineProduct
+      }
+    ]
+  },
+  {
+    label:"Website",
+    icon:CgWebsite,
+    submenu:true,
+    sublink:[{
+         label:"Home Page",
+         route:"/admin/website",
+         icon:CgWebsite
+    }]
+  }, 
+  {
+    label:"Blogs",
+    icon:FaBlog,
+    submenu:true,
+    sublink:[{
+         label:"Blog  Page",
+         route:"/admin/blog",
+         icon:FaBlog
+    }]
+  }, 
+  {
+    label:"Coupon",
+    icon:BiSolidDiscount,
+    submenu:true,
+    sublink:[
+      {
+        label:"List Coupon",
+        route:"/admin/coupon-list",
+        icon:BiSolidDiscount
+      },
+      {
+        label:"Add Coupon",
+        route:"/admin/coupon",
+        icon:BiSolidDiscount
+      }
+    ]
+  }
 ]

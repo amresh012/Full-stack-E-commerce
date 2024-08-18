@@ -78,13 +78,13 @@ const BasicTable = ({columns, data}) => {
           ))}
         </tbody>
       </table>
-      <div className="space-x-4 p-4 m-4 border-2 w-fit ">showing {table.getPageCount()} entries {table.getRowCount()}</div>
+      <div className="space-x-4 p-4 m-4 b w-fit ">showing {table.getPageCount()} entries {table.getRowCount()}</div>
       <div className="w-full flex gap-12 p-4  items-center justify-center">
         <button
           className={
             !table.getCanPreviousPage()
               ? "cursor-not-allowed    "
-              : "p-2 bg-gray-200 "
+              : "p-2 bg-[#038CCC] "
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.setPageIndex(0)}
@@ -95,7 +95,7 @@ const BasicTable = ({columns, data}) => {
           className={
             !table.getCanPreviousPage()
               ? "cursor-not-allowed    "
-              : "p-2  text-xl font-bold bg-gray-200 "
+              : "p-2  text-xl font-bold bg-[#038CCC] text-white "
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
@@ -106,7 +106,7 @@ const BasicTable = ({columns, data}) => {
           className={
             !table.getCanNextPage()
               ? "cursor-not-allowed "
-              : "p-2 text-xl font-bold bg-gray-200 "
+              : "p-2 text-xl font-bold bg-[#038CCC] text-white "
           }
           disabled={!table.getCanNextPage()}
           onClick={() => table.nextPage()}
@@ -117,7 +117,7 @@ const BasicTable = ({columns, data}) => {
           className={
             !table.getCanNextPage()
               ? "cursor-not-allowed "
-              : "p-2 bg-gray-200 "
+              : "p-2 bg-[#038CCC] text-white "
           }
           disabled={!table.getCanNextPage()}
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}

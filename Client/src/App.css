@@ -28,28 +28,29 @@ table {
   border-collapse: collapse;
   width: 100%;
   border-radius: 10px;
+
 }
 
 th {
-  border: 1px solid #b9b7b7;
   text-align: center;
   padding:15px;
   color: white;
-  background-color: royalblue;
+  background-color: #038CCC;
 }
 td{
   text-align: center;
   padding: 20px;
-  border: 1px solid #727173;
 
 }
 
-/* tr:nth-child(even) {
-  background-color: #08080863;
-} */
+
 tr:hover{
   cursor: pointer;
-  /* color:white */
+  background: #038CCC;
+  color:#fff
+}
+tr{
+  border: 0.5px solid lightgray;
 }
 
 .card{
@@ -71,3 +72,5 @@ tr:hover{
 .card:hover  .detail {
   opacity: 1;
 }
+
+
