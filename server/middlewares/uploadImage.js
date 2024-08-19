@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
     );
   },
 });
-// const url = "https://images.deepmart.shop";
 const url = "http://192.168.1.18:8005";
 
 
@@ -30,7 +29,7 @@ const uploadImage = async (req, res) => {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files were uploaded." });
     }
-    const urls = req.files.map((itm) => `${url}/uploads/${itm.filename}`);
+    const urls = req.files.map((itm) => `${url}/upload/${itm.filename}`);
     res.json(urls);
   } catch (error) {
     console.error("Error during file upload:", error);

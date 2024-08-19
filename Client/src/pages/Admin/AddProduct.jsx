@@ -11,6 +11,30 @@ import { message, Upload } from "antd";
 
 const AddProduct = () => {
     const { Dragger } = Upload;
+    const props = {
+      name: "file",
+      multiple: true,
+      action: `${base_url}uploads`,
+      onChange(info) {
+        // console.log(info);
+        const { status } = info.file;
+        if (status !== "uploading") {
+          console.log(info.file, info.fileList);
+        }
+        if (status === "done") {
+          message.success(`${info.file.name.slice(0,10)} file uploaded  successfully.`);
+          setFieldValue(
+            "images",
+            info.fileList.map((file) => console.log(file.response[0]))
+          );
+        } else if (status === "error") {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+      onDrop(e) {
+        console.log("Dropped files", e.dataTransfer.files);
+      },
+    };
 
    const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
     initialValues: {
@@ -49,30 +73,30 @@ const AddProduct = () => {
 
    })
   // upload image
-  const props = {
-    name: "file",
-    multiple: true,
-    action: `${base_url}uploads`,
-    onChange(info) {
-      // console.log(info);
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-        setFieldValue(
-          "images",
-          info.fileList.map((file) => file.originFileObj.name)
-        );
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
+  // const props = {
+  //   name: "file",
+  //   multiple: true,
+  //   action: `${base_url}uploads`,
+  //   onChange(info) {
+  //     // console.log(info);
+  //     const { status } = info.file;
+  //     if (status !== "uploading") {
+  //       console.log(info.file, info.fileList);
+  //     }
+  //     if (status === "done") {
+  //       message.success(`${info.file.name.slice(0,10)} file uploaded  successfully.`);
+  //       setFieldValue(
+  //         "images",
+  //         info.fileList.map((file) => console.log(file.response[0]))
+  //       );
+  //     } else if (status === "error") {
+  //       message.error(`${info.file.name} file upload failed.`);
+  //     }
+  //   },
+  //   onDrop(e) {
+  //     console.log("Dropped files", e.dataTransfer.files);
+  //   },
+  // };
   
 
 

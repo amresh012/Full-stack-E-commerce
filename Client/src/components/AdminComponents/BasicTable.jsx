@@ -25,7 +25,7 @@ const BasicTable = ({columns, data}) => {
     onSortingChange: setSorting,
   });
   return (
-    <div className="shadow-md">
+    <div className="shadow-md rounded-md p-2">
       {/* <TablePagination
         rowsPerPageOptions={[5, 10, 25,100, { label: 'All', value: data.length }]}
         component="div"
@@ -84,18 +84,18 @@ const BasicTable = ({columns, data}) => {
           className={
             !table.getCanPreviousPage()
               ? "cursor-not-allowed    "
-              : "p-2 bg-[#038CCC] "
+              : "p-2 bg-[#038CCC] rounded-md text-white"
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.setPageIndex(0)}
         >
-          &lt;&lt;
+          First Page
         </button>
         <button
           className={
             !table.getCanPreviousPage()
               ? "cursor-not-allowed    "
-              : "p-2  text-xl font-bold bg-[#038CCC] text-white "
+              : "text-xl p-2 font-bold rounded-md bg-[#038CCC] text-white "
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
@@ -106,7 +106,7 @@ const BasicTable = ({columns, data}) => {
           className={
             !table.getCanNextPage()
               ? "cursor-not-allowed "
-              : "p-2 text-xl font-bold bg-[#038CCC] text-white "
+              : "p-2 text-xl font-bold bg-[#038CCC] rounded-md text-white "
           }
           disabled={!table.getCanNextPage()}
           onClick={() => table.nextPage()}
@@ -117,12 +117,12 @@ const BasicTable = ({columns, data}) => {
           className={
             !table.getCanNextPage()
               ? "cursor-not-allowed "
-              : "p-2 bg-[#038CCC] text-white "
+              : "p-2 bg-[#038CCC] text-white rounded-md "
           }
           disabled={!table.getCanNextPage()}
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         >
-          &gt;&gt;
+         Last Page
         </button>
       </div>
     </div>

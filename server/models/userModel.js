@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "Individual",
-      roles: ["Admin", "Super Admin", "Individual", "Bussiness"],
+      roles: ["Admin", "Employee"],
     },
     super: {
       type: Boolean,

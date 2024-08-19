@@ -6,7 +6,8 @@ const Copoun = () => {
 
   
   const copoun = [
-    {id:1,label:"Copoun Code", placeholder:"Enter Copoun Code"} , {id:2, label:"Discount Value" , placeholder:"Enter Discount value in range of 1-100"},
+    {id:1,label:"Copoun Code", placeholder:"Enter Copoun Code"},
+    {id:2, label:"Discount Value" , placeholder:"Enter Discount value in range of 1-100"},
   ]
 
   const typeofDi = ["Fixed" , "Pecentage"]
@@ -15,11 +16,11 @@ const Copoun = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-24  rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around   p-6">
+      <div className="border-2 m-4 mt-24 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around   p-6">
         {/* Add copoun component */}
         <div className="flex gap-12 items-center justify-around">
           {copoun.map((item) => (
-            <div className="input-1 w-full flex-col flex" key={item.id}>
+            <div className="input-1 w-full flex-col gap-2 flex" key={item.id}>
               <label htmlFor="">{item.label}</label>
               <input
                 type="number"
@@ -28,7 +29,7 @@ const Copoun = () => {
               />
             </div>
           ))}
-          <div className="w-[20rem] flex flex-col">
+          <div className="w-[20rem] gap-2 flex flex-col">
             <label htmlFor="">Type:</label>
             <Autocomplete
               disablePortal
@@ -42,8 +43,9 @@ const Copoun = () => {
           </div>
         </div>
         <div
-          // onClick={handleCopoun}
-          className="border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-500"
+          className=" cursor-pointer  text-center 
+           text-white rounded-md shadow-md px-12 py-2 
+          duration-300 bg-[#038CCC] hover:bg-[#038CCC]/80"
         >
           <button>Generate Copoun</button>
         </div>

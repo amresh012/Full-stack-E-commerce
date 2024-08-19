@@ -47,9 +47,7 @@ const columns = [
           className="border-2 p-2 outline-none rounded-md border-[#038CCC]"
         >
           <option value="Admin">Admin</option>
-          <option value="Śuper Admin">Śuper Admin</option>
-          <option value="Individual">Individual</option>
-          <option value="Bussiness">Bussiness</option>
+          <option value="Bussiness">Employee</option>
         </select>
       );
     },

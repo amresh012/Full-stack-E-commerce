@@ -20,32 +20,36 @@ const CopounList = () => {
       accessorKey: "Copoun_type",
     },
     {
-      header: "Discount in %",
+      header: "Discount",
       accessorKey: "discount_value",
     },
     {
       header: "Action",
       cell:()=>
-      <List className='flex items-center justify-center text-xl'>
-        <BasicModal className="text-red-500" icon={<FaTrash/>}/>
-        <BasicModal icon={<FaEye/>}/>
-         <BasicModal icon={<FaPenAlt/>}/>
+      <List className='flex items-center gap-2 justify-center cursor-pointer'>
+       <div className="bg-red-200 p-2 rounded-md hover:shadow-md">
+        <FaTrash className='text-red-500'/>
+       </div>
+       <div className="bg-blue-200 p-2 rounded-md hover:shadow-md">
+        <FaEye className='text-blue-500'/>
+       </div>
+         <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
+          <FaPen className='text-black'/>
+         </div>
       </List>
     },
   ];
   return (
-    <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto mx-24 mt-4'>
-    <div className="flex justify-between px-12 items-center w-full p-12">
-     <h1 className='text-3xl'>Previously Added Copouns</h1>
-     <div className="flex items-center bg-blue-500">
-         <input type="search" className='h-10 w-60  focus:shadow-md border-2  outline-none px-2' />
-         <button className="p-2 text-white">Search</button>
-     </div>
+    <>
+    <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto rounded-md  mx-8 mt-4 p-4'>
+    <div className="flex justify-between  items-center w-full bg-gray-200 p-2 rounded-md">
+     <h1 className='text-3xl uppercase'>Copouns</h1>
     </div>
-    <div className="w-full">
+    </div>
+    <div className="w-full  p-6">
     <BasicTable columns={columns} data={Cdata}/>
     </div>
- </div>
+    </>
   )
 }
 

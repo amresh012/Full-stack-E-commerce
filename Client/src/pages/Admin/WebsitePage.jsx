@@ -45,18 +45,18 @@ const WebsitePage = () => {
     const props = {
       name: "file",
       multiple: true,
-      action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
+      action: `${base_url}uploads`,
       onChange(info) {
         const { status } = info.file;
         if (status !== "uploading") {
             console.log(info.file, info.fileList);
              setFieldValue(
-               "images",
-               info.fileList.map((file) => file.originFileObj)
+               "logo",
+               info.fileList.map((file) => file.originFileObj.response)
             );
              setFieldValue(
                "homepageBanner",
-               info.fileList.map((file) => file.originFileObj)
+               info.fileList.map((file) =>console.log(file.originFileObj))
              );
         }
         if (status === "done") {
@@ -69,6 +69,8 @@ const WebsitePage = () => {
         console.log("Dropped files", e.dataTransfer.files);
       },
     };
+     console.log(values);
+     
 
   const configlabel = [
     {
@@ -126,10 +128,10 @@ const WebsitePage = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 rounded-md shadow-md  h-auto flex flex-col items-center justify-around mx-12 ">
+      <div className="border-2 mt-12 rounded-md shadow-md  h-auto flex flex-col items-center justify-around mx-12 ">
         {/* section-1 */}
-        <div className="text-3xl font-bold py-12">
-          <h1>Website Configuration</h1>
+        <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md ">
+          <h1 className="">Website Configuration</h1>
         </div>
         {/* section-2 */}
         {/* form */}
@@ -222,10 +224,10 @@ const WebsitePage = () => {
           {/* section-6 */}
           <div
             onClick={handleChange}
-            className="border-2 w-full text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400"
+            className="flex justify-center gap-4 w-full text-center duration-300"
           >
-            <button>Change Occurance</button>
-            <button type="reset" onClick={handleReset}>
+            <button  className="bg-[#038CCC] p-2 rounded-md text-white uppercase">Change Occurance</button>
+            <button className="bg-[#038CCC] p-2 rounded-md text-white uppercase" type="reset" onClick={handleReset}>
               Reset Occurance
             </button>
           </div>

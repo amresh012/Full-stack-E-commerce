@@ -60,8 +60,12 @@ const columns = [
     header: "Action",
     cell: () => (
       <div className="flex w-full justify-around gap-2 ">
+        <div className="bg-red-200 p-2 rounded-md">
         <FaTrash className="text-red-500" />
-        <FaEye className="text-blue-500" />
+        </div>
+       <div className="bg-blue-200 p-2 rounded-md">
+       <FaEye className="text-blue-500" />
+       </div>
       </div>
     ),
   },

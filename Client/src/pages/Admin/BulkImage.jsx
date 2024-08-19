@@ -4,10 +4,10 @@ import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { base_url } from '../../Utils/baseUrl';
 import { FaCopy } from 'react-icons/fa';
-// import BasicTable from '../../components/AdminComponents/BasicTable';
+import BasicTable from '../../components/AdminComponents/BasicTable';
 
 const BulkImage = () => {
-
+    
     const { Dragger } = Upload;
     const props = {
       name: "file",
@@ -16,7 +16,7 @@ const BulkImage = () => {
       onChange(info) {
         const { status } = info.file;
         if (status !== "uploading") {
-          console.log(info.file, info.fileList);
+          console.log(info.file.response, info.fileList);
         }
         if (status === "done") {
           message.success(`${info.file.name} file uploaded successfully.`);
@@ -28,6 +28,15 @@ const BulkImage = () => {
         console.log("Dropped files", e.dataTransfer.files);
       },
     };
+    // useEffect(() => {
+    //   const fetchImages = async () => {
+    //     let response = await fetch(`${base_url}images`);
+    //     let data = await response.json();
+    //     setImagData(data);
+    //   };
+    //   fetchImages();
+    // }, []);
+    // console.log(imgdata);
   
   // column
   const columns = [
@@ -45,7 +54,7 @@ const BulkImage = () => {
     },
     {
       header: "Url",
-      accessorKey: "mobile",
+      accessorKey: "url",
     },
     {
       header: "Action",
@@ -85,7 +94,7 @@ const BulkImage = () => {
           <h1 className="text-4xl">Previous Uploaded Files</h1>
         </div>
         {/* upload list */}
-        <div className="w-full">{/* <BasicTable/> */}</div>
+        {/* <div className="w-full"><BasicTable columns={columns}/></div> */}
       </div>
     </div>
   );

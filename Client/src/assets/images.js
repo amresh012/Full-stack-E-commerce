@@ -3,6 +3,7 @@ import Mastercard from "./card (1).png"
 import Amex from "./amex.png"
 import Rupay from "./bank.png"
 import Kfs_logo from "./Untitled-1.png"
+import Kfs_logo2 from "./logo2.jpg"
 import Spin from "./spin.png"
 import Spin1 from "./spin1.png"
 import Spin2 from "./spin2.png"
@@ -18,6 +19,6 @@ import Hero4 from "./hero/imge4 1.png"
 import Hero5 from "./hero/imge5 1.png"
 import Hero6 from "./hero/imge6 1.png"
 
-export { Visa, Mastercard, Amex, Rupay, Kfs_logo, Spin, Spin1, Spin2,  }
+export { Visa, Mastercard, Amex, Rupay, Kfs_logo, Spin, Spin1, Spin2,Kfs_logo2  }
 export { Equip1, Equip2, Equip3 };
 export {Hero1 , Hero2 , Hero3 ,Hero4 ,Hero5 , Hero6}
