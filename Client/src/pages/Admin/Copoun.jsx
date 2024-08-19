@@ -16,6 +16,11 @@ const Copoun = () => {
   return (
     <>
       <Toaster />
+      <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
+    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+          <h1 className="uppercase">Add Copouns</h1>
+        </div>
+    </div>
       <div className="border-2 m-4 mt-24 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around   p-6">
         {/* Add copoun component */}
         <div className="flex gap-12 items-center justify-around">

@@ -128,9 +128,8 @@ const WebsitePage = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-12 rounded-md shadow-md  h-auto flex flex-col items-center justify-around mx-12 ">
-        {/* section-1 */}
-        <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md ">
+      <div className="border-2 mt-12 rounded-md shadow-md  h-auto flex flex-col items-center justify-around mx-12 p-2  ">
+        <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
           <h1 className="">Website Configuration</h1>
         </div>
         {/* section-2 */}

@@ -106,12 +106,11 @@ const Orders = () => {
   
   return (
     <>
-      <div className="header flex h-12  rounded-md mt-12 p-10 border-2 bg-white shadow-sm justify-between items-center">
-        <h1 className="font-bold text-3xl">Orders List</h1>
-        <div className="bg-gray-200 p-2 rounded-md text-slate-900">
-          admin / Orders
+ <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto rounded-md  mx-8 mt-4 p-4'>
+    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+          <h1 className="uppercase">Orders</h1>
         </div>
-      </div>
+    </div>
       {/* <div className="Order-Status py-4 m-4 ">
           <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
             {Object.keys(statusCount)
@@ -128,7 +127,7 @@ const Orders = () => {
           </ul>
         </div> */}
       {/* table col */}
-      <div className=" w-full border rounded-md p-4 max-h-max">
+      <div className=" w-full border rounded-md p-4 max-h-max ">
         <div className="flex items-center justify-between px-4 py-4 ">
           <h1 className="font-bold text-xl">Order information</h1>
           <BsThreeDotsVertical />
@@ -178,7 +177,7 @@ const Orders = () => {
           </div>
         </div>
 
-        <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md">
+        <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md ">
           <BasicTable columns={columns} data={Ordata} />
         </div>
       </div>

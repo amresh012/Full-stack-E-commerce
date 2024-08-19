@@ -16,7 +16,7 @@ const ListProduct = () => {
       setIsLoading(false);
     };
     FetchProduct();
-    // console.log(product)
+    console.log(product)
     
   }, [])
 
@@ -24,14 +24,35 @@ const ListProduct = () => {
     {
       header: "Sr.No.",
       accessorKey: "_id",
+      cell: ({ row }) => {
+        const id = row.original._id;
+        return <span>{id.slice(0, 4)}</span>;
+      },
+    },
+    {
+      header: "Image",
+      accessorKey: "image",
     },
     {
       header: "Product Name",
       accessorKey: "name",
     },
     {
-      header: "Price",
+      header: "Price / unit",
       accessorKey: "price",
+    },
+    // {
+    //   header: "Discount",
+    //   accessorKey: "corporate_discount",
+    //   cell: ({ row }) => {
+    //     const discount = row.original?.Individual_discount;
+    //     console.log(discount)
+    //     return <span>{discount}</span>;
+    //   },
+    // },
+    {
+      header: "Quantity",
+      accessorKey: "quantity",
     },
     {
       header: "Category",
@@ -40,9 +61,15 @@ const ListProduct = () => {
     {
       header: "Action",
       cell:()=> <List sx={{display:"flex" , alignItems:"center", gap:4 , justifyContent:"center" , cursor:"pointer"}}>
+       <div className="bg-red-200 p-2 rounded-md hover:shadow-md">
        <FaTrash className='text-red-500'/>
+       </div>
+       <div className="bg-blue-200 p-2 rounded-md hover:shadow-md">
        <FaEye className='text-blue-500'/>
-       <FaPen/>
+       </div>
+       <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
+       <FaPen className='text-black'/>
+       </div>
       </List >
     },
   ];

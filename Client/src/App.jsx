@@ -33,6 +33,8 @@ import UserProfile from './Layout/UserProfile'
 import Shipping from './pages/UserDashboard/Shipping'
 import Invoice from './pages/UserDashboard/Invoice'
 import CheckOut from './pages/Product/CheckOut'
+import AdminBlog from './pages/Admin/blog'
+import ResetPassword from './pages/AuthPages/ResetPassword'
 
 function App() {
 
@@ -59,6 +61,7 @@ function App() {
         <Route path="login" element={<Login/>}/>
         <Route path="Signup" element={<SignUp/>}/>
         <Route path='forgot-password' element={<ForgotPassword/>}/>
+        <Route path='reset-password' element ={<ResetPassword/>}/>
         <Route path='otp' element={<Otp/>}/>
       </Route>
       
@@ -84,6 +87,7 @@ function App() {
       <Route path="orders" element={<Orders/>}/>
       <Route path="coupon" element={<Copoun/>}/>
       <Route path="coupon-list" element={<CopounList/>}/>
+      <Route path="blog" element={<AdminBlog/>}/>
       </Route>
     </Routes>
    </Suspense>     

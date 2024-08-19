@@ -90,7 +90,7 @@ const LeftDrawer = () => {
         {
           isLoggedIn 
           ? 
-          <div className="flex justify-around gap-2  mt-8  p-2  items-center w-full group relative">
+          <div className="flex justify-around gap-2  mt-8  p-2  items-center w-full group relative bg-[#038CCC] text-white">
            <div className="bg-fuchsia-300/20 rounded-xl border-2">
            <img src={Kfs_logo2} alt="" className="h-16 w-16   rounded-xl " />
            </div>
@@ -98,14 +98,14 @@ const LeftDrawer = () => {
               <p className="name font-bold text-xl">Admin Man</p>
               <p className="email font-light">Admin@admin.com</p>
             </div>
-            <div className=" cursor-pointer">
+            <div className=" cursor-pointer ">
               <PiDotsThreeVerticalBold size={25}/>
-              <div className="dropdown absolute hidden w-44  p-2 -right-[59%] bg-white group-hover:flex flex-col items-center gap-2 bottom-4 rounded-md shadow-md">
-                 <div className="flex items-center gap-2 hover:bg-gray-100 w-full p-2 rounded-md ">
+              <div className="dropdown absolute hidden  w-44  p-2 -right-[67%] bg-[#038CCC] group-hover:flex flex-col items-center gap-2 bottom-4 rounded-md shadow-md">
+                 <div className="flex items-center gap-2 hover:bg-[#038CCC]/80 w-full p-2 rounded-md ">
                   <FiLogOut/>
                    <p className="uppercase">LogOut</p>
                  </div>
-                 <div className="flex  items-center gap-2 hover:bg-gray-100 w-full p-2 rounded-md ">
+                 <div className="flex  items-center gap-2 hover:bg-[#038CCC]/50 w-full p-2 rounded-md ">
                   <IoSettingsOutline/>
                    <p className="uppercase">Setting</p>
                  </div>

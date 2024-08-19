@@ -42,11 +42,11 @@ const CopounList = () => {
   return (
     <>
     <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto rounded-md  mx-8 mt-4 p-4'>
-    <div className="flex justify-between  items-center w-full bg-gray-200 p-2 rounded-md">
-     <h1 className='text-3xl uppercase'>Copouns</h1>
+    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+          <h1 className="uppercase">Copouns</h1>
+        </div>
     </div>
-    </div>
-    <div className="w-full  p-6">
+    <div className="w-full  p-8">
     <BasicTable columns={columns} data={Cdata}/>
     </div>
     </>

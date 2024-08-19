@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
 import { base_url } from '../../Utils/baseUrl';
+import { List } from '@mui/material';
+import { FaEye, FaPen, FaTrash } from 'react-icons/fa';
 
 const ListProduct = () => {
   const columns = [
     {
       header: "Sr.No.",
       accessorKey: "_id",
+      cell: ({ row }) => {
+        const id = row.original._id;
+        return <span>{id.slice(0, 3)}</span>;
+      },
     },
     {
       header: "Name",
@@ -21,7 +27,23 @@ const ListProduct = () => {
       accessorKey: "mobile",
     },
     {
+      header: "Reason",
+      accessorKey: "reason",
+    },
+    {
       header: "Action",
+      cell:()=>
+        <List className='flex items-center gap-2 justify-center cursor-pointer'>
+         <div className="bg-red-200 p-2 rounded-md hover:shadow-md">
+          <FaTrash className='text-red-500'/>
+         </div>
+         <div className="bg-blue-200 p-2 rounded-md hover:shadow-md">
+          <FaEye className='text-blue-500'/>
+         </div>
+           <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
+            <FaPen className='text-black'/>
+           </div>
+        </List>
     },
   ];
 
@@ -37,22 +59,20 @@ const ListProduct = () => {
       setIsLoading(false);
     };
     FetchContact();
-    
+    // console.log(contact)
   }, [])
 
   return (
-    <div className=' rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around lg:mx-24 p-6'>
-       <div className="flex justify-between px-12 items-center w-full p-12">
-        <h1 className='text-3xl'>List Of Contacts from website</h1>
-        <div className="flex items-center bg-blue-500">
-            <input type="search" className='h-10 w-60  focus:shadow-md border-2 outline-none px-2' />
-            <button className="p-2 text-white">Search</button>
+    <>
+    <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
+    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+          <h1 className="">Contact List</h1>
         </div>
-       </div>
-      <div className="w-full">
+    </div>
+      <div className="w-full p-8">
       <BasicTable columns={columns} data={contact} />
       </div>
-    </div>
+    </>
   )
 }
 
