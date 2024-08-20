@@ -10,6 +10,7 @@ const WebsiteSchema = new mongoose.Schema(
     },
     logo: {
       type: String,
+      requird:true
     },
     mainbg: {
       type: String,

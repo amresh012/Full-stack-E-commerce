@@ -109,7 +109,7 @@ const Product = () => {
         {/* product list all */}
         <div className="product_list_all flex flex-col justify-between">
           {/* product header */}
-          <div className="h-24 w-full flex  items-center justify-between px-10">
+          <div className="h-24 w-full bg-blue-200 flex  items-center justify-between px-10">
             <p className="text-2xl">
               Products {"("}
               {products.length}
@@ -130,7 +130,7 @@ const Product = () => {
             </div>
           </div>
           {/* product list */}
-          <div className="product-list_container flex flex-wrap gap-12 w-full  items-start justify-start pl-12">
+          <div className="product-list_container bg-blue-200 flex flex-wrap gap-12 w-full  items-start justify-start pl-12">
             {isLoading ? (
               <Loader />
             ) : (
@@ -142,13 +142,18 @@ const Product = () => {
                   <div className="badge absolute">
                     <Badge discount={item.corporateDiscount} />
                   </div>
-                  <div className="image-container h-56 bg-gray-200 ">
-                    <Carousel autoplay={true} showThumbs={false}>
-                      {item.images.map((image, i) => (
+                  <div className="image-container bg-gray-200 ">
+                    <Carousel autoplay={true} showThumbs={false} 
+                    autoFocus={true} 
+                    dynamicHeight={true}
+                      preventMovementUntilSwipeScrollTolerance={true}
+                      showArrows={false}
+                      >
+                      {item?.images.map((image,i) => (
                         <img
                           src={image}
                           alt={image}
-                          className="w-12 h-12 object-cover"
+                          className=" object-fill w-fit h-fit"
                           key={i}
                         />
                       ))}
@@ -189,7 +194,7 @@ const Product = () => {
                     <div className="button flex  flex-col gap-2">
                       <button
                         className="addtocart p-2 border-2"
-                        onClick={() => handleAdd(item)}
+                        onClick={() =>handleAdd(item)}
                       >
                         Add To Cart
                       </button>

@@ -7,59 +7,62 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-// import { TablePagination } from "@mui/material";
-// import {FaArrowUp , FaArrowDown} from "react-icons/fa"
-const BasicTable = ({columns, data}) => {
+const BasicTable = ({columns, data }) => {
   const [sorting, setSorting] = useState([]);
 
-  // const data1 = useMemo(() => data, []);
   const table = useReactTable({
     data : data ,
     columns : columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(20),
     getSortedRowModel: getSortedRowModel(),
-    sorting: {
+    state: {
       sorting: sorting,
     },
     onSortingChange: setSorting,
   });
   return (
     <div className="shadow-md rounded-md p-2">
-      {/* <TablePagination
-        rowsPerPageOptions={[5, 10, 25,100, { label: 'All', value: data.length }]}
-        component="div"
-        count={table.getFilteredRowModel().rows.length}
-        rowsPerPage={pageSize}
-        page={pageIndex}
-        slotProps={{
-          select: {
-            inputProps: { 'aria-label': 'rows per page' },
-            native: true,
-          },
-        }}
-        onPageChange={(_, page) => {
-          table.setPageIndex(page)
-        }}
-        onRowsPerPageChange={e => {
-          const size = e.target.value ? Number(e.target.value) : 10
-          table.setPageSize(size)
-        }}
-        ActionsComponent={TablePaginationActions}
-      /> */}
 
+         <select
+         className="border-2 p-4 outline-none m-4 w-2/6"
+          value={table.getState().pagination.pageSize}
+          onChange={e => {
+            table.setPageSize(Number(e.target.value))
+          }}
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
       <table className="">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} onClick={header.column.getToggleSortingHandler()}>
+                <th key={header.id}  className={
+                  header.column.getCanSort()
+                    ? 'cursor-pointer select-none'
+                    : ''
+                } onClick={header.column.getToggleSortingHandler()}
+                title={
+                  header.column.getCanSort()
+                    ? header.column.getNextSortingOrder() === 'asc'
+                      ? 'Sort ascending'
+                      : header.column.getNextSortingOrder() === 'desc'
+                        ? 'Sort descending'
+                        : 'Clear sort'
+                    : undefined
+                }
+                >
                   {flexRender(
                     header.column.columnDef.header,
                     header.getContext()
                   )}
                   {
-                    {asc:"dec" , des :"inc"}[header.column.getIsSorted() ?? null]
+                    {asc:"🔼" , des :"🔽" }[header.column.getIsSorted()] ?? null
                   }
                 </th>
               ))}
@@ -78,7 +81,28 @@ const BasicTable = ({columns, data}) => {
           ))}
         </tbody>
       </table>
-      <div className="space-x-4 p-4 m-4 b w-fit ">showing {table.getPageCount()} entries {table.getRowCount()}</div>
+      <div className="flex m-4 p-4 gap-4 items-center"> 
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount()}
+          </strong>
+        </span>
+        {/* go to page number */}
+        <span className="flex items-center gap-1">
+          | Go to page:
+          <input
+            type="number"
+            defaultValue={table.getState().pagination.pageIndex + 1}
+            onChange={e => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0
+              table.setPageIndex(page)
+            }}
+            className="border p-1 rounded outline-none w-16"
+          />
+        </span>
+        </div>
       <div className="w-full flex gap-12 p-4  items-center justify-center">
         <button
           className={

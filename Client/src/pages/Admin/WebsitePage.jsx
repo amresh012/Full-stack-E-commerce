@@ -7,6 +7,54 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Space, Upload , message } from "antd";
 
 const WebsitePage = () => {
+
+  // image upload
+  const props1 = {
+    name: "file",
+    multiple: true,
+    action: `${base_url}uploads`,
+    onSubmit(info) {
+      const { status } = info.file;
+      if (status !== "uploading") {
+          console.log(info.file, info.fileList);
+           setFieldValue(
+             "homepageBanner",
+             info.fileList.map((file) =>file.response)
+           );
+      }
+      if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
+
+  const props2 = {
+    name: "file",
+    action: `${base_url}uploads`,
+    onSubmit(info) {
+      const { status } = info.file;
+      if (status !== "uploading") {
+          // console.log(info.file, info.fileList);
+          setFieldValue(
+            "logo",info.file.response[0]
+          );
+      }
+      if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
+
   const {
     values,
     setFieldValue,
@@ -19,6 +67,7 @@ const WebsitePage = () => {
       title: "",
       logo: "",
       mainbg: "",
+      headerCol:"",
       primarybg: "",
       secondarybg: "",
       footerCol: "",
@@ -27,14 +76,26 @@ const WebsitePage = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("title", values.title);
+        formData.append("logo", values.logo);
+        formData.append("mainbg", values.mainbg);
+        formData.append("primarybg", values.primarybg);
+        formData.append("headerCol", values.headerCol);
+        formData.append("secondarybg", values.secondarybg);
+        formData.append("footerCol", values.footerCol);
+        formData.append("textCol", values.textCol);
+        formData.append("homepageBanner", values.homepageBanner);
         const response = await axios.post(`${base_url}config`, values);
-        // console.log(values);
+        console.log(values);
         if (response.data.error) {
           throw new Error(response.data.error);
         } else {
           toast.success("Occurance Changed Successfully");
         }
       } catch (error) {
+        console.log(error.message)
         toast.error(error.message);
       } finally {
         setSubmitting(false);
@@ -42,34 +103,8 @@ const WebsitePage = () => {
     },
   });
     
-    const props = {
-      name: "file",
-      multiple: true,
-      action: `${base_url}uploads`,
-      onChange(info) {
-        const { status } = info.file;
-        if (status !== "uploading") {
-            console.log(info.file, info.fileList);
-             setFieldValue(
-               "logo",
-               info.fileList.map((file) => file.originFileObj.response)
-            );
-             setFieldValue(
-               "homepageBanner",
-               info.fileList.map((file) =>console.log(file.originFileObj))
-             );
-        }
-        if (status === "done") {
-          message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === "error") {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
-      onDrop(e) {
-        console.log("Dropped files", e.dataTransfer.files);
-      },
-    };
-     console.log(values);
+    
+    //  console.log(values);
      
 
   const configlabel = [
@@ -91,7 +126,7 @@ const WebsitePage = () => {
     {
       id: 3,
       label: "Header color",
-      Id: "headerbg",
+      Id: "headerCol",
     },
     {
       id: 4,
@@ -212,10 +247,10 @@ const WebsitePage = () => {
               }}
               size="large"
             >
-              <Upload {...props}>
+              <Upload {...props2}>
                 <Button icon={<UploadOutlined />}>Upload (Max: 1)</Button>
               </Upload>
-              <Upload {...props}>
+              <Upload {...props1}>
                 <Button icon={<UploadOutlined />}>Upload (Max: 3)</Button>
               </Upload>
             </Space>

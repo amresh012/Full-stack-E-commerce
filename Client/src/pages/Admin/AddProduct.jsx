@@ -14,7 +14,7 @@ const AddProduct = () => {
     const props = {
       name: "file",
       multiple: true,
-      action: `${base_url}uploads`,
+      action: `https://images.deepmart.shop/upload`,
       onChange(info) {
         // console.log(info);
         const { status } = info.file;
@@ -25,10 +25,10 @@ const AddProduct = () => {
           message.success(`${info.file.name.slice(0,10)} file uploaded  successfully.`);
           setFieldValue(
             "images",
-            info.fileList.map((file) => console.log(file.response[0]))
+            info.fileList.map((file) => file.response)
           );
         } else if (status === "error") {
-          message.error(`${info.file.name} file upload failed.`);
+          message.error(`${info.file.name.slice(0,20)} file upload failed.`);
         }
       },
       onDrop(e) {

@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     );
   },
 });
-const url = "http://192.168.1.18:8005";
+const url = "http://127.0.0.1:8032";
 
 
 const uploadPhoto = multer({

@@ -13,7 +13,7 @@ const AddBulkProduct = () => {
     name: "file",
     multiple: true,
     accept:".xls,.xlsx ,.csv" ,
-    action: `${base_url}uploads/`,
+    action: `${base_url}bulk`,
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {

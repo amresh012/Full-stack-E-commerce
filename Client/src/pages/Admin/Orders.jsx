@@ -5,26 +5,32 @@ import Ordata from "../../MOCK_DATA (4).json"
 import { Autocomplete, TextField } from "@mui/material";
 import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
 import { useState } from 'react';
+import {toast, Toaster} from "react-hot-toast"
 
 
 const getStatusColor = (status) => {
   switch (status.toLowerCase()) {
     case "return":
-      return "bg-red-200 p-2 text-red-500 rounded-md"; // Red color for "Return"
+      return "bg-red-200 p-2 text-red-500 rounded-md  uppercase"; // Red color for "Return"
     case "cod":
-      return "text-yellow-500 bg-yellow-200 p-2 rounded-md"; // Yellow color for "COD"
+      return "text-yellow-500 bg-yellow-200 p-2 rounded-md uppercase"; // Yellow color for "COD"
     case "not processed":
-      return "text-gray-500 bg-gray-200 p-2 rounded-md"; // Gray color for "Not Processed"
+      return "text-gray-500 bg-gray-200 p-2 rounded-md uppercase"; // Gray color for "Not Processed"
     case "shipped":
-      return "text-blue-500  bg-blue-200 p-2 rounded-md"; // Blue color for "Shipped"
+      return "text-blue-500  bg-blue-200 p-2 rounded-md uppercase"; // Blue color for "Shipped"
     case "out of delivery":
-      return "text-purple-500  bg-purple-200 p-2 rounded-md"; // Purple color for "Out Of Delivery"
+      return "text-purple-500  bg-purple-200 p-2 rounded-md uppercase"; // Purple color for "Out Of Delivery"
     case "cancelled":
-      return "text-black  bg-black/20 p-2 rounded-md"; // Black color for "Cancelled"
+      return "text-black  bg-black/20 p-2 rounded-md uppercase"; // Black color for "Cancelled"
     default:
-      return "text-gray-800  bg-gray-200 p-2 rounded-md"; // Default color
+      return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
   }
 };
+
+const handleDelete = ()=>{
+  console.log("delete")
+  toast.success("Deleted Successfully")
+}
 
 
 const columns = [
@@ -59,8 +65,8 @@ const columns = [
   {
     header: "Action",
     cell: () => (
-      <div className="flex w-full justify-around gap-2 ">
-        <div className="bg-red-200 p-2 rounded-md">
+      <div className="flex w-full justify-around gap-2 cursor-pointer ">
+        <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md">
@@ -76,6 +82,14 @@ const Orders = () => {
   const [search , setSearch] = useState()
   const statusArray = Ordata.map((item) => item.sataus);
   const UniqueStatus = new Set(statusArray);
+
+  //  tableInstance
+  // const handleTableInstance = (tableInstance) => {
+  //   // Now you have access to the table instance
+  //   console.log(tableInstance);
+  // };
+  
+
   // status 
   const statusCount = Ordata.reduce((acc, item) => {
 
@@ -104,15 +118,17 @@ const Orders = () => {
   ];
 
   
+  
   return (
     <>
+    <Toaster/>
  <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto rounded-md  mx-8 mt-4 p-4'>
     <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Orders</h1>
         </div>
     </div>
-      {/* <div className="Order-Status py-4 m-4 ">
-          <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
+      <div className="Order-Status py-4 m-4 ">
+          {/* <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
             {Object.keys(statusCount)
               .slice(0, 3)
               .map((status) => (
@@ -124,11 +140,11 @@ const Orders = () => {
                   <h1 className="text-xl">{status}</h1>
                 </li>
               ))}
-          </ul>
-        </div> */}
+          </ul> */}
+        </div>
       {/* table col */}
-      <div className=" w-full border rounded-md p-4 max-h-max ">
-        <div className="flex items-center justify-between px-4 py-4 ">
+      <div className=" w-full  rounded-md p-4 max-h-max ">
+        <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#038CCC] text-white mx-4 rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
           <BsThreeDotsVertical />
         </div>

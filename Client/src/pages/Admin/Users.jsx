@@ -20,6 +20,7 @@ const columns = [
   {
     header: "Name",
     accessorKey: "name",
+    invertSorting: true,
   },
   {
     header: "Email",
@@ -83,14 +84,14 @@ const columns = [
 ];
 
 const Users = () => {
-   const [product, setProduct] = useState([]);
+   const [users, setUsers] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     const FetchUsers = async () => {
       let response = await fetch(`${base_url}user/all-users`);
       let data = await response.json();
-      setProduct(data);
+      setUsers(data);
       setIsLoading(false);
     };
     FetchUsers();
@@ -109,7 +110,7 @@ const Users = () => {
         </div>
       </div>
       <div className="m-12 shadow-md border-2 rounded-md p-2">
-        <BasicTable columns={columns} data={product} />
+        <BasicTable columns={columns} data={users} />
       </div>
     </>
   );

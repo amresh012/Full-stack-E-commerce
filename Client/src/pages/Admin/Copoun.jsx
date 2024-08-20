@@ -1,62 +1,123 @@
-import { Autocomplete, TextField } from '@mui/material'
-// import React,  from 'react'
-import toast,{Toaster} from 'react-hot-toast'
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useDispatch } from 'react-redux';
+import { addCoupon, getAdmindata } from "../../features/admin/adminSlice";
+import {toast , Toaster } from "react-hot-toast"
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useNavigate } from 'react-router-dom';
 
-const Copoun = () => {
+const CouponFormSchema = Yup.object().shape({
+  code: Yup.string()
+    .required("Code is required")
+    .min(6, "Coupon Code must be at least 6 characters")
+    .max(12, "Coupon Code must not exceed 12 characters"),
+  type: Yup.string()
+    .required("Type is required")
+    .oneOf(["Percentage", "Fixed"], "Invalid type"),
+  discountValue: Yup.number()
+    .required("Discount Value is required")
+    .min(1, "Discount Value must be greater than or equal to 0"),
+});
 
-  
-  const copoun = [
-    {id:1,label:"Copoun Code", placeholder:"Enter Copoun Code"},
-    {id:2, label:"Discount Value" , placeholder:"Enter Discount value in range of 1-100"},
-  ]
-
-  const typeofDi = ["Fixed" , "Pecentage"]
-
-
+const AddCoupon = () => {
+  const err = {
+    color: "red",
+    fontSize: "12px",
+    padding: "0px 0px 0px 9px",
+  };
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   return (
     <>
-      <Toaster />
-      <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
-    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
-          <h1 className="uppercase">Add Copouns</h1>
-        </div>
-    </div>
-      <div className="border-2 m-4 mt-24 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around   p-6">
-        {/* Add copoun component */}
-        <div className="flex gap-12 items-center justify-around">
-          {copoun.map((item) => (
-            <div className="input-1 w-full flex-col gap-2 flex" key={item.id}>
-              <label htmlFor="">{item.label}</label>
-              <input
-                type="number"
-                className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
-                placeholder={item.placeholder}
-              />
+    <Toaster/>
+    <Formik
+      initialValues={{
+        code: "",
+        type: "",
+        discountValue: 0,
+      }}
+      validationSchema={CouponFormSchema}
+      onSubmit={(values) => {
+        console.log(values)
+        dispatch(addCoupon(values)).then(unwrapResult).then(()=>{
+          toast.success("Copoun Created Successfully!");
+          navigate("/admin/coupon")
+          dispatch(getAdmindata())
+        })
+      }}
+    >
+      {({ errors, touched }) => {
+        return (
+          <Form className="flex flex-col w-full">
+            <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
+           <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+          <h1 className="uppercase">Create Copoun</h1>
+           </div>
+           </div>
+           <div className="flex p-2 shadow-md mx-4">
+            <div className=" flex flex-col gap-2  w-full p-2">
+              <label htmlFor="code"> Coupon Code</label>
+              <Field
+                type="text"
+                id="code"
+                name="code"
+                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                  touched.code && errors.code ? "is-invalid" : ""
+                }`}
+                placeholder="Enter 6 Digit Copoun Code"
+                />
+              <ErrorMessage style={err} name="code" component="div" />
             </div>
-          ))}
-          <div className="w-[20rem] gap-2 flex flex-col">
-            <label htmlFor="">Type:</label>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={typeofDi}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Discount Type" />
-              )}
-            />
-          </div>
-        </div>
-        <div
-          className=" cursor-pointer  text-center 
-           text-white rounded-md shadow-md px-12 py-2 
-          duration-300 bg-[#038CCC] hover:bg-[#038CCC]/80"
-        >
-          <button>Generate Copoun</button>
-        </div>
-      </div>
-    </>
-  );
-}
 
-export default Copoun
+            <div className=" flex flex-col w-full p-2">
+              <label htmlFor="type">Type</label>
+              <Field
+                as="select"
+                id="type"
+                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                  touched.code && errors.code ? "is-invalid" : ""
+                }`}
+                name="type"
+                >
+                <option value="" disabled className="text-lg">
+                  Select Type
+                </option>
+                <option value="Percentage" className="text-lg">
+                  Percentage
+                </option>
+                <option value="Fixed" className="text-lg">
+                  Fixed
+                </option>
+              </Field>
+              <ErrorMessage style={err} name="type" component="div" />
+            </div>
+
+            <div className=" flex flex-col w-full p-2">
+              <label htmlFor="discountValue">Discount Value</label>
+              <Field
+                type="number"
+                id="discountValue"
+                name="discountValue"
+                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                  touched.code && errors.code ? "is-invalid" : ""
+                }`}
+                 placeholder="Enter Copoun Value 1-100"
+                />
+              <ErrorMessage style={err} name="discountValue" component="div" />
+            </div>
+                </div>
+                <div
+            className="flex justify-center gap-4 w-full text-center duration-300 mt-4"
+          >
+            <button  className="bg-[#038CCC] w-2/6 p-2 rounded-md text-white uppercase">Add Copoun</button>
+           
+          </div>
+          </Form>
+        );
+      }}
+    </Formik>
+        </>
+  );
+};
+
+export default AddCoupon;
