@@ -35,7 +35,8 @@ import Invoice from './pages/UserDashboard/Invoice'
 import CheckOut from './pages/Product/CheckOut'
 import AdminBlog from './pages/Admin/blog'
 import ResetPassword from './pages/AuthPages/ResetPassword'
-
+import MyOrders from "./pages/UserDashboard/MyOrders"
+import Report from './pages/UserDashboard/Report'
 function App() {
 
   return (
@@ -70,6 +71,8 @@ function App() {
          <Route index element={<Setting/>}/>
          <Route path="shipping-add" element={<Shipping/>}/>
          <Route path="my-invoice" element={<Invoice/>}/>
+         <Route path="my-orders" element={<MyOrders/>}/>
+         <Route path="report" element={<Report/>}/>
          </Route>
      
 
