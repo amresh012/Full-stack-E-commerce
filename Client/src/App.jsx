@@ -37,6 +37,7 @@ import AdminBlog from './pages/Admin/blog'
 import ResetPassword from './pages/AuthPages/ResetPassword'
 import MyOrders from "./pages/UserDashboard/MyOrders"
 import Report from './pages/UserDashboard/Report'
+import Profile from "./pages/UserDashboard/Profile"
 function App() {
 
   return (
@@ -68,7 +69,8 @@ function App() {
       
        {/* UserDashboard Routes */}
          <Route path="/profile" element={<UserProfile/>}>
-         <Route index element={<Setting/>}/>
+         <Route index element={<Profile/>}/>
+         <Route path="setting" element={<Setting/>}/>
          <Route path="shipping-add" element={<Shipping/>}/>
          <Route path="my-invoice" element={<Invoice/>}/>
          <Route path="my-orders" element={<MyOrders/>}/>
@@ -79,7 +81,7 @@ function App() {
       {/* Admin Routes */}
 
       <Route path="/admin/*" element={<AdminLayout/>}>
-      <Route index element={<Dashboard/>}/>
+      <Route path="setting" element={<Dashboard/>}/>
       <Route path="users" element={<Users/>}/>
       <Route path="products" element={<AddProduct/>}/>
       <Route path="bulk-product" element={<AddBulkProduct/>}/>

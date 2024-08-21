@@ -76,12 +76,6 @@ const Navbar = () => {
       {/*  */}
 
       <div className="lg:flex items-center  justify-center gap-2  cursor-pointer z-50 hidden ">
-        <div className="search-box flex border-2 rounded-full duration-500">
-          <input ref={inputref} type="search" placeholder="Search" className=" rounded-l-full h-8 bg-slate-400/20 p-4 outline-none" />
-          <div className=" top-2 rounded-r-full text-white bg-black p-2 right-3 active:scale-95">
-            <BiSearch/>
-          </div>
-        </div>
        {
          isLoggedIn ?
          <AccountMenu/>

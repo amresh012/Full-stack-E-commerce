@@ -1,19 +1,19 @@
 // import React, { useState } from 'react';
 import {Link} from "react-router-dom"
-import Logo from "../../assets/Untitled-1.png"
+import { useSelector ,useDispatch } from "react-redux";
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
 import {useFormik} from "formik"
 import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
-import { useState } from "react";
 
 
 
 const Login = () => {
     
-
+  let val = useSelector((state) => state.auth);
+  console.log(val)
   const {values, errors, handleBlur,handleSubmit , handleChange} = useFormik({
     initialValues: {
       email: '',
@@ -34,10 +34,10 @@ const Login = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const res = await axios.post(`${base_url}user/login`, values);
-
+         token=res.data.token
         if (res.status === 200) {
           toast.success('Logged in successfully! You will be redirected to the dashboard.');
-          localStorage.setItem("token" , res.data.token)
+           
           setTimeout(() => {
             window.location.href = '/profile';
           },3000)
@@ -59,16 +59,6 @@ const Login = () => {
     <div className=" flex   items-around justify-center">
       <Toaster/>
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-      <div className="flex  items-center justify-center gap-12">
-        <div className="flex gap-2 items-center text-xl checked:border-b-2">
-          <input type="checkbox" name="" id="" />
-          <label htmlFor="">User</label>
-        </div>
-        <div className="flex gap-2 items-center text-xl checked:border-b-2">
-          <input type="checkbox" name="" id="" />
-          <label htmlFor="">Admin</label>
-        </div>
-      </div>
       <div className="flex flex-col items-center justify-center mt-4">
         <h1 className='text-2xl font-bold'>SignIn</h1>
         <p className='text-xs'>or use your account</p>

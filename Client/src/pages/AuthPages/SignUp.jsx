@@ -12,7 +12,6 @@ import {RegisterApi, addSignupdata , adduser} from "../../features/authSlice"
 
 const SignUp = () => {
   const dispatch = useDispatch()
-  console.log(RegisterApi)
   const authentication = useSelector((state) => state.auth);
   console.log(authentication)
     const { values, handleChange, handleSubmit } = useFormik({
@@ -26,8 +25,9 @@ const SignUp = () => {
         try {
           dispatch(RegisterApi(values));
           dispatch(addSignupdata(values));
+          dispatch(adduser(values))
           toast.success("Registerd Successfully")
-          window.location.href="/"
+          window.location.href="/login"
         } catch (error) {
           console.log("error",error)
           toast.error("An error occurred while SigningIn.");

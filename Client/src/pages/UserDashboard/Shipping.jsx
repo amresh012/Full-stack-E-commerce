@@ -36,12 +36,12 @@ const Shipping = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2  mt-12 shadow-md w-[70vw] b-white">
+      <div className="border-2   rounded-md mx-4 b-white">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
-          <div className="bg-blue-500 p-2 text-white rounded-full">
+          <div className="bg-[#038CCC] p-2 text-white rounded-full">
             <FaAddressCard />
           </div>
-          <h1>Add New Address</h1>
+          <h1 className="uppercase">Add New Address</h1>
         </div>
         {/* address form */}
         <div className="p-4">
@@ -118,36 +118,41 @@ const Shipping = () => {
                 />
               </div>
             </div>
-            <div className="border-blue-500 border-2 px-12 py-2 w-fit font-bold  cursor-pointer hover:bg-blue-500 hover:text-white duration-500">
-              <button type="submit" className="uppercase">
-                Update Address
-              </button>
+            <div
+             className="px-12 py-2 bg-[#038CCC] w-fit font-bold  cursor-pointer
+            hover:bg-[#038CCC]/80 text-white duration-500 rounded-md
+            ">
+              <button type='submit' className='uppercase'>Add Address</button>
             </div>
           </form>
         </div>
       </div>
 
       {/* Old Addresses Section */}
-      <div className="border-2 h-[60vh] mt-12 shadow-md w-[70vw] b-white">
+      <div className="border-2 mb-4 mt-12 mx-4 rounded-md">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
-          <div className="bg-blue-500 p-2 text-white rounded-full">
+          <div className="bg-[#038CCC] p-2 text-white rounded-full">
             <FaAddressCard />
           </div>
-          <h1>Old Addresses</h1>
+          <h1 className="uppercase">Old Addreses</h1>
         </div>
         <div className="p-4 ">
-          <div className="border-2 p-4 h-24 rounded-md shadow-md flex items-center gap-4">
-            <input type="radio" name="address" id="address1" />
+          <div className="border-2 p-4  rounded-md shadow-md flex items-center gap-4">
+            <input type="checkbox" name="address" id="address1" />
             <div className="addr">
               <div className="flex gap-2">
-                <p>Full Name</p>
-                <p className="">Mobile No</p>
+                <p>Full Name: Mayank Ojha</p>
+                <p className="">Mobile No: 984573696</p>
               </div>
               <div className="flex gap-2">
-                <span className="">Address</span>
-                <span className="">City</span>
-                <span className="">State</span>
-                <span className="">Postal Code</span>
+                <span className="">Address: Neelam Chawok NIT-5</span>
+                <span className="">City:Faridabad</span>
+                <span className="">State:Haryana</span>
+                <span className="">Postal Code:121007</span>
+              </div>
+              <div className="flex gap-4">
+                <span>GST NO: 13234342443</span> 
+                <span>PAN NO:PMX0002K3</span> 
               </div>
             </div>
           </div>

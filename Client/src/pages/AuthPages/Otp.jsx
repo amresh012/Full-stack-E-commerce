@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const OTPInput = ({ length, onChange }) => {
   const [otp, setOtp] = useState(Array(length).fill(''));
@@ -44,11 +45,12 @@ const OTPComponent = () => {
     e.preventDefault();
     // Handle OTP submission logic
     alert('Submitted OTP:', value);
-    window.location.href="/"
+    window.location.href="/reset-password"
   };
 
   return (
     <div className="flex justify-center items-center h-[50vh]">
+      
       <div className="w-full max-w-md p-8 space-y-8 flex items-center justify-center flex-col bg-white rounded shadow">
         <h2 className="text-2xl font-bold text-center">Enter OTP</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -56,10 +58,15 @@ const OTPComponent = () => {
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+              className="w-full px-4 py-2 text-white bg-[#038CCC] hover:bg-[#038CCC]/80 rounded-md focus:outline-none focus:bg-indigo-700"
             >
               Verify OTP
             </button>
+            <div className="w-full mt-2 cursor-pointer grid place-items-center">
+              <Link to="/">
+              <p className="underline text-[#038CCC]">Back to home</p>
+              </Link>
+            </div>
           </div>
         </form>
       </div>

@@ -82,23 +82,19 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {/* <MenuItem onClick={handleClose}>
+        <Link to="/profile  ">
+        <MenuItem onClick={handleClose}>
           <Avatar /> Profile
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider /> */}
-        {/* <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem> */}
+        </Link>
+          {/* <MenuItem onClick={handleClose}>
+            <Avatar /> My account
+          </MenuItem> */}
+        <Divider />
         <Link to="/profile">
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <Settings fontSize="small" sx={{width:12 , height:12}} />
+            <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
