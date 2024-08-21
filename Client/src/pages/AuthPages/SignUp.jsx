@@ -8,34 +8,48 @@ import { CiPhone } from "react-icons/ci";
 import {useFormik} from "formik"
 import {toast, Toaster} from "react-hot-toast"
 import { useDispatch , useSelector } from "react-redux"
-import {RegisterApi, addSignupdata , adduser} from "../../features/authSlice"
+import {RegisterApi, addSignupdata, adduser} from "../../features/authSlice"
 
 const SignUp = () => {
-  const dispatch = useDispatch()
-  const authentication = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const authentication = useSelector((state) => state.user);
   console.log(authentication)
-    const { values, handleChange, handleSubmit } = useFormik({
-      initialValues: {
-        name: "",
-        email: "",
-        password: "",
-        mobile: "",
-      },
-      onSubmit: async (values, { setSubmitting }) => {
-        try {
-          dispatch(RegisterApi(values));
-          dispatch(addSignupdata(values));
-          dispatch(adduser(values))
-          toast.success("Registerd Successfully")
-          window.location.href="/login"
-        } catch (error) {
-          console.log("error",error)
-          toast.error("An error occurred while SigningIn.");
-        } finally {
-          setSubmitting(false);
-        }
-      },
-    });
+
+  const { values, handleChange, handleSubmit } = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      mobile: '',
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        await registerUser(values);
+         addSignupdata(values);
+         adduser(values)
+        handleSuccess();
+      } catch (error) {
+        handleError(error);
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
+
+  const registerUser = async (values) => {
+    dispatch(RegisterApi(values));
+  };
+
+  const handleSuccess = () => {
+    toast.success('Registered Successfully');
+    window.location.href = '/login';
+  };
+
+  const handleError = (error) => {
+    console.log(error)
+    toast.error('An error occurred while signing up.');
+    console.error(error);
+  };
 
  
   return (

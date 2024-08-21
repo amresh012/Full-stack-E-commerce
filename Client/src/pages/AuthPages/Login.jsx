@@ -4,56 +4,45 @@ import { useSelector ,useDispatch } from "react-redux";
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
 import {useFormik} from "formik"
-import axios from "axios"
 import {toast, Toaster} from "react-hot-toast"
-import { base_url } from '../../Utils/baseUrl';
-
+import {LoginApi ,adduser} from "../../features/authSlice"
 
 
 const Login = () => {
     
-  let val = useSelector((state) => state.auth);
-  console.log(val)
-  const {values, errors, handleBlur,handleSubmit , handleChange} = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: (values) => {
-      const errors = {};
-      if (!values.email) {
-        errors.email = 'Required';
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
-      }
-      if (!values.password) {
-        errors.password = 'Required';
-      }
-      return errors;
-    },
-    onSubmit: async (values, { setSubmitting }) => {
-      try {
-        const res = await axios.post(`${base_url}user/login`, values);
-         token=res.data.token
-        if (res.status === 200) {
-          toast.success('Logged in successfully! You will be redirected to the dashboard.');
-           
-          setTimeout(() => {
-            window.location.href = '/profile';
-          },3000)
-        } else {
-          toast.error('Invalid credentials');
-        }
-      } catch (error) {
-        console.error(error);
-        toast.error('An error occurred. Please try again.');
-      } finally {
-        setSubmitting(false);
-      }
-    },
-  });
-
-
+  const dispatch = useDispatch();
+// const history = useHistory();
+const { values, errors, handleSubmit, handleChange } = useFormik({
+  initialValues: {
+    email: '',
+    password: '',
+  },
+  validate: (values) => {
+    const errors = {};
+    if (!values.email) {
+      errors.email = 'Required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = 'Invalid email address';
+    }
+    if (!values.password) {
+      errors.password = 'Required';
+    }
+    return errors;
+  },
+  onSubmit: async (values, { setSubmitting }) => {
+    try {
+      await dispatch(LoginApi(values));
+      dispatch(adduser(values));
+      toast.success('Logged in successfully!');
+      window.location.href='/profile'; // redirect to dashboard
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+      console.error(error);
+    } finally {
+      setSubmitting(false);
+    }
+  },
+});
 
   return (
     <div className=" flex   items-around justify-center">

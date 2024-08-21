@@ -91,7 +91,7 @@ const searchProduct = asyncHandle(async (req, res) => {
     if (brand) {
       filter.brand = brand;
     }
-    const products = await ProductModel.find(filter).populate("subcategory");
+    const products = await ProductModel.find(filter).populate("subcategory").populate("Review");
     res.json(products);
   } catch (error) {
     console.error("Error searching products:", error);

@@ -33,9 +33,9 @@ const ProductSchema = new mongoose.Schema(
     meausrement: {
       type: String,
     }, 
-    rating:{
+    reviews:{
       type:mongoose.Schema.Types.ObjectId,
-      ref: 'Rating'
+      ref: 'Review'
     },
     quantity: {
       type: Number,
