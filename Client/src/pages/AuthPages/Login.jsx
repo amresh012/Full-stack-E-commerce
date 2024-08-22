@@ -11,7 +11,6 @@ import {LoginApi ,adduser} from "../../features/authSlice"
 const Login = () => {
     
   const dispatch = useDispatch();
-// const history = useHistory();
 const { values, errors, handleSubmit, handleChange } = useFormik({
   initialValues: {
     email: '',
@@ -31,25 +30,41 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
   },
   onSubmit: async (values, { setSubmitting }) => {
     try {
-      await dispatch(LoginApi(values));
-      dispatch(adduser(values));
-      toast.success('Logged in successfully!');
-      window.location.href='/profile'; // redirect to dashboard
+      const response = await dispatch(LoginApi(values));
+      console.log(response)
+      if (response.payload.success) {
+        toast.success("Registration successful!");
+        dispatch(addSignupdata(response.payload.data));
+        dispatch(adduser(response.payload.data));
+        // Redirect to login page or dashboard
+         window.location.href="/"
+      } else {
+        throw new Error(response.data.error)
+      }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
-      console.error(error);
+      toast.error("Error occurred during registration");
     } finally {
       setSubmitting(false);
     }
-  },
+  }
 });
 
   return (
-    <div className=" flex   items-around justify-center">
+    <>
       <Toaster/>
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <div className=" flex  mt-12  items-around justify-center  rounded-md  overflow-clip ">
+    <div className="image relative ">
+        <img src="https://img.freepik.com/premium-photo/portrait-muscled-athlete-bodybuilder-workouts-alone-sport-gym-indoors_489646-18893.jpg?ga=GA1.1.1956989210.1720427934&semt=ais_hybrid" alt="" />
+        <div className="absolute flex items-center justify-center bg-black/40 top-0 h-full w-full text-white">
+         <h1 className="flex flex-col items-center justify-center text-center">
+          <p className="text-[3rem] font-bold">Build your dream gym with us</p>
+          <p className="text-[1.5rem]">Ultimate Fitness Equipment Brand</p>
+          </h1>
+        </div>
+      </div>
+      <div className="bg-white p-8  w-[30rem]  space-y-4">
       <div className="flex flex-col items-center justify-center mt-4">
-        <h1 className='text-2xl font-bold'>SignIn</h1>
+        <h1 className='text-4xl font-bold'>SignIn</h1>
         <p className='text-xs'>or use your account</p>
       </div>
         {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
@@ -58,8 +73,8 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
               Email
             </label>
-            <div className="relative flex  hover:shadow-md max-h-fit ">
-           <div className=" flex items-center justify-center    text-xl w-12 bg-gray-200  ">
+            <div className="relative flex max-h-fit ">
+           <div className=" flex items-center justify-center  text-xl w-12 bg-[#038CCC] text-white ">
               <CiMail/>
             </div>
            <input
@@ -77,7 +92,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
               Password
             </label>
             <div className="relative flex  ">
-           <div className=" flex items-center justify-center  text-xl w-12 bg-gray-200  ">
+           <div className=" flex items-center justify-center  text-xl w-12 bg-[#038CCC] text-white   ">
               <IoLockClosedOutline/>
             </div>
            <input
@@ -98,7 +113,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700"
+            className="w-full bg-[#038CCC] text-white  py-2 rounded hover:bg-[#038CCC]/80"
           >
             SignIn
           </button>
@@ -106,11 +121,12 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
         <div className="flex  items-center w-full gap-2 justify-center p-4">
           <p>Dont&apos;t have account</p>
           <Link to="/Signup">
-           <p className='text-blue-500 underline'>SignIn</p>
+           <p className='text-[#038CCC]   underline'>SignIn</p>
           </Link>
         </div>
       </div>
     </div>
+              </>
   );
 };
 

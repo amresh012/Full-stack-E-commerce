@@ -95,16 +95,16 @@ export default function SwipeableTemporaryDrawer({icon}) {
                 >
                   <div className="img p-2 bg-gray-300/20 w-1/2 h-24">
                     <Carousel
-                      showThumbs={false}
-                      dynamicHeight={true}
-                      autoplay={true}
-                      showIndicators={false}
+                      renderIndicator={false} 
+                      autoPlay={true} infiniteLoop={true} 
+                      showStatus={false} showThumbs={false}
+                       showArrows={false}
                     >
                       {item.images.map((image, i) => (
                         <img
                           src={image}
                           alt={item.name}
-                          className=" object-cover"
+                          className=" object-cover h-24 w-24"
                           key={i}
                         />
                       ))}

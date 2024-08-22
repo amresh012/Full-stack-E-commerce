@@ -8,23 +8,34 @@ import Ratingdata from "../../MOCK_DATA (6).json"
 import {toast, Toaster}from "react-hot-toast"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
+import { base_url } from '../../Utils/baseUrl'
 
  const  ProductdetailPage = () => { 
    const {id} = useParams()
-   let isStock = false
+   const [product , setproduct] = useState()
    const [quantity, setQuantity] = useState(1)
    const [reviewvisible , setReviewVisible] = useState(false)
    const [endrating, setEndRating] = useState(4)
-   const [isLoggedIn, setIsLoggedIn] = useState(false)
-   const [price, setPrice] = useState(5220)
-   const collection = [
-    { src: Spin, caption: "Caption eleven" },
-    { src: Spin1, caption: "Caption twelve" },
-    { src: Spin2, caption: "Caption thirteen" },
-    { src: Spin2, caption: "Caption thirteen" },
-    { src: Spin1, caption: "Caption thirteen" },
-    { src: Spin, caption: "Caption thirteen" }
-  ];
+   const [isLoggedIn, setIsLoggedIn] = useState(true)
+
+
+  
+
+
+  // fetch product by id
+  useEffect(() => {
+    const fetchProducts = async () => {
+    try {
+      const response = await fetch(`${base_url}product/${id}`);
+      const data = await response.json();
+      setproduct(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+    fetchProducts();
+  }, [id]);
+  
 
   const handleLoadReviews  = ()=>{
     if(localStorage.getItem("token")){
@@ -51,13 +62,19 @@ import { Carousel } from 'react-responsive-carousel';
     <>
     <Toaster/>
     <div className="">
-    <div className=" p-12  flex gap-12 ">
+    <div className=" p-12  flex gap-12 lg:flex-row flex-col ">
      {/* image-container */}
-    <div className="w-full">
-    <Carousel autoplay={true}>
+    <div className="lg:w-1/2 w-full ">
+    <Carousel  
+    renderIndicator={false} 
+    autoPlay={true} infiniteLoop={true} 
+    showStatus={false}
+    showArrows={false}
+    dynamicHeight={true}
+  >
        {
-        collection.map((item, index) => (
-          <img src={item.src} alt="" key={index} />
+        product?.images.map((item, index) => (
+          <img src={item} alt="" key={index} className=' object-cover' />
         ))
        }
        
@@ -67,11 +84,11 @@ import { Carousel } from 'react-responsive-carousel';
      <div className="details-container flex flex-col ">
       <h1 className='font-bold space-x-12 bg-gray-200 w-fit p-2 rounded-md mb-4'>Home / <span>Collectiom</span></h1>
       <Rating name="half-rating" value={4.9} defaultValue={2.5} precision={0.5} />
-      <p className="product-name font-bold text-2xl">Revo 220 Group Cycling Bike</p>
+      <p className="product-name font-bold text-2xl">{product?.name}</p>
       <span>Variant : SKP: SF-FOO3-C</span>
       <div className="price space-x-4">
         <span className="text-2xl font-bold line-through text-red-500">Rs 5,500.00</span>
-        <span className="text-2xl font-bold">Rs{price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</span>
+        <span className="text-2xl font-bold">Rs{product?.price}</span>
       </div>
       {/* <div className="dimensions flex flex-col gap-2">
         <h1 className='font-bold text-xl'>Net-Weights</h1>
@@ -111,15 +128,15 @@ import { Carousel } from 'react-responsive-carousel';
       </div>
       <div className="availibility">
         {
-          quantity >0 ? 
+          product?.quantity > 0 ? 
           <p className='flex items-center gap-2 text-xl text-green-500 font-medium'><div className='w-2 h-2 rounded-full bg-green-500 animate-pulse'></div>In Stock, Ready to Ship</p>
           :
           <p className='flex items-center gap-2 text-xl text-red-500 font-medium'><div className='w-2 h-2 rounded-full  bg-red-500 animate-pulse'></div>Out Of Stock</p>
         }
       </div>
       {/* shipping features */}
-      <div className="shipping-features flex justify-around items-center p-2 border-b-2 border-t-2 m-4 border-black">
-        <div className="flex gap-2 flex-col items-center p-4">
+      <div className="shipping-features flex justify-around items-center p-2 border-b-2 border-t-2 lg:m-4 border-black">
+        <div className="flex gap-2 flex-col items-center  lg:p-4">
           <FaGlobe  size={30}/>
           <p>Pan India Shipping</p>
         </div>
@@ -138,15 +155,15 @@ import { Carousel } from 'react-responsive-carousel';
     {/* ********************************************************************************************************************* */}
     {/* customer reviews */}
     <div className="">
-      <div className="heading px-4 p-2 font-bold text-3xl">Customer Reviews</div>
+      <div className="heading w-full  font-bold text-3xl lg:text-start p-4 text-center">Customer Reviews</div>
       <div className="border-b-2 py-4 px-2 mx-4">
-        <div className="left-content  flex justify-between px-12  items-center">
-          <div className=" text-xl font-bold">
+        <div className="left-content  flex flex-col lg:flex-row justify-between px-12  items-center">
+          <div className=" text-xl font-bold text-center">
             <p className='flex items-center gap-2'>4.9 <Rating name="half-rating" value={3.5} defaultValue={4.5} precision={0.5} /></p>
 
-          <p className='font-thin text-sm'>Based on 12 reviews</p>
+          <p className='font-medium lg:text-sm text-base'>Based on 12 reviews</p>
           </div>
-          <div className="rightcontent border-2 p-2 hover:bg-black hover:text-white" onClick={handleReviewView}>
+          <div className="rightcontent border-2 p-2 hover:bg-black border-black hover:text-white" onClick={handleReviewView}>
           <button>Write a Review</button>
         </div>
         </div>
@@ -156,12 +173,12 @@ import { Carousel } from 'react-responsive-carousel';
         <ReviewForm/>
         </div>
       }
-      <div className="rating-container  ">
-        <div className="reviews flex flex-wrap   justify-center">
+      <div className="rating-container flex flex-wrap  ">
+        <div className="reviews flex  flex-wrap  justify-center">
           {
             Ratingdata.slice(0,endrating).map((review)=>{
               return(
-                <div className="each-review w-1/2 p-12 ">
+                <div className="each-review lg:w-1/2 w-full gap-2 lg:p-12 p-4 ">
                   <div className="header flex justify-between   items-start">
                     <div className="left-side-header flex items-start justify-start gap-2" >
                     <Avatar sx={{textTransform:"uppercase",bgcolor:"black",width:44, height:44}}>{review.username.slice(0,2)}</Avatar>
@@ -183,7 +200,7 @@ import { Carousel } from 'react-responsive-carousel';
                         </span>
                     </div>
                     </div>
-                    <div className="date text-xs text-zinc-600">
+                    <div className="date text-xs lg:pt-0 pt-2 text-zinc-600">
                       <p>{review['review-date']}</p>
                     </div>
                   </div>

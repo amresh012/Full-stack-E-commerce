@@ -1,5 +1,6 @@
 const asyncHandle = require("express-async-handler");
 const ProductModel = require("../models/productModel");
+const ReviewModel = require("../models/reviewModel")
 const expressAsyncHandler = require("express-async-handler");
 const exceljs = require("exceljs");
 const xlsx = require("xlsx");
@@ -42,6 +43,31 @@ const addProduct = asyncHandle(async (req, res) => {
         res.send({ error: error.message, errorDetail: error });
       }
     }
+  }
+});
+// get product by id
+const getProductById = asyncHandle(async (req, res) => {
+  const _id = req.params.id;
+  if (_id) {
+    try {
+      const product = await ProductModel.findById(_id).populate("subcategory").populate({
+        path: "reviews",
+        model: "reviews",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      });
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404).json({ error: "Product not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  } else {
+    res.status(400).json({ error: "Invalid request" });
   }
 });
 
@@ -91,7 +117,14 @@ const searchProduct = asyncHandle(async (req, res) => {
     if (brand) {
       filter.brand = brand;
     }
-    const products = await ProductModel.find(filter).populate("subcategory").populate("Review");
+    const products = await ProductModel.find(filter).populate("subcategory").populate({
+      path: "reviews",
+      model: "reviews",
+      populate: {
+        path: "user",
+        model: "User",
+      },
+    });;
     res.json(products);
   } catch (error) {
     console.error("Error searching products:", error);
@@ -100,7 +133,14 @@ const searchProduct = asyncHandle(async (req, res) => {
 });
 
 const getallProduct = asyncHandle(async (req, res, next) => {
-  const Product = await ProductModel.find().populate("subcategory");
+  const Product = await ProductModel.find().populate("subcategory").populate({
+    path: "reviews",
+    model: "reviews",
+    populate: {
+      path: "user",
+      model: "User",
+    },
+  });;
   if (req.query) {
     next();
   } else {
@@ -176,6 +216,7 @@ module.exports = {
   addProduct,
   getallProduct,
   deleteProduct,
+  getProductById,
   updateproduct,
   searchProduct,
   uploadBulkProduct,

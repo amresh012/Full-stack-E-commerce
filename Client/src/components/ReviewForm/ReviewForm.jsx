@@ -39,8 +39,8 @@ const ReviewForm = () => {
    }
 
   return (
-    <div className='p-12'>
-      <form onSubmit={handleReviewSubmit} className='h-auto p-12 space-y-8 border-2'>
+    <div className='lg:p-12'>
+      <form onSubmit={handleReviewSubmit} className='h-auto lg:p-12 p-4 space-y-8 border-2'>
         <div className="Rating flex gap-2  py-4 flex-col text-3xl font-bold">
             <label htmlFor="">Rating</label>
             <Rating
@@ -99,11 +99,11 @@ const ReviewForm = () => {
             </div>
         </div>
         <div className="flex gap-12  w-full items-center justify-center">
-            <div className='flex gap-2  items-center font-bold border-2 p-2'>
+            <div className='flex gap-2  items-center font-bold border-2 p-2 bg-black border-black text-white    '>
                 <FaCamera/>
                 <span>Add Photo</span>
             </div>
-            <button className='flex gap-2 bg-black text-white  items-center font-bold border-2 p-2'>
+            <button className='flex gap-2 bg-black border-black text-white  items-center font-bold border-2 p-2'>
                 <FaTelegramPlane/>
                 <button type="submit">Submit Review</button>
             </button>

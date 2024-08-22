@@ -36,7 +36,7 @@ const links = [
         sublink:[
             {
                 id:0,
-                label:"Profile Setting",
+                label:"Profile",
                 icons:"",
                 route:"/profile"
             },
