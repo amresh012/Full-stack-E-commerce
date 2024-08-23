@@ -62,7 +62,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
           </h1>
         </div>
       </div>
-      <div className="bg-white p-8  w-[30rem]  space-y-4">
+      <div className="bg-[#0A2440] text-white p-8  w-[30rem]  space-y-4">
       <div className="flex flex-col items-center justify-center mt-4">
         <h1 className='text-4xl font-bold'>SignIn</h1>
         <p className='text-xs'>or use your account</p>
@@ -70,7 +70,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
         {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
         <form onSubmit={handleSubmit}>
           <div className="mb-4 ">
-            <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
+            <label className="block mb-2 text-sm font-bold" htmlFor="email">
               Email
             </label>
             <div className="relative flex max-h-fit ">

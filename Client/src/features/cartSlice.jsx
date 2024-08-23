@@ -8,6 +8,8 @@ const initialState = {
   carts: [],
   loading: true,
   error: false,
+  totalAmount: 0,
+  totalQuantity: 0,
 };
 
 
@@ -29,15 +31,52 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addcarts: (state, action) => {
-      state.carts.push(action.payload)
+      const newItem = action.payload;
+      const existingItem = state.carts.find(item => item.id === newItem.id);
+    
+      const newCarts = [...state.carts]; // Create a new array for carts
+    
+      if (!existingItem) {
+        newCarts.push({
+          id: newItem._id,
+          price: newItem.price,
+          quantity: 1,
+          totalPrice: newItem.price,
+          name: newItem.name,
+          images:newItem.images
+        });
+      } else {
+        const index = newCarts.findIndex(item => item.id === newItem.id);
+        newCarts[index].quantity++;
+        newCarts[index].totalPrice += newItem.price;
+      }
+    
+      return {
+        ...state, // Return a new state object
+        carts: newCarts,
+        totalQuantity: state.totalQuantity + 1,
+        totalAmount: state.totalAmount + newItem.price,
+      };
     },
     removeItem : (state,action)=>{
-      return state.carts.filter((item) =>
-        item.id !== action.payload)
+      const {id} = action.payload;
+      const existingItem = state.carts.find(item => item.id === id);
+      
+      state.totalQuantity--;
+      state.totalAmount -= existingItem.price;
+
+      if (existingItem.quantity === 1) {
+        state.carts = state.carts.filter(item => item.id !== id);
+      } else {
+        existingItem.quantity--;
+        existingItem.totalPrice -= existingItem.price;
+      }
     },
-    resetCart: (state) => {
+    resetCart(state) {
       state.carts = [];
-    }
+      state.totalAmount = 0;
+      state.totalQuantity = 0;
+    },
   
   },
   extraReducers: (builder) => {
@@ -55,5 +94,5 @@ export const cartSlice = createSlice({
 
   },
 });
-export const { addcarts } = cartSlice.actions;
+export const { addcarts,resetCart ,removeItem } = cartSlice.actions;
 export default cartSlice.reducer;

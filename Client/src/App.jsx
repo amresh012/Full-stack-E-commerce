@@ -38,6 +38,7 @@ import ResetPassword from './pages/AuthPages/ResetPassword'
 import MyOrders from "./pages/UserDashboard/MyOrders"
 import Report from './pages/UserDashboard/Report'
 import Profile from "./pages/UserDashboard/Profile"
+import BlogView from './pages/Home/BlogView'
 function App() {
 
   return (
@@ -53,6 +54,7 @@ function App() {
       <Route path="/checkout" element={<CheckOut/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
+      <Route path="/blog/:id" element={<BlogView/>}/>
       <Route path="/policies/*" element={<Policies/>}>
       <Route path='privacy-policy' element = {<Privacy/>}/>
       </Route>

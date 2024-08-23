@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {useParams}from "react-router-dom"
-import {Spin,Spin1,Spin2 } from "../../assets/images"
 import { Avatar, Rating } from '@mui/material'
 import {FaCheckCircle , FaGlobe, FaLock } from 'react-icons/fa'
 import ReviewForm from '../../components/ReviewForm/ReviewForm'
@@ -9,6 +8,8 @@ import {toast, Toaster}from "react-hot-toast"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { base_url } from '../../Utils/baseUrl'
+import {addcarts} from "../../features/cartSlice"
+import { useDispatch } from 'react-redux'
 
  const  ProductdetailPage = () => { 
    const {id} = useParams()
@@ -17,16 +18,13 @@ import { base_url } from '../../Utils/baseUrl'
    const [reviewvisible , setReviewVisible] = useState(false)
    const [endrating, setEndRating] = useState(4)
    const [isLoggedIn, setIsLoggedIn] = useState(true)
-
-
-  
-
-
+   const dispatch = useDispatch();
   // fetch product by id
   useEffect(() => {
     const fetchProducts = async () => {
     try {
       const response = await fetch(`${base_url}product/${id}`);
+      console.log(response)
       const data = await response.json();
       setproduct(data);
     } catch (error) {
@@ -35,8 +33,13 @@ import { base_url } from '../../Utils/baseUrl'
   };
     fetchProducts();
   }, [id]);
-  
-
+  console.log(product)
+  // add product to cart
+  const handleAdd = (product) => {
+    dispatch(addcarts(product));
+    console.log("product")
+  };
+  //load reviews
   const handleLoadReviews  = ()=>{
     if(localStorage.getItem("token")){
       setIsLoggedIn(true)
@@ -55,7 +58,7 @@ import { base_url } from '../../Utils/baseUrl'
     quantity < 5 &&  (setQuantity(quantity+1),setPrice(price + 5220))
    }
    const handleDecr = ()=>{
-    quantity > 0 &&  price !==5220 && (setQuantity(quantity-1),setPrice(price - 5220))
+    quantity > 1 && setQuantity(quantity-1)
    }
   
   return (
@@ -104,23 +107,25 @@ import { base_url } from '../../Utils/baseUrl'
         }
         </div>
       </div> */}
-      <div className="description mt-4 leading-8 tracking-wider ">
-        <p className="Font-oswald">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro eum libero quisquam facere iusto? Eaque, nemo possimus alias saepe, aut sequi officia aliquid asperiores eius culpa consectetur repellendus expedita aperiam.</p>
+      <div className="description w-full mt-4 leading-8 tracking-wider ">
+      <div className="desc group w-full">
+      <p className="Font-oswald">{product?.mindiscription.slice(0,200)}...</p>
+      </div>
       </div>
       <div className="pt-2 text-gray-500 font-bold italic">
         <p>UPI & Cards Accepted , Online approvalsin 2 minute</p>
       </div>
       <div className="qua space-y-4  mt-2">
         <h1 className='font-bold  text-xl'>Quantity</h1>
-        <div className="flex">
-          <button className='p-2 bg-black text-white active:scale-95' onClick={handleIncr}>+</button>
-           <p className='p-2 px- font-bold bg-white'>{quantity}</p>
-          <button  className='p-2 bg-black text-white active:scale-95' onClick={handleDecr}>-</button>
+        <div className="flex items-center  gap-4  rounded-full bg-[#0A2440]/10  w-fit p-2">
+          <button className='bg-[#0A2440] active:scale-95 h-8 w-8 rounded-full text-white text-xl ' onClick={handleIncr}>+</button>
+           <p className='text-xl'>{quantity}</p>
+          <button  className='bg-[#0A2440] h-8 w-8 active:scale-95 rounded-full text-white text-xl' onClick={handleDecr}>-</button>
         </div>
       </div>
-      <div className="action-buttons flex flex-col gap-4 mt-12 p-12">
+      <div className="action-buttons flex flex-col gap-4 mt-12 lg:p-12 p-4 " onClick={()=>handleAdd(product)}>
         <button className="border-2 px-12 py-3 border-black  active:scale-95 duration-300 bg-gray-100">Add to Cart</button>
-        <button className="px-12 py-3 bg-black text-white active:scale-95 duration-300">Buy it Now</button>
+        {/* <button className="px-12 py-3 bg-black text-white active:scale-95 duration-300">Buy it Now</button> */}
       </div>
       <div className="shipping-info ">
         <p className=''><span className='text-red-500 animate-pulse'>**</span> Tax included<sapn className="underline px-1">Shipping</sapn>calculated at checkOut

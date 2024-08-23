@@ -11,7 +11,8 @@ import { Link } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { toast, Toaster } from 'react-hot-toast';
-// import {resetCart} from "../../features/cartSlice"
+import {resetCart ,removeItem }  from "../../features/cartSlice"
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export default function SwipeableTemporaryDrawer({icon}) {
   const [state, setState] = React.useState({
@@ -21,13 +22,6 @@ export default function SwipeableTemporaryDrawer({icon}) {
     right: false,
   });
 //  cart 
-  const handleCheckOut = () => {
-    if (!localStorage.getItem("token"))
-    {
-      toast.error("Please Login first")
-    }
-   
-}
 
   const toggleDrawer =
     (anchor, open) =>
@@ -48,13 +42,25 @@ export default function SwipeableTemporaryDrawer({icon}) {
     const cartItems = useSelector((state) => {
       return state.cart;
     });
-    const { carts } = cartItems;
-    // const dipatch = useDispatch();
+    const { carts ,totalAmount,totalQuantity } = cartItems;
+    // console.log(carts)
+    const dispatch = useDispatch();
     
-    // const handleCartReset = () => {
-    //   dipatch(resetCart());
-    // };
+    const handleCartReset = () => {
+      dispatch(resetCart());
+    };
+     
+    const handleRemoveItem= (product)=>{
+      dispatch(removeItem(product))
+    }
 
+    // quantity
+    const handleIncr = (quantity)=>{
+      quantity < 5 &&  quantity++
+     }
+     const handleDecr = (quantity)=>{
+      quantity> 1 && quantity--
+     }
   const list = (anchor) => (
     <Box
     sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450 }}
@@ -88,19 +94,20 @@ export default function SwipeableTemporaryDrawer({icon}) {
           <div className="cart-container w-full flex flex-col gap-2 items-center justify-around max-h-[50vh] overflow-y-scroll  no-scrollbar">
             {/* cart items here */}
             {carts.length !== 0 &&
-              carts.map((item) => (
+              carts?.map((item) => (
                 <div
-                  className="flex justify-start max-h-[20rem] border-2 w-full items-center gap-2 p-2"
+                  className="flex justify-start  border-2 w-full items-start gap-2 p-2 relative"
                   key={item.id}
                 >
-                  <div className="img p-2 bg-gray-300/20 w-1/2 h-24">
+                  <span className='text-red-500  cursor-pointer rounded-full absolute right-3 font-bold' onClick={()=>handleRemoveItem(item)}><IoIosCloseCircleOutline size={22}/></span>
+                  <div className="img p-2 bg-gray-300/20 w-1/2">
                     <Carousel
                       renderIndicator={false} 
                       autoPlay={true} infiniteLoop={true} 
                       showStatus={false} showThumbs={false}
                        showArrows={false}
                     >
-                      {item.images.map((image, i) => (
+                      {item.images &&  item?.images.map((image, i) => (
                         <img
                           src={image}
                           alt={item.name}
@@ -116,32 +123,39 @@ export default function SwipeableTemporaryDrawer({icon}) {
                       <img src={rupee} alt="" className="h-3" />
                       {item.price}
                     </p>
-                    <div className="quantity"></div>
+                    <p className="quantity">{item.quantity}</p>
+                    <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
+                    <button className='bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  ' onClick={handleIncr(item.quantity)}>+</button>
+                    <p className=''>{totalQuantity}</p>
+                    <button  className='bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white ' onClick={handleDecr(item.quantity)}>-</button>
+                  </div>
                   </div>
                 </div>
               ))}
           </div>
           {carts.length !== 0 ? (
-            <div className="flex gap-2 w-full items-center justify-center p-4">
+            <div className="flex flex-col  gap-2 w-full items-center justify-center p-4">
               <Link
                 to="/checkout"
-                className="bg-blue-500 text-white"
+                className="bg-blue-500 text-white w-full text-center rounded-md active:scale-95"
               >
-                <button className=" p-2  uppercase" onClick={handleCheckOut}>
+                <button className=" p-2  uppercase">
                   Check Out
                 </button>
               </Link>
               <button
-                // onClick={handleCartReset}
-                className=" p-2 bg-red-500 text-white uppercase"
+                onClick={handleCartReset}
+                className=" p-2 bg-red-500 text-white uppercase  w-full text-center rounded-md active:scale-95"
                 >
                 Reset Cart
               </button>
             </div>
           ) : (
-            <button className="w-full px-12 py-2 bg-black mt-4 text-white uppercase">
+           <Link  to="/product" className='w-full'>
+             <button className="w-full px-12 py-2 bg-[#0A2440] mt-4 text-white uppercase">
               Shop Now
             </button>
+           </Link>
           )}
         </div>
         {/* cart-end */}
@@ -150,7 +164,7 @@ export default function SwipeableTemporaryDrawer({icon}) {
         {/* like section */}
         {/* bastsellers category products */}
         <div className="like-item-wrapper mt-12">
-          <div className="p-4 text-center uppercase bg-black font-bold text-white">
+          <div className="p-4 text-center uppercase bg-[#0A2440] font-bold text-white">
             <h1>You May Also Like</h1>
           </div>
           <div className="like-item_container max-h-full flex flex-col gap-4 w-full overflow-y-scroll pt-4  no-scrollbar">
@@ -172,7 +186,7 @@ export default function SwipeableTemporaryDrawer({icon}) {
                     </p>
                   </div>
                 </div>
-                <div className="p-2  text-center uppercase bg-black hover:bg-black/80 cursor-pointer  text-white">
+                <div className="p-2  text-center uppercase bg-[#0A2440] hover:bg-[#0A2440]/80 cursor-pointer  text-white">
                   <h1>Add To Cart</h1>
                 </div>
               </div>
