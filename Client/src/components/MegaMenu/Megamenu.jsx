@@ -9,27 +9,27 @@ const Megamenu = ({title ,icon}) => {
   return (
     <div className="dropdown ">
       <button className="dropbtn">
-        <p className="uppercase font-semibold">{title}</p>
+        <p className="uppercase font-light text-base">{title}</p>
         <span className="icon-1"> {icon}</span>
-        <span className="hidden icon-2">
-          <GoDash />
+        <span className="hidden icon-2 text-[#ff4700]">
+          <GoDash size={20} />
         </span>
       </button>
       <div className="dropdown-content">
         <div className="header h-12 bg-transparent pt-4 bg-blue-100"></div>
         <div className="h-[23rem] flex justify-around ">
           {/* section-1 */}
-          <div className="w-[20rem]  h-full flex flex-col gap-6 p-2  items-start justify-start ">
-            <h1 className=" font-extrabold text-4xl  w-full">
+          <div className="w-[20rem]  h-full flex flex-col p-2  items-start justify-start ">
+            <h1 className=" font-extrabold text-4xl w-full text-[#0a2440] mb-2">
               Fitness Equipment Built to Perfection
             </h1>
-            <p className="font-medium capitalize">
+            <p className="capitalize font-lg font-light mb-6">
               Adding fuel to every fitness fanatics passion with the best
               equipment in India.
             </p>
-            <Link to="/product">
-              <div className="p-2 bg-slate-900 px-2 shadow-md py-2 text-white text-xl">
-                Shop All Fitness Products
+            <Link to="/product" className="w-full">
+              <div className="p-2 w-full text-center rounded-sm bg-[#0a2440] px-2 font-light shadow-md py-2 text-white text-xl">
+                Shop
               </div>
             </Link>
           </div>

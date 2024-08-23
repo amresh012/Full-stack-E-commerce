@@ -5,15 +5,52 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import { Carousel } from "react-responsive-carousel";
 import { CgGym } from "react-icons/cg";
+import { Link } from "react-router-dom";
+import { FaStar, FaStarHalf } from "react-icons/fa";
 // import { Collapse } from 'antd';
-// import Marquee from "react-fast-marquee";
+import Marquee from "react-fast-marquee";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import {Hero1,Hero2,Hero3,Hero4,Hero5,Hero6,Spin} from "../../assets/images"
+import {
+  Hero1,
+  Hero2,
+  Hero3,
+  Hero4,
+  Hero5,
+  Hero6,
+  Spin,
+} from "../../assets/images";
 import { useEffect } from "react";
-// import { Clients, faqs } from "../../constant";
-const HomePage = () => {
+import { Clients, faqs } from "../../constant";
 
+import hero_bg from "../../assets/hero/hero_bg.jpg";
+import weight_reck from "../../assets/GymEquipmentPng/weight-reck.jpg";
+import weight_bench from "../../assets/GymEquipmentPng/weight-bench.jpg";
+import treadmill from "../../assets/GymEquipmentPng/treadmill.jpg";
+import gym_machine from "../../assets/GymEquipmentPng/gym-machine.jpg";
+import barbell from "../../assets/GymEquipmentPng/barbell.jpg";
+import dumbbell from "../../assets/GymEquipmentPng/dumbbell.jpg";
+import product1 from "../../assets/products/product1.webp";
+import product2 from "../../assets/products/product2.webp";
+import product3 from "../../assets/products/product3.webp";
+import why_us_1 from "../../assets/why-us-1.jpg";
+import why_us_2 from "../../assets/why-us-2.jpg";
+import ProductCard from "../../components/Ui/ProductCard";
+import ProductCarousel from "../../components/Ui/ProductCarousel";
+import TestimonialCard from "../../components/Ui/TestimonialCard";
+import TestimonialCarousel from "../../components/Ui/TestimonialCarousel";
+import achievements1 from "../../assets/achievements-1.jpg";
+import achievements2 from "../../assets/achievements-2.jpg";
+import achievements3 from "../../assets/achievements-3.jpg";
+import achievements4 from "../../assets/achievements-4.jpg";
+import achievements5 from "../../assets/achievements-5.jpg";
+import achievements6 from "../../assets/achievements-6.jpg";
+import achievements7 from "../../assets/achievements-7.jpg";
+import achievements8 from "../../assets/achievements-8.jpg";
+import LatestBlogCard from "../../components/Ui/LatestBlogCard";
+import BMICalculator from "../../components/BMICalculator/BMICalculator";
+
+const HomePage = () => {
   useEffect(() => {
     AOS.init({
       disable: "phone",
@@ -25,176 +62,277 @@ const HomePage = () => {
 
   return (
     <>
-      <div className=" flex items-center justify-center bg-gradient-to-l from-slate-950 to-slate-900 overflow-clip">
-        <div className="flex w-2/3 items-start   justify-start flex-col  p-12 overflow-clip">
-          <h1 className="font-extrabold text-[4.5rem] bg-gradient-to-tr from-white   to-slate-500 text-transparent bg-clip-text">
-            <p> Build your dream</p>
-            <p> gym with us</p>
-          </h1>
-          <p className="text-[3rem] font-bold text-white">
-            Ultimate Fitness Equipment Brand{" "}
+      <div
+        className="relative h-[30rem] md:h-[40rem] w-full bg-top bg-cover bg-[#038cccab] bg-blend-multiply"
+        style={{ backgroundImage: `url(${hero_bg})` }}
+      >
+        <div className="text-white text-7xl absolute top-2/3 left-1/2 -translate-y-2/3 -translate-x-1/2 w-[73%] text-center uppercase">
+          <p className="font-semibold text-2xl sm:text-5xl">
+            Build your dream gym with us
           </p>
-          <span className="text-xl  pb-4 text-white">
-            We are one of the leading Fitness Equipment Brand in India. Head
-            office located in Faridabad.
-          </span>
-          <div className="rating gap-2 flex items-center py-6 flex-row-reverse">
-            <p className="text-white italic">4.8 Over 300+ Reviews</p>
-            <Rating
-              name="size-small"
-              value={4.5}
-              defaultValue={2.5}
-              precision={0.5}
-            />
-            <AvatarGroup total={24}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-              <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-              <Avatar
-                alt="Trevor Henderson"
-                src="/static/images/avatar/5.jpg"
-              />
-            </AvatarGroup>
-          </div>
-          <div className="flex gap-6">
-            <button className=" p-4  shadow-sm  flex items-center gap-2 rounded bg-white  font-bold ">
-              Shop Products <IoIosArrowRoundForward size={30} />
-            </button>
-            <button className=" p- underline flex items-center gap-2 underline-offset-4  shadow-sm  text-white font-bold">
-              Request Consultation <IoIosArrowRoundForward size={30} />
-            </button>
-          </div>
-        </div>
-        <div className="carousel w-1/2 h-full">
-          <Carousel
-            autoplay={true}
-            dynamicHeight={true}
-            showArrows={false}
-            showThumbs={false}
-            axis="vertical"
-          >
-            <img src={Hero1} alt="" className="" />
-            <img src={Hero2} alt="" className="" />
-            <img src={Hero3} alt="" className="" />
-            <img src={Hero4} alt="" className="" />
-            <img src={Hero5} alt="" className="" />
-            <img src={Hero6} alt="" className="" />
-          </Carousel>
-        </div>
-      </div>
-      {/* why us */}
-      <div className=" mt-12 overflow-clip">
-        <div className="flex flex-col gap-2 items-center justify-center">
-          <h1 className="font-extrabold tracking-wider text-[3rem]">
-            Why Choose us
-          </h1>
-          <p className="w-1/2 text-center tracking-wider">
-            With deep expertise of operating 700+ centres across India, we adopt
-            a customer first approach to bring industry first set of solutions
-            for your gyms. With best quality equipment, industry leading service
-            and a wide variety of benefits for your customers, cult.sport is the
-            best choice for your gyms.
+          <p className="font-bold text-3xl sm:text-6xl">
+            Ultimate Fitness Equipment Brand
           </p>
-        </div>
-        <div className="mt-12">
-          <div className="content">
-            <Tabs />
-          </div>
-        </div>
-      </div>
-      {/* range of product */}
-      <div className="flex flex-col items-center gap-12">
-        <div className="head flex flex-col items-center justify-center text-center">
-          <h1 className="font-extrabold tracking-wider text-[3rem] underline underline-offset-4">
-            Our Product Range
-          </h1>
-          <p className="font-bold">
-            Why KFS Fitness has been successful so far?
-          </p>
-          <p className="px-44 text-sm py-3 tracing">
-            Its because we are increasing profitability by improving our product
-            mix. We are specialized in offering a product range to target
-            customers of varying ages, income, and tastes.Our product mix is so
-            well organized and modified that we are providing the best solution
-            for all your fitness equipment needs in your budget.In the
-            manufacturing process quality of raw materials used is quite
-            important for finished products.This is why we took a strict sample
-            test of iron and metal tubes, even bolts, and inspect the quality
-            before purchasing.KFS Fitness is growing so rapidly in the market
-            only because we are providing highly advanced equipment promising
-            stability, product durability, and technical support
-          </p>
-          {/* <p className="px-44 text-sm py-3">
-              We are counted among the most reputed firms engaged in Wholesale
-              Trading a range of Chest Press Machine, Fitness Treadmill and Spin
-              Exercise Bike.{" "}
-            </p> */}
-        </div>
-        <div className=" flex flex-wrap w-full items-center justify-center gap-2">
-          {[...Array(8)].map((_, id) => (
-            <div
-              className=" cursor-pointer w-[20rem] flex flex-col  rounded-md hover:scale-105 m-2 shadow-sm duration-500 h-[20rem] border-2"
-              key={id}
-              data-aos="zoom-out"
-              data-aos-delay="50"
-            >
-              <div className="img w-full flex items-center justify-center p-2">
-                <img src={Spin} alt="" />
+
+          <button className="uppercase text-lg lg:text-2xl bg-white px-8 py-3 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#144170] hover:text-white duration-500 ease-in-out">
+            <Link to="/product">
+              <div className="flex font-light items-center justify-center gap-x-1">
+                Shop Now
+                <IoIosArrowRoundForward />
               </div>
-              <div className="flex bg-black/80 text-white items-start p-4 justify-start flex-col">
-                <h2 className="text-2xl font-bold">Product Name</h2>
-                <p className="price-range">12,00.00 - 1,24,435.00</p>
-                <Rating
-                  name="size-small"
-                  value={3.8}
-                  defaultValue={2.5}
-                  precision={0.5}
+            </Link>
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-24 px-6 px-8">
+        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+          Our Clients
+        </h1>
+        <div className="mx-auto mt-2 rounded-md h-[6px] w-[120px] bg-[#0a2440] mb-16"></div>
+
+        <div>
+          <Marquee pauseOnClick={true} speed={30}>
+            {Clients.map((client) => (
+              <div key={client.id}>
+                <img
+                  loading="lazy"
+                  src={client.imgurl}
+                  className="grayscale hover:grayscale-0 h-[10rem] w-[12rem] mx-2"
                 />
               </div>
-            </div>
-          ))}
-        </div>
-        <div
-          className="p-4 rounded-md bg-gradient-to-t
-         from-slate-800 to-slate-900 text-white flex
-          items-center w-fit justify-center hover:-translate-y-2
-           duration-300 cursor-pointer hover:shadow-2xl shadow-black"
-        >
-          <button className="px-12 ">Get a Custom Quote</button>
+            ))}
+          </Marquee>
         </div>
       </div>
+
+      <div className="mt-24 px-6">
+        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+          Recommended For You
+        </h1>
+        <div className="mx-auto mt-2 rounded-md h-[6px] w-[170px] bg-[#0a2440] mb-16"></div>
+
+        <div>
+          <ProductCarousel />
+        </div>
+      </div>
+
+      <div className="mt-24">
+        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+          Premium Fitness Equipment Without the Premium Price
+        </h1>
+        <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440] mb-16"></div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+            <img
+              loading="lazy"
+              className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
+              src={barbell}
+            ></img>
+            <div className="absolute bottom-3 left-3 text-white">
+              <p className="text-4xl uppercase font-thin">Barbells</p>
+              <p className="text-xl uppercase font-thin">
+                <Link to="/product" className="flex items-center">
+                  Shop Now <IoIosArrowRoundForward color="white" size={30} />
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+            <img
+              loading="lazy"
+              className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
+              src={dumbbell}
+            ></img>
+            <div className="absolute bottom-3 left-3 text-white">
+              <p className="text-4xl uppercase font-thin">Dumbbells</p>
+              <p className="text-xl uppercase font-thin">
+                <Link to="/product" className="flex items-center">
+                  Shop Now <IoIosArrowRoundForward color="white" size={30} />
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+            <img
+              loading="lazy"
+              className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
+              src={weight_bench}
+            ></img>
+            <div className="absolute bottom-3 left-3 text-white">
+              <p className="text-4xl uppercase font-thin">Weight Benches</p>
+              <p className="text-xl uppercase font-thin">
+                <Link to="/product" className="flex items-center">
+                  Shop Now <IoIosArrowRoundForward color="white" size={30} />
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+            <img
+              loading="lazy"
+              className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
+              src={weight_reck}
+            ></img>
+            <div className="absolute bottom-3 left-3 text-white">
+              <p className="text-4xl uppercase font-thin">Weight Recks</p>
+              <p className="text-xl uppercase font-thin">
+                <Link to="/product" className="flex items-center">
+                  Shop Now <IoIosArrowRoundForward color="white" size={30} />
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+            <img
+              loading="lazy"
+              className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
+              src={treadmill}
+            ></img>
+            <div className="absolute bottom-3 left-3 text-white">
+              <p className="text-4xl uppercase font-thin">Treadmills</p>
+              <p className="text-xl uppercase font-thin">
+                <Link to="/product" className="flex items-center">
+                  Shop Now <IoIosArrowRoundForward color="white" size={30} />
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+            <img
+              loading="lazy"
+              className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
+              src={gym_machine}
+            ></img>
+            <div className="absolute bottom-3 left-3 text-white">
+              <p className="text-4xl uppercase font-thin">Gym Machines</p>
+              <p className="text-xl uppercase font-thin">
+                <Link to="/product" className="flex items-center">
+                  Shop Now <IoIosArrowRoundForward color="white" size={30} />
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-24 px-4">
+        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+          Achievements
+        </h1>
+        <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440] mb-8"></div>
+
+        <p className="text-lg font-light mb-8">
+          At our core, we are passionate about helping our customers lead
+          healthier, more active lives. These nominations are a testament to our
+          commitment to excellence and the impact we have made in the fitness
+          industry. We are honored to be recognized alongside other esteemed
+          brands and industry leaders.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements1}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements2}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements3}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements4}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements5}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements6}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements7}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden h-[24rem] w-full">
+            <img
+              loading="lazy"
+              src={achievements8}
+              className="w-full h-[inherit] ease-in-out duration-500 object-cover hover:scale-105"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Our Solutions */}
-      <div className="Our-Solution mt-12 space-y-8">
+      <div className="Our-Solution mt-24 space-y-8">
         <div className="flex flex-col items-center justify-center text-center">
-          <h1 className="font-extrabold tracking-wider text-[3rem] underline underline-offset-4">
+          <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
             Our Solutions
           </h1>
-          <p className="px-44 text-sm py-3">
+          <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440]"></div>
+          {/* <p className="px-44 text-sm py-3">
             With deep domain expertise and knowhow, we bring a wide variety of
             solutions to make the gym opening and running process smooth &
             hassle free
-          </p>
+          </p> */}
         </div>
-        <div className="flex gap-12 p-4 items-center justify-center ">
+        {/* <div className="flex flex-wrap lg:flex-nowrap gap-12 items-center justify-center "> */}
+        <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-4">
           {[...Array(3)].map((id) => (
             <div
-              className=" relative hover:scale-105 duration-700 cursor-pointer card rounded-md w-[25rem] h-[20rem] border-2"
+              className="relative hover:scale-105 duration-700 cursor-pointer card rounded-md w-full h-[17rem] border-2"
               key={id}
               data-aos="flip-up"
               data-aos-delay="50"
             >
-              <div className="circle h-24 absolute -top-12 -right-2 w-24 rounded-full border-4 border-white bg-gradient-to-t from-blue-400 to-blue-500">
+              {/* <div className="circlem h-24 absolute -top-12 -right-2 w-24 rounded-full border-4 border-white bg-[#0a2440]">
                 <CgGym size={55} className="m-4 text-white " />
-              </div>
+              </div> */}
               <div className="Gym-setup rounded-md ">
-                <h1 className="text-4xl p-4 bg-gradient-to-tr text-white to-slate-800 from-slate-900">
+                <h1 className="text-xl lg:text-4xl p-4 bg-gradient-to-tr text-white bg-[#0a2440]">
                   Gym Setup
                 </h1>
-                <ol className="list-decimal px-12 py-4 space-y-4">
-                  <li className="">World class equipment</li>
-                  <li className="">Pan-India service</li>
-                  <li className="">Fitternity listing and lead gen support</li>
-                  <li className="">Full demand management guarantee</li>
+                <ol className="list-decimal px-12 py-4 space-y-1">
+                  <li className="text-base lg:text-lg font-extralight">
+                    World class equipment
+                  </li>
+                  <li className="text-base lg:text-lg font-extralight">
+                    Pan-India service
+                  </li>
+                  <li className="text-base lg:text-lg font-extralight">
+                    Fitternity listing and lead gen support
+                  </li>
+                  <li className="text-base lg:text-lg font-extralight">
+                    Full demand management guarantee
+                  </li>
                 </ol>
               </div>
             </div>
@@ -202,44 +340,170 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* our clients */}
-      {/* <div className="flex h-screen items-center justify-center   gap-12">
-        <div className="text-[4rem] font-bold  w-1/2">
-          <h1>Our Clients</h1>
+      <div className="mt-24 flex flex-col lg:flex-row h-auto lg:h-[50rem] w-full">
+        <div className="relative flex-1 overflow-hidden lg:h-[inherit]">
+          <img
+            loading="lazy"
+            src={why_us_1}
+            className="hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50rem] lg:h-inherit w-full lg:w-inherit"
+          />
+          <div className="relative h-[25rem] lg:h-[inherit] w-[80%] flex justify-center mx-auto flex-col">
+            <h1 className="text-center uppercase italic text-4xl lg:text-7xl font-bold text-white">
+              Sweat is fat crying
+            </h1>
+            <p className="capitalize text-lg lg:text-3xl text-white text-center font-light">
+              A humorous yet motivating way to view sweat as a sign of hard work
+              paying off.
+            </p>
+            <p className="capitalize text-lg lg:text-3xl text-white text-center font-light">
+              It reinforces that the effort you put in is directly related to
+              your fitness results
+            </p>
+          </div>
         </div>
-        <div className=" w-1/2 h-full relative">
-          <Marquee className="flex gap-2 ">
-            {Clients.map((item) => (
-              <div
-                className="flex flex-col gap-2 p-2 items-center "
-                key={item.id}
-              >
-                <img src={item.imgurl} alt="" className="h-44 w-44" />
-                <span>{item.location}</span>
-              </div>
-            ))}
-          </Marquee>
+        <div className="w-full px-4 lg:px-0 py-4 lg:py-0 lg:w-[40%] flex justify-center items-center bg-[#0a2440]">
+          <div className="w-[80%]">
+            <div className="mb-5">
+              <h1 className="uppercase text-lg lg:text-2xl font-bold italic text-white">
+                Exceptional Value
+              </h1>
+              <p className="text-white font-light text-base lg:text-lg">
+                We believe in providing high-quality equipment at competitive
+                prices. Our team works hard to offer you the best deals without
+                compromising on performance or durability.
+              </p>
+            </div>
+            <div className="mb-5">
+              <h1 className="uppercase text-lg lg:text-2xl font-bold italic text-white">
+                Quality You Can Trust
+              </h1>
+              <p className="text-white font-light text-base lg:text-lg">
+                Our fitness equipment is sourced from top manufacturers and
+                built to withstand rigorous workouts. We ensure every product
+                meets stringent quality standards, so you can train confidently
+                and safely.
+              </p>
+            </div>
+            <div className="mb-5">
+              <h1 className="uppercase text-lg lg:text-2xl font-bold italic text-white">
+                Fast & Reliable Shipping
+              </h1>
+              <p className="text-white font-light text-base lg:text-lg">
+                We understand the excitement of getting started on your fitness
+                journey, so we ensure prompt and reliable shipping. Your
+                equipment will arrive safely and on time, so you can start your
+                workouts without delay.
+              </p>
+            </div>
+
+            <div className="mt-10">
+              <button className="bg-white text-base px-4 py-1 lg:text-lg lg:px-8 lg:py-3 rounded-sm hover:bg-[#144170] hover:text-white duration-500 ease-in-out">
+                <Link className="flex gap-x-1 items-center" to="/product">
+                  Shop Now
+                  <IoIosArrowRoundForward size={30} />
+                </Link>
+              </button>
+            </div>
+          </div>
         </div>
-      </div> */}
-      {/* \end{code} */}
-      {/* <div className="faqs h-screen flex flex-col items-center justify-center">
-        <div className="flex  items-center justify-center flex-col gap-2">
-          <h1 className="font-extrabold tracking-wider text-[3rem] w-2/3 text-center underline underline-offset-4">
-            Frequently Asked Question's
-          </h1>
-          <p className="w-1/2 font-serif text-center ">
-            Do You need some help with something or do you have questions on
-            some products
-          </p>
+      </div>
+
+      <div className="mt-0 flex flex-col-reverse lg:flex-row h-auto lg:h-[50rem] w-full">
+        <div className="px-4 lg:px-0 py-4 lg:py-0 w-full lg:w-[40%] flex justify-center items-center bg-[#0a2440]">
+          <div className="w-[80%]">
+            <div className="mb-5">
+              <h1 className="uppercase text-lg lg:text-2xl font-bold italic text-white">
+                Outstanding Customer Service
+              </h1>
+              <p className="text-white font-light text-base lg:text-lg">
+                From pre-purchase inquiries to post-purchase support, we’re
+                committed to providing excellent customer service. Your
+                satisfaction is our top priority, and we’re here to assist you
+                every step of the way.
+              </p>
+            </div>
+            <div className="mb-5">
+              <h1 className="uppercase text-lg lg:text-2xl font-bold italic text-white">
+                Comprehensive Warranty
+              </h1>
+              <p className="text-white font-light text-base lg:text-lg">
+                Our products come with robust warranties, giving you peace of
+                mind and confidence in your investment. We stand behind the
+                quality of our equipment and are here to support you should any
+                issues arise.
+              </p>
+            </div>
+            <div className="mb-5">
+              <h1 className="uppercase text-lg lg:text-2xl font-bold italic text-white">
+                Customer-Centric Approach
+              </h1>
+              <p className="text-white font-light text-base lg:text-lg">
+                Your feedback drives us. We continuously strive to improve our
+                offerings based on your needs and preferences, ensuring that we
+                provide the best possible experience for our valued customers.
+              </p>
+            </div>
+
+            <div className="mt-10">
+              <button className="bg-white text-base px-4 py-1 lg:text-lg lg:px-8 lg:py-3 rounded-sm hover:bg-[#144170] hover:text-white duration-500 ease-in-out">
+                <Link className="flex gap-x-1 items-center" to="/product">
+                  Shop Now
+                  <IoIosArrowRoundForward size={30} />
+                </Link>
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="">
-          {faqs.map((item) => (
-            <Collapse items={item} bordered={false} key={item.id} />
-          ))}
+        <div className="relative flex-1 overflow-hidden lg:h-[inherit]">
+          <img
+            loading="lazy"
+            src={why_us_2}
+            className="hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50rem] lg:h-inherit w-[100vw] lg:w-inherit"
+          />
+          <div className="relative h-[25rem] lg:h-[inherit] w-[80%] flex justify-center mx-auto flex-col">
+            <h1 className="text-center uppercase italic text-4xl lg:text-7xl font-bold text-white">
+              Push yourself because no one else is going to do it for you
+            </h1>
+            <p className="capitalize text-lg lg:text-3xl text-white text-center font-light">
+              Encourages self-motivation and personal responsibility. It reminds
+              you that ultimately,
+            </p>
+            <p className="capitalize text-lg lg:text-3xl text-white text-center font-light">
+              the drive to achieve your fitness goals must come from within
+            </p>
+          </div>
         </div>
-      </div> */}
+      </div>
+
+      <div className="mt-24 mb-16 px-8">
+        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+          Latest Blogs
+        </h1>
+        <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440] mb-16"></div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-2">
+          <LatestBlogCard />
+          <LatestBlogCard />
+          <LatestBlogCard />
+        </div>
+      </div>
+
+      <div className="mt-24 mb-16">
+        <BMICalculator />
+      </div>
+
+      <div className="mt-24 mb-16">
+        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+          Testimonials
+        </h1>
+        <div className="mx-auto mt-2 rounded-md h-[6px] w-[120px] bg-[#0a2440] mb-16"></div>
+
+        <div className="px-4">
+          <TestimonialCarousel />
+        </div>
+      </div>
     </>
   );
-}
+};
 
-export default HomePage
+export default HomePage;

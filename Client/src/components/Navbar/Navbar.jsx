@@ -57,16 +57,16 @@ const Navbar = () => {
   
 
   return (
-    <nav className="flex justify-around items-center p-4 ">
+    <nav className="flex justify-around items-center p-4 bg-[#0a2440]">
       <div className="logo-container z-50 ">
        <Logo/>
       </div>
       {/*  */}
-      <ul className="lg:flex items-center gap-8 hidden ">
+      <ul className="lg:flex items-center gap-8 hidden pt-[9px]">
         {links.map((item) => (
-          <Link to={item.route} key={item.label} className="hover:border-b-2 hover:border-black uppercase font-semibold text-sm ">
+          <Link to={item.route} key={item.label} className="text-white hover:border-b-2 hover:border-[#ff4700] uppercase font-light text-base">
             {item.label == "Products" ||  item.label=="Home Gym" ? (
-              <Megamenu title={item.label} icon={<BiPlus size={12} />} />
+              <Megamenu title={item.label} icon={<BiPlus size={20} color={"#ff4700"} />} />
             ) : (
               <li className="">{item.label}</li>
             )}
@@ -88,7 +88,7 @@ const Navbar = () => {
         }
          <div className="">
          <Badge badgeContent= {carts.length || 0} color="secondary" aria-label="cart">
-            <LeftDrawer icon={<BiShoppingBag size={25} className="" />} />
+            <LeftDrawer icon={<BiShoppingBag color="white" size={25} className="" />} />
           </Badge>
          </div>
       </div>
