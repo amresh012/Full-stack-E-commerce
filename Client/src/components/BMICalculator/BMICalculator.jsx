@@ -35,12 +35,51 @@ const BMICalculator = () => {
     e.preventDefault();
 
     if (isImperialUnit) {
-      const result =
+      const bmi =
         (+weightInLbs * 703) / (+heightInFeet * 12 + +heightInInch) ** 2;
-      setResult(`Your BMI is ${result.toFixed(1)}`);
+        
+        let status;
+        console.log(bmi, typeof(bmi))
+        switch(bmi){
+          case (bmi < 18.5):
+            status = 'Underweight';
+            break;
+          case (bmi > 18.5 && bmi < 24.9):
+            status = 'Normal';
+            break;
+          case (bmi > 24.9 && bmi < 29.9):
+            status = 'Overweight';
+            break;
+          case (bmi > 29.9 && bmi < 34.5):
+            status = 'Obese';
+            break;
+          default:
+            status = 'Extremely Obese';
+            break;
+        }
+      setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
     } else {
-      const result = +weightInKg / (+heightInCm / 100) ** 2;
-      setResult(`Your BMI is ${result.toFixed(1)}`);
+      const bmi = +weightInKg / (+heightInCm / 100) ** 2;
+      let status;
+      console.log(bmi, typeof(bmi))
+      switch(bmi){
+        case (bmi < 18.5):
+          status = 'Underweight';
+          break;
+        case (bmi > 18.5 && bmi < 24.9):
+          status = 'Normal';
+          break;
+        case (bmi > 24.9 && bmi < 29.9):
+          status = 'Overweight';
+          break;
+        case (bmi > 29.9 && bmi < 34.5):
+          status = 'Obese';
+          break;
+        default:
+          status = 'Extremely Obese';
+          break;
+      }
+      setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
     }
   };
 

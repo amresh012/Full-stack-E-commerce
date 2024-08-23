@@ -57,7 +57,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className="flex justify-around items-center p-4 bg-[#0a2440]">
+    <nav className="flex justify-around items-center p-4 bg-black">
       <div className="logo-container z-50 ">
        <Logo/>
       </div>
