@@ -13,6 +13,46 @@
     background-blend-mode: multiply;
   }
 
+  .about-header{
+    background-image: url("./assets/about.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+  }
+
+  .blog-header{
+    background-image: url("./assets/about-1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+  }
+
+  input[type=radio] {
+    --s: 1em;     /* control the size */
+    --c: #b32995; /* the active color */
+    
+    height: var(--s);
+    aspect-ratio: 1;
+    border: calc(var(--s)/8) solid #939393;
+    padding: calc(var(--s)/8);
+    background: 
+       radial-gradient(farthest-side,var(--c) 94%,#0000) 
+       50%/0 0 no-repeat content-box;
+    border-radius: 50%;
+    outline-offset: calc(var(--s)/10);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    font-size: inherit;
+    transition: .3s;
+  }
+  input[type=radio]:checked {
+    border-color: var(--c);
+    background-size: 100% 100%;
+  }
  
 
 /* dropdown */
