@@ -155,7 +155,7 @@ const Product = () => {
               <select
                 value={selectedOption}
                 onChange={handleSelectChange}
-                className="outline-none p-2 text-black"
+                className="outline-none p-2 text-black rounded-full"
               >
                 {gym_equipment.map((item, i) => (
                   <option key={i} value={i}>{item}</option>

@@ -35,8 +35,8 @@ const BlogView = () => {
                     <p className=' capitalize lg:text-base text-xs'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, magnam accusamus sapiente quae delectus!</p>
                 </div>
             </div>
-  <div className="main-blog_wrapper flex gap-2 lg:flex-row sm:flex-col-reverse p-2">
-     <div className="box-2  w-full h-full">
+  <div className="main-blog_wrapper flex gap-2 items-center justify-center mt-12  lg:flex-row sm:flex-col-reverse p-2">
+     <div className="box-2  w-1/2 h-full">
         <div className="image ">
           <Carousel 
           renderIndicator={false} 
@@ -68,8 +68,15 @@ const BlogView = () => {
                     <p className=""></p>
                 </div>
             </div>
-            <div className="h1 text-2xl font-bold">
-                <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid saepe sit porro accusantium eos voluptate eligendi?</h1>
+            <div className="h1 ">
+                <h1 className='blog_title text-2xl font-bold'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h1>
+                <div className="blog-desc">
+                    {
+                      [...Array(3)].map(()=>(
+                        <p className="tracking-wider">{faker.lorem.paragraphs()}</p>
+                      ))
+                    }
+                </div>
             </div>
         </div>
      </div>
