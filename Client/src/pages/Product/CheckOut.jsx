@@ -2,7 +2,8 @@
 
 const CheckOut = () => {
   return (
-    <div className="h-screen">CheckOut</div>
+    <>
+    </>
   )
 }
 

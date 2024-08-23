@@ -37,7 +37,7 @@ router.put("/reset-password/:token", resetPassword);
 router.get("/reset-password/:token", checkresetPasswordUser);
 router.put("/password", authMiddleware, updatePassword);
 router.post("/login", loginUserCtrl);
-router.post("/adr", addnewAddress); //add this authMiddleware
+router.post("/adr", authMiddleware, addnewAddress); //add this authMiddleware
 router.post("/admin-login", loginAdmin);
 router.get("/all-users", getallUser);
 router.get("/refresh", handleRefreshToken);

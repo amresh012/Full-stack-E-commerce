@@ -3,15 +3,15 @@ import {Link} from "react-router-dom"
 import { useSelector ,useDispatch } from "react-redux";
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
-import {useFormik} from "formik"
+import {useFormik ,Form} from "formik"
 import {toast, Toaster} from "react-hot-toast"
 import {LoginApi ,adduser} from "../../features/authSlice"
+// import {useNavigate} from "react-router-dom"
 
 
 const Login = () => {
-    
   const dispatch = useDispatch();
-const { values, errors, handleSubmit, handleChange } = useFormik({
+const { values, errors, handleSubmit, handleReset, handleChange } = useFormik({
   initialValues: {
     email: '',
     password: '',
@@ -28,7 +28,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
     }
     return errors;
   },
-  onSubmit: async (values, { setSubmitting }) => {
+  onSubmit: async (values,{isSubmitting}) => {
     try {
       const response = await dispatch(LoginApi(values));
       console.log(response)
@@ -37,14 +37,16 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
         dispatch(addSignupdata(response.payload.data));
         dispatch(adduser(response.payload.data));
         // Redirect to login page or dashboard
-         window.location.href="/"
+        // navigate('/profile')
+         
       } else {
         throw new Error(response.data.error)
       }
     } catch (error) {
-      toast.error("Error occurred during registration");
-    } finally {
-      setSubmitting(false);
+      toast.error(error.message);
+    }
+    finally{
+      isSubmitting(true)
     }
   }
 });
@@ -68,7 +70,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
         <p className='text-xs'>or use your account</p>
       </div>
         {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <div className="mb-4 ">
             <label className="block mb-2 text-sm font-bold" htmlFor="email">
               Email
@@ -82,13 +84,13 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
               id="email"
               value={values.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border outline-none"
+              className="w-full px-3 py-2 border outline-none text-black"
               required
             />
            </div>
           </div>
           <div className="mb-6 max-h-fit">
-            <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
+            <label className="block mb-2 text-sm font-bold " htmlFor="password">
               Password
             </label>
             <div className="relative flex  ">
@@ -100,7 +102,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
               id="password"
               value={values.password}
               onChange={handleChange}
-              className="w-full px-3 py-2 border outline-none"
+              className="w-full px-3 py-2 border outline-none text-black"
               required
             />
           
@@ -113,7 +115,7 @@ const { values, errors, handleSubmit, handleChange } = useFormik({
           </div>
           <button
             type="submit"
-            className="w-full bg-[#038CCC] text-white  py-2 rounded hover:bg-[#038CCC]/80"
+            className="w-full bg-white text-[#0c0c0cdb] hover:bg-[#144170] hover:text-white p-2 rounded-md duration-300"
           >
             SignIn
           </button>

@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaAddressCard } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
-import { addAddress } from "../../features/authSlice"; // Import the addAddress action
+import { addAddress, adduser } from "../../features/authSlice"; // Import the addAddress action
 
 const Shipping = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+  console.log(authState)
 
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -22,9 +23,9 @@ const Shipping = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        // Dispatch the addAddress action
-        dispatch(addAddress(values));
-        toast.success("true")
+        const response = await dispatch(addAddress(values));
+        console.log(response)
+        toast.success("Address updated Successfully")
       } catch (error) {
         toast.error("An error occurred while adding the address.");
       } finally {

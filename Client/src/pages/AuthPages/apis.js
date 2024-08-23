@@ -1,5 +1,5 @@
 import  axios  from 'axios';
-import { config } from './../../utils/axiosConfig';
+import { config } from '../../Utils/axiosConfig';
 import { base_url } from '../../Utils/baseUrl';
 export const forgotPasswordToken = async (data) => {
   const response = await axios.post(

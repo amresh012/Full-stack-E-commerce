@@ -50,8 +50,8 @@ export default function SwipeableTemporaryDrawer({icon}) {
       dispatch(resetCart());
     };
      
-    const handleRemoveItem= (product)=>{
-      dispatch(removeItem(product))
+    const handleRemoveItem= (id)=>{
+      dispatch(removeItem(id))
     }
 
     // quantity
@@ -123,10 +123,10 @@ export default function SwipeableTemporaryDrawer({icon}) {
                       <img src={rupee} alt="" className="h-3" />
                       {item.price}
                     </p>
-                    <p className="quantity">{item.quantity}</p>
+                    <p className="quantity">{totalQuantity}</p>
                     <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
                     <button className='bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  ' onClick={handleIncr(item.quantity)}>+</button>
-                    <p className=''>{totalQuantity}</p>
+                    <p className=''>{item.quantity}</p>
                     <button  className='bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white ' onClick={handleDecr(item.quantity)}>-</button>
                   </div>
                   </div>

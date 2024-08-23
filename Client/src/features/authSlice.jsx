@@ -9,7 +9,12 @@ const initialState = {
   success: false,
   error: false,
   loading: true,
-  user: {},
+  user: {
+    name: null,
+    email: null,
+    password: null,
+    mobile:null,
+  },
   signupdata: {},
   token: null,
 };
@@ -50,7 +55,12 @@ export const authSlice = createSlice({
       console.log("auth payload",action.payload)
     },
     adduser: (state, action) => {
-      state.user = action.payload
+      console.log("adduser initoial:", action.payload,state)
+      state.user.name = action.payload.name
+      state.user.email = action.payload.email
+      state.user.password = action.payload.password
+      state.user.mobile = action.payload.mobile
+      console.log("adduser:", action.payload,state)
     }
   },
   extraReducers: (builder) => {

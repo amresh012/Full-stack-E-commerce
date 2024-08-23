@@ -109,7 +109,7 @@ const searchProduct = asyncHandle(async (req, res) => {
       ];
     }
     if (category) {
-      filter.category = category;
+      filter.category= category;
     }
     if (subcategory) {
       filter.subcategory = subcategory;

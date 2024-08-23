@@ -60,9 +60,6 @@ app.get("/about", function (req, res) {
   res.render("dataFrom.html");
 });
 
-app.post("/ccavRequestHandler", function (request, response) {
-  ccavReqHandler.postReq(request, response);
-});
 
 app.use(notFound);
 app.use(errorHandler);

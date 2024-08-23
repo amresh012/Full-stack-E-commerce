@@ -3,7 +3,7 @@ import {faker} from "@faker-js/faker"
 import moment from "moment"
 import { MdCurrencyRupee } from "react-icons/md";
 import { PlusOutlined } from '@ant-design/icons';
-import { Image, Upload } from 'antd';
+import {Upload } from 'antd';
 import { Link } from 'react-router-dom';
 import {useSelector} from "react-redux"
 const getBase64 = (file) =>
@@ -17,7 +17,7 @@ const getBase64 = (file) =>
 
 
 const Profile = () => {
-    let user = useSelector((state)=>state.auth)
+    let user = useSelector((state)=>state.auth?.user)
     console.log(user)
    const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');

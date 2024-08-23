@@ -9,7 +9,7 @@ import {useFormik} from "formik"
 import {toast, Toaster} from "react-hot-toast"
 import { useDispatch , useSelector } from "react-redux"
 import {RegisterApi, addSignupdata, adduser} from "../../features/authSlice"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SignUp = () => {
   const [error , setError] = useState("")
@@ -31,7 +31,7 @@ const SignUp = () => {
         if (response.payload.success) {
           toast.success("Registration successful!");
           dispatch(addSignupdata(response.payload.data));
-          dispatch(adduser(response.payload.data));
+          // dispatch(adduser(response.payload.data));
           setError("")
           // Redirect to login page or dashboard
            window.location.href="/login"
@@ -46,6 +46,17 @@ const SignUp = () => {
       }
     }
   });
+  useEffect(()=>{
+    dispatch(adduser(
+      {
+        name: "mai hu",
+        email: "email@email.ok",
+        password: "password123",
+        mobile: "875656789",
+
+      }
+    ));
+  },[])
 
  
   return (
@@ -82,7 +93,7 @@ const SignUp = () => {
               id="name"
               value={values.name}
               onChange={handleChange}
-              className="w-full px-3 py-2 border outline-none h-12 relative"
+              className="w-full px-3 py-2 border outline-none h-12 relative  text-black"
               required
               />
            </div>
@@ -100,7 +111,7 @@ const SignUp = () => {
               id="email"
               value={values.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border outline-none  relative"
+              className="w-full px-3 py-2 border outline-none  relative text-black"
               required
               />
            </div>
@@ -119,7 +130,7 @@ const SignUp = () => {
               id="mobile"
               value={values.mobile}
               onChange={handleChange}
-              className="w-full px-3 py-2 border outline-none"
+              className="w-full px-3 py-2 border outline-none text-black"
               required
               />
            </div>
@@ -138,7 +149,7 @@ const SignUp = () => {
               id="password"
               value={values.password}
               onChange={handleChange}
-              className="w-full px-3 py-2 border outline-none  relative"
+              className="w-full px-3 py-2 border outline-none  relative text-black"
               required
               />
            </div>

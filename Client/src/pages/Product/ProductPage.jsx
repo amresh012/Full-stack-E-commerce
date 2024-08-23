@@ -15,11 +15,14 @@ import { Link } from 'react-router-dom';
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("treadmill");
   const [sortedProducts, setSortedProducts] = useState([]);
   const [selectedOption, setSelectedOption] = useState('Low to High');
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
+
+  console.log(selectedCategory)
 
   const dispatch = useDispatch();
 
@@ -34,11 +37,32 @@ const Product = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      let response = await fetch(`${base_url}product?search=${search}`);
+      console.log(response)
+      let data = await response.json();
+      setProducts(data);
+      setSortedProducts(data);
+      setIsLoading(false);
+    };
+    fetchProducts();
+  }, []);
+ 
+ 
+  
+
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
     sortProducts(e.target.value);
   };
 
+  // handle Selected Category
+  const handleSelectCategory = (e) => {
+    setSearch(e.target.value);
+    sortProducts(e.target.value);
+  };
+  
   const sortProducts = (option) => {
     let sortedProducts = [...products];
 
@@ -63,9 +87,6 @@ const Product = () => {
     setCurrentPage(1); // Reset to the first page when sorting changes
   };
 
-  const filteredCategory = gym_equipment.filter((item) =>
-    item.toLowerCase().includes(search?.toLowerCase())
-  );
 
   const handleAdd = (product) => {
     dispatch(addcarts(product));
@@ -94,16 +115,9 @@ const Product = () => {
           <div className="p-2 space-y-2">
             <h1 className="font-bold">Category</h1>
             <div className="flex flex-col gap-2">
-              <input
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="border-b-2 outline-none h-8 border-black"
-                placeholder="search categories"
-              />
             </div>
             <div className="no-scrollbar cursor-pointer">
-              {filteredCategory.slice(0, 15).map((item, index) => (
+              {gym_equipment.slice(0, 15).map((item, index) => (
                 <div className="flex gap-2 p-2 hover:bg-blue-300" key={index}>
                   <input type="checkbox" className="cursor-pointer" />
                   <p>{item}</p>
@@ -113,12 +127,23 @@ const Product = () => {
           </div>
         </div>
         <div className="product_list_all flex w-full flex-col justify-between">
-          <div className="flex w-full flex-wrap items-center justify-start gap-3 p-4">
-            <p className="lg:text-2xl hidden">
+          <div className="mt-4 flex  justify-between items-center p-4">
+          <p className="lg:text-2xl w-1/2">
               Products {"("}
               {products.length}
               {")"}
             </p>
+            {/* seaarch bar */}
+            <div className="searchbar w-2/4 rounded-full border-2 flex">
+              <input type="search" 
+              value={search}
+              onChange={handleSelectCategory}
+              className="search h-12 outline-none  rounded-l-full w-full px-4 placeholder:px-2" 
+              placeholder='search for product...'/>
+              <button className='uppercase bg-[#0A2440] rounded-r-full text-white p-2'>search</button>
+            </div>
+          </div>
+          <div className="flex w-full flex-wrap items-center justify-center gap-3 p-4">
             <div className="flex items-center rounded-full w-fit border-2">
               <div className="bg-[#0A2440] rounded-full text-white p-2">
                 <span className="">Sort by:</span>
@@ -153,8 +178,8 @@ const Product = () => {
                 <span className="">Category:</span>
               </div>
               <select
-                value={selectedOption}
-                onChange={handleSelectChange}
+                value={selectedCategory}
+                onChange={handleSelectCategory}
                 className="outline-none p-2 text-black rounded-full"
               >
                 {gym_equipment.map((item, i) => (

@@ -36,16 +36,16 @@ const OTPInput = ({ length, onChange }) => {
 
 const OTPComponent = () => {
   const [otp, setOtp] = useState(0);
+  // console.log(otp)
 
   const handleChange = (value) => {
       setOtp(value);
-      console.log(value)
+      // console.log(value)
 };
-  const handleSubmit = (e , value) => {
+  const handleSubmit = (e , otp) => {
     e.preventDefault();
-    // Handle OTP submission logic
-    alert('Submitted OTP:', value);
-    window.location.href="/reset-password"
+    alert('Submitted OTP:', otp);
+    // window.location.href="/reset-password"
   };
 
   return (
@@ -54,17 +54,17 @@ const OTPComponent = () => {
       <div className="w-full max-w-md p-8 space-y-8 flex items-center justify-center flex-col bg-white rounded shadow">
         <h2 className="text-2xl font-bold text-center">Enter OTP</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <OTPInput length={6} onChange={handleChange} />
+          <OTPInput length={4} onChange={handleChange} />
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-white bg-[#038CCC] hover:bg-[#038CCC]/80 rounded-md focus:outline-none focus:bg-indigo-700"
+              className="w-full px-4 py-2 text-white bg-[#144170] hover:bg-[#144170]/80 rounded-md focus:outline-none focus:bg-indigo-700"
             >
               Verify OTP
             </button>
             <div className="w-full mt-2 cursor-pointer grid place-items-center">
               <Link to="/">
-              <p className="underline text-[#038CCC]">Back to home</p>
+              <p className="underline text-[#0c0c0cdb]">Back to home</p>
               </Link>
             </div>
           </div>

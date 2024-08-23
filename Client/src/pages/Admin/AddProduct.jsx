@@ -47,7 +47,7 @@ const AddProduct = () => {
         hsnCode:"",
         perpiece:"",
         measurment:"",
-        quantity:+"",
+        quantity:"",
         description:"",
         Individual_discount:"",
         corporate_discount:"",
@@ -55,6 +55,8 @@ const AddProduct = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
         try {
+          const category = values.category.toLowerCase();
+          const subcategory = values.subcategory.toLowerCase();
           const response = await axios.post(`${base_url}product/add`, values,);
           console.log(values)
           if(response.data.error){
