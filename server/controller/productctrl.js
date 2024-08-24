@@ -97,10 +97,13 @@ const updateproduct = asyncHandle(async (req, res) => {
   } else res.json("invalid Operation");
 });
 
+// search product controller
+
 const searchProduct = asyncHandle(async (req, res) => {
   try {
     const { search, category, subcategory, brand } = req.query;
     const filter = {};
+
     if (search) {
       filter.$or = [
         { name: { $regex: new RegExp(search, "i") } },
@@ -108,23 +111,30 @@ const searchProduct = asyncHandle(async (req, res) => {
         { brand: { $regex: new RegExp(search, "i") } },
       ];
     }
+
     if (category) {
-      filter.category= category;
+      filter.category = { $regex: new RegExp(category, "i") };
     }
+
     if (subcategory) {
-      filter.subcategory = subcategory;
+      filter.subcategory = { $regex: new RegExp(subcategory, "i") };
     }
+
     if (brand) {
-      filter.brand = brand;
+      filter.brand = { $regex: new RegExp(brand, "i") };
     }
-    const products = await ProductModel.find(filter).populate("subcategory").populate({
-      path: "reviews",
-      model: "reviews",
-      populate: {
-        path: "user",
-        model: "User",
-      },
-    });;
+
+    const products = await ProductModel.find(filter)
+      .populate("subcategory")
+      .populate({
+        path: "reviews",
+        model: "Review",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      });
+
     res.json(products);
   } catch (error) {
     console.error("Error searching products:", error);

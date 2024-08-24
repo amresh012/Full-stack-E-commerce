@@ -60,14 +60,17 @@ app.get("/about", function (req, res) {
   res.render("dataFrom.html");
 });
 
+app.get("/", function(req, res){
+  res.render("hello from node server");
+})
 
 app.use(notFound);
 app.use(errorHandler);
 
 
 
-app.listen(PORT, () => {
-  console.log(`Server listening on:${PORT}`);
+app.listen(PORT,"127.0.0.1" ,() => {
+  console.log(`Server listening on http://${"127.0.0.1"}:${PORT}`);
 });
 
 

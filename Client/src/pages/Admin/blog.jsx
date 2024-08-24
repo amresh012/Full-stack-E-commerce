@@ -3,14 +3,17 @@ import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { base_url } from '../../Utils/baseUrl';
 import { Editor } from "@tinymce/tinymce-react";
+import {useFormik} from "formik"
 const AdminBlog = () => {
 
-  const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+  // const editorRef = useRef(null);
+  // const log = (e) => {
+  //   e.preventDefault()
+  //   if (editorRef.current) {
+  //     setFieldValue('content', editorValue);
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
 
 
 // drager prop
@@ -39,61 +42,52 @@ const props = {
   },
 };
 
-// const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
-//   initialValues: {
-//      name: "",
-//      images:[],
-//       price: "",
-//       category:"",
-//       subcategory:"",
-//       itemCode:"",
-//       hsnCode:"",
-//       perpiece:"",
-//       measurment:"",
-//       quantity:+"",
-//       description:"",
-//       Individual_discount:"",
-//       corporate_discount:"",
-//       mindiscription:"",
-//   },
-//   onSubmit: async (values, { setSubmitting }) => {
-//       try {
-//         const response = await axios.post(`${base_url}product/add`, values,);
-//         console.log(values)
-//         if(response.data.error){
-//            throw new Error(response.data.error)
-//         }
-//         else{
-//           toast.success('Product Added Successfully')
-//         }
-//       } catch (error) {
-//       //    console.log(error.message)
-//          toast.error(error.message)
-//       } finally {
-//         setSubmitting(false);
-//       }
-//     }
+const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
+  initialValues: {
+     title:"",
+     content:"",
+     images:"",
+  },
+  onSubmit: async (values, { setSubmitting }) => {
+    console.log(values)
+      try {
+        const response = await axios.post(`${base_url}blog/add`, values,);
+        console.log(values)
+        if(response.data.error){
+           throw new Error(response.data.error)
+        }
+        else{
+          toast.success('Product Added Successfully')
+        }
+      } catch (error) {
+      //    console.log(error.message)
+         toast.error(error.message)
+      } finally {
+        setSubmitting(false);
+      }
+    }
 
-//  })
+ })
 
 
   return (
    <>
-   <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
+   {/* <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
     <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
           <h1 className="">Add Blogs</h1>
         </div>
-    </div>
-     <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
-       <form className='h-full w-full space-y-2'>
+    </div> */}
+     {/* <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+       <form onSubmit={handleSubmit} className='h-full w-full space-y-2'>
          <div className="title w-full space-y-2">
           <h1 className="text-xl font-bold uppercase">Blog Title</h1>
           <input type="text" 
+          value={values.title}
+          onChange={handleChange}
           className="w-full p-2 border-2 rounded-md"
           placeholder="Enter Blog Title"
           />
          </div>
-         {/* blog description */}
          <div className="description-editor w-full space-y-2">
           <div className="">
             <h1>Blog Desription</h1>
@@ -144,7 +138,7 @@ const props = {
             </div>
           </div>
        </form>
-     </div>
+     </div> */}
    </>
   )
 }

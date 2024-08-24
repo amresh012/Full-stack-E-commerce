@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { BiSearch, BiShoppingBag, BiPlus } from "react-icons/bi";
+import {  BiShoppingBag, BiPlus } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import Megamenu from "../MegaMenu/Megamenu";
 import {Badge } from "@mui/material";
 import LeftDrawer from "../Drawers/LeftDrawer";
 import MobileNav from "../MobileNav/MobileNav";
-import {  useEffect, useRef, useState } from "react";
 import "./Navbar.css"
 import Logo from "../reusablesUI/Logo";
 import AccountMenu from "../UserDashComp/AccountMenu";
@@ -42,18 +41,11 @@ const links = [
 ];
 
 const Navbar = () => {
-  const inputref = useRef(null)
   const {carts} = useSelector((state) => state.cart);
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const {token} = useSelector((state) => state.auth);
+  console.log(token)
   
 
-  useEffect(()=>{
-    const token = localStorage.getItem('token')
-    if(token){
-      setIsLoggedIn(true)
-    }
-
-  },[isLoggedIn])
   
 
   return (
@@ -75,14 +67,14 @@ const Navbar = () => {
       </ul>
       {/*  */}
 
-      <div className="lg:flex items-center  justify-center gap-2  cursor-pointer z-50 hidden ">
+      <div className="flex items-center  justify-center gap-2   cursor-pointer z-50  ">
        {
-         isLoggedIn ?
+         token !==null ?
          <AccountMenu/>
          :
           <Link to="/login">
-         <div className=" text-2xl text-blue-500 font-bold  mt-1 ml-3">
-           <RxAvatar/>
+         <div className=" text-2xl text-white font-bold  mt-1 ml-3">
+           <RxAvatar  />
          </div>
          </Link>
         }
@@ -91,18 +83,11 @@ const Navbar = () => {
             <LeftDrawer icon={<BiShoppingBag color="white" size={25} className="" />} />
           </Badge>
          </div>
-      </div>
       <MobileNav/>
+      </div>
     </nav>
   );
 };
 
 export default Navbar;
 
-
-
-//  <div className="">
-//           <Badge badgeContent= {carts.length || 0} color="secondary" aria-label="cart">
-//             <LeftDrawer icon={<BiShoppingBag size={25} className="" />} />
-//           </Badge>
-//         </div>

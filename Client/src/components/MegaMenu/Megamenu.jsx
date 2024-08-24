@@ -10,7 +10,7 @@ const Megamenu = ({title ,icon}) => {
     <div className="dropdown ">
       <button className="dropbtn">
         <p className="uppercase font-light text-base">{title}</p>
-        <span className="icon-1"> {icon}</span>
+        <span className="icon-1">{icon}</span>
         <span className="hidden icon-2 text-[#ff4700]">
           <GoDash size={20} />
         </span>
@@ -48,7 +48,7 @@ const Megamenu = ({title ,icon}) => {
                   <li className="">
                     {item.name}
                   </li>
-                  {/* {item.submenu &&
+                  {item.submenu &&
                     item.sublink.map((sublink) => (
                       <ul
                         className=" flex flex-col gap-2 justify-start  font-medium hover:underline-none items-start"
@@ -64,7 +64,7 @@ const Megamenu = ({title ,icon}) => {
                           </li>
                         </Link>
                       </ul>
-                    ))} */}
+                    ))}
                 </Link>
               ))}
             </ul>

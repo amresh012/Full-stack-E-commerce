@@ -46,7 +46,7 @@ const BMICalculator = () => {
 
   return (
     <div
-      className="bg-[#144170] bg-blend-multiply bg-cover bg-center w-[full] h-[30rem] flex flex-col justify-center items-center"
+      className="bg-[#144170] bg-blend-multiply bg-cover bg-center w-full h-[30rem] flex flex-col justify-center items-center"
       style={{ backgroundImage: `url(${bmiImg})` }}
     >
       <div>
@@ -56,12 +56,12 @@ const BMICalculator = () => {
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[150px] bg-white mb-16"></div>
       </div>
 
-      <div className="w-[65%] flex flex-col items-start justify-center">
+      <div className="lg:w-[65%] w-full flex flex-col lg:items-start  items-center justify-center">
         <div className="mb-3">
           <form className="flex items-center" onChange={changeUnitHandler}>
             <div className="flex items-center">
               <input
-                className="text-xl bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
+                className=" bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
                 id="unit1"
                 type="radio"
                 name="group1"
@@ -72,9 +72,9 @@ const BMICalculator = () => {
               </label>
             </div>
 
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <input
-                className="text-xl bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
+                className="bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
                 id="unit2"
                 type="radio"
                 name="group1"
@@ -92,7 +92,7 @@ const BMICalculator = () => {
             <form onSubmit={calculateBmiHandler} className="">
               <div>
                 <input
-                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
+                  className="font-thin text-white bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
                   value={weightInKg}
                   onChange={(e) => setWeightInKg(e.target.value)}
                   type="number"
@@ -100,7 +100,7 @@ const BMICalculator = () => {
                   pattern="^\d*(\.\d{0,2})?$"
                 />
                 <input
-                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
+                  className="font-thin  text-white bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
                   value={heightInCm}
                   onChange={(e) => setHeightInCm(e.target.value)}
                   type="number"
@@ -122,7 +122,7 @@ const BMICalculator = () => {
             <form onSubmit={calculateBmiHandler} className="">
               <div>
                 <input
-                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
+                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 lg:text-lg mx-1 my-1 cursor-pointer"
                   value={weightInLbs}
                   onChange={(e) => setWeightInLbs(e.target.value)}
                   type="number"
@@ -130,14 +130,14 @@ const BMICalculator = () => {
                   pattern="^\d*(\.\d{0,2})?$"
                 />
                 <input
-                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
+                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 lg:text-lg mx-1 my-1 cursor-pointer"
                   value={heightInFeet}
                   onChange={(e) => setHeightInFeet(e.target.value)}
                   type="number"
                   placeholder="Height / feet"
                 />
                 <input
-                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 text-lg mx-1 my-1 cursor-pointer"
+                  className="font-thin text-xl text-white bg-transparent outline-none border rounded-md px-3 py-2 lg:text-lg mx-1 my-1 cursor-pointer"
                   value={heightInInch}
                   onChange={(e) => setHeightInInch(e.target.value)}
                   type="number"
@@ -145,10 +145,10 @@ const BMICalculator = () => {
                 />
                 <button
                   type="submit"
-                  className="mt-4 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out"
+                  className="mt-4 lg:mx-0 mx-2 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out"
                 >
-                  <div className="flex items-center justify-center gap-x-1">
-                    Calculate
+                  <div className="flex items-center w-full justify-center  gap-2">
+                   <span> Calculate</span>
                     <span className="pb-1">
                       <CiCalculator1 size={25} />
                     </span>

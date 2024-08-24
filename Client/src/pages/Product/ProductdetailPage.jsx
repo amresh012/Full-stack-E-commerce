@@ -90,6 +90,7 @@ import { useDispatch } from 'react-redux'
       <p className="product-name font-bold text-2xl">{product?.name}</p>
       <span>Variant : SKP: SF-FOO3-C</span>
       <div className="price space-x-4">
+        <div className="discount">{product?.corporatediscount}</div>
         <span className="text-2xl font-bold line-through text-red-500">Rs 5,500.00</span>
         <span className="text-2xl font-bold">Rs{product?.price}</span>
       </div>
@@ -118,9 +119,9 @@ import { useDispatch } from 'react-redux'
       <div className="qua space-y-4  mt-2">
         <h1 className='font-bold  text-xl'>Quantity</h1>
         <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
-                    <button className='bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  ' onClick={handleIncr(product.quantity)}>+</button>
-                    <p className=''>{product.quantity}</p>
-                    <button  className='bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white ' onClick={handleDecr(product.quantity)}>-</button>
+                    <button className='bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  ' onClick={handleIncr()}>+</button>
+                    <p className=''>{product?.quantity}</p>
+                    <button  className='bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white ' onClick={handleDecr()}>-</button>
                   </div>
       </div>
       <div className="action-buttons flex flex-col gap-4 mt-12 lg:p-12 p-4 " onClick={()=>handleAdd(product)}>

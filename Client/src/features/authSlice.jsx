@@ -4,18 +4,14 @@ import { base_url } from "../Utils/baseUrl";
 import { config } from "../Utils/axiosConfig";
 import axios from "axios";
 import {toast} from "react-hot-toast"
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   success: false,
   error: false,
   loading: true,
-  user: {
-    name: null,
-    email: null,
-    password: null,
-    mobile:null,
-  },
-  signupdata: {},
+  user: null,
+  signupdata:null,
   token: null,
 };
 
@@ -55,12 +51,7 @@ export const authSlice = createSlice({
       console.log("auth payload",action.payload)
     },
     adduser: (state, action) => {
-      console.log("adduser initoial:", action.payload,state)
-      state.user.name = action.payload.name
-      state.user.email = action.payload.email
-      state.user.password = action.payload.password
-      state.user.mobile = action.payload.mobile
-      console.log("adduser:", action.payload,state)
+      state.user = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -77,9 +68,8 @@ export const authSlice = createSlice({
         if (action.payload._id) {
           toast.success("Login Success");
           if (action.payload.role === "admin") {
-            return (window.location.href = "/admin");
+            return navigate("/admin")
           }
-          window.location.href = "/profile";
         } else {
           toast.error(action.payload);
         }

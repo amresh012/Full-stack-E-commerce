@@ -13,7 +13,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { toast, Toaster } from 'react-hot-toast';
 import {resetCart ,removeItem }  from "../../features/cartSlice"
 import { IoIosCloseCircleOutline } from "react-icons/io";
-
+import { useMediaQuery } from '@mui/material';
 export default function SwipeableTemporaryDrawer({icon}) {
   const [state, setState] = React.useState({
     top: false,
@@ -21,8 +21,14 @@ export default function SwipeableTemporaryDrawer({icon}) {
     bottom: false,
     right: false,
   });
-//  cart 
 
+  // mediaquery for drawer width
+const isMobile = useMediaQuery('(max-width: 600px)');
+const isTablet = useMediaQuery('(min-width: 601px) and (max-width: 1024px)');
+const isDesktop = useMediaQuery('(min-width: 1025px)');
+
+
+//  cart 
   const toggleDrawer =
     (anchor, open) =>
     (event ) => {
@@ -43,7 +49,6 @@ export default function SwipeableTemporaryDrawer({icon}) {
       return state.cart;
     });
     const { carts ,totalAmount,totalQuantity } = cartItems;
-    // console.log(carts)
     const dispatch = useDispatch();
     
     const handleCartReset = () => {
@@ -63,9 +68,9 @@ export default function SwipeableTemporaryDrawer({icon}) {
      }
   const list = (anchor) => (
     <Box
-    sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 450 }}
+    sx={{ width:  isMobile ? 250 : isTablet? 350 : 450 }}
     role="presentation"
-    onClick={toggleDrawer(anchor, false)}
+    // onClick={toggleDrawer(anchor, false)}
     onKeyDown={toggleDrawer(anchor, false)}
     className="no-scrollbar"
     >
@@ -78,18 +83,17 @@ export default function SwipeableTemporaryDrawer({icon}) {
         <div className="cart-wrapper min-h-32 flex items-center flex-col p-4 ">
           <div className="flex flex-col items-center w-full p-4">
             {carts.length === 0 && (
-              <h1 className="text-2xl font-bold tracking-wide uppercase">
+              <h1 className="text-2xl text-center font-bold tracking-wide uppercase">
                 Your Cart Is Empty !
               </h1>
             )}
             {carts.length === 0 ? (
-              <p className="pt-2">Add Your Favourite Item Here</p>
+              <p className="pt-2 text-center w-full">Add Your Favourite Item Here</p>
             ) : (
               <p className="font-bold text-xl uppercase">
                 Your Cart have {carts.length} Items
               </p>
             )}
-            <Link to="/product" className="w-full"></Link>
           </div>
           <div className="cart-container w-full flex flex-col gap-2 items-center justify-around max-h-[50vh] overflow-y-scroll  no-scrollbar">
             {/* cart items here */}
@@ -151,11 +155,13 @@ export default function SwipeableTemporaryDrawer({icon}) {
               </button>
             </div>
           ) : (
-           <Link  to="/product" className='w-full'>
+            <div onClick={toggleDrawer(anchor, false)} className='w-full'>
+              <Link  to="/product">
              <button className="w-full px-12 py-2 bg-[#0A2440] mt-4 text-white uppercase">
               Shop Now
             </button>
            </Link>
+            </div>
           )}
         </div>
         {/* cart-end */}
@@ -167,9 +173,9 @@ export default function SwipeableTemporaryDrawer({icon}) {
           <div className="p-4 text-center uppercase bg-[#0A2440] font-bold text-white">
             <h1>You May Also Like</h1>
           </div>
-          <div className="like-item_container max-h-full flex flex-col gap-4 w-full overflow-y-scroll pt-4  no-scrollbar">
+          <div className="like-item_container max-h-full p-2 flex flex-col gap-4 w-full overflow-y-scroll  no-scrollbar">
             {LikeItem.map((item) => (
-              <div className="flex gap-4 w-full items-center " key={item.name}>
+              <div className="flex flex-col lg:flex-row gap-4 w-full items-center " key={item.name}>
                 <div className="flex gap-2 p-2 ">
                   <div className="img p-2 bg-gray-300/20">
                     <img
@@ -186,7 +192,7 @@ export default function SwipeableTemporaryDrawer({icon}) {
                     </p>
                   </div>
                 </div>
-                <div className="p-2  text-center uppercase bg-[#0A2440] hover:bg-[#0A2440]/80 cursor-pointer  text-white">
+                <div className="p-2 w-full lg:w-fit rounded-md text-base  text-center uppercase bg-[#0A2440] hover:bg-[#0A2440]/80 cursor-pointer  text-white">
                   <h1>Add To Cart</h1>
                 </div>
               </div>
