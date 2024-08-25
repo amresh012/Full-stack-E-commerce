@@ -57,13 +57,13 @@ const BulkImage = () => {
     const props = {
       name: "file",
       multiple: true,
-      action: `${base_url}uploads`,
+      action: `https://images.deepmart.shop/upload`,
       onSubmit(info) {
         const { status } = info.file;
         if (status !== "uploading") {
           console.log(info.file.response, info.fileList);
           setFieldValue("url", info.file.response);
-          setFieldValue("name",info.file.name)
+          setFieldValue("name", info.file.name);
         }
         if (status === "done") {
           message.success(`${info.file.name} file uploaded successfully.`);
@@ -72,8 +72,8 @@ const BulkImage = () => {
         }
       },
       onDrop(e) {
-        handleImgUpload( e.dataTransfer.files);
-        // console.log("Dropped Image ", e.dataTransfer.files)
+        handleImgUpload(e.dataTransfer.files);
+        console.log("Dropped Image ", e.dataTransfer.files)
       },
     };
   

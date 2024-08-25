@@ -10,7 +10,7 @@ const Setting = () => {
   return (
     <div className='border-2  rounded-md  mx-4 b-white'>
       <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
-       <div className="bg-[#038CCC] p-2 text-white rounded-full"><IoSettingsOutline/></div>
+       <div className="bg-[#144170] p-2 text-white rounded-full"><IoSettingsOutline/></div>
         <h1 className='uppercase'>Profile Settings</h1>
       </div>
       {/* feilds */}
@@ -58,8 +58,8 @@ const Setting = () => {
                   />
             </div>
             <div
-             className="px-12 py-2 bg-[#038CCC] w-fit font-bold  cursor-pointer
-            hover:bg-[#038CCC]/80 text-white duration-500
+             className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
+            hover:bg-[#144170]/80 text-white duration-500
             ">
               <button type='submit' className='uppercase'>Update Profile</button>
             </div>

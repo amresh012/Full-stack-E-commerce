@@ -4,16 +4,18 @@ import { message, Upload } from "antd";
 import { base_url } from '../../Utils/baseUrl';
 import { Editor } from "@tinymce/tinymce-react";
 import {useFormik} from "formik"
+import toast from 'react-hot-toast';
+import axios from 'axios';
 const AdminBlog = () => {
 
-  // const editorRef = useRef(null);
-  // const log = (e) => {
-  //   e.preventDefault()
-  //   if (editorRef.current) {
-  //     setFieldValue('content', editorValue);
-  //     console.log(editorRef.current.getContent());
-  //   }
-  // };
+  const editorRef = useRef(null);
+  const log = (e) => {
+    e.preventDefault()
+    if (editorRef.current) {
+      // setFieldValue('content', editorValue);
+      console.log(editorRef.current.getContent());
+    }
+  };
 
 
 // drager prop
@@ -72,12 +74,12 @@ const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
 
   return (
    <>
-   {/* <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
+   <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
     <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
           <h1 className="">Add Blogs</h1>
         </div>
-    </div> */}
-     {/* <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+    </div> 
+     <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
        <form onSubmit={handleSubmit} className='h-full w-full space-y-2'>
          <div className="title w-full space-y-2">
           <h1 className="text-xl font-bold uppercase">Blog Title</h1>
@@ -138,7 +140,7 @@ const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
             </div>
           </div>
        </form>
-     </div> */}
+     </div> 
    </>
   )
 }

@@ -9,7 +9,10 @@ import { toast, Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { RegisterApi, addSignupdata, adduser } from "../../features/authSlice";
 import { useState } from "react";
+import { config } from "../../Utils/axiosConfig";
+import { base_url } from "../../Utils/baseUrl";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -31,17 +34,26 @@ const SignUp = () => {
     });
   };
 
+  const checkuserSignup = async (data) => {
+    const response = await axios.post(`${base_url}user/check`, data, config);
+    // console.log(response)
+    return response.data;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await dispatch(RegisterApi(formData));
+      const response = await checkuserSignup(formData);
       console.log(response);
-      if (response.payload.success) {
+      if (!response.error) {
+        dispatch(RegisterApi(formData));
         toast.success("Registration successful!");
-        dispatch(addSignupdata(response.payload.data));
-        dispatch(adduser(response.payload.data));
+        dispatch(addSignupdata(formData));
         // Redirect to login page or dashboard
-        navigate("/login")
+        navigate("/login");
+      }
+      else {
+        throw new Error(response.error);
       }
     } catch (error) {
       toast.error(error.message);

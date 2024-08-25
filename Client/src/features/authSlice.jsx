@@ -4,7 +4,6 @@ import { base_url } from "../Utils/baseUrl";
 import { config } from "../Utils/axiosConfig";
 import axios from "axios";
 import {toast} from "react-hot-toast"
-import { useNavigate } from "react-router-dom";
 
 const initialState = {
   success: false,
@@ -12,14 +11,17 @@ const initialState = {
   loading: true,
   user: null,
   signupdata:null,
-  token: null,
+  token: localStorage.getItem("token"),
 };
 
 export const LoginApi = createAsyncThunk("login", async (payload) => {
   const res = await axios.post(`${base_url}user/login`, payload);
+  console.log(res)
   localStorage.setItem("token", res.data.token);
+  console.log(res.data.token)
   return res.data;
 });
+
 export const VerifyApi = createAsyncThunk("Verify", async () => {
   const res = await axios.post(`${base_url}user/verify`, {}, config);
   return res.data;
@@ -30,6 +32,7 @@ export const RegisterApi = createAsyncThunk(
   async (payload, thunkApi) => {
     try {
       const res = await axios.post(`${base_url}user/register`, payload);
+      console.log()
       return res.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data);
@@ -47,8 +50,9 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     addSignupdata: (state, action) => {
+      console.log(action.payload)
       state.signupdata = action.payload;
-      console.log("auth payload",action.payload)
+      console.log(action.payload)
     },
     adduser: (state, action) => {
       state.user = action.payload;
@@ -66,11 +70,11 @@ export const authSlice = createSlice({
       .addCase(LoginApi.fulfilled, (state, action) => {
         state.success = true;
         if (action.payload._id) {
-          toast.success("Login Success");
           if (action.payload.role === "admin") {
-            return navigate("/admin")
+            return window.location.href="/admin"
           }
         } else {
+          console.log(action.payload);
           toast.error(action.payload);
         }
       })

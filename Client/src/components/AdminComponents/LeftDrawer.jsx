@@ -51,7 +51,7 @@ const LeftDrawer = () => {
           {linksAdmin.map((item) => (
             <>
               <div
-                className="hover:bg-[#038CCC] hover:text-white duration-300 text-xl"
+                className="hover:bg-[#0A2440] hover:text-white duration-300 text-xl"
                 key={item.id}
               >
                 <Link
@@ -59,7 +59,7 @@ const LeftDrawer = () => {
                   key={item.id}
                   className={
                     location.pathname === item.route
-                      ? "flex p-4 items-center bg-[#038CCC] text-white"
+                      ? "flex p-4 items-center bg-[#0A2440] text-white"
                       : "flex p-4 items-center"
                   }
                 >
@@ -75,8 +75,8 @@ const LeftDrawer = () => {
                       to={link.route}
                       className={
                         location.pathname === link.route
-                          ? "flex items-center px-12 w-full justify-start bg-[#038CCC]/80 p-2 text-white"
-                          : "flex items-center px-12 w-full justify-start hover:bg-[#038CCC]/80 p-2 hover:text-white"
+                          ? "flex items-center px-12 w-full justify-start bg-[#0A2440]/80 p-2 text-white"
+                          : "flex items-center px-12 w-full justify-start hover:bg-[#0A2440]/80 p-2 hover:text-white"
                       }
                     >
                       {<item.icon size={20} />}
@@ -90,7 +90,7 @@ const LeftDrawer = () => {
         {
           isLoggedIn 
           ? 
-          <div className="flex justify-around gap-2  mt-8  p-2  items-center w-full group relative bg-[#038CCC] text-white">
+          <div className="flex justify-around gap-2  mt-8  p-2  items-center w-full group relative bg-[#0A2440] text-white">
            <div className="bg-fuchsia-300/20 rounded-xl border-2">
            <img src={Kfs_logo2} alt="" className="h-16 w-16   rounded-xl " />
            </div>
@@ -100,12 +100,12 @@ const LeftDrawer = () => {
             </div>
             <div className=" cursor-pointer ">
               <PiDotsThreeVerticalBold size={25}/>
-              <div className="dropdown absolute hidden  w-44  p-2 -right-[67%] bg-[#038CCC] group-hover:flex flex-col items-center gap-2 bottom-4 rounded-md shadow-md">
-                 <div className="flex items-center gap-2 hover:bg-[#038CCC]/80 w-full p-2 rounded-md ">
+              <div className="dropdown absolute hidden  w-44  p-2 -right-[67%] bg-[#0A2440] group-hover:flex flex-col items-center gap-2 bottom-4 rounded-md shadow-md">
+                 <div className="flex items-center gap-2 hover:bg-[#0A2440]/80 w-full p-2 rounded-md ">
                   <FiLogOut/>
                    <p className="uppercase">LogOut</p>
                  </div>
-                 <div className="flex  items-center gap-2 hover:bg-[#038CCC]/50 w-full p-2 rounded-md ">
+                 <div className="flex  items-center gap-2 hover:bg-[#0A2440]/50 w-full p-2 rounded-md ">
                   <IoSettingsOutline/>
                    <p className="uppercase">Setting</p>
                  </div>
@@ -114,8 +114,8 @@ const LeftDrawer = () => {
           </div> 
           : 
           <div className="flex flex-col mt-12 gap-4 w-full p-2 text-white  text-xl">
-          <button className="bg-[#038CCC] hover:bg-[#038CCC]/80 p-2 rounded-md uppercase">Login</button>
-          <button className="bg-[#038CCC] hover:bg-[#038CCC]/80 p-2 rounded-md uppercase">Register</button>
+          <button className="bg-[#0A2440] hover:bg-[#0A2440]/80 p-2 rounded-md uppercase">Login</button>
+          <button className="bg-[#0A2440] hover:bg-[#0A2440]/80 p-2 rounded-md uppercase">Register</button>
         </div>
         }
       </nav>

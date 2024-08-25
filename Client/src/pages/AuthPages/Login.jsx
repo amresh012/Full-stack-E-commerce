@@ -3,13 +3,12 @@ import { useDispatch } from "react-redux";
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
 import { toast, Toaster } from "react-hot-toast";
-import { LoginApi, addSignupdata, adduser } from "../../features/authSlice";
+import { LoginApi } from "../../features/authSlice";
 import { useState } from "react";
-import {useNavigate} from  "react-router-dom"
-
+import {useNavigate} from "react-router-dom"
 const Login = () => {
-  const dispatch = useDispatch();
   const navigate= useNavigate()
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,17 +24,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await dispatch(LoginApi(formData));
-      console.log(response);
-      if (response.payload.success) {
-        toast.success("Login successful!");
-        await dispatch(addSignupdata(response.payload));
-        // dispatch(adduser(response.payload));
-        console.log("redirected to profilepage")
-        navigate("/profile")
-        console.log("redirected to profilepage")
-      }
+      await dispatch(LoginApi(formData));
+      toast.success("Login Success")
+      navigate("/profile")
     } catch (error) {
+      console.log(error)
       toast.error(error.message);
     }
   };
@@ -108,7 +101,7 @@ const Login = () => {
             </button>
           </form>
           <div className="flex items-center w-full gap-2 justify-center lg:p-4">
-            <p>Don't have an account?</p>
+            <p>Dont have an account?</p>
             <Link to="/signup">
               <p className='text-[#038CCC] underline'>Sign Up</p>
             </Link>

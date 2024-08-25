@@ -88,7 +88,7 @@ function App() {
       {/* Admin Routes */}
 
       <Route path="/admin/*" element={<AdminLayout/>}>
-      <Route path="setting" element={<Dashboard/>}/>
+      <Route index element={<Dashboard/>}/>
       <Route path="users" element={<Users/>}/>
       <Route path="products" element={<AddProduct/>}/>
       <Route path="bulk-product" element={<AddBulkProduct/>}/>

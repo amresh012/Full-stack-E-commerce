@@ -127,7 +127,7 @@ const Product = () => {
             <div className="flex flex-col gap-2">
             </div>
             <div className="no-scrollbar cursor-pointer">
-              {gym_equipment.slice(0, 15).map((item, index) => (
+              {gym_equipment.slice(``).map((item, index) => (
                 <div className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md" key={index}>
                   <input type="checkbox" className="cursor-pointer" />
                   <p>{item}</p>
@@ -137,14 +137,14 @@ const Product = () => {
           </div>
         </div>
         <div className="product_list_all flex w-full flex-col justify-between">
-          <div className="mt-4 flex lg:flex-row flex-col  lg:justify-between justify-center items-center p-4">
+          <div className="mt-4 flex lg:flex-row flex-col   justify-between items-center p-4">
           <p className="lg:text-2xl text-4xl p-2 lg:w-1/2 w-full text-center">
               Products {"("}
               {products.length}
               {")"}
             </p>
             {/* seaarch bar */}
-            <div className="searchbar lg:w-2/6 w-full h-full  rounded-md border-2 flex items-center ">
+            <div className="searchbar lg:w-2/6 w-full h-full  rounded-md  flex items-center border ">
               <input type="search" 
               value={search}
               onChange={(e)=>setSearch(e.target.value)}

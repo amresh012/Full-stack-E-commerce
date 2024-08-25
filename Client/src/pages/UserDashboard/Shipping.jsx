@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaAddressCard } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
-import { addAddress, adduser } from "../../features/authSlice"; // Import the addAddress action
+import { addAddress } from "../../features/authSlice"; // Import the addAddress action
 
 const Shipping = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const Shipping = () => {
       <Toaster />
       <div className="border-2   rounded-md mx-4 b-white">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
-          <div className="bg-[#038CCC] p-2 text-white rounded-full">
+          <div className="bg-[#144170] p-2 text-white rounded-full">
             <FaAddressCard />
           </div>
           <h1 className="uppercase">Add New Address</h1>
@@ -120,8 +120,8 @@ const Shipping = () => {
               </div>
             </div>
             <div
-             className="px-12 py-2 bg-[#038CCC] w-fit font-bold  cursor-pointer
-            hover:bg-[#038CCC]/80 text-white duration-500 rounded-md
+             className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
+            hover:bg-[#144170]/80 text-white duration-500 rounded-md
             ">
               <button type='submit' className='uppercase'>Add Address</button>
             </div>
@@ -132,7 +132,7 @@ const Shipping = () => {
       {/* Old Addresses Section */}
       <div className="border-2 mb-4 mt-12 mx-4 rounded-md">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
-          <div className="bg-[#038CCC] p-2 text-white rounded-full">
+          <div className="bg-[#144170] p-2 text-white rounded-full">
             <FaAddressCard />
           </div>
           <h1 className="uppercase">Old Addreses</h1>
