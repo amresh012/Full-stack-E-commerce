@@ -1,100 +1,136 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
-import { base_url } from '../../Utils/baseUrl';
+import { base_url } from "../../Utils/baseUrl";
 import { Editor } from "@tinymce/tinymce-react";
-import {useFormik} from "formik"
-import toast from 'react-hot-toast';
-import axios from 'axios';
+import { useFormik } from "formik";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { config } from "../../Utils/axiosConfig";
 const AdminBlog = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  // const [image, setImage] = useState('');
+  const imageRef = useRef();
+  // const editorRef = useRef(null);
+  // const log = (e) => {
+  //   e.preventDefault();
+  //   if (editorRef.current) {
+  //     // setFieldValue('content', editorValue);
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
 
-  const editorRef = useRef(null);
-  const log = (e) => {
-    e.preventDefault()
-    if (editorRef.current) {
-      // setFieldValue('content', editorValue);
-      console.log(editorRef.current.getContent());
+  // drager prop
+  // const { Dragger } = Upload;
+  // const props = {
+  //   name: "file",
+  //   multiple: true,
+  //   // action: `${base_url}uploads`,
+  //   action: `http://127.0.0.1:8032/upload`,
+  //   onSubmit(info) {
+  //     const { status } = info.file;
+  //     console.log(status)
+  //     if (status !== "uploading") {
+  //       console.log(info.file, info.fileList);
+  //     }
+  //     if (status === "done") {
+  //       message.success(
+  //         `${info.file.name.slice(0, 10)} file uploaded  successfully.`
+  //       );
+  //       console.log(info)
+  //       setImage(info.fileList.map((file) => file.response))
+  //       // setFieldValue(
+  //       //   "images",
+  //       //   info.fileList.map((file) => file.response)
+  //       // );
+  //     } else if (status === "error") {
+  //       message.error(`${info.file.name.slice(0, 20)} file upload failed.`);
+  //     }
+  //   },
+  //   onDrop(e) {
+  //     console.log("Dropped files", e.dataTransfer.files);
+  //   },
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if(imageRef.current.files.length === 0){
+      toast.error('Image not selected');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", imageRef.current.files[0]);
+
+      const imgResponse = await axios.post('http://127.0.0.1:8032/upload', formData);
+
+      const response = await axios.post(
+        base_url + "blog/add",
+        {
+          title,
+          content,
+          image: imgResponse.data[0],
+        },
+        config
+      );
+      console.log(response);
+    } catch (error) {
+      toast.error(error?.response?.data?.error || 'Something went wrong');
     }
   };
 
-
-// drager prop
-const { Dragger } = Upload;
-const props = {
-  name: "file",
-  multiple: true,
-  action: `${base_url}uploads`,
-  onSubmit(info) {
-    const { status } = info.file;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (status === "done") {
-      message.success(`${info.file.name.slice(0,10)} file uploaded  successfully.`);
-      setFieldValue(
-        "images",
-        info.fileList.map((file) => file.response)
-      );
-    } else if (status === "error") {
-      message.error(`${info.file.name.slice(0,20)} file upload failed.`);
-    }
-  },
-  onDrop(e) {
-    console.log("Dropped files", e.dataTransfer.files);
-  },
-};
-
-const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
-  initialValues: {
-     title:"",
-     content:"",
-     images:"",
-  },
-  onSubmit: async (values, { setSubmitting }) => {
-    console.log(values)
-      try {
-        const response = await axios.post(`${base_url}blog/add`, values,);
-        console.log(values)
-        if(response.data.error){
-           throw new Error(response.data.error)
-        }
-        else{
-          toast.success('Product Added Successfully')
-        }
-      } catch (error) {
-      //    console.log(error.message)
-         toast.error(error.message)
-      } finally {
-        setSubmitting(false);
-      }
-    }
-
- })
-
+  // const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+  //   initialValues: {
+  //     title: "",
+  //     content: "",
+  //     images: "",
+  //   },
+  //   onSubmit: async (values, { setSubmitting }) => {
+  //     console.log(values);
+  //     try {
+  //       const response = await axios.post(`${base_url}blog/add`, values);
+  //       console.log(values);
+  //       if (response.data.error) {
+  //         throw new Error(response.data.error);
+  //       } else {
+  //         toast.success("Product Added Successfully");
+  //       }
+  //     } catch (error) {
+  //       //    console.log(error.message)
+  //       toast.error(error.message);
+  //     } finally {
+  //       setSubmitting(false);
+  //     }
+  //   },
+  // });
 
   return (
-   <>
-   <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
-    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+    <>
+      <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+        <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
           <h1 className="">Add Blogs</h1>
         </div>
-    </div> 
-     <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
-       <form onSubmit={handleSubmit} className='h-full w-full space-y-2'>
-         <div className="title w-full space-y-2">
-          <h1 className="text-xl font-bold uppercase">Blog Title</h1>
-          <input type="text" 
-          value={values.title}
-          onChange={handleChange}
-          className="w-full p-2 border-2 rounded-md"
-          placeholder="Enter Blog Title"
-          />
-         </div>
-         <div className="description-editor w-full space-y-2">
-          <div className="">
-            <h1>Blog Desription</h1>
+      </div>
+      <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+        <form onSubmit={handleSubmit} className="h-full w-full space-y-2">
+          <div className="title w-full space-y-2">
+            <h1 className="text-xl font-bold uppercase">Blog Title</h1>
+            <input required
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full p-2 border-2 rounded-md"
+              placeholder="Enter Blog Title"
+            />
           </div>
-         <Editor
+          <div className="description-editor w-full space-y-2">
+            <div className="">
+              <h1>Blog Desription</h1>
+            </div>
+            {/* <Editor
         apiKey="5r4wd0npsorm8hh4w7303oaexavz24kktq19fpgutvpasfaq"
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue="<p>This is the initial content of the editor.</p>"
@@ -113,16 +149,24 @@ const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
-      />
-      <div className="save-button">
-        <button onClick={log}  className="bg-[#038CCC] text-white p-2">Save Description</button>
-      </div>
-         </div>
-         
-         <div className="space-y-4">
-          <div className="">
-            <h1 className='uppercase text-xl'>Blog Images</h1>
+      /> */}
+            <textarea
+            required
+              className="w-full p-2 border-2 rounded-md"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
+            {/* <div className="save-button">
+              <button className="bg-[#038CCC] text-white p-2">
+                Save Description
+              </button>
+            </div> */}
           </div>
+
+          {/* <div className="space-y-4">
+            <div className="">
+              <h1 className="uppercase text-xl">Blog Images</h1>
+            </div>
             <Dragger {...props}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -138,11 +182,19 @@ const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
             <div className="border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400">
               <button type="submit">Add Blog</button>
             </div>
-          </div>
-       </form>
-     </div> 
-   </>
-  )
-}
+          </div> */}
 
-export default AdminBlog
+          <div className="title w-full space-y-2">
+            <h1 className="text-xl font-bold uppercase">Blog Image</h1>
+            <input className="w-full p-2 border-2 rounded-md" required type="file" ref={imageRef} accept=".jpg, .png, .webp" />
+          </div>
+
+            <button className="w-full border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400" type="submit">Add Blog</button>
+
+        </form>
+      </div>
+    </>
+  );
+};
+
+export default AdminBlog;

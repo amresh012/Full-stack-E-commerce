@@ -1,16 +1,19 @@
 import React from 'react';
-import img from '../../assets/about-2.jpg';
+import moment from 'moment';
+import {Link} from 'react-router-dom';
 
-const BlogCard = () => {
+const BlogCard = ({blog}) => {
+  const {_id, title, image, content, createdAt} = blog;
+
   return (
     <div className='my-4 w-full md:w-[44rem]'>
-    <img loading="lazy" src={img} className='w-full object-cover h-[15rem] sm:h-[25rem]' />
+    <img loading="lazy" src={image} className='w-full object-cover h-[15rem] sm:h-[25rem]' />
     <div>
-        <p className='mt-5 mb-3 text-xl'><span className='font-bold text-[#0a2440]'>By Mayank Jha</span><span className='mx-4 text-[#ababab] font-medium'>|</span><span className='font-medium text-[#ababab]'>Aug 22, 2024</span></p>
-        <p className='text-4xl font-bold text-[#0a2440] my-2'>The Best are European Materls Direct</p>
-        <p className='text-lg font-light'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit officiis est et illo laudantium eveniet provident vitae voluptates sed neque, aliquam laboriosam vel enim, minima, consequatur totam nobis. Vitae eaque saepe recusandae maiores il</p>
+        <p className='mt-5 mb-3 text-xl'><span className='font-bold text-[#0a2440]'>By Mayank Jha</span><span className='mx-4 text-[#ababab] font-medium'>|</span><span className='font-medium text-[#ababab]'>{moment(createdAt).format('DD-MM-yyyy')}</span></p>
+        <p className='text-4xl font-bold text-[#0a2440] my-2'>{title}</p>
+        <p className='text-lg font-light'>{content.substr(0,100) + (content.length > 100 && '...')}</p>
         <div>
-        <button className="mt-5 hover:bg-white text-lg px-14 py-3 rounded-sm bg-[#144170] text-white duration-500 ease-in-out hover:text-[#0a2440]">Read</button>
+        <Link to={`${_id}`} state={{title, image, content, createdAt}}><button className="mt-5 hover:bg-white text-lg px-14 py-3 rounded-sm bg-[#144170] text-white duration-500 ease-in-out hover:text-[#0a2440]">Read</button></Link>
         </div>
     </div>
 </div>

@@ -127,7 +127,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
                       <img src={rupee} alt="" className="h-3" />
                       {item.price}
                     </p>
-                    <p className="quantity">{totalQuantity}</p>
+                    <p className="quantity">{item.quantity}</p>
                     <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
                     <button className='bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  ' onClick={handleIncr(item.quantity)}>+</button>
                     <p className=''>{item.quantity}</p>
