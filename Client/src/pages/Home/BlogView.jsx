@@ -1,89 +1,61 @@
-import React from 'react'
-import {useParams}from "react-router-dom"
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel'; 
-import { faker } from '@faker-js/faker';
-import { Avatar } from 'antd';
-import moment from 'moment';
-const imageCollection =  
-[
-      {
-        id:0,
-        image:"https://picsum.photos/200/200",
-      },
-      {
-        id:0,
-        image:"https://picsum.photos/200/200",
-      },
-      {
-        id:0,
-        image:"https://picsum.photos/100/100",
-      },
-      {
-        id:0,
-        image:"https://picsum.photos/100/100",
-      }
-]
+import React, { useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import moment from "moment";
 
 const BlogView = () => {
- const {id} = useParams()
-  return (
-  <>
-   <div className="contact-header min-h-[50vh] bg-black/20 flex items-center w-full p-4">
-                <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
-                    <h1>KFS Fitness Blogs</h1>
-                    <p className=' capitalize lg:text-base text-xs'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, magnam accusamus sapiente quae delectus!</p>
-                </div>
-            </div>
-  <div className="main-blog_wrapper flex gap-2 items-center justify-center mt-12  lg:flex-row sm:flex-col-reverse p-2">
-     <div className="box-2  w-1/2 h-full">
-        <div className="image ">
-          <Carousel 
-          renderIndicator={false} 
-          autoPlay={true} infiniteLoop={true} 
-          showStatus={false}
-          showArrows={false}
-          dynamicHeight={true}
-          showThumbs={false}
-          >
-            {
-              imageCollection.map((item)=>(
-                <img src={item.image} alt=""  key={item.id} className='h-[20rem] object-cover'/>
-              ))
-            }
-          </Carousel>
-        </div>
-        <div className="blog-detail p-2">
-            <div className="flex flex-wrap justify-start items-center gap-4">
-                <div className="blog-by flex items-center gap-2">
-                <Avatar src={<img src={faker.image.avatar()} alt="avatar" />} />
-                    <p className="username">{faker.person.firstName()}</p>
-                </div>
-                <span>|</span>
-                <div className="date-time">
-                    <p className="">{moment().format('ll')}</p>
-                </div>
-                <span>|</span>
-                <div className="tag">
-                    <p className=""></p>
-                </div>
-            </div>
-            <div className="h1 ">
-                <h1 className='blog_title text-2xl font-bold'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h1>
-                <div className="blog-desc">
-                    {
-                      [...Array(3)].map(()=>(
-                        <p className="tracking-wider">{faker.lorem.paragraphs()}</p>
-                      ))
-                    }
-                </div>
-            </div>
-        </div>
-     </div>
-     <div className="box-2 w-[30rem] bg-blue-300 h-full"></div>
-  </div>
-  </>
-  )
-}
+  const location = useLocation();
+  const navigate = useNavigate();
 
-export default BlogView
+  const [image, setImage] = useState(location?.state?.image || '');
+  const [content, setContent] = useState(location?.state?.content || '');
+  const [title, setTitle] = useState(location?.state?.title || '');
+  const [createdAt, setCreatedAt] = useState(location?.state?.createdAt || '');
+  const [author, setAuthor] = useState(location?.state?.author || 'Mayank Jha');
+
+  return (
+    <>
+      <div className="blogview-header min-h-[50vh] bg-black/20 flex items-center w-full p-4">
+        <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
+          <h1>KFS Fitness Blogs</h1>
+          <p className=" capitalize lg:text-base text-xs">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque,
+            magnam accusamus sapiente quae delectus!
+          </p>
+        </div>
+      </div>
+
+      <h1 className="mt-16 uppercase text-center text-[#0a2440] text-4xl font-bold">
+        Blog
+      </h1>
+      <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
+
+      <div className="my-10 w-full md:w-[44rem] mx-auto">
+        <img
+          loading="lazy"
+          src={image}
+          className="w-full object-cover h-[15rem] sm:h-[25rem]"
+        />
+        <div>
+          <p className="mt-5 mb-3 text-xl">
+            <span className="font-bold text-[#0a2440]">By Mayank Jha</span>
+            <span className="mx-4 text-[#ababab] font-medium">|</span>
+            <span className="font-medium text-[#ababab]">
+              {moment(createdAt).format("DD-MM-yyyy")}
+            </span>
+          </p>
+          <p className="text-4xl font-bold text-[#0a2440] my-2">{title}</p>
+          <p className="text-lg font-light">
+            {content}
+          </p>
+          <div>
+            <button onClick={() => navigate(-1)} className="mt-5 hover:bg-white text-lg px-14 py-3 rounded-sm bg-[#144170] text-white duration-500 ease-in-out hover:text-[#0a2440]">
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default BlogView;

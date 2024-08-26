@@ -34,7 +34,7 @@ const addBlog = asyncHandle(async (req, res) => {
 });
 
 const getallblogs = asyncHandle(async (req, res) => {
-  const blogs = await Blogs.find();
+  const blogs = await Blogs.find().sort({createdAt: 'desc'});
   res.json(blogs);
 });
 
