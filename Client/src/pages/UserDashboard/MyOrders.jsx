@@ -8,7 +8,7 @@ const MyOrders = () => {
     <>
      <div className="border-2  mb-4 rounded-md mx-4">
      <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
-          <div className="bg-[#038CCC] p-2 text-white rounded-full">
+          <div className="bg-[#144170] p-2 text-white rounded-full">
             <GoChecklist />
           </div>
           <h1 className="uppercase">My Orders</h1>
@@ -40,7 +40,7 @@ const MyOrders = () => {
                   <div className="flex flex-col items-center p-2 justify-around h-full gap-2">
                     <p className="price text-2xl font-bold flex items-center"><MdCurrencyRupee/> 12,345.00</p>
                     <p className="quantity ">Qnt:123 unit</p>
-                    <div className="order-again-btn bg-[#038CCC] p-2 text-white rounded-md">
+                    <div className="order-again-btn bg-[#144170] p-2 text-white rounded-md">
                     <button className="uppercase">Order-again</button>
                   </div>
                   </div>

@@ -1,27 +1,14 @@
 // import React from 'react'
 import { IoIosArrowRoundForward } from "react-icons/io";
-import Tabs from "../../components/Tab";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Avatar, AvatarGroup, Rating } from "@mui/material";
-import { Carousel } from "react-responsive-carousel";
 import { CgGym } from "react-icons/cg";
 import { Link } from "react-router-dom";
-import { FaStar, FaStarHalf } from "react-icons/fa";
-// import { Collapse } from 'antd';
+import { FaSearch } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import {
-  Hero1,
-  Hero2,
-  Hero3,
-  Hero4,
-  Hero5,
-  Hero6,
-  Spin,
-} from "../../assets/images";
 import { useEffect } from "react";
-import { Clients, faqs } from "../../constant";
+import { Clients } from "../../constant";
 
 import hero_bg from "../../assets/hero/hero_bg.jpg";
 import weight_reck from "../../assets/GymEquipmentPng/weight-reck.jpg";
@@ -63,11 +50,15 @@ const HomePage = () => {
   return (
     <>
       <div
-        className="relative h-[30rem] md:h-[40rem] w-full bg-top bg-cover bg-[#038cccab] bg-blend-multiply"
+        className="relative h-[30rem] md:h-[40rem] flex flex-col gap-12 justify-center items-center w-full bg-top bg-cover bg-[#038cccab] bg-blend-multiply"
         style={{ backgroundImage: `url(${hero_bg})` }}
       >
-        <div className="text-white text-7xl absolute top-2/3 left-1/2 -translate-y-2/3 -translate-x-1/2 w-[73%] text-center uppercase">
-          <p className="font-semibold text-2xl sm:text-5xl">
+        <div className="searchbar shadow-2xl -mt-12 w-fit  flex justify-center items-center rounded-md  overflow-clip">
+          <input type="search" className="h-12 w-[30rem] placeholder:px-2 px-2 outline-none" placeholder="Search for any product..." />
+          <button className="text-white bg-[#144170] p-4"><FaSearch/></button>
+        </div>
+        <div className="text-white text-7xl lg:w-[73%] w-full text-center uppercase">
+          <p className="font-semibold lg:text-2xl text-[3rem]">
             Build your dream gym with us
           </p>
           <p className="font-bold text-3xl sm:text-6xl">
@@ -85,7 +76,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mt-24 px-6 px-8">
+      <div className="mt-24  px-8">
         <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
           Our Clients
         </h1>
@@ -298,29 +289,29 @@ const HomePage = () => {
             Our Solutions
           </h1>
           <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440]"></div>
-          {/* <p className="px-44 text-sm py-3">
+          <p className="lg:px-44  p-4 text-lg font-light mb-2">
             With deep domain expertise and knowhow, we bring a wide variety of
             solutions to make the gym opening and running process smooth &
             hassle free
-          </p> */}
+          </p>
         </div>
         {/* <div className="flex flex-wrap lg:flex-nowrap gap-12 items-center justify-center "> */}
         <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-4">
           {[...Array(3)].map((id) => (
             <div
-              className="relative hover:scale-105 duration-700 cursor-pointer card rounded-md w-full h-[17rem] border-2"
+              className=" relative hover:scale-105 duration-700 overflow-clip cursor-pointer card rounded-md  w-full"
               key={id}
               data-aos="flip-up"
               data-aos-delay="50"
             >
-              {/* <div className="circlem h-24 absolute -top-12 -right-2 w-24 rounded-full border-4 border-white bg-[#0a2440]">
+              <div className="circlem h-24 absolute -top-2  -right-6 w-24 rounded-full border-4 border-white bg-[#0a2440]">
                 <CgGym size={55} className="m-4 text-white " />
-              </div> */}
-              <div className="Gym-setup rounded-md ">
+              </div>
+              <div className="Gym-setup rounded-md border ">
                 <h1 className="text-xl lg:text-4xl p-4 bg-gradient-to-tr text-white bg-[#0a2440]">
                   Gym Setup
                 </h1>
-                <ol className="list-decimal px-12 py-4 space-y-1">
+                <ol className="list-decimal px-12 py-6 space-y-4">
                   <li className="text-base lg:text-lg font-extralight">
                     World class equipment
                   </li>
@@ -345,7 +336,7 @@ const HomePage = () => {
           <img
             loading="lazy"
             src={why_us_1}
-            className="hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50rem] lg:h-inherit w-full lg:w-inherit"
+            className="hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full lg:h-inherit w-full lg:w-inherit"
           />
           <div className="relative h-[25rem] lg:h-[inherit] w-[80%] flex justify-center mx-auto flex-col">
             <h1 className="text-center uppercase italic text-4xl lg:text-7xl font-bold text-white">
@@ -488,7 +479,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mt-24 mb-16">
+      <div className="mt-24 mb-16 w-full">
         <BMICalculator />
       </div>
 

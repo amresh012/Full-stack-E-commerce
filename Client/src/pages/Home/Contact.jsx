@@ -176,7 +176,7 @@ const Contact = () => {
           </div>
 
           {/* form section */}
-          <div className="lg:w-1/2 w-full p-4 flex flex-col bg-gray-100 space-y-12 mt-20 border-b-4 border-[#0a2440] shadow-md">
+          <div className="lg:w-1/2 w-full p-4 flex flex-col bg-gray-100 space-y-12  border-b-4 border-[#0a2440] shadow-md">
             <div className="flex items-start mx-12 justify-around flex-col">
               <h1 className="w-full uppercase text-center text-[#0a2440] text-2xl lg:text-3xl font-bold">
                 Leave Us Your Message

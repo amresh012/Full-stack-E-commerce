@@ -27,7 +27,7 @@ import AddBulkProduct from './pages/Admin/AddBulkProduct'
 import BulkImage from './pages/Admin/BulkImage'
 import HomePage from './pages/Home/HomePage'
 import ProductdetailPage from './pages/Product/ProductdetailPage'
-import {Privacy, Policies } from './pages/policies'
+import {Privacy, Policies ,RefundPolicy,TermsAndConditions ,PaymentsPolicy ,ShippingPolicy,ReturnPolicy, } from './pages/policies'
 import Setting from './pages/UserDashboard/Setting'
 import UserProfile from './Layout/UserProfile'
 import Shipping from './pages/UserDashboard/Shipping'
@@ -57,6 +57,11 @@ function App() {
       <Route path="/blog/:id" element={<BlogView/>}/>
       <Route path="/policies/*" element={<Policies/>}>
       <Route path='privacy-policy' element = {<Privacy/>}/>
+      <Route path='refund-policy' element = {<RefundPolicy/>}/>
+      <Route path='payment-policy' element = {<PaymentsPolicy/>}/>
+      <Route path='terms&conditions' element = {<TermsAndConditions/>}/>
+      <Route path='shipping-policy' element = {<ShippingPolicy/>}/>
+      <Route path='return-policy' element = {<ReturnPolicy/>}/>
       </Route>
       </Route>
 
@@ -83,7 +88,7 @@ function App() {
       {/* Admin Routes */}
 
       <Route path="/admin/*" element={<AdminLayout/>}>
-      <Route path="setting" element={<Dashboard/>}/>
+      <Route index element={<Dashboard/>}/>
       <Route path="users" element={<Users/>}/>
       <Route path="products" element={<AddProduct/>}/>
       <Route path="bulk-product" element={<AddBulkProduct/>}/>

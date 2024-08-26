@@ -8,8 +8,8 @@ const UserProfile = () => {
   return (
     <>
     <Navbar/>
-     <div className="flex w-full items-start justify-start gap-4">
-        <div className="sidebar">
+     <div className="flex w-full items-start justify-start gap-4 mt-4">
+        <div className="sidebar ">
         <Sidebar/>
         </div>
         <div className="outlet w-full">

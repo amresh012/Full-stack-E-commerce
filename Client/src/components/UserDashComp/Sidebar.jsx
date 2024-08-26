@@ -1,6 +1,5 @@
 import React from 'react'
 import {Link} from  "react-router-dom"
-import {useLocation} from "react-router-dom"
 const links = [
     {
         id:1,
@@ -67,11 +66,11 @@ const Sidebar = () => {
        <ul className="">
         {
             links.map((item)=>(
-                <div className=" h-full border-b-2 ">
-                    <li className="font-bold text-2xl bg-[#038CCC] text-white p-2 uppercase">{item.header}</li>
+                <div className=" h-full border-b-2 " key={item.id}>
+                    <li className="font-bold text-2xl bg-[#144170] text-white p-2 uppercase">{item.header}</li>
                     {
                       item.submenu && item.sublink?.map((link)=>(
-                        <ul  key={link.label} className="flex  gap-2 m-2 justify-start hover:bg-[#038CCC] rounded-md cursor-pointer hover:text-white font-medium items-start ">
+                        <ul  key={link.label} className="flex  gap-2 m-2 justify-start hover:bg-[#144170] rounded-md cursor-pointer hover:text-white font-medium items-start ">
                            <Link  to={link.route} key={link.label} className='flex items-center gap-2 p-2'>
                            {/* <div className="bg-zinc-200 p-2 rounded-full">
                            <img src={item.icon} alt={item.label} className='h-6' />

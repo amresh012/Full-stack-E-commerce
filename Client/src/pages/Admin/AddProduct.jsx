@@ -47,7 +47,7 @@ const AddProduct = () => {
         hsnCode:"",
         perpiece:"",
         measurment:"",
-        quantity:+"",
+        quantity:"",
         description:"",
         Individual_discount:"",
         corporate_discount:"",
@@ -55,7 +55,11 @@ const AddProduct = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
         try {
-          const response = await axios.post(`${base_url}product/add`, values,);
+          const name = values.name.toLowerCase()
+          const category = values.category.toLowerCase();
+          const subcategory = values.subcategory.toLowerCase();
+          const dataToSend = { ...values, category, subcategory, name };
+          const response = await axios.post(`${base_url}product/add`, dataToSend);
           console.log(values)
           if(response.data.error){
              throw new Error(response.data.error)
@@ -72,33 +76,7 @@ const AddProduct = () => {
       }
 
    })
-  // upload image
-  // const props = {
-  //   name: "file",
-  //   multiple: true,
-  //   action: `${base_url}uploads`,
-  //   onChange(info) {
-  //     // console.log(info);
-  //     const { status } = info.file;
-  //     if (status !== "uploading") {
-  //       console.log(info.file, info.fileList);
-  //     }
-  //     if (status === "done") {
-  //       message.success(`${info.file.name.slice(0,10)} file uploaded  successfully.`);
-  //       setFieldValue(
-  //         "images",
-  //         info.fileList.map((file) => console.log(file.response[0]))
-  //       );
-  //     } else if (status === "error") {
-  //       message.error(`${info.file.name} file upload failed.`);
-  //     }
-  //   },
-  //   onDrop(e) {
-  //     console.log("Dropped files", e.dataTransfer.files);
-  //   },
-  // };
   
-
 
   return (
     <>

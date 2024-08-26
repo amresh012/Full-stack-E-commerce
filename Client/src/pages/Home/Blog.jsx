@@ -10,6 +10,71 @@ const Blog = ({ start, end }) => {
   const [totalPages, setTotalPages] = useState(10);
   const [isNext, setIsNext] = useState(true);
   const [isPrev, setIsPrev] = useState(true);
+  
+  // popular tags
+  const popularTags = [
+    {
+      id: 1,
+      name: "Weightlifting",
+      count: 25,
+    },
+    {
+      id: 2,
+      name: "Fitness Motivation",
+      count: 30,
+    },
+    {
+      id: 3,
+      name: "Gym Workouts",
+      count: 28,
+    },
+    {
+      id: 4,
+      name: "Bodybuilding",
+      count: 22,
+    },
+    {
+      id: 5,
+      name: "Home Workout Routines",
+      count: 18,
+    },
+    {
+      id: 6,
+      name: "Fitness Nutrition",
+      count: 20,
+    },
+    {
+      id: 7,
+      name: "Treadmill Workouts",
+      count: 15,
+    },
+    {
+      id: 8,
+      name: "Yoga for Beginners",
+      count: 12,
+    },
+    {
+      id: 9,
+      name: "Gym Equipment Reviews",
+      count: 10,
+    },
+    {
+      id: 10,
+      name: "CrossFit Training",
+      count: 8,
+    },
+    {
+      id: 11,
+      name: "Fitness for Women",
+      count: 6,
+    },
+    {
+      id: 12,
+      name: "Gym Membership Deals",
+      count: 4,
+    },
+  ];
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -32,12 +97,11 @@ const Blog = ({ start, end }) => {
         </h1>
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
 
-        <div className="mt-10 flex gap-x-8 flex-wrap justify-center px-4 md:px-0">
+        <div className="mt-10 flex flex-wrap gap-8 w-[80rem]  justify-center px-4 md:px-0">
           <div>
             <BlogCard />
             <BlogCard />
             <BlogCard />
-
             
             <div className="flex gap-x-1 w-full justify-center mt-6">
                 {Array(totalPages)
@@ -56,8 +120,15 @@ const Blog = ({ start, end }) => {
                   })}
               </div>
           </div>
-          <div>
-            <h1 className="mt-2 uppercase text-center text-[#0a2440] text-2xl font-bold">
+         <div className="flex h-full flex-col gap-4 w-[30rem] items-center p-12">
+         <div className="searchbar w-full rounded-full border-2   flex">
+              <input type="search" 
+              className="search h-12 outline-none  rounded-l-full w-full px-4 placeholder:px-2" 
+              placeholder='search for favourite blogs...'/>
+              <button className='uppercase bg-[#0A2440] rounded-r-full text-white p-2'>search</button>
+            </div>
+         <div className="bg-gray-200/40 h-fit p-4 rounded-md shadow-sm m-4">
+            <h1 className="mt-2 uppercase text-center  text-[#0a2440] text-2xl font-bold">
               Recent Posts
             </h1>
             <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
@@ -69,67 +140,26 @@ const Blog = ({ start, end }) => {
 
             </div>
           </div>
+          {/* popular tags */}
+          <div className="popular-tags bg-gray-200/40 h-fit p-4 rounded-md shadow-sm">
+          <h1 className="mt-2 uppercase text-center  text-[#0a2440] text-2xl font-bold">
+             Popular Tags
+            </h1>
+            <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
+            <div className="tags flex flex-wrap  gap-2 mt-5">
+            {popularTags.map((tag) => (
+              <div
+                key={tag.id}
+                className="bg-[#0A2440] text-white px-4 py-2 rounded-full text-sm cursor-pointer"
+              >
+                {tag.name} ({tag.count})
+              </div>
+            ))}
+          </div>
+          </div>
+         </div>
         </div>
 
-        {/* <div className="p-2 flex flex-col   ">
-          <div className="flex  items-start gap-2 p-2">
-            <div className="flex">
-              <img
-                src={faker.image.avatar()}
-                alt=""
-                className="h-12 w-12 rounded-full"
-              />
-            </div>
-            <div className="">
-              <p>@{faker.person.fullName()}</p>
-              <small>
-                {blog[0].date} {blog[0].time}
-              </small>
-            </div>
-          </div>
-          <div className="">
-            <img
-              src="https://sfhealthtech.com/cdn/shop/articles/10_Ways_Rowing_Machines_Can_Benefit_Your_Health_1080x.webp?v=1715158879"
-              alt=""
-              width={800}
-            />
-          </div>
-          <div className="text-xl">{blog[0].title}</div>
-        </div>
-        <div className="flex flex-wrap items-center justify-center">
-          {blog.slice(start, end).map((item) => (
-            <>
-              <div
-                key={item.time}
-                className="m-4 flex flex-col justify-center w-[30rem] hover:scale-105 duration-300    "
-              >
-                <div className="flex  items-start gap-2 p-2">
-                  <div className="flex">
-                    <img
-                      src={faker.image.avatar()}
-                      alt=""
-                      className="h-12 w-12 rounded-full"
-                    />
-                  </div>
-                  <div className="">
-                    <p>@{item.author_name}</p>
-                    <small>
-                      {item.date} {item.time}
-                    </small>
-                  </div>
-                </div>
-                <div className="">
-                  <img
-                    src="https://sfhealthtech.com/cdn/shop/articles/10_Ways_Rowing_Machines_Can_Benefit_Your_Health_1080x.webp?v=1715158879"
-                    alt=""
-                    width={500}
-                  />
-                </div>
-                <div className="text-xl">{item.title}</div>
-              </div>
-            </>
-          ))}
-        </div> */}
       </div>
 
       {/* <div className="flex items-center justify-center mt-12">

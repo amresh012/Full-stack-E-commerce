@@ -35,7 +35,7 @@ const Dashboard = () => {
     <>
      <div className="h-24 flex justify-between  w-full p-4 ">
           <div className="search flex h-12  w-1/2 rounded-full border-2 border-[#038CCC]">
-          <div className="p-4 bg-[#038CCC] text-white rounded-full ">
+          <div className="p-4 bg-[#0A2440] text-white rounded-full ">
             <FaSearch/>
             </div>
             <input type="search" placeholder="Search" className='placeholder:px-2 px-2 outline-none rounded-full w-full' />
@@ -54,10 +54,10 @@ const Dashboard = () => {
         {/* section-2 */}
         <div className="header-right w-full  h-24 p-4">
         <h1 className='text-3xl'>{getGreeting()}! </h1>
-        <p>Weclome tO Admin DashBoard</p>
+        <p className='uppercase'>Weclome tO Admin DashBoard</p>
         </div>
         <div className="analytics flex gap-2">
-          <div className="total-sales flex flex-col font-bold items-center rounded-md  shadow-md p-4 bg-[#038CCC] text-white">
+          <div className="total-sales flex flex-col font-bold items-center rounded-md  shadow-md p-4 bg-[#0A2440] text-white">
            <p className=''>
            <TbMoneybag size={50}/>
            </p>
@@ -70,7 +70,7 @@ const Dashboard = () => {
             </p>
           </div>
           {/* total payments */}
-          <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4  bg-[#038CCC] text-white font-bold ">
+          <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4  bg-[#0A2440] text-white font-bold ">
            <p className=''>
            <MdOutlinePayments size={50}/>
            </p>
@@ -83,7 +83,7 @@ const Dashboard = () => {
             </p>
           </div>
           {/* total customers */}
-          <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4  bg-[#038CCC] text-white font-bold ">
+          <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4  bg-[#0A2440] text-white font-bold ">
            <p className=''>
            <FaUsers size={50}/>
            </p>
@@ -95,7 +95,7 @@ const Dashboard = () => {
             </p>
           </div>
           {/* total orders */}
-          <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4 bg-[#038CCC] text-white font-bold w-[10rem]">
+          <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4 bg-[#0A2440] text-white font-bold w-[10rem]">
            <p className=''>
            <GoChecklist size={50}/>
            </p>
@@ -107,7 +107,7 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        <div className="h-[50vh] w-[50vw] rounded-md border-2 mt-8 shadow-md bg-[#038CCC]">
+        <div className="h-[50vh] w-[50vw] rounded-md border-2 mt-8 shadow-md bg-[#0A2440]">
          <div className="p-2 text-2xl font-bold text-white">
          <h1>Sales Graph</h1>
          </div>
@@ -125,7 +125,7 @@ const Dashboard = () => {
                     },
                 ]}
                 width={750}
-                height={420}
+                height={320}
                 sx={{padding:"4px",stroke:"white",}}
               /> 
          </div>
@@ -133,7 +133,7 @@ const Dashboard = () => {
         <div className="h-[15rem] m-2 w-full border-2 mt-6 rounded-md shadow-md"></div>
       </div>
       <div className="right-content  mt-[5.5rem] flex-col flex py-2">
-        <div className=" w-[24rem] h-[9rem]  bg-[#038CCC] rounded-md  flex flex-col items-start  justify-start">
+        <div className=" w-[24rem] h-[9rem]  bg-[#0A2440] rounded-md  flex flex-col items-start  justify-start">
         <div className="text-2xl px-4 py-4 text-white">
             <h1>Customer Types</h1>
           </div>
@@ -203,7 +203,7 @@ const Dashboard = () => {
               [...Array(6)].map((_,id)=>(
                 <div className="border-2  rounded-md flex items-center p2 justify-between gap-2 " key={id}>
                 <div className="flex items-center gap-2">
-                <div className="image bg-[#038CCC]/20 w-fit">
+                <div className="image bg-[#0A2440]/20 w-fit">
                   <img src={Equip1} alt="" className='h-12 w-12'/>
                 </div>
                 <div className="name">

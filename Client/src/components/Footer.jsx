@@ -52,6 +52,7 @@ const prod = ["Barbells & Plates" ,
     {
       id:1,
       name:"Return Policy",
+      route:"/policies/return-policy"
     },
     {
       id:2,
@@ -61,10 +62,12 @@ const prod = ["Barbells & Plates" ,
     {
       id:3,
       name:"Refund Policy",
+      route:"/policies/refund-policy"
     },
     {
       id:4,
       name:"Terms & Services ",
+      route:"/policies/terms&conditions"
     },
     {
       id:5,
@@ -73,17 +76,20 @@ const prod = ["Barbells & Plates" ,
     {
       id:6,
       name:"Payment Policy",
+      route:"/policies/payment-policy"
     },
     {
       id:7,
       name:"Shipping  Policy",
+      route:"/policies/shipping-policy"
     },
     {
       id:8,
       name:"Contact Information",
+      route:"/contact"
     },
     {
-      id:8,
+      id:9,
       name:"Equipment Warranty",
     },
 
@@ -127,8 +133,10 @@ const Footer = () => {
               <h1 className='text-xl font-bold'>Info</h1>
                <ul className="lg:h-[300px] cursor-pointer flex flex-col flex-wrap">
                 {
-                  polocies.map((item, index) => (
+                  polocies.map((item) => (
+                   <Link to={item.route} key={item.id}>
                     <li className='p-2 hover:pl-2  hover:underline' key={item.id}>{item.name}</li>
+                   </Link>
                   ))
                 }
                </ul>
@@ -141,9 +149,15 @@ const Footer = () => {
       <Link to="/policies/privacy-policy">
       <li className="">Privacy Policy</li>
       </Link>
-      <li className="">Terms & Conditions</li>
+     <Link  to="/policies/terms&conditions">
+     <li className="">Terms & Conditions</li>
+     </Link>
+      <Link to="/policies/refund-policy">
       <li className="">Refund Policy</li>
-      <li className="">Shipping Policy</li>
+      </Link>
+     <Link to="/policies/shipping-policy">
+     <li className="">Shipping Policy</li>
+     </Link>
      </ul>
      <div className="flex gap-8 items-center justify-center  cursor-pointer">
       <img src={Mastercard} alt="" className="h-10" />

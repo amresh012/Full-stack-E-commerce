@@ -41,14 +41,14 @@ export const cartSlice = createSlice({
           id: newItem._id,
           price: newItem.price,
           quantity: 1,
-          totalPrice: newItem.price,
+          totalPrice: Number(newItem.price),
           name: newItem.name,
-          images:newItem.images
+          images: newItem.images,
         });
       } else {
         const index = newCarts.findIndex(item => item.id === newItem.id);
         newCarts[index].quantity++;
-        newCarts[index].totalPrice += newItem.price;
+        newCarts[index].totalPrice += Number(newItem.price);
       }
     
       return {
@@ -71,6 +71,7 @@ export const cartSlice = createSlice({
         existingItem.quantity--;
         existingItem.totalPrice -= existingItem.price;
       }
+      // IMPROVE LOGIC
     },
     resetCart(state) {
       state.carts = [];
