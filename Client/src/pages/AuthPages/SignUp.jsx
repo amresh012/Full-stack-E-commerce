@@ -18,7 +18,6 @@ const SignUp = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const authentication = useSelector((state) => state.auth);
-  console.log(authentication);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -36,7 +35,6 @@ const SignUp = () => {
 
   const checkuserSignup = async (data) => {
     const response = await axios.post(`${base_url}user/check`, data, config);
-    // console.log(response)
     return response.data;
   };
 

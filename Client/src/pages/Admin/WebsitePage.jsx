@@ -1,17 +1,14 @@
 // import React from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { Field, useFormik } from "formik";
-import { base_url } from "../../Utils/baseUrl";
-import axios from "axios";
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Space, Upload , message } from "antd";
-
+import { updateSiteConfig } from "../../features/Website/configSlice";
+import { useDispatch } from "react-redux";
+import { useRef } from "react";
 const WebsitePage = () => {
-
- 
+  const imageRef = useRef();
+ const dispatch = useDispatch()
   const {
     values,
-    setFieldValue,
     handleReset,
     handleSubmit,
     handleChange,
@@ -29,11 +26,15 @@ const WebsitePage = () => {
       homepageBanner: [],
     },
     onSubmit: async (values, { setSubmitting }) => {
+      if(imageRef.current.files.length === 0){
+        toast.error('Image not selected');
+        return;
+      }
       try {
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("title", values.title);
-        formData.append("logo", values.logo);
+        formData.append("logo", imageRef.current.files[0]);
         formData.append("mainbg", values.mainbg);
         formData.append("primarybg", values.primarybg);
         formData.append("headerCol", values.headerCol);
@@ -41,13 +42,9 @@ const WebsitePage = () => {
         formData.append("footerCol", values.footerCol);
         formData.append("textCol", values.textCol);
         formData.append("homepageBanner", values.homepageBanner);
-        const response = await axios.post(`${base_url}config`, values);
+        const response = await dispatch(updateSiteConfig(values));
+        console.log(response)
         console.log(values);
-        if (response.data.error) {
-          throw new Error(response.data.error);
-        } else {
-          toast.success("Occurance Changed Successfully");
-        }
       } catch (error) {
         console.log(error.message)
         toast.error(error.message);
@@ -57,6 +54,13 @@ const WebsitePage = () => {
     },
   });
     
+
+      // const formData = new FormData();
+      // formData.append("file", imageRef.current.files[0]);
+
+      // const imgResponse = await axios.post('http://127.0.0.1:8032/upload', formData);
+
+     
     
     //  console.log(values);
      
@@ -117,7 +121,7 @@ const WebsitePage = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-12 rounded-md shadow-md  h-auto flex flex-col items-center justify-around mx-12 p-2  ">
+      <div className="border-2 mt-12 mx-2 rounded-md shadow-md  h-auto flex flex-col items-center justify-around w-max p-2  ">
         <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
           <h1 className="">Website Configuration</h1>
         </div>
@@ -125,7 +129,7 @@ const WebsitePage = () => {
         {/* form */}
         <form
           onSubmit={handleSubmit}
-          className="w-full h-full p-12 flex  flex-col gap-12"
+          className="w-full h-full p-4 flex  flex-col gap-12"
         >
           <div className="flex gap-12 items-center justify-around w-full">
             {configlabel.slice(8).map((label) => (
@@ -196,10 +200,10 @@ const WebsitePage = () => {
           <div className="flex gap-12 items-center justify-around w-full ">
             <div className="border-2 flex  items-center border-dashed p-2 rounded-md">
               <span className="w-max p-2 rounded-l-md text-white bg-[#0A2440]">Upload <span>Max(1)</span></span>
-              <input type="file" className="border-2 p-2 rounded-md" />
+              <input type="file" className="border-2 p-2 rounded-md" ref={imageRef} accept=".jpg, .png, .webp"  />
             </div>
             <div className="border-2 flex  items-center border-dashed p-2 rounded-md">
-              <span className="w-max p-2 rounded-l-md text-white bg-[#0A2440] p-2  bg-[]">Upload <span>Max(3)</span></span>
+              <span className="w-max rounded-l-md text-white bg-[#0A2440] p-2">Upload <span>Max(3)</span></span>
               <input type="file" className="border-2 p-2 rounded-md" />
             </div>
           </div>

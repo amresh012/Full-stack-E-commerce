@@ -33,14 +33,9 @@ const Dashboard = () => {
  
   return (
     <>
-     <div className="h-24 flex justify-between  w-full p-4 ">
-          <div className="search flex h-12  w-1/2 rounded-full border-2 border-[#038CCC]">
-          <div className="p-4 bg-[#0A2440] text-white rounded-full ">
-            <FaSearch/>
-            </div>
-            <input type="search" placeholder="Search" className='placeholder:px-2 px-2 outline-none rounded-full w-full' />
-          </div>
-          <div className="actions flex justify-end items-center w-1/4 h-full" >
+     <div className="h-24 flex justify-around  w-full p-4 ">
+         
+          <div className="actions flex justify-end items-center h-full" >
           <div className="">
             <IoNotificationsOutline size={30}/>
           </div>

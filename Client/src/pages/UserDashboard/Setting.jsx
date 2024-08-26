@@ -1,12 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoSettingsOutline } from "react-icons/io5";
-
+import {ProfileResetApi} from "../../features/userSlice"
+import {useDispatch} from "react-redux"
+import {toast, Toaster} from "react-hot-toast"
 const Setting = () => {
+  const dispatch = useDispatch()
+  const [formData, setFormData] = useState(
+    {
+      name: "",
+      email: "",
+      mobile:"",
+      gstNo:"",
+      panNo:""
 
-  const handleSubmit= (e)=>{
+    }
+  )
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e)=>{
     e.preventDefault()
-    alert("form submitted successfully")
+   try{
+    const res = await dispatch(ProfileResetApi(formData))
+    console.log(res)
+    if(res.payload){
+      toast.success("Profile Updated Successfully")
+    }
+   }
+   catch(error){
+    toast.error(error)
+   }
   }
+ 
+ 
   return (
     <div className='border-2  rounded-md  mx-4 b-white'>
       <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
@@ -22,13 +52,17 @@ const Setting = () => {
                 <input 
                 type="text"
                 id="name"
+                value={formData.name}
+                onChange={handleChange}
                 className='h-14 border-2 rounded-md outline-none px-2 ' 
                 placeholder='enter  name' />
             </div>
             <div className="input-1 w-full flex-col flex">
                 <label htmlFor="">Email:</label>
                 <input type="text"
-                 id="category" 
+                id="email"
+                 value={formData.email}
+                 onChange={handleChange}
                  className='h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2' placeholder='enter Email'
                   />
             </div>
@@ -38,14 +72,18 @@ const Setting = () => {
                 <label htmlFor="">Mobile Number:</label>
                 <input 
                 type="text"
-                id="name"
+                id="mobile"
+                value={formData.mobile}
+                onChange={handleChange}
                 className='h-14 border-2 rounded-md outline-none px-2 ' 
                 placeholder='enter Mobile Number' />
             </div>
             <div className="input-1 w-full flex-col flex">
                 <label htmlFor="">GST NUMBER:</label>
                 <input type="text"
-                 id="category" 
+                id="gstNo"
+                value={formData.gstNo}
+                onChange={handleChange}
                  className='h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2' placeholder='enter category'
                   />
             </div>
@@ -53,7 +91,9 @@ const Setting = () => {
         <div className="input-1 w-full flex-col flex">
                 <label htmlFor="">PAN NO:</label>
                 <input type="text"
-                 id="subcategory" 
+                id="panNo"
+                 value={formData.panNo}
+                 onChange={handleChange}
                  className='h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2' placeholder='enter PAN NO'
                   />
             </div>

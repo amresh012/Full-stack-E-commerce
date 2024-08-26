@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
 import { toast, Toaster } from "react-hot-toast";
-import { LoginApi } from "../../features/authSlice";
+import { LoginApi, VerifyApi } from "../../features/authSlice";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom"
 const Login = () => {
@@ -24,9 +24,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(LoginApi(formData));
-      toast.success("Login Success")
-      navigate("/profile")
+       
+      const response = await dispatch(VerifyApi(formData));
+      console.log(response)
+      if(response.payload.success){
+        dispatch(LoginApi(formData))
+        toast.success("")
+      }
     } catch (error) {
       console.log(error)
       toast.error(error.message);

@@ -29,7 +29,7 @@ export default function AccountMenu() {
     if( localStorage.getItem("token")){
       localStorage.removeItem("token");
       toast.success("logged Out Successfully")
-      window.reload()
+      location.reload()
       navigate("/login")
     }
   }

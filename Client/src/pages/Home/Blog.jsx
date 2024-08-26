@@ -147,7 +147,7 @@ const Blog = ({ start, end }) => {
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
 
         <div className="mt-10 flex flex-wrap gap-8 w-[80rem]  justify-center px-4 md:px-0">
-          <div>
+          <div className="">
             {filteredBlogs.map(blog => <BlogCard blog={blog} />)}
 
             <div className="flex gap-x-1 w-full justify-center mt-6">

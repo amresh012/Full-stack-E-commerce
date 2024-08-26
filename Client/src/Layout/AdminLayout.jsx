@@ -5,7 +5,7 @@ import LeftDrawer from "../components/AdminComponents/LeftDrawer"
 
 const AdminLayout = () => {
   return (
-    <div className='flex overflow-clip'>
+    <div className='flex overflow-clip '>
    <div className="">
    <LeftDrawer/>
    </div>

@@ -16,9 +16,7 @@ const initialState = {
 
 export const LoginApi = createAsyncThunk("login", async (payload) => {
   const res = await axios.post(`${base_url}user/login`, payload);
-  console.log(res)
   localStorage.setItem("token", res.data.token);
-  console.log(res.data.token)
   return res.data;
 });
 
