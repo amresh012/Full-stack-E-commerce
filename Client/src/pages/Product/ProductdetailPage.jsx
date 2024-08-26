@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux'
     const fetchProducts = async () => {
     try {
       const response = await fetch(`${base_url}product/${id}`);
-      console.log(response)
+      // console.log(response)
       const data = await response.json();
       setproduct(data);
     } catch (error) {

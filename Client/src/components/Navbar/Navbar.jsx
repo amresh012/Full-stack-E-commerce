@@ -41,15 +41,14 @@ const links = [
 ];
 
 const Navbar = () => {
-  const {carts} = useSelector((state) => state.cart);
+  const {totalQuantity} = useSelector((state) => state.cart);
   const {token} = useSelector((state) => state.auth);
-  console.log(token)
   
 
   
 
   return (
-    <nav className="flex justify-around items-center p-4 bg-[#0a2440]">
+    <nav className="flex justify-around items-center p-4 bg-black">
       <div className="logo-container z-50 ">
        <Logo/>
       </div>
@@ -79,7 +78,7 @@ const Navbar = () => {
          </Link>
         }
          <div className="">
-         <Badge badgeContent= {carts.length || 0} color="secondary" aria-label="cart">
+         <Badge badgeContent= {totalQuantity || 0} color="secondary" aria-label="cart">
             <LeftDrawer icon={<BiShoppingBag color="white" size={25} className="" />} />
           </Badge>
          </div>

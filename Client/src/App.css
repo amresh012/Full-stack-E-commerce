@@ -29,6 +29,14 @@
     background-blend-mode: multiply;
   }
 
+  .blogview-header{
+    background-image: url("./assets/blogview.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+  }
+
   input[type=radio] {
     --s: 1em;     /* control the size */
     --c: #b32995; /* the active color */
