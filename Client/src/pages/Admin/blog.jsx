@@ -12,7 +12,6 @@ const AdminBlog = () => {
   const log = (e) => {
     e.preventDefault()
     if (editorRef.current) {
-      // setFieldValue('content', editorValue);
       console.log(editorRef.current.getContent());
     }
   };
@@ -32,7 +31,7 @@ const props = {
     if (status === "done") {
       message.success(`${info.file.name.slice(0,10)} file uploaded  successfully.`);
       setFieldValue(
-        "images",
+        "image",
         info.fileList.map((file) => file.response)
       );
     } else if (status === "error") {
@@ -48,7 +47,7 @@ const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
   initialValues: {
      title:"",
      content:"",
-     images:"",
+     image:"",
   },
   onSubmit: async (values, { setSubmitting }) => {
     console.log(values)
@@ -57,9 +56,6 @@ const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
         console.log(values)
         if(response.data.error){
            throw new Error(response.data.error)
-        }
-        else{
-          toast.success('Product Added Successfully')
         }
       } catch (error) {
       //    console.log(error.message)
@@ -104,8 +100,8 @@ const {values , setFieldValue, handleSubmit , handleChange} = useFormik({
           plugins: [
             "ai preview powerpaste casechange footnotes tinycomments searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed advtemplate codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker mergetags a11ychecker editimage help formatpainter permanentpen pageembed charmap quickbars linkchecker emoticons advtable export mentions typography markdown importword",
             'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-  'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-  'media', 'table', 'emoticons', 'help'
+            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+            'media', 'table', 'emoticons', 'help'
           ],
           toolbar:
             "undo redo | importword | aidialog aishortcuts | blocks fontsizeinput | bold italic | align numlist bullist | link image | table media pageembed | lineheight  outdent indent | strikethrough forecolor backcolor formatpainter removeformat | charmap emoticons checklist | code fullscreen preview | save print export | pagebreak anchor codesample footnotes mergetags | addtemplate inserttemplate | addcomment showcomments | ltr rtl casechange | spellcheckdialog a11ycheck",

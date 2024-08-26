@@ -7,14 +7,16 @@ import { List } from '@mui/material';
 import { MdBlockFlipped } from "react-icons/md";
 import { Space, Switch } from "antd";
 import { CgUnblock } from "react-icons/cg";
+import { config } from '../../Utils/axiosConfig';
+import axios from 'axios';
 
 const columns = [
   {
     header: "Sr.No.",
-    accessorKey: "_id",
+    accessorKey: "id",
     cell: ({ row }) => {
-      const id = row.original._id;
-      return <span>{id.slice(0, 3)}</span>;
+      const id = row.id;
+      return <span>{id}</span>;
     },
   },
   {
@@ -34,52 +36,47 @@ const columns = [
     header: "Role",
     accessorKey: "role",
     cell: ({ row }) => {
-      const [role, setRole] = useState(row.original.role);
-
-      const handleStatusChange = (event) => {
-        setRole(event.target.value);
-        // Add your logic here to update the status in your data source
-      };
-
       return (
         <select
-          value={role}
-          onChange={handleStatusChange}
+          value={row.original.role}
           className="border-2 p-2 outline-none rounded-md border-[#038CCC]"
         >
           <option value="Admin">Admin</option>
-          <option value="Bussiness">Employee</option>
+          <option value="Admin">Users</option>
+          <option value="Bussiness">Bussiness</option>
         </select>
       );
     },
   },
   {
     header: "Action",
-    cell: () => (
+    cell: ({row}) => {
+    
+     return (
       <List
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 4,
-          justifyContent: "center",
-          cursor: "pointer",
-        }}
-      >
-        <div className="bg-red-200 p-2 rounded-md">
-          <FaTrash className="text-red-500" />
-        </div>
-        <div className="bg-blue-200 p-2 rounded-md">
-          <FaEye className="text-blue-500 " />
-        </div>
-        <Space direction="vertical">
-          <Switch
-            checkedChildren={<MdBlockFlipped className="mt-[5px]" />}
-            unCheckedChildren={<CgUnblock />}
-            defaultChecked
-          />
-        </Space>
-      </List>
-    ),
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 4,
+        justifyContent: "center",
+        cursor: "pointer",
+      }}
+    >
+      <div className="bg-red-200 p-2 rounded-md" >
+        <FaTrash className="text-red-500" />
+      </div>
+      <div className="bg-blue-200 p-2 rounded-md">
+        <FaEye className="text-blue-500 " />
+      </div>
+      <Space direction="vertical">
+        <Switch
+          checkedChildren={<MdBlockFlipped className="mt-[5px]" />}
+          unCheckedChildren={<CgUnblock />}
+          defaultChecked
+        />
+      </Space>
+    </List>
+    )}
   },
 ];
 

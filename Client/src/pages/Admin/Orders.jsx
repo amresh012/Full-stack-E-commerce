@@ -27,9 +27,8 @@ const getStatusColor = (status) => {
   }
 };
 
-const handleDelete = ()=>{
-  console.log("delete")
-  toast.success("Deleted Successfully")
+const handleDelete = (id)=>{
+
 }
 
 
@@ -37,6 +36,10 @@ const columns = [
   {
     header: "ID",
     accessorKey: "id",
+    cell: ({ row }) => {
+      const id = row.id;
+      return <span>{id}</span>;
+    },
   },
   {
     header: "Invoice No.",
@@ -64,9 +67,9 @@ const columns = [
   },
   {
     header: "Action",
-    cell: () => (
+    cell: ({row}) => (
       <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
+        <div className="bg-red-200 p-2 rounded-md" onClick={()=>handleDelete(row.original._id)}>
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md">
@@ -104,12 +107,6 @@ const Orders = () => {
 
   const label = [
     {
-      id: 1,
-      label: "Show By",
-      data: ["05", 10, 15, 20, 100],
-      showlabel: "Rows",
-    },
-    {
       id: 2,
       label: "Status By",
       data: [...UniqueStatus],
@@ -127,21 +124,6 @@ const Orders = () => {
           <h1 className="uppercase">Orders</h1>
         </div>
     </div>
-      <div className="Order-Status py-4 m-4 ">
-          {/* <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
-            {Object.keys(statusCount)
-              .slice(0, 3)
-              .map((status) => (
-                <li
-                  className=" w-[15rem] p-4 rounded-md shadow-md bg-[#038CCC] text-white "
-                  key={status}
-                >
-                  <p className="text-2xl">{statusCount[status]}</p>
-                  <h1 className="text-xl">{status}</h1>
-                </li>
-              ))}
-          </ul> */}
-        </div>
       {/* table col */}
       <div className=" w-full  rounded-md p-4 max-h-max ">
         <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#038CCC] text-white mx-4 rounded-md ">
@@ -158,7 +140,7 @@ const Orders = () => {
                 disablePortal
                 id="combo-box-demo"
                 options={item.data}
-                sx={{ width: 200 }}
+                sx={{ width: 400 }}
                 renderInput={(params) => (
                   <TextField {...params} label={item.showlabel} />
                 )}
@@ -171,7 +153,7 @@ const Orders = () => {
             </label>
             <input
               type="date"
-              className="border-[1px] border-black/30 p-2 h-14 w-[12rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+              className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
             />
           </div>
           <div className="flex flex-col">
@@ -183,7 +165,7 @@ const Orders = () => {
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="border-[1px] border-black/30 p-2 h-14 w-[17rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
+                className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
                 placeholder="id / name / email"
               />
               <div className="absolute top-5 right-4">
@@ -203,6 +185,3 @@ const Orders = () => {
 
 export default Orders
 
-{/* <div className="w-full p-4">
-<BasicTable columns={columns} data={Ordata} /> 
-</div> */}

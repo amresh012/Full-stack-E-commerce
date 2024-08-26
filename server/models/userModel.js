@@ -70,8 +70,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "Individual",
-      roles: ["Admin", "Employee"],
+      default: "User",
+      roles: ["Admin", "Bussiness"],
     },
     super: {
       type: Boolean,

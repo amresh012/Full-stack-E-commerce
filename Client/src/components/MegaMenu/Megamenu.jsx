@@ -40,7 +40,7 @@ const Megamenu = ({title ,icon}) => {
             <ul className="overflow-y-scroll max-h-[20rem] no-scrollbar">
               {links.map((item) => (
                 <Link
-                  to={`/product-category${item.route}`}
+                  to={item.route}
                   key={item.Head}
                   className="p-2  duration-300 underline-offset-8 flex flex-col  gap-1"
                 >

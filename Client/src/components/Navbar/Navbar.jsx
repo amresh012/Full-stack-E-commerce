@@ -67,13 +67,13 @@ const Navbar = () => {
       </ul>
       {/*  */}
 
-      <div className="flex items-center  justify-center gap-2   cursor-pointer z-50  ">
+      <div className="flex items-center  justify-center  cursor-pointer z-50  ">
        {
          token !==null ?
          <AccountMenu/>
          :
           <Link to="/login">
-         <div className=" text-2xl text-white font-bold  mt-1 ml-3">
+         <div className=" text-2xl text-white font-bold  mt-1 ">
            <RxAvatar  />
          </div>
          </Link>
@@ -83,7 +83,9 @@ const Navbar = () => {
             <LeftDrawer icon={<BiShoppingBag color="white" size={25} className="" />} />
           </Badge>
          </div>
-      <MobileNav/>
+      {
+        innerWidth < 900 &&  <MobileNav navlinks={links}/>
+      }
       </div>
     </nav>
   );

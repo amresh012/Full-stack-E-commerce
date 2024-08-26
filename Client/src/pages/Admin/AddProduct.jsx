@@ -44,6 +44,10 @@ const AddProduct = () => {
         category:"",
         subcategory:"",
         itemCode:"",
+        height:null,
+        width:null,
+        length:null,
+        weight:null,
         hsnCode:"",
         perpiece:"",
         measurment:"",
@@ -195,6 +199,42 @@ const AddProduct = () => {
               />
             </div>
           </div>
+          {/* height width length */}
+          <div className="flex gap-12 items-center justify-around">
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">Height</label>
+              <input
+                value={values.itemCode}
+                onChange={handleChange}
+                type="number"
+                id="itemCode"
+                className="h-14 border-2 rounded-md outline-none px-2 "
+                placeholder="enter Item Height"
+              />
+            </div>
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">Width</label>
+              <input
+                value={values.hsnCode}
+                onChange={handleChange}
+                type="number"
+                id="hsnCode"
+                className="h-14 border-2 rounded-md outline-none  px-2 "
+                placeholder="enter Width"
+              />
+            </div>
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">Lenght</label>
+              <input
+                value={values.measurment}
+                onChange={handleChange}
+                id="measurment"
+                type="text"
+                className="h-14 border-2 rounded-md outline-none  px-2 "
+                placeholder="enter Lenght"
+              />
+            </div>
+          </div>
           {/* section-3 */}
           <div className="flex gap-12 items-center justify-around">
             <div className="input-1 w-full flex-col flex">
@@ -219,6 +259,17 @@ const AddProduct = () => {
                   )}
                 />
               </div>
+            </div>
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">weight</label>
+              <input
+                value={values.measurment}
+                onChange={handleChange}
+                id="measurment"
+                type="text"
+                className="h-14 border-2 rounded-md outline-none  px-2 "
+                placeholder="enter Lenght"
+              />
             </div>
           </div>
           {/* section-4 */}
@@ -248,7 +299,7 @@ const AddProduct = () => {
                 uploading company data or other banned files.
               </p>
             </Dragger>
-            <div className="border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400">
+            <div className="border-2 cursor-pointer  text-center bg-[#0a2440] px-12 py-2 rounded-md active:scale-95 text-white  duration-300 ">
               <button type="submit">Add Product</button>
             </div>
           </div>

@@ -70,11 +70,11 @@ export const authSlice = createSlice({
       .addCase(LoginApi.fulfilled, (state, action) => {
         state.success = true;
         if (action.payload._id) {
+          console.log(action.payload)
           if (action.payload.role === "admin") {
             return window.location.href="/admin"
           }
         } else {
-          console.log(action.payload);
           toast.error(action.payload);
         }
       })

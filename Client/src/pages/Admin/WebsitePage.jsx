@@ -8,53 +8,7 @@ import { Button, Space, Upload , message } from "antd";
 
 const WebsitePage = () => {
 
-  // image upload
-  const props1 = {
-    name: "file",
-    multiple: true,
-    action: `${base_url}uploads`,
-    onSubmit(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-          console.log(info.file, info.fileList);
-           setFieldValue(
-             "homepageBanner",
-             info.fileList.map((file) =>file.response)
-           );
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
-
-  const props2 = {
-    name: "file",
-    action: `${base_url}uploads`,
-    onSubmit(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-          // console.log(info.file, info.fileList);
-          setFieldValue(
-            "logo",info.file.response[0]
-          );
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
-
+ 
   const {
     values,
     setFieldValue,
@@ -240,28 +194,22 @@ const WebsitePage = () => {
           </div>
           {/* section-5 */}
           <div className="flex gap-12 items-center justify-around w-full ">
-            <Space
-              direction="horizontal"
-              style={{
-                width: "100%",
-              }}
-              size="large"
-            >
-              <Upload {...props2}>
-                <Button icon={<UploadOutlined />}>Upload (Max: 1)</Button>
-              </Upload>
-              <Upload {...props1}>
-                <Button icon={<UploadOutlined />}>Upload (Max: 3)</Button>
-              </Upload>
-            </Space>
+            <div className="border-2 flex  items-center border-dashed p-2 rounded-md">
+              <span className="w-max p-2 rounded-l-md text-white bg-[#0A2440]">Upload <span>Max(1)</span></span>
+              <input type="file" className="border-2 p-2 rounded-md" />
+            </div>
+            <div className="border-2 flex  items-center border-dashed p-2 rounded-md">
+              <span className="w-max p-2 rounded-l-md text-white bg-[#0A2440] p-2  bg-[]">Upload <span>Max(3)</span></span>
+              <input type="file" className="border-2 p-2 rounded-md" />
+            </div>
           </div>
           {/* section-6 */}
           <div
             onClick={handleChange}
             className="flex justify-center gap-4 w-full text-center duration-300"
           >
-            <button  className="bg-[#038CCC] p-2 rounded-md text-white uppercase">Change Occurance</button>
-            <button className="bg-[#038CCC] p-2 rounded-md text-white uppercase" type="reset" onClick={handleReset}>
+            <button  className="bg-[#0A2440] p-2 rounded-md text-white uppercase">Change Occurance</button>
+            <button className="bg-[#0A2440] p-2 rounded-md text-white uppercase" type="reset" onClick={handleReset}>
               Reset Occurance
             </button>
           </div>

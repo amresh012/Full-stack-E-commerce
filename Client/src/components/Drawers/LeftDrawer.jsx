@@ -169,7 +169,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
 
         {/* like section */}
         {/* bastsellers category products */}
-        <div className="like-item-wrapper mt-12">
+        {/* <div className="like-item-wrapper mt-12">
           <div className="p-4 text-center uppercase bg-[#0A2440] font-bold text-white">
             <h1>You May Also Like</h1>
           </div>
@@ -198,7 +198,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </Box>
   );

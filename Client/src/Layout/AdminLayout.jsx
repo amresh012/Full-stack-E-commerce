@@ -5,8 +5,8 @@ import LeftDrawer from "../components/AdminComponents/LeftDrawer"
 
 const AdminLayout = () => {
   return (
-    <div className='flex w-full'>
-   <div className="w-1/4">
+    <div className='flex overflow-clip'>
+   <div className="">
    <LeftDrawer/>
    </div>
     <div className="w-full">

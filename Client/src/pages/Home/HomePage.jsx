@@ -53,10 +53,6 @@ const HomePage = () => {
         className="relative h-[30rem] md:h-[40rem] flex flex-col gap-12 justify-center items-center w-full bg-top bg-cover bg-[#038cccab] bg-blend-multiply"
         style={{ backgroundImage: `url(${hero_bg})` }}
       >
-        <div className="searchbar shadow-2xl -mt-12 w-fit  flex justify-center items-center rounded-md  overflow-clip">
-          <input type="search" className="h-12 w-[30rem] placeholder:px-2 px-2 outline-none" placeholder="Search for any product..." />
-          <button className="text-white bg-[#144170] p-4"><FaSearch/></button>
-        </div>
         <div className="text-white text-7xl lg:w-[73%] w-full text-center uppercase">
           <p className="font-semibold lg:text-2xl text-[3rem]">
             Build your dream gym with us
