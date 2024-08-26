@@ -41,9 +41,8 @@ const links = [
 ];
 
 const Navbar = () => {
-  const {carts} = useSelector((state) => state.cart);
+  const {totalQuantity} = useSelector((state) => state.cart);
   const {token} = useSelector((state) => state.auth);
-  console.log(token)
   
 
   
@@ -79,7 +78,7 @@ const Navbar = () => {
          </Link>
         }
          <div className="">
-         <Badge badgeContent= {carts.length || 0} color="secondary" aria-label="cart">
+         <Badge badgeContent= {totalQuantity || 0} color="secondary" aria-label="cart">
             <LeftDrawer icon={<BiShoppingBag color="white" size={25} className="" />} />
           </Badge>
          </div>

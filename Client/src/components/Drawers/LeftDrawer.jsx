@@ -12,8 +12,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 import { toast, Toaster } from 'react-hot-toast';
 import {resetCart ,removeItem }  from "../../features/cartSlice"
+import { addcarts } from '../../features/cartSlice';
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useMediaQuery } from '@mui/material';
+
 export default function SwipeableTemporaryDrawer({icon}) {
   const [state, setState] = React.useState({
     top: false,
@@ -55,16 +57,16 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
       dispatch(resetCart());
     };
      
-    const handleRemoveItem= (id)=>{
-      dispatch(removeItem(id))
+    const handleRemoveItem= (item)=>{
+      dispatch(removeItem(item))
     }
 
     // quantity
-    const handleIncr = (quantity)=>{
-      quantity < 5 &&  quantity++
-     }
-     const handleDecr = (quantity)=>{
-      quantity> 1 && quantity--
+    const handleIncr = (item)=>{
+      dispatch(addcarts(item))
+    }
+    const handleDecr = (item)=>{
+       dispatch(removeItem(item));
      }
   const list = (anchor) => (
     <Box
@@ -129,9 +131,9 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
                     </p>
                     <p className="quantity">{item.quantity}</p>
                     <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
-                    <button className='bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  ' onClick={handleIncr(item.quantity)}>+</button>
+                    <button className='bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  ' onClick={()=>handleIncr(item)}>+</button>
                     <p className=''>{item.quantity}</p>
-                    <button  className='bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white ' onClick={handleDecr(item.quantity)}>-</button>
+                    <button  className='bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white ' onClick={()=>handleDecr(item)}>-</button>
                   </div>
                   </div>
                 </div>
@@ -141,7 +143,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
             <div className="flex flex-col  gap-2 w-full items-center justify-center p-4">
               <Link
                 to="/checkout"
-                className="bg-blue-500 text-white w-full text-center rounded-md active:scale-95"
+                className="bg-[#0A2440] text-white w-full text-center rounded-md active:scale-95"
               >
                 <button className=" p-2  uppercase">
                   Check Out

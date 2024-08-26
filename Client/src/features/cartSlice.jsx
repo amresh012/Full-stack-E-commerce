@@ -32,48 +32,44 @@ export const cartSlice = createSlice({
   reducers: {
     addcarts: (state, action) => {
       const newItem = action.payload;
-      const existingItem = state.carts.find(item => item.id === newItem.id);
+      const existingItemInd = state.carts.findIndex(item => item._id === newItem._id);
     
-      const newCarts = [...state.carts]; // Create a new array for carts
-    
-      if (!existingItem) {
-        newCarts.push({
-          id: newItem._id,
-          price: newItem.price,
+      state.totalQuantity++;
+
+      if (existingItemInd === -1) {
+        state.carts.push({
+          _id: newItem._id,
+          price: +newItem.price,
           quantity: 1,
-          totalPrice: Number(newItem.price),
+          totalPrice: +newItem.price,
           name: newItem.name,
           images: newItem.images,
         });
+        state.totalAmount += +newItem.price;
       } else {
-        const index = newCarts.findIndex(item => item.id === newItem.id);
-        newCarts[index].quantity++;
-        newCarts[index].totalPrice += Number(newItem.price);
+        const index = state.carts.findIndex(item => item._id === newItem._id);
+        state.carts[index].quantity++;
+        state.carts[index].totalPrice += +newItem.price;
+        state.totalAmount += +state.carts[index].totalPrice;
       }
-    
-      return {
-        ...state, // Return a new state object
-        carts: newCarts,
-        totalQuantity: state.totalQuantity + 1,
-        totalAmount: state.totalAmount + newItem.price,
-      };
     },
     removeItem : (state,action)=>{
-      const {id} = action.payload;
-      const existingItem = state.carts.find(item => item.id === id);
+      const {_id} = action.payload;
+      console.log(_id, action.payload)
+      const existingItemInd = state.carts.findIndex(item => item._id === _id);
       
       state.totalQuantity--;
-      state.totalAmount -= existingItem.price;
+      state.totalAmount -= state.carts[existingItemInd].price;
 
-      if (existingItem.quantity === 1) {
-        state.carts = state.carts.filter(item => item.id !== id);
+      if (state.carts[existingItemInd].quantity === 1) {
+        state.carts = state.carts.filter(item => item._id !== _id);
       } else {
-        existingItem.quantity--;
-        existingItem.totalPrice -= existingItem.price;
+        state.carts[existingItemInd].quantity--;
+        state.carts[existingItemInd].totalPrice -= state.carts[existingItemInd].price;
       }
       // IMPROVE LOGIC
     },
-    resetCart(state) {
+    resetCart: (state)=>{
       state.carts = [];
       state.totalAmount = 0;
       state.totalQuantity = 0;
