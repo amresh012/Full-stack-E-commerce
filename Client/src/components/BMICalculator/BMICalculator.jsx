@@ -8,20 +8,20 @@ const BMICalculator = () => {
 
   const [result, setResult] = useState("");
 
-  const [weightInKg, setWeightInKg] = useState();
-  const [heightInCm, setHeightInCm] = useState();
+  const [weightInKg, setWeightInKg] = useState('');
+  const [heightInCm, setHeightInCm] = useState('');
 
-  const [weightInLbs, setWeightInLbs] = useState();
-  const [heightInFeet, setHeightInFeet] = useState();
-  const [heightInInch, setHeightInInch] = useState();
+  const [weightInLbs, setWeightInLbs] = useState('');
+  const [heightInFeet, setHeightInFeet] = useState('');
+  const [heightInInch, setHeightInInch] = useState('');
 
   const changeUnitHandler = (e) => {
     setResult("");
-    setWeightInKg();
-    setHeightInCm();
-    setWeightInLbs();
-    setHeightInFeet();
-    setHeightInInch();
+    setWeightInKg("");
+    setHeightInCm("");
+    setWeightInLbs("");
+    setHeightInFeet("");
+    setHeightInInch("");
     if (e.target.value === "metric_unit") {
       setIsMetricUnit(true);
       setIsImperialUnit(false);
@@ -127,7 +127,7 @@ const BMICalculator = () => {
                 />
               </div>
 
-              <button className="mt-4 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out">
+              <button disabled={(weightInKg.trim() !== '' && heightInCm.trim() !== '') ? false : true} className="mt-4 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out disabled:cursor-not-allowed">
                 <div className="flex items-center justify-center gap-x-1">
                   Calculate
                   <span className="pb-1">
@@ -163,8 +163,9 @@ const BMICalculator = () => {
                   placeholder="Height / inch"
                 />
                 <button
+                disabled={(weightInLbs.trim() !== '' && heightInFeet.trim() !== '' && heightInInch.trim() !== '') ? false : true}
                   type="submit"
-                  className="mt-4 lg:mx-0 mx-2 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out"
+                  className="mt-4 lg:mx-0 mx-2 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out disabled:cursor-not-allowed"
                 >
                   <div className="flex items-center w-full justify-center  gap-2">
                    <span> Calculate</span>

@@ -173,9 +173,9 @@ const HomePage = () => {
               src={weight_reck}
             ></img>
             <div className="absolute bottom-3 left-3 text-white">
-              <p className="text-4xl uppercase font-thin">Weight Recks</p>
+              <p className="text-4xl uppercase font-thin">Weight Racks</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/category/weight-recks" className="flex items-center">
+                <Link to="/category/weight-racks" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
