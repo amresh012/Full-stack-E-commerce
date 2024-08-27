@@ -20,15 +20,15 @@ export const links = [
     sublink: [
       {
         label: "Benches",
-        route: "Benches",
+        route: "/category/Benches",
       },
       {
         label: "Functional Trainers",
-        route: "Functional-trainers",
+        route: "/category/Functional-trainers",
       },
       {
         label: "Smith Machine",
-        route: "Smith-machine",
+        route: "/category/Smith-machine",
       },
     ],
   },
@@ -39,19 +39,19 @@ export const links = [
     sublink: [
       {
         label: "TreadMill",
-        route: "TreadMill",
+        route: "/category/TreadMill",
       },
       {
         label: "Cross Trainers",
-        route: "Cross Trainers",
+        route: "/category/Cross Trainers",
       },
       {
         label: "Excrise Bikes",
-        route: "Excrise Bikes",
+        route: "/category/Excrise Bikes",
       },
       {
         label: "HIIT",
-        route: "HIIT",
+        route: "/category/HIIT",
       },
     ],
   },

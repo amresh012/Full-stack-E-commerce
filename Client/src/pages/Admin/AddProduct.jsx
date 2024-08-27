@@ -19,7 +19,7 @@ const AddProduct = () => {
         // console.log(info);
         const { status } = info.file;
         if (status !== "uploading") {
-          console.log(info.file, info.fileList);
+          // console.log(info.file, info.fileList);
         }
         if (status === "done") {
           message.success(`${info.file.name.slice(0,10)} file uploaded  successfully.`);
@@ -32,7 +32,7 @@ const AddProduct = () => {
         }
       },
       onDrop(e) {
-        console.log("Dropped files", e.dataTransfer.files);
+        // console.log("Dropped files", e.dataTransfer.files);
       },
     };
 
@@ -60,7 +60,7 @@ const AddProduct = () => {
           const subcategory = values.subcategory.toLowerCase();
           const dataToSend = { ...values, category, subcategory, name };
           const response = await axios.post(`${base_url}product/add`, dataToSend);
-          console.log(values)
+          // console.log(values)
           if(response.data.error){
              throw new Error(response.data.error)
           }
@@ -248,7 +248,7 @@ const AddProduct = () => {
                 uploading company data or other banned files.
               </p>
             </Dragger>
-            <div className="border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400">
+            <div className="border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]">
               <button type="submit">Add Product</button>
             </div>
           </div>

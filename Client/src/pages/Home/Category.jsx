@@ -1,46 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { gym_equipment, gym_product_pricing_inr } from "../../constant";
+import { Link, useParams } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
+import axios from "axios";
 import { base_url } from "../../Utils/baseUrl";
 import Loader from "../../components/reusablesUI/Loader";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { LuEye } from "react-icons/lu";
 import { Chip, Pagination, Rating } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addcarts } from "../../features/cartSlice";
-import { GrPowerReset } from "react-icons/gr";
-import { LuEye } from "react-icons/lu";
-import { CiHeart } from "react-icons/ci";
-import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
-const Product = () => {
+const Category = () => {
+  const { category } = useParams();
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState();
   const [sortedProducts, setSortedProducts] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("Low to High");
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedOption, setSelectedOption] = useState("Low to High");
   const productsPerPage = 9;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      let url = search
-        ? `${base_url}product?category=${search}`
-        : `${base_url}product`;
+  const fetchProducts = async (category) => {
+    try {
+      setIsLoading(true);
+      let url = `${base_url}product`;
       let response = await fetch(url);
       let data = await response.json();
       setProducts(data);
       setSortedProducts(data);
       setIsLoading(false);
-    };
-    fetchProducts();
-  }, []);
-  // }, [search]);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
-  const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
-    sortProducts(e.target.value);
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = sortedProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const handleAdd = (product) => {
+    dispatch(addcarts(product));
   };
 
   // debounceing
@@ -73,6 +81,11 @@ const Product = () => {
     }
   }, 500);
 
+  const handleSelectChange = (e) => {
+    setSelectedOption(e.target.value);
+    sortProducts(e.target.value);
+  };
+
   const sortProducts = (option) => {
     let sortedProducts = [...products];
 
@@ -97,79 +110,42 @@ const Product = () => {
     setCurrentPage(1); // Reset to the first page when sorting changes
   };
 
-  const handleAdd = (product) => {
-    dispatch(addcarts(product));
-  };
-
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = sortedProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  useEffect(() => {
+    fetchProducts(category);
+  }, []);
 
   return (
-    <>
-      <div className="main-wrapper flex items-start justify-start">
-        <div className="h-24"></div>
-        <div className="fillter_wrapper shadow m-2 hidden p-2 min-w-[18rem] space-y-6 lg:flex justify-around flex-col relative">
-          <div className="h-2"></div>
-          <div className="h-12 w-full flex items-center justify-center text-3xl">
-            <h1 className="w-full uppercase p-2">Filter</h1>
-            <Chip
-              label="Reset"
-              sx={{ bgcolor: "#0A2440", color: "#fff" }}
-              icon={<GrPowerReset size={18} />}
+    <div className="my-16">
+      <Toaster />
+      <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+        Category: {category} ({products.length})
+      </h1>
+      <div className="mx-auto mt-2 rounded-md h-[6px] w-[120px] bg-[#0a2440]"></div>
+
+      {isLoading && <Loader />}
+
+      {!isLoading && (
+        <div className="flex flex-col items-end gap-y-3 mt-6 px-10 ml-auto mr-0">
+          <div className="searchbar lg:w-2/6 w-full h-full  rounded-md  flex items-center border">
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                handleSearch(e.target.value);
+              }}
+              className="search h-8 outline-none py-1  rounded-l-md w-full px-4 placeholder:px-2"
+              placeholder="search for product..."
             />
+            <button
+              className="uppercase bg-[#0A2440] rounded-r-md text-white p-2"
+              onClick={() => handleSearch(search)}
+            >
+              <FaSearch />
+            </button>
           </div>
-          <div className="p-2 space-y-2">
-            <h1 className="font-bold">Category</h1>
-            <div className="flex flex-col gap-2"></div>
-            <div className="no-scrollbar cursor-pointer">
-              {gym_equipment.slice(``).map((item, index) => (
-                <div
-                  className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md"
-                  key={index}
-                >
-                  <input type="checkbox" className="cursor-pointer" />
-                  <p>{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="product_list_all flex w-full flex-col justify-between">
-          <div className="mt-4 flex lg:flex-row flex-col   justify-between items-center p-4">
-            <p className="lg:text-2xl text-4xl p-2 text-center">
-              Products {"("}
-              {products.length}
-              {")"}
-            </p>
-            {/* seaarch bar */}
-            <div className="searchbar lg:w-2/6 w-full h-full  rounded-md  flex items-center border ">
-              <input
-                type="search"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  handleSearch(e.target.value);
-                }}
-                className="search h-8 outline-none  rounded-l-md w-full px-4 placeholder:px-2"
-                placeholder="search for product..."
-              />
-              <button
-                className="uppercase bg-[#0A2440] rounded-r-md text-white p-2"
-                onClick={() => handleSearch(search)}
-              >
-                <FaSearch />
-              </button>
-            </div>
-          </div>
-          <div className="flex w-full  flex-col-reverse lg:flex-row items-center justify-end pr-4 gap-3 ">
+
+          <div className="flex flex-col-reverse lg:flex-row items-center pr-4 gap-3 ">
             <div className="flex items-center rounded-md w-fit border-2">
               <div className="bg-[#0A2440] rounded-l-md text-white p-2">
                 <span className="">Sort by:</span>
@@ -185,40 +161,14 @@ const Product = () => {
                 <option value="Alphabetical Z-A">Alphabetical Z-A</option>
               </select>
             </div>
-            {/* <div className="flex items-center rounded-md w-fit border-2">
-              <div className="bg-[#0A2440] rounded-l-md text-white p-2">
-                <span className="">Price:</span>
-              </div>
-              <select
-                value={selectedOption}
-                onChange={handleSelectChange}
-                className="outline-none p-2 text-black"
-              >
-                {gym_product_pricing_inr.map((item, i) => (
-                  <option key={i} value={i}>{item}</option>
-                ))}
-              </select>
-            </div> */}
-            {/* <div className="flex items-center rounded-md w-fit border-2">
-              <div className="bg-[#0A2440] rounded-l-md text-white p-2">
-                <span className="">Category:</span>
-              </div>
-              <select
-                value={selectedOption}
-                onChange={handleSelectChange}
-                className="outline-none p-2 text-black rounded-md"
-              >
-                {gym_equipment.map((item, i) => (
-                  <option key={i} value={i}>{item}</option>
-                ))}
-              </select>
-            </div> */}
           </div>
-          <div className="product-list_container p-2 flex flex-wrap gap-2 w-full items-center justify-center lg:justify-start">
-            {isLoading ? (
-              <Loader />
-            ) : (
-              currentProducts.map((product) => (
+        </div>
+      )}
+      {!isLoading && (
+        <div className="my-16 px-4 flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2">
+            {currentProducts?.map((product) => {
+              return (
                 <div
                   className="card min-h-[32rem] group w-[21rem] border-2 p-4 rounded-md"
                   key={product._id}
@@ -245,11 +195,11 @@ const Product = () => {
                     <div className="stack-1 flex justify-between p-2">
                       {product.corporateDiscount > 0 ? (
                         <Chip
-                        sx={{ margin: "10px 0" }}
-                        color="success"
-                        size="small"
-                        label={"upto " + product.corporateDiscount + "% off"}
-                      />
+                          sx={{ margin: "10px 0" }}
+                          color="success"
+                          size="small"
+                          label={"upto " + product.corporateDiscount + "% off"}
+                        />
                       ) : (
                         <div></div>
                       )}
@@ -260,8 +210,8 @@ const Product = () => {
                           </div>
                         </Link>
                         {/* <div className="preview-icon">
-                          <CiHeart />
-                        </div> */}
+                        <CiHeart />
+                      </div> */}
                       </div>
                     </div>
                     <div className="stack-2 p-2 group">
@@ -325,20 +275,21 @@ const Product = () => {
                     </div>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-          <div className="pagination w-full flex items-center justify-center p-4 m-2">
-            <Pagination
-              count={Math.ceil(sortedProducts.length / productsPerPage)}
-              page={currentPage}
-              onChange={handlePageChange}
-            />
+              );
+            })}
           </div>
         </div>
+      )}
+
+      <div className="pagination w-full flex items-center justify-center p-4 m-2">
+        <Pagination
+          count={Math.ceil(sortedProducts.length / productsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
       </div>
-    </>
+    </div>
   );
 };
 
-export default Product;
+export default Category;

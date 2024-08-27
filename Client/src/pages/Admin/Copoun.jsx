@@ -38,7 +38,7 @@ const AddCoupon = () => {
       }}
       validationSchema={CouponFormSchema}
       onSubmit={(values) => {
-        console.log(values)
+        // console.log(values)
         dispatch(addCoupon(values)).then(unwrapResult).then(()=>{
           toast.success("Copoun Created Successfully!");
           navigate("/admin/coupon")
@@ -50,7 +50,7 @@ const AddCoupon = () => {
         return (
           <Form className="flex flex-col w-full">
             <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
-           <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+           <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Create Copoun</h1>
            </div>
            </div>
@@ -109,7 +109,7 @@ const AddCoupon = () => {
                 <div
             className="flex justify-center gap-4 w-full text-center duration-300 mt-4"
           >
-            <button  className="bg-[#038CCC] w-2/6 p-2 rounded-md text-white uppercase">Add Copoun</button>
+            <button  className="bg-[#0a2440] w-2/6 p-2 rounded-md text-white uppercase">Add Copoun</button>
            
           </div>
           </Form>

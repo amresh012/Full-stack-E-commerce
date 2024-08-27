@@ -25,7 +25,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(ProfileResetApi.fulfilled, (state, action) => {
-      console.log(action.payload)
+      // console.log(action.payload)
     });
   },
 });

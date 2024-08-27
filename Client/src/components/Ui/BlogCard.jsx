@@ -6,10 +6,11 @@ const BlogCard = ({blog}) => {
   const {_id, title, image, content, createdAt} = blog;
 
   return (
-    <div className='my-4 w-full md:w-[44rem]'>
+    <div key={_id} className='my-4 w-full md:w-[44rem]'>
     <img loading="lazy" src={image} className='w-full object-cover h-[15rem] sm:h-[25rem]' />
     <div>
-        <p className='mt-5 mb-3 text-xl'><span className='font-bold text-[#0a2440]'>By Mayank Jha</span><span className='mx-4 text-[#ababab] font-medium'>|</span><span className='font-medium text-[#ababab]'>{moment(createdAt).format('DD-MM-yyyy')}</span></p>
+        {/* <p className='mt-5 mb-3 text-xl'><span className='font-bold text-[#0a2440]'>By Mayank Jha</span><span className='mx-4 text-[#ababab] font-medium'>|</span><span className='font-medium text-[#ababab]'>{moment(createdAt).format('DD-MM-yyyy')}</span></p> */}
+        <p className='mt-5 mb-3 text-xl'><span className='font-medium text-[#ababab]'>{moment(createdAt).format('DD-MM-yyyy')}</span></p>
         <p className='text-4xl font-bold text-[#0a2440] my-2'>{title}</p>
         <p className='text-lg font-light'>{content.substr(0,100) + (content.length > 100 && '...')}</p>
         <div>
@@ -20,4 +21,4 @@ const BlogCard = ({blog}) => {
   )
 }
 
-export default BlogCard
+export default BlogCard;

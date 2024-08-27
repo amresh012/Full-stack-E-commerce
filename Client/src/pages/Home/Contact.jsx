@@ -83,7 +83,7 @@ const Contact = () => {
     },
     {
       id: "mobile",
-      label: "Monile No.",
+      label: "Mobile No.",
       type: "text",
       mobile: values.mobile,
     },
@@ -102,8 +102,7 @@ const Contact = () => {
           <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
             <h1>KFS Fitness Contact us</h1>
             <p className=" capitalize lg:text-base text-xs">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque,
-              magnam accusamus sapiente quae delectus!
+            Get in touch with us for personalized support and inquiries about our fitness equipment and services.
             </p>
           </div>
         </div>
@@ -183,11 +182,11 @@ const Contact = () => {
               </h1>
               <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440]"></div>
             </div>
-            <div class="">
+            <div>
               <form className="w-full" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-12">
-                  {formfield.map((feild) => (
-                    <div className="flex flex-col gap-2">
+                  {formfield.map((feild, ind) => (
+                    <div key={ind} className="flex flex-col gap-2">
                       <label htmlFor={feild.label}>
                         {feild.label.slice(0, 10)}
                       </label>
@@ -258,7 +257,7 @@ const Contact = () => {
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14039.640870357845!2d77.3111153!3d28.3917796!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cdde1a0fb5695%3A0xe3495466a0f428ef!2sKFS%20Fitness%20(India&#39;s%20Most%20Trusted%20Fitness%20Equipment%20Brand)!5e0!3m2!1sen!2sin!4v1722591521134!5m2!1sen!2sin"
             width="100%"
             height="450"
-            allowfullscreen=""
+            allowFullScreen=""
             className="mt-5"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

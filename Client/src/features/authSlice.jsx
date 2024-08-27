@@ -11,14 +11,14 @@ const initialState = {
   loading: true,
   user: null,
   signupdata:null,
-  token: localStorage.getItem("token"),
+  token: null,
 };
 
 export const LoginApi = createAsyncThunk("login", async (payload) => {
   const res = await axios.post(`${base_url}user/login`, payload);
-  console.log(res)
+  // console.log(res)
   localStorage.setItem("token", res.data.token);
-  console.log(res.data.token)
+  // console.log(res.data.token)
   return res.data;
 });
 
@@ -32,7 +32,7 @@ export const RegisterApi = createAsyncThunk(
   async (payload, thunkApi) => {
     try {
       const res = await axios.post(`${base_url}user/register`, payload);
-      console.log()
+      // console.log()
       return res.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data);
@@ -41,7 +41,7 @@ export const RegisterApi = createAsyncThunk(
 );
 export const addAddress = createAsyncThunk("user/address", async (payload) => {
   const res = await axios.post(`${base_url}user/adr`, payload, config);
-  console.log(res)
+  // console.log(res)
   return res.data;
 });
 
@@ -50,12 +50,15 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     addSignupdata: (state, action) => {
-      console.log(action.payload)
       state.signupdata = action.payload;
-      console.log(action.payload)
     },
     adduser: (state, action) => {
       state.user = action.payload;
+      state.token = action.payload.token;
+    },
+    removeuser: (state) => {
+      state.user = null;
+      state.token = null;
     }
   },
   extraReducers: (builder) => {
@@ -74,7 +77,7 @@ export const authSlice = createSlice({
             return window.location.href="/admin"
           }
         } else {
-          console.log(action.payload);
+          // console.log(action.payload);
           toast.error(action.payload);
         }
       })
@@ -97,5 +100,5 @@ export const authSlice = createSlice({
 });
 
 
-export const { addSignupdata ,adduser} = authSlice.actions;
+export const { addSignupdata ,adduser, removeuser} = authSlice.actions;
 export default authSlice.reducer;

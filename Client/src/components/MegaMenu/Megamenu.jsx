@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Divider } from "@mui/material";
-import "./Megamenu.css"
+import "./Megamenu.css";
 import { GoDash } from "react-icons/go";
 import { links } from "../../constant";
 import { Link } from "react-router-dom";
 
-const Megamenu = ({title ,icon}) => {
+const Megamenu = ({ title, icon }) => {
   return (
     <div className="dropdown ">
       <button className="dropbtn">
@@ -38,21 +38,19 @@ const Megamenu = ({title ,icon}) => {
           {/* section-2 */}
           <div className="w-[25rem]">
             <ul className="overflow-y-scroll max-h-[20rem] no-scrollbar">
-              {links.map((item) => (
+              {links.map((item,ind) => (
                 <Link
                   to={`/product-category${item.route}`}
-                  key={item.Head}
+                  key={ind}
                   className="p-2  duration-300 underline-offset-8 flex flex-col  gap-1"
                 >
                   {/* <GoDash className="text-indigo-500 font-bold" /> */}
-                  <li className="">
-                    {item.name}
-                  </li>
+                  <li className="">{item.name}</li>
                   {item.submenu &&
-                    item.sublink.map((sublink) => (
+                    item.sublink.map((sublink, ind) => (
                       <ul
+                        key={ind}
                         className=" flex flex-col gap-2 justify-start  font-medium hover:underline-none items-start"
-                        key={sublink.label}
                       >
                         <Link to={sublink.route} className="flex">
                           <GoDash />
@@ -101,6 +99,6 @@ const Megamenu = ({title ,icon}) => {
       </div>
     </div>
   );
-}
+};
 
-export default Megamenu
+export default Megamenu;

@@ -76,7 +76,9 @@ const AdminBlog = () => {
         },
         config
       );
-      console.log(response);
+      imageRef.current.files = [];
+      setTitle('');
+      setContent('');
     } catch (error) {
       toast.error(error?.response?.data?.error || 'Something went wrong');
     }
@@ -110,7 +112,7 @@ const AdminBlog = () => {
   return (
     <>
       <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
-        <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Add Blogs</h1>
         </div>
       </div>
@@ -189,7 +191,7 @@ const AdminBlog = () => {
             <input className="w-full p-2 border-2 rounded-md" required type="file" ref={imageRef} accept=".jpg, .png, .webp" />
           </div>
 
-            <button className="w-full border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400" type="submit">Add Blog</button>
+            <button className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]" type="submit">Add Blog</button>
 
         </form>
       </div>

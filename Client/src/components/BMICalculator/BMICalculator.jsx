@@ -34,53 +34,33 @@ const BMICalculator = () => {
   const calculateBmiHandler = (e) => {
     e.preventDefault();
 
+    let bmi;
+    let status;
+
     if (isImperialUnit) {
-      const bmi =
-        (+weightInLbs * 703) / (+heightInFeet * 12 + +heightInInch) ** 2;
-        
-        let status;
-        console.log(bmi, typeof(bmi))
-        switch(bmi){
-          case (bmi < 18.5):
-            status = 'Underweight';
-            break;
-          case (bmi > 18.5 && bmi < 24.9):
-            status = 'Normal';
-            break;
-          case (bmi > 24.9 && bmi < 29.9):
-            status = 'Overweight';
-            break;
-          case (bmi > 29.9 && bmi < 34.5):
-            status = 'Obese';
-            break;
-          default:
-            status = 'Extremely Obese';
-            break;
-        }
-      setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
+        // Convert height in feet and inches to inches and calculate BMI
+        const heightInInches = (+heightInFeet * 12) + +heightInInch;
+        bmi = (+weightInLbs * 703) / (heightInInches ** 2);
     } else {
-      const bmi = +weightInKg / (+heightInCm / 100) ** 2;
-      let status;
-      console.log(bmi, typeof(bmi))
-      switch(bmi){
-        case (bmi < 18.5):
-          status = 'Underweight';
-          break;
-        case (bmi > 18.5 && bmi < 24.9):
-          status = 'Normal';
-          break;
-        case (bmi > 24.9 && bmi < 29.9):
-          status = 'Overweight';
-          break;
-        case (bmi > 29.9 && bmi < 34.5):
-          status = 'Obese';
-          break;
-        default:
-          status = 'Extremely Obese';
-          break;
-      }
-      setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
+        // Calculate BMI for metric units
+        bmi = +weightInKg / ((+heightInCm / 100) ** 2);
     }
+
+    // Determine BMI status
+    if (bmi < 18.5) {
+        status = 'Underweight';
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        status = 'Normal';
+    } else if (bmi >= 24.9 && bmi < 29.9) {
+        status = 'Overweight';
+    } else if (bmi >= 29.9 && bmi < 34.5) {
+        status = 'Obese';
+    } else {
+        status = 'Extremely Obese';
+    }
+
+    // Display the result
+    setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
   };
 
   return (
