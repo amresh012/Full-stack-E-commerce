@@ -3,28 +3,96 @@ import { useSelector, useDispatch } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { applyCouponcode } from "../../features/cartSlice";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { resetCart, removeItem } from "../../features/cartSlice";
+import {removeItem } from "../../features/cartSlice";
 import { addcarts } from "../../features/cartSlice";
-
+import { base_url } from "../../Utils/baseUrl";
 const CheckOut = () => {
-  const { carts, totalAmount, totalQuantity } = useSelector((state) => {
-    return state.cart;
-  });
-
+  const { carts, totalAmount, totalQuantity } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+ 
+      const amount = totalAmount;
+      const currency = "INR";
+      const receiptId = `recipt_${Math.random()*1000+Date.now()}`;
+  const paymentHandler = async (e) => {
+    const response = await fetch( `${ base_url}payment/createOrder`, {
+      method: "POST",
+      body: JSON.stringify({
+        amount,
+        currency,
+        receipt: receiptId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const order = await response.json();
+    console.log(order);
+
+    var options = {
+      key: "rzp_test_w1uLMB3KcY9AUd", // Enter the Key ID generated from the Dashboard
+      amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency,
+      name: "KFS Fitness", //your business name
+      description: "Test Transaction",
+      image: "https://example.com/your_logo",
+      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: async function (response) {
+        const body = {
+          ...response,
+        };
+
+        const validateRes = await fetch(
+          `${ base_url}payment/verifyPayments`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const jsonRes = await validateRes.json();
+        console.log(jsonRes);
+      },
+      // prefill: {
+      //   //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+      //   name: "Web Dev Matrix", //your customer's name
+      //   email: "webdevmatrix@example.com",
+      //   contact: "9000000000", //Provide the customer's phone number for better conversion rates
+      // },
+      // notes: {
+      //   address: "Razorpay Corporate Office",
+      // },
+      // theme: {
+      //   color: "#3399cc",
+      // },
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+    rzp1.open();
+    e.preventDefault();
+  };
+
 
   const handleRemoveItem = (item) => {
     dispatch(removeItem(item));
   };
 
-  // quantity
   const handleIncr = (item) => {
     dispatch(addcarts(item));
   };
+
   const handleDecr = (item) => {
     dispatch(removeItem(item));
   };
-
   return (
     <>
       <div className=" flex p-4">
@@ -144,7 +212,9 @@ const CheckOut = () => {
                 </p>
               </div>
             </div>
-            <div className="checkout-button w-full flex items-center justify-center">
+            <div 
+            className="checkout-button w-full flex items-center justify-center" 
+            onClick={paymentHandler}>
               <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
                 CheckOut
               </button>

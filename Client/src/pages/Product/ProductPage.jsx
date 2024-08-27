@@ -251,7 +251,9 @@ const Product = () => {
                         {product.price}
                       </p>
                     </div>
-                    <div className="button w-full flex items-center justify-center p-2 text-white" onClick={() => handleAdd(product)}>
+                    <div
+                     className="button w-full flex items-center justify-center p-2 text-white"
+                      onClick={() => handleAdd(product)}>
                       <button className='bg-[#0A2440] p-2 w-full rounded-md'>Add To Cart</button>
                     </div>
                   </div>

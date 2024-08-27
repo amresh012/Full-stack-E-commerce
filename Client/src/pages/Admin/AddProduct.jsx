@@ -44,20 +44,20 @@ const AddProduct = () => {
         category:"",
         subcategory:"",
         itemCode:"",
-        height:null,
-        width:null,
-        length:null,
-        weight:null,
+        height:0,
+        width:0,
+        length:0,
+        weight:0,
         hsnCode:"",
         perpiece:"",
         measurment:"",
         quantity:"",
         description:"",
-        Individual_discount:"",
-        corporate_discount:"",
+        discount:"",
         mindiscription:"",
     },
     onSubmit: async (values, { setSubmitting }) => {
+      console.log(values)
         try {
           const name = values.name.toLowerCase()
           const category = values.category.toLowerCase();
@@ -85,8 +85,8 @@ const AddProduct = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-24 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around lg:mx-24 p-6">
-        <div className="text-3xl font-bold ">
+      <div className="border-2 mt-24 mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around mx-4 p-6">
+        <div className="text-3xl font-bold bg-[#0a2440] w-full p-4 rounded-md text-center text-white">
           <Link to="/admin/product-list">Add Products</Link>
         </div>
         {/* Product add */}
@@ -204,10 +204,10 @@ const AddProduct = () => {
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="">Height</label>
               <input
-                value={values.itemCode}
+                value={values.height}
                 onChange={handleChange}
                 type="number"
-                id="itemCode"
+                id="height"
                 className="h-14 border-2 rounded-md outline-none px-2 "
                 placeholder="enter Item Height"
               />
@@ -215,21 +215,21 @@ const AddProduct = () => {
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="">Width</label>
               <input
-                value={values.hsnCode}
+                value={values.width}
                 onChange={handleChange}
                 type="number"
-                id="hsnCode"
+                id="width"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
                 placeholder="enter Width"
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="">Lenght</label>
+              <label htmlFor="">Length</label>
               <input
-                value={values.measurment}
+                value={values.length}
                 onChange={handleChange}
-                id="measurment"
-                type="text"
+                id="length"
+                type="number"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
                 placeholder="enter Lenght"
               />
@@ -263,10 +263,10 @@ const AddProduct = () => {
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="">weight</label>
               <input
-                value={values.measurment}
+                value={values.weight}
                 onChange={handleChange}
-                id="measurment"
-                type="text"
+                id="weight"
+                type="number"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
                 placeholder="enter Lenght"
               />
