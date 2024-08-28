@@ -108,7 +108,7 @@ const BasicTable = ({columns, data }) => {
           className={
             !table.getCanPreviousPage()
               ? "cursor-not-allowed    "
-              : "p-2 bg-[#038CCC] rounded-md text-white"
+              : "p-2 bg-[#0a2440] rounded-md text-white"
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.setPageIndex(0)}
@@ -119,7 +119,7 @@ const BasicTable = ({columns, data }) => {
           className={
             !table.getCanPreviousPage()
               ? "cursor-not-allowed    "
-              : "text-xl p-2 font-bold rounded-md bg-[#038CCC] text-white "
+              : "text-xl p-2 font-bold rounded-md bg-[#0a2440] text-white "
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}

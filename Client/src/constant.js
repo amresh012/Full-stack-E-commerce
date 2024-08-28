@@ -10,48 +10,48 @@ import { FaBlog } from "react-icons/fa";
 export const links = [
   {
     name: "Accessories",
-    route: "/accessories/*",
+    route: "/category?=accessories",
     submenu: false,
   },
   {
     name: "Benches and Racks",
-    route: "/benches-and-racks/*",
+    route: "/category?=benches-and-racks",
     submenu: true,
     sublink: [
       {
         label: "Benches",
-        route: "/category/Benches",
+        route: "/category?=benches-and-racks&subcategory?=benches",
       },
       {
         label: "Functional Trainers",
-        route: "/category/Functional-trainers",
+        route: "/category?=benches-and-racks&subcategory?=functional-trainer",
       },
       {
         label: "Smith Machine",
-        route: "/category/Smith-machine",
+        route: "/category?=benches-and-racks&subcategory?=smith-machine",
       },
     ],
   },
   {
     name: "Cardio",
-    route: "/cardio-equipment-setup/*",
+    route: "/category?=cardio",
     submenu: true,
     sublink: [
       {
         label: "TreadMill",
-        route: "/category/TreadMill",
+        route: "/category?=cardio&subcategory?=treadmill",
       },
       {
         label: "Cross Trainers",
-        route: "/category/Cross Trainers",
+        route: "/category?=cardio&subcategory?=cross-trainer",
       },
       {
         label: "Excrise Bikes",
-        route: "/category/Excrise Bikes",
+        route: "/category?=cardio&subcategory?=exercise-bike",
       },
       {
         label: "HIIT",
-        route: "/category/HIIT",
+        route: "/category?=cardio&subcategory?=hiit",
       },
     ],
   },

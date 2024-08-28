@@ -3,9 +3,11 @@ import { Divider } from "@mui/material";
 import "./Megamenu.css";
 import { GoDash } from "react-icons/go";
 import { links } from "../../constant";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Megamenu = ({ title, icon }) => {
+  const navigate = useNavigate();
+  
   return (
     <div className="dropdown ">
       <button className="dropbtn">
@@ -39,20 +41,16 @@ const Megamenu = ({ title, icon }) => {
           <div className="w-[25rem]">
             <ul className="overflow-y-scroll max-h-[20rem] no-scrollbar">
               {links.map((item,ind) => (
-                <Link
-                  to={`/product-category${item.route}`}
-                  key={ind}
-                  className="p-2  duration-300 underline-offset-8 flex flex-col  gap-1"
-                >
+                <div key={ind} className="p-2  duration-300 underline-offset-8 flex flex-col  gap-1">
                   {/* <GoDash className="text-indigo-500 font-bold" /> */}
-                  <li className="">{item.name}</li>
+                  <li onClick={() => window.location.replace(`/product-category${item.route}`)} className="">{item.name}</li>
                   {item.submenu &&
                     item.sublink.map((sublink, ind) => (
                       <ul
                         key={ind}
                         className=" flex flex-col gap-2 justify-start  font-medium hover:underline-none items-start"
                       >
-                        <Link to={sublink.route} className="flex">
+                        <div onClick={() => window.location.replace("/product-category"+sublink.route)} className="flex">
                           <GoDash />
                           <li
                             className="hover:underline-none hover:font-bold hover:pl-2 duration-300"
@@ -60,10 +58,10 @@ const Megamenu = ({ title, icon }) => {
                           >
                             {sublink.label}
                           </li>
-                        </Link>
+                        </div>
                       </ul>
                     ))}
-                </Link>
+                </div>
               ))}
             </ul>
           </div>

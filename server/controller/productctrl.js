@@ -101,7 +101,9 @@ const updateproduct = asyncHandle(async (req, res) => {
 
 const searchProduct = asyncHandle(async (req, res) => {
   try {
-    const { search, category, subcategory, brand } = req.query;
+    let { search, category, subcategory, brand } = req.query;
+    category = category?.replaceAll('-', ' ')?.toLowerCase();
+    subcategory = subcategory?.replaceAll('-', ' ')?.toLowerCase();
     const filter = {};
 
     if (search) {
@@ -134,7 +136,6 @@ const searchProduct = asyncHandle(async (req, res) => {
           model: "User",
         },
       });
-
     res.json(products);
   } catch (error) {
     console.error("Error searching products:", error);

@@ -12,6 +12,7 @@ import { LuEye } from "react-icons/lu";
 import { CiHeart } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -99,6 +100,7 @@ const Product = () => {
 
   const handleAdd = (product) => {
     dispatch(addcarts(product));
+    toast.success('Product added to cart successfully.')
   };
 
   const handlePageChange = (event, value) => {
@@ -220,11 +222,11 @@ const Product = () => {
             ) : (
               currentProducts.map((product) => (
                 <div
-                  className="card min-h-[32rem] group w-[21rem] border-2 p-4 rounded-md"
+                  className="card group w-[30%] border-2 p-4 rounded-md"
                   key={product._id}
                 >
-                  <div className="imagecontainer overflow-clip">
-                    <Carousel
+                  <div className="imagecontainer relative overflow-clip">
+                  <Link to={`/product/${product._id}`}><Carousel
                       renderIndicator={false}
                       autoPlay={true}
                       infiniteLoop={true}
@@ -239,11 +241,19 @@ const Product = () => {
                           className="h-[15rem] w-auto object-cover group-hover:scale-95 duration-300"
                         />
                       ))}
-                    </Carousel>
+                    </Carousel></Link>
+                    {product?.corporateDiscount && product?.corporateDiscount !== '0' && <div className="absolute top-[10px] left-[10px]">
+                        <Chip
+                        sx={{ margin: "10px 0" }}
+                        color="success"
+                        size="small"
+                        label={"upto " + product.corporateDiscount + "% off"}
+                      />
+                    </div>}
                   </div>
                   <div className="product-detail">
                     <div className="stack-1 flex justify-between p-2">
-                      {product.corporateDiscount > 0 ? (
+                      {/* {product.corporateDiscount > 0 ? (
                         <Chip
                         sx={{ margin: "10px 0" }}
                         color="success"
@@ -252,22 +262,22 @@ const Product = () => {
                       />
                       ) : (
                         <div></div>
-                      )}
+                      )} */}
                       <div className="icon flex items-center gap-4 text-xl">
-                        <Link to={`/product/${product._id}`}>
+                        {/* <Link to={`/product/${product._id}`}>
                           <div className="preview-icon">
                             <LuEye />
                           </div>
-                        </Link>
+                        </Link> */}
                         {/* <div className="preview-icon">
                           <CiHeart />
                         </div> */}
                       </div>
                     </div>
                     <div className="stack-2 p-2 group">
-                      <h1 className="text-xl font-bold group-hover:underline h-[3.5rem] overflow-clip">
+                    <Link to={`/product/${product._id}`}><h1 className="text-xl font-bold group-hover:underline h-[3.5rem] overflow-clip">
                         {product.name}
-                      </h1>
+                      </h1></Link>
                       <p className="rating flex items-center gap-2">
                         <Rating
                           name="size-small"
@@ -285,7 +295,7 @@ const Product = () => {
                       </p>
                     </div>
                     <div className="price flex text-xl gap-2 px-2">
-                      <div className="flex flex-col gap-y-0">
+                      <div className="flex items-center gap-x-1">
                         <span
                           style={{
                             textDecoration: `${
@@ -302,22 +312,22 @@ const Product = () => {
                               product.corporateDiscount > 0 ? "15px" : "20px"
                             }`,
                           }}
-                          className="font-bold mt-2"
+                          className="font-bold"
                         >
                           &#8377;{product.price}
                         </span>
                         {product.corporateDiscount > 0 && (
-                          <span className="text-2xl -mt-2 font-bold text-[#0a2440]">
+                          <span className="text-[20px] font-bold text-[#0a2440]">
                             &#8377;
-                            {product.price -
-                              product.price * (product.corporateDiscount / 100)}
+                            {(product.price -
+                              product.price * (product.corporateDiscount / 100)).toFixed(2)}
                           </span>
                         )}
                       </div>
                     </div>
                     <div
-                      className="button w-full flex items-center justify-center p-2 text-white"
-                      onClick={() => handleAdd(product)}
+                      className="mt-2 button w-full flex items-center justify-center p-2 text-white"
+                      onClick={() => {handleAdd(product)}}
                     >
                       <button className="bg-[#0A2440] p-2 w-full rounded-md">
                         Add To Cart

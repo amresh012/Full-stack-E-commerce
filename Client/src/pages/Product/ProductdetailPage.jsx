@@ -75,6 +75,11 @@ const ProductdetailPage = () => {
     setQuantity(isExistingInd === -1 ? 0 : carts[isExistingInd].quantity);
   }
 
+  function capitalizeFirstLetter(str) {
+    return str?.replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
+
   return (
     <>
       <Toaster />
@@ -98,7 +103,7 @@ const ProductdetailPage = () => {
           {/* image-container-end */}
           <div className="details-container flex flex-col ">
             <h1 className="font-bold space-x-12 bg-gray-200 w-fit p-2 rounded-md mb-4">
-              Home / <span>Collectiom</span>
+              {capitalizeFirstLetter(product?.category)} / <span>{capitalizeFirstLetter(product?.subcategory)}</span>
             </h1>
             <Rating
               name="half-rating"
@@ -106,10 +111,10 @@ const ProductdetailPage = () => {
               defaultValue={2.5}
               precision={0.5}
             />
-            <p className="product-name font-bold text-2xl">{product?.name}</p>
-            <span>Variant : SKP: SF-FOO3-C</span>
+            <p className="product-name text-2xl">{product?.name}</p>
+            {product?.variant && <span>{product?.variant}</span>}
             <div className="price">
-            {product?.corporateDiscount && <div className="discount">
+            {product?.corporateDiscount && product?.corporateDiscount !== '0' && <div className="discount">
                 <Chip
                   sx={{ margin: "10px 0" }}
                   color="success"
@@ -117,19 +122,19 @@ const ProductdetailPage = () => {
                   label={product.corporateDiscount + "% off"}
                 />
               </div>}
-              {!product?.corporateDiscount && (
+              {!product?.corporateDiscount || product?.corporateDiscount === '0' && (
                 <span className="text-2xl font-bold">Rs {product?.price}</span>
               )}
-              {product?.corporateDiscount && (
+              {product?.corporateDiscount && product?.corporateDiscount !== '0' && (
                 <span className="text-2xl font-bold line-through text-red-500">
                   Rs {product?.price}
                 </span>
               )}
-              {product?.corporateDiscount && (
+              {product?.corporateDiscount && product?.corporateDiscount !== '0' && (
                 <span className="ml-2 text-2xl font-bold">
                   Rs{" "}
-                  {product.price -
-                    product.price * (product.corporateDiscount / 100)}
+                  {(product.price -
+                    product.price * (product.corporateDiscount / 100)).toFixed(2)}
                 </span>
               )}
             </div>

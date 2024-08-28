@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, addToCartHandler }) => {
   const { _id, images, name, price, category, corporateDiscount } = product;
-  const discountedPrice = price - price * (corporateDiscount / 100);
+  const discountedPrice = (price - price * (corporateDiscount / 100)).toFixed(2);
 
   return (
     <div

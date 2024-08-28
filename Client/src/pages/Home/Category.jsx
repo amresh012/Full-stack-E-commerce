@@ -12,7 +12,7 @@ import { addcarts } from "../../features/cartSlice";
 import { FaSearch } from "react-icons/fa";
 
 const Category = () => {
-  const { category } = useParams();
+  // const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [sortedProducts, setSortedProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -22,10 +22,11 @@ const Category = () => {
   const productsPerPage = 9;
   const dispatch = useDispatch();
 
-  const fetchProducts = async (category) => {
+  const fetchProducts = async (category, subcategory) => {
+    console.log(category, subcategory)
     try {
       setIsLoading(true);
-      let url = `${base_url}product`;
+      let url = `${base_url}product?category=${category}&subcategory=${subcategory}`;
       let response = await fetch(url);
       let data = await response.json();
       setProducts(data);
@@ -111,14 +112,28 @@ const Category = () => {
   };
 
   useEffect(() => {
-    fetchProducts(category);
+    const searchParams = window.location.search.split('&');
+    console.log(searchParams)
+    let category = '';
+    let subcategory = '';
+    if(searchParams.length === 0){
+      setIsLoading(true);
+      return;
+    }
+    else{
+      category = searchParams[0].replace('?=', '');
+      if(searchParams.length > 1){
+        subcategory = searchParams[1].replace('subcategory?=', '');
+      }
+    }
+    fetchProducts(category?.toLowerCase(), subcategory?.toLowerCase());
   }, []);
 
   return (
     <div className="my-16">
       <Toaster />
       <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
-        Category: {category} ({products.length})
+        Products: ({products.length})
       </h1>
       <div className="mx-auto mt-2 rounded-md h-[6px] w-[120px] bg-[#0a2440]"></div>
 

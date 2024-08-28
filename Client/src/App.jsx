@@ -52,7 +52,7 @@ function App() {
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/product" element={<ProductPage/>}/>
       <Route path="/product/:id" element={<ProductdetailPage/>}/>
-      <Route path="/category/:category" element={<Category />}/>
+      <Route path="/product-category/*" element={<Category />}/>
       <Route path="/checkout" element={<CheckOut/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
