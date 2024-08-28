@@ -10,48 +10,48 @@ import { FaBlog } from "react-icons/fa";
 export const links = [
   {
     name: "Accessories",
-    route: "/accessories/*",
+    route: "/category?=accessories",
     submenu: false,
   },
   {
     name: "Benches and Racks",
-    route: "/benches-and-racks/*",
+    route: "/category?=benches-and-racks",
     submenu: true,
     sublink: [
       {
         label: "Benches",
-        route: "Benches",
+        route: "/category?=benches-and-racks&subcategory?=benches",
       },
       {
         label: "Functional Trainers",
-        route: "Functional-trainers",
+        route: "/category?=benches-and-racks&subcategory?=functional-trainer",
       },
       {
         label: "Smith Machine",
-        route: "Smith-machine",
+        route: "/category?=benches-and-racks&subcategory?=smith-machine",
       },
     ],
   },
   {
     name: "Cardio",
-    route: "/cardio-equipment-setup/*",
+    route: "/category?=cardio",
     submenu: true,
     sublink: [
       {
         label: "TreadMill",
-        route: "TreadMill",
+        route: "/category?=cardio&subcategory?=treadmill",
       },
       {
         label: "Cross Trainers",
-        route: "Cross Trainers",
+        route: "/category?=cardio&subcategory?=cross-trainer",
       },
       {
         label: "Excrise Bikes",
-        route: "Excrise Bikes",
+        route: "/category?=cardio&subcategory?=exercise-bike",
       },
       {
         label: "HIIT",
-        route: "HIIT",
+        route: "/category?=cardio&subcategory?=hiit",
       },
     ],
   },

@@ -37,14 +37,14 @@ const BulkImage = () => {
       onSubmit: async (values, { setSubmitting }) => {
         try {
           const response = await axios.post(`${base_url}images`, values);
-          console.log(values);
+          // console.log(values);
           if (response.data.error) {
             throw new Error(response.data.error);
           } else {
             toast.success("Image Uploaded Successfully");
           }
         } catch (error) {
-          console.log(error.message)
+          // console.log(error.message)
           toast.error(error.message);
         } finally {
           setSubmitting(false);
@@ -61,7 +61,7 @@ const BulkImage = () => {
       onSubmit(info) {
         const { status } = info.file;
         if (status !== "uploading") {
-          console.log(info.file.response, info.fileList);
+          // console.log(info.file.response, info.fileList);
           setFieldValue("url", info.file.response);
           setFieldValue("name", info.file.name);
         }
@@ -73,7 +73,7 @@ const BulkImage = () => {
       },
       onDrop(e) {
         handleImgUpload(e.dataTransfer.files);
-        console.log("Dropped Image ", e.dataTransfer.files)
+        // console.log("Dropped Image ", e.dataTransfer.files)
       },
     };
   
@@ -111,7 +111,7 @@ const BulkImage = () => {
     <div className=" rounded-md shadow-md gap-12 h-auto mt-24 flex flex-col items-center justify-around lg:mx-24 p-4">
       <div className="space-y-4 w-full m-auto">
         <div className='border-2 shadow-md flex items-center justify-normal  rounded-md p-4'>
-    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+    <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Add Images</h1>
         </div>
     </div>
@@ -134,7 +134,7 @@ const BulkImage = () => {
 
         
         <div className="flex items-center justify-center w-full">
-          <button type="submit" className='bg-[#038CCC] w-2/4 p-2 text-white rounded-md active:shadow-md'>Upload Images</button>
+          <button type="submit" className='bg-[#0a2440] w-2/4 p-2 text-white rounded-md active:shadow-md'>Upload Images</button>
         </div>
        </form>
       </div>

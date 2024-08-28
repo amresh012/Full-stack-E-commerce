@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { base_url } from "../../Utils/baseUrl";
 
-const ProductCarousel = () => {
+const ProductCarousel = ({addToCartHandler}) => {
   const ProductCarouselRef = useRef();
 
   // const [prevBtnEnabled, setPrevBtnEnabled] = useState(true);
@@ -70,7 +70,7 @@ const ProductCarousel = () => {
         ref={ProductCarouselRef}
       >
         {products.length > 0 && products.map((product) => {
-          return <ProductCard product={product} />;
+          return <ProductCard key={product._id} addToCartHandler={addToCartHandler} product={product} />;
         })}
         {products.length === 0 && Array(10).fill({
           _id: 0,
@@ -79,8 +79,8 @@ const ProductCarousel = () => {
           corporateDiscount: 0,
           images: [''],
           price: 0
-        }).map((product) => {
-          return <ProductCard product={product} />;
+        }).map((product, ind) => {
+          return <ProductCard key={ind} product={product} />;
         })}
       </div>
     </div>

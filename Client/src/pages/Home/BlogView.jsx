@@ -18,8 +18,7 @@ const BlogView = () => {
         <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
           <h1>KFS Fitness Blogs</h1>
           <p className=" capitalize lg:text-base text-xs">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque,
-            magnam accusamus sapiente quae delectus!
+          Discover the latest fitness tips, trends, and equipment reviews on our blog to stay motivated and informed.
           </p>
         </div>
       </div>
@@ -29,16 +28,16 @@ const BlogView = () => {
       </h1>
       <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
 
-      <div className="my-10 w-full md:w-[44rem] mx-auto">
+      <div className="my-10 p-4 w-full md:w-[44rem] mx-auto">
         <img
           loading="lazy"
           src={image}
-          className="w-full object-cover h-[15rem] sm:h-[25rem]"
+          className="w-full object-cover h-[15rem] sm:h-[45rem]"
         />
         <div>
           <p className="mt-5 mb-3 text-xl">
-            <span className="font-bold text-[#0a2440]">By Mayank Jha</span>
-            <span className="mx-4 text-[#ababab] font-medium">|</span>
+            {/* <span className="font-bold text-[#0a2440]">By Mayank Jha</span>
+            <span className="mx-4 text-[#ababab] font-medium">|</span> */}
             <span className="font-medium text-[#ababab]">
               {moment(createdAt).format("DD-MM-yyyy")}
             </span>

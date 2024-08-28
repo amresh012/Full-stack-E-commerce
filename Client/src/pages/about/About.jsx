@@ -17,8 +17,7 @@ const About = () => {
           <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
             <h1>KFS Fitness About Us</h1>
             <p className=" capitalize lg:text-base text-xs">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque,
-              magnam accusamus sapiente quae delectus!
+            At KFS Fitness, we provide top-quality fitness equipment and expert support to help you achieve your health and wellness goals.
             </p>
           </div>
         </div>

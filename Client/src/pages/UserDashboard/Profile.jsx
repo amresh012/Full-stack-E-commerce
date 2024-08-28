@@ -20,7 +20,7 @@ const getBase64 = (file) =>
 
 const Profile = () => {
     let user = useSelector((state)=>state.auth)
-    console.log(user)
+    // console.log(user)
    const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState([
@@ -31,7 +31,7 @@ const Profile = () => {
         url: faker.image.avatar(),
       },
     ]);
-    console.log(fileList)
+    // console.log(fileList)
     const handlePreview = async (file) => {
       if (!file.url && !file.preview) {
         file.preview = await getBase64(file.originFileObj);

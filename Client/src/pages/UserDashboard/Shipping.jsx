@@ -8,7 +8,7 @@ import { addAddress } from "../../features/authSlice"; // Import the addAddress 
 const Shipping = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  console.log(authState)
+  // console.log(authState)
 
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -24,7 +24,7 @@ const Shipping = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await dispatch(addAddress(values));
-        console.log(response)
+        // console.log(response)
         toast.success("Address updated Successfully")
       } catch (error) {
         toast.error("An error occurred while adding the address.");

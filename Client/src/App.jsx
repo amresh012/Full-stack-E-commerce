@@ -39,6 +39,7 @@ import MyOrders from "./pages/UserDashboard/MyOrders"
 import Report from './pages/UserDashboard/Report'
 import Profile from "./pages/UserDashboard/Profile"
 import BlogView from './pages/Home/BlogView'
+import Category from './pages/Home/Category'
 function App() {
 
   return (
@@ -51,6 +52,7 @@ function App() {
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/product" element={<ProductPage/>}/>
       <Route path="/product/:id" element={<ProductdetailPage/>}/>
+      <Route path="/product-category/*" element={<Category />}/>
       <Route path="/checkout" element={<CheckOut/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
