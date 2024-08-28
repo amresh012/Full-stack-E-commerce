@@ -20,6 +20,7 @@ const ProductdetailPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const dispatch = useDispatch();
   const {carts} = useSelector(state => state.cart);
+  const {token} = useSelector(state => state.auth);
   
   // fetch product by id
   useEffect(() => {
@@ -46,22 +47,16 @@ const ProductdetailPage = () => {
   };
   //load reviews
   const handleLoadReviews = () => {
-    if (localStorage.getItem("token")) {
-      setIsLoggedIn(true);
-    }
-    isLoggedIn
+    token
       ? setEndRating(endrating + 2)
       : toast.error("Your Are Not Logged In");
   };
 
-  const handleReviewView = () => {
-    if (localStorage.getItem("token")) {
-      setIsLoggedIn(true);
-    }
-    isLoggedIn
-      ? setReviewVisible(!reviewvisible)
-      : toast.error("Your Are Not Logged In");
-  };
+  // const handleReviewView = () => {
+  // token
+  //     ? setReviewVisible(!reviewvisible)
+  //     : toast.error("Your Are Not Logged In");
+  // };
 
   const handleIncr = () => {
     dispatch(addcarts(product));
