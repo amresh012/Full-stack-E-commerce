@@ -60,7 +60,7 @@ const Login = () => {
                 Email
               </label>
               <div className="relative flex max-h-fit">
-                <div className="flex items-center justify-center text-xl w-12 bg-[#038CCC] text-white">
+                <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white text-white">
                   <CiMail />
                 </div>
                 <input
@@ -78,7 +78,7 @@ const Login = () => {
                 Password
               </label>
               <div className="relative flex">
-                <div className="flex items-center justify-center text-xl w-12 bg-[#038CCC] text-white">
+                <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white text-white">
                   <IoLockClosedOutline />
                 </div>
                 <input

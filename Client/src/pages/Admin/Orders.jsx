@@ -7,6 +7,7 @@ import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
+import Select from 'react-select';
 
 
 const getStatusColor = (status) => {
@@ -223,7 +224,7 @@ const Orders = () => {
         </div>
 
         <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md ">
-          <BasicTable columns={columns} data={Ordata} />
+          <BasicTable columns={columns} data={filteredData} />
         </div>
       </div>
     </>
