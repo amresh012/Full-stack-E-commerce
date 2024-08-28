@@ -50,6 +50,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
     const cartItems = useSelector((state) => {
       return state.cart;
     });
+    const {token} = useSelector((state)=>state.auth)
     const { carts ,totalAmount,totalQuantity } = cartItems;
     const dispatch = useDispatch();
     
@@ -141,7 +142,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
           </div>
           {carts.length !== 0 ? (
             <div className="flex flex-col  gap-2 w-full items-center justify-center p-4">
-              <Link
+            <Link
                 to="/checkout"
                 className="bg-[#0A2440] text-white w-full text-center rounded-md active:scale-95"
               >
@@ -149,6 +150,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
                   Check Out
                 </button>
               </Link>
+
               <button
                 onClick={handleCartReset}
                 className=" p-2 bg-red-500 text-white uppercase  w-full text-center rounded-md active:scale-95"

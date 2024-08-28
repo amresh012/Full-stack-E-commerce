@@ -4,11 +4,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
 import { Autocomplete, TextField } from "@mui/material";
 import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import {toast, Toaster} from "react-hot-toast"
+import { base_url } from '../../Utils/baseUrl';
 
 
 const getStatusColor = (status) => {
+
+ 
+
   switch (status.toLowerCase()) {
     case "return":
       return "bg-red-200 p-2 text-red-500 rounded-md  uppercase"; // Red color for "Return"
@@ -58,6 +62,10 @@ const columns = [
     accessorKey: "Amount",
   },
   {
+    header: "Order Date",
+    accessorKey: "Order_date",
+  },
+  {
     header: "Status",
     accessorKey: "sataus",
     cell: ({ row }) => {
@@ -86,24 +94,31 @@ const Orders = () => {
   const statusArray = Ordata.map((item) => item.sataus);
   const UniqueStatus = new Set(statusArray);
 
-  //  tableInstance
-  // const handleTableInstance = (tableInstance) => {
-  //   // Now you have access to the table instance
-  //   console.log(tableInstance);
-  // };
+  const [Order , setOrder] = useState([])
+  const [isLoading  ,setIsLoading] = useState(true)
   
-
+  useEffect(() => {
+    const FetchOrders = async () => {
+      let response = await fetch(`${base_url}order`);
+      let data = await response.json();
+      setOrder(data);
+      setIsLoading(false);
+    };
+    FetchOrders();
+    console.log(Order)
+    
+  }, [])
   // status 
-  const statusCount = Ordata.reduce((acc, item) => {
+  // const statusCount = Order.reduce((acc, item) => {
 
-    const status = item.sataus;
-    if (acc[status]) {
-      acc[status]++;
-    } else {
-      acc[status] = 1;
-    }
-    return acc;
-  }, {});
+  //   const status = item.sataus;
+  //   if (acc[status]) {
+  //     acc[status]++;
+  //   } else {
+  //     acc[status] = 1;
+  //   }
+  //   return acc;
+  // }, {});
 
   const label = [
     {
@@ -176,7 +191,7 @@ const Orders = () => {
         </div>
 
         <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md ">
-          <BasicTable columns={columns} data={Ordata} />
+          <BasicTable columns={columns} data={Order} />
         </div>
       </div>
     </>

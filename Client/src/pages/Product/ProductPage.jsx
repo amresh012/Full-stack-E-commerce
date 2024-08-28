@@ -203,7 +203,7 @@ const Product = () => {
               <Loader />
             ) : (
               currentProducts.map((product) => (
-                <div className="card min-h-[32rem] group w-[21rem] border-2 p-4 rounded-md" key={product._id}>
+                <div className="card min-h-[32rem] group w-[30rem] border-2 p-4 rounded-md" key={product._id}>
                   <div className="imagecontainer overflow-clip">
                     <Carousel
                       renderIndicator={false}

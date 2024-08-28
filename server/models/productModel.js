@@ -12,6 +12,7 @@ const ProductSchema = new mongoose.Schema(
     price: {
       type: String,
       required: true,
+
     },
     category: {
       type: String,
@@ -23,9 +24,11 @@ const ProductSchema = new mongoose.Schema(
     },
     itemCode: {
       type: String,
+      unique :true
     },
     hsnCode: {
       type: String,
+      unique :true
     },
     perpiece: {
       type: String,

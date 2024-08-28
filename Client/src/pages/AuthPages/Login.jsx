@@ -25,11 +25,11 @@ const Login = () => {
     e.preventDefault();
     try {
        
-      const response = await dispatch(VerifyApi(formData));
+      // const response = await dispatch(VerifyApi(formData));
+      const response = await dispatch(LoginApi(formData));
       console.log(response)
       if(response.payload.success){
-        dispatch(LoginApi(formData))
-        toast.success("")
+        toast.success("Login Success")
       }
     } catch (error) {
       console.log(error)

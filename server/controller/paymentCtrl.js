@@ -1,9 +1,8 @@
 // const { createRazorpayInstance }  = require("../config/razorpayconfig")
-const crypto = require("crypto")
-const CouponCode = require("../models/discountModel");
-const User = require("../models/userModel");
-const Razorpay = require("razorpay");
-// const razorpayInstance = createRazorpayInstance
+const crypto =require("crypto")
+const CouponCode =require("../models/discountModel");
+const User =require("../models/userModel");
+const Razorpay =require("razorpay");
 
 
 // gernerating unique id's
@@ -14,22 +13,54 @@ function generateId() {
   return uniqueTransactionId;
 }
 
+const razorpay = new Razorpay({
+  key_id:process.env.RAZORPAY_KEY_ID,
+  key_secret:process.env.RAZORPAY_SECRET_KEY,
+});
 
+// razorpay.payments.fetch(paymentId)
+
+// promise returned by instance
+// razorpay.payments.all({
+//   from: '2016-08-01',
+//   to: '2016-08-20'
+// }).then((response) => {
+//   // handle success
+//   console.log("payment successful : ", response.data.success)
+// }).catch((error) => {
+//   // handle error
+//   console.log("error while payment initilization",error)
+// })
 const createOrder = async (req, res) => {
   try {
-    const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_API_SECRET_KEY,
-    });
-
-    const options = req.body;
-    const order = await razorpay.orders.create(options);
-
-    if (!order) {
-      return res.status(500).send("Error");
+    const {amount , cartItems , address , userId} = req.body;
+    console.log(cartItems)
+    // const totalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const options = {
+      amount: amount * 100, // amount in the smallest currency unit
+      currency: "INR",
+      receipt: generateId(),
+      notes:{
+        "shipping_info":address
+      }
+      
     }
-    res.json(order);
-  } 
+    console.log("Creating Razorpay order with options:", options);
+    const order = await razorpay.orders.create(options);
+    console.log("Razorpay order created:", order);
+    if (!order) {
+      return res.status(500).send("Failed to create Order");
+    }
+   const respo =  res.json({
+      orderId:order.id,
+      amount : amount,
+      cartItems,
+      address,
+      userId,
+      paystatus:"Created"
+    });
+    console.log("checkoutpage response log",respo)
+      } 
   catch (err) {
     console.log(err);
     res.status(500).send("Error");
@@ -37,27 +68,53 @@ const createOrder = async (req, res) => {
 };
 
 const verifyPayments = async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
+  // const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+  //   req.body;
 
-  const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
-  //order_id + "|" + razorpay_payment_id
-  sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-  const digest = sha.digest("hex");
-  if (digest !== razorpay_signature) {
-    return res.status(400).json({ msg: "Transaction is not legit!" });
-  }
+  // const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
+  // sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+  // const digest = sha.digest("hex");
+  // if (digest !== razorpay_signature) {
+  //   return res.status(400).json({ msg: "Transaction is not legit!" });
+  // }
 
-  res.json({
-    msg: "success",
-    orderId: razorpay_order_id,
-    paymentId: razorpay_payment_id,
-  });
+  // res.json({
+  //   msg: "success",
+  //   orderId: razorpay_order_id,
+  //   paymentId: razorpay_payment_id,
+  // });
 };
+const applyCode = async (req, res, next) => {
+    const user = await User.findById(req.user._id);
+    const coupon = await CouponCode.findOne({ code: req.body.code });
+    if(user.cart.isCouponApplied?.code){
+      return res.status(500).send("You already applied a coupon!")
+    }
+  
+    if (coupon) {
+      let discountValue;
+      if (coupon.type == "Percentage") {
+        discountValue =
+          (user.cart.totalValue / 100) * coupon.discountValue;
+      } else {
+        discountValue = coupon.discountValue;
+      }
+      user.cart.totalValue = user.cart.totalValue-discountValue;
+      user.cart.isCouponApplied = {
+        code: coupon.code,
+        discountValue: discountValue,
+      };
+      await user.save();
+      res.send(user.cart);
+    } else {
+      res.status(500).send("The coupon code is invalid!");
+    }
+  };
 
 module.exports={
   createOrder,
   verifyPayments,
+  applyCode
 }
 
 
