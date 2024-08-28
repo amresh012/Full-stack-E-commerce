@@ -25,13 +25,17 @@ const ListProduct = () => {
       header: "Sr.No.",
       accessorKey: "_id",
       cell: ({ row }) => {
-        const id = row.original._id;
-        return <span>{id.slice(0, 4)}</span>;
+        const id = row.id;
+        return <span>{id}</span>;
       },
     },
     {
       header: "Image",
-      accessorKey: "image",
+      accessorKey: "images",
+      cell:({row})=>{
+        // console.log(row.original.images[0])
+         return <img src={row.original.images[0]} alt="" className='h-12 w-12 object-cover'/>
+      }
     },
     {
       header: "Product Name",

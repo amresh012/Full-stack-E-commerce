@@ -27,11 +27,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // await dispatch(LoginApi(formData));
-      const res = await axios.post(`${base_url}user/login`, formData);
-      localStorage.setItem("token", res.data.token);
-      dispatch(adduser(res.data));
-      toast.success("Login Success");
+      await dispatch(LoginApi(formData));
+      toast.success("Login Success")
       navigate("/profile")
     } catch (error) {
       // console.log(error)

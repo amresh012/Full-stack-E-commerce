@@ -1,10 +1,11 @@
+// toast.success("Copoun Created Successfully!");
+// navigate("/admin/coupon")
+// dispatch(getAdmindata())
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from 'react-redux';
 import { addCoupon, getAdmindata } from "../../features/admin/adminSlice";
 import {toast , Toaster } from "react-hot-toast"
-import { unwrapResult } from "@reduxjs/toolkit";
-import { useNavigate } from 'react-router-dom';
 
 const CouponFormSchema = Yup.object().shape({
   code: Yup.string()
@@ -26,7 +27,6 @@ const AddCoupon = () => {
     padding: "0px 0px 0px 9px",
   };
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   return (
     <>
     <Toaster/>
@@ -37,13 +37,17 @@ const AddCoupon = () => {
         discountValue: 0,
       }}
       validationSchema={CouponFormSchema}
-      onSubmit={(values) => {
-        // console.log(values)
-        dispatch(addCoupon(values)).then(unwrapResult).then(()=>{
-          toast.success("Copoun Created Successfully!");
-          navigate("/admin/coupon")
-          dispatch(getAdmindata())
-        })
+      onSubmit={(values, { setSubmitting }) => {
+        console.log(values)
+        dispatch(addCoupon(values))
+          .then(() => {
+            toast.success("Coupon added successfully!");
+            setSubmitting(false);
+          })
+          .catch((error) => {
+            toast.error("Error adding coupon: " + error.message);
+            setSubmitting(false);
+          });
       }}
     >
       {({ errors, touched }) => {
@@ -69,7 +73,7 @@ const AddCoupon = () => {
               <ErrorMessage style={err} name="code" component="div" />
             </div>
 
-            <div className=" flex flex-col w-full p-2">
+            <div className=" flex flex-col gap-2 w-full p-2">
               <label htmlFor="type">Type</label>
               <Field
                 as="select"
@@ -92,7 +96,7 @@ const AddCoupon = () => {
               <ErrorMessage style={err} name="type" component="div" />
             </div>
 
-            <div className=" flex flex-col w-full p-2">
+            <div className=" flex flex-col w-full gap-2 p-2">
               <label htmlFor="discountValue">Discount Value</label>
               <Field
                 type="number"

@@ -31,6 +31,7 @@ export default function AccountMenu() {
       localStorage.removeItem("token");
       dispatch(removeuser());
       toast.success("logged Out Successfully")
+      location.reload()
       navigate("/login")
     }
   }

@@ -3,28 +3,120 @@ import { useSelector, useDispatch } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { applyCouponcode } from "../../features/cartSlice";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { resetCart, removeItem } from "../../features/cartSlice";
+import {removeItem } from "../../features/cartSlice";
 import { addcarts } from "../../features/cartSlice";
-
+import { base_url } from "../../Utils/baseUrl";
+import {Link} from "react-router-dom"
 const CheckOut = () => {
-  const { carts, totalAmount, totalQuantity } = useSelector((state) => {
-    return state.cart;
-  });
-
+  //generate teperory random id 
+  function generateRandomId(length = 4) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    
+    return result;
+}
+  const { carts, totalAmount, totalQuantity } = useSelector((state) => state.cart);
+  const {signupdata , token} = useSelector((state)=>state.auth)
   const dispatch = useDispatch();
+      const amount = totalAmount;
+      const currency = "INR";
+      const receiptId = `recipt_${Math.random()*1000+Date.now()}`;
+      const  address={
+        street: "123 Main St",
+        city: "Anytown",
+        state: "CA",
+        zip: "12345",
+      }
+      const id = Math.random()*6
+  const paymentHandler = async (e) => {
+    const response = await fetch( `${ base_url}payment/createOrder`, {
+      method: "POST",
+      body: JSON.stringify({
+        amount,
+        currency,
+        receipt: receiptId,
+        cartItems:carts,
+        address:address,
+        userId: generateRandomId()
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const order = await response.json();
+    const {orderId , amount:order_amount} = order
+    console.log("order response",order);
+
+    var options = {
+      key: "rzp_test_oLA0LztRZUjDkX", // Enter the Key ID generated from the Dashboard
+      amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency,
+      name: "KFS Fitness", //your business name
+      description: "Test Transaction",
+      image: "https://example.com/your_logo",
+      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: async function (response) {
+        const body = {
+          ...response,
+        };
+
+        const validateRes = await fetch(
+          `${ base_url}payment/verifyPayments`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const jsonRes = await validateRes.json();
+        console.log(jsonRes);
+      },
+      prefill: {
+        //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+        name: signupdata?.name, //your customer's name
+        email: signupdata?.email,
+        contact: signupdata?.mobile //Provide the customer's phone number for better conversion rates
+      },
+      notes: {
+        address: address
+      },
+      theme: {
+        color: "#0a2444",
+      },
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+    rzp1.open();
+    e.preventDefault();
+  };
+
 
   const handleRemoveItem = (item) => {
     dispatch(removeItem(item));
   };
 
-  // quantity
   const handleIncr = (item) => {
     dispatch(addcarts(item));
   };
+
   const handleDecr = (item) => {
     dispatch(removeItem(item));
   };
-
   return (
     <>
       <div className=" flex p-4">
@@ -144,11 +236,14 @@ const CheckOut = () => {
                 </p>
               </div>
             </div>
-            <div className="checkout-button w-full flex items-center justify-center">
-              <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
-                CheckOut
-              </button>
-            </div>
+              <div 
+             className="checkout-button w-full flex items-center justify-center" 
+             onClick={paymentHandler}>
+               <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
+                 CheckOut
+               </button>
+             </div>
+           
           </div>
         </div>
       </div>

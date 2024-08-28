@@ -40,35 +40,39 @@ const AddProduct = () => {
 
   const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
     initialValues: {
-      name: "",
-      images: [],
-      price: "",
-      category: "",
-      subcategory: "",
-      itemCode: "",
-      hsnCode: "",
-      perpiece: "",
-      measurment: "",
-      quantity: "",
-      description: "",
-      Individual_discount: "",
-      corporate_discount: "",
-      mindiscription: "",
+       name: "",
+       images:[],
+        price: "",
+        category:"",
+        subcategory:"",
+        itemCode:"",
+        height:0,
+        width:0,
+        length:0,
+        weight:0,
+        hsnCode:"",
+        perpiece:"",
+        measurment:"",
+        quantity:"",
+        description:"",
+        discount:"",
+        mindiscription:"",
     },
     onSubmit: async (values, { setSubmitting }) => {
-      try {
-        const name = values.name.toLowerCase();
-        const category = values.category.toLowerCase();
-        const subcategory = values.subcategory.toLowerCase();
-        const dataToSend = { ...values, category, subcategory, name };
-        const response = await axios.post(`${base_url}product/add`, dataToSend);
-        // console.log(values)
-        if (response.data.error) {
-          throw new Error(response.data.error);
-        } else {
-          toast.success("Product Added Successfully");
-        }
-      } catch (error) {
+        try {
+          const name = values.name.toLowerCase()
+          const category = values.category.toLowerCase();
+          const subcategory = values.subcategory.toLowerCase();
+          const dataToSend = { ...values, category, subcategory, name };
+          const response = await axios.post(`${base_url}product/add`, dataToSend);
+          console.log(values)
+          if(response.data.error){
+             throw new Error(response.data.error)
+          }
+          else{
+            toast.success('Product Added Successfully')
+          }
+        } catch (error) {
         //    console.log(error.message)
         toast.error(error.message);
       } finally {
@@ -80,8 +84,8 @@ const AddProduct = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-24 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around lg:mx-24 p-6">
-        <div className="text-3xl font-bold ">
+      <div className="border-2 mt-24 mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around mx-4 p-6">
+        <div className="text-3xl font-bold bg-[#0a2440] w-full p-4 rounded-md text-center text-white">
           <Link to="/admin/product-list">Add Products</Link>
         </div>
         {/* Product add */}
@@ -201,6 +205,42 @@ const AddProduct = () => {
               />
             </div>
           </div>
+          {/* height width length */}
+          <div className="flex gap-12 items-center justify-around">
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">Height</label>
+              <input
+                value={values.height}
+                onChange={handleChange}
+                type="number"
+                id="height"
+                className="h-14 border-2 rounded-md outline-none px-2 "
+                placeholder="enter Item Height"
+              />
+            </div>
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">Width</label>
+              <input
+                value={values.width}
+                onChange={handleChange}
+                type="number"
+                id="width"
+                className="h-14 border-2 rounded-md outline-none  px-2 "
+                placeholder="enter Width"
+              />
+            </div>
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">Length</label>
+              <input
+                value={values.length}
+                onChange={handleChange}
+                id="length"
+                type="number"
+                className="h-14 border-2 rounded-md outline-none  px-2 "
+                placeholder="enter Lenght"
+              />
+            </div>
+          </div>
           {/* section-3 */}
           <div className="flex gap-12 items-center justify-around">
             <div className="input-1 w-full flex-col flex">
@@ -225,6 +265,17 @@ const AddProduct = () => {
                   )}
                 />
               </div>
+            </div>
+            <div className="input-1 w-full flex-col flex">
+              <label htmlFor="">weight</label>
+              <input
+                value={values.weight}
+                onChange={handleChange}
+                id="weight"
+                type="number"
+                className="h-14 border-2 rounded-md outline-none  px-2 "
+                placeholder="enter Lenght"
+              />
             </div>
           </div>
           {/* section-4 */}
@@ -255,8 +306,9 @@ const AddProduct = () => {
                 uploading company data or other banned files.
               </p>
             </Dragger>
-              <button className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]" type="submit">Add Product</button>
-              
+            <div className="border-2 cursor-pointer  text-center border-blue-500 text-blue-500 px-12 py-2 hover:text-white  duration-300 hover:bg-blue-400">
+              <button type="submit">Add Product</button>
+            </div>
           </div>
         </form>
       </div>

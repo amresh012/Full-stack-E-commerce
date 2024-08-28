@@ -97,6 +97,11 @@ export const links = [
       },
     ],
   },
+  {
+    name: "Shop All",
+    route: "/product",
+    submenu: false,
+  },
 ];
 
 export const range_of_products = 

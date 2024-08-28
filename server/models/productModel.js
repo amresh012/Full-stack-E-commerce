@@ -12,6 +12,7 @@ const ProductSchema = new mongoose.Schema(
     price: {
       type: String,
       required: true,
+
     },
     category: {
       type: String,
@@ -23,9 +24,11 @@ const ProductSchema = new mongoose.Schema(
     },
     itemCode: {
       type: String,
+      unique :true
     },
     hsnCode: {
       type: String,
+      unique :true
     },
     perpiece: {
       type: String,
@@ -33,6 +36,22 @@ const ProductSchema = new mongoose.Schema(
     meausrement: {
       type: String,
     }, 
+    length:{
+      type:Number,
+      required:true
+    },
+    width:{
+      type:Number,
+      required:true
+    },
+    height :{
+      type:Number,
+      required:true
+    },
+    weight :{
+      type:Number,
+      required:true
+    },
     reviews:{
       type:mongoose.Schema.Types.ObjectId,
       ref: 'reviews'
@@ -40,21 +59,7 @@ const ProductSchema = new mongoose.Schema(
     quantity: {
       type: Number,
     },
-    individualdiscount: {
-      type: String,
-      validate: {
-        validator: function (value) {
-          return (
-            /^\d+(\.\d+)?$/.test(value) &&
-            parseFloat(value) >= 0 &&
-            parseFloat(value) <= 100
-          );
-        },
-        message: (props) =>
-          `${props.value} is not a valid discount percentage.`,
-      },
-    },
-    corporateDiscount: {
+    discount: {
       type: String,
       validate: {
         validator: function (value) {

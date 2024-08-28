@@ -4,12 +4,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
 import { Autocomplete, TextField } from "@mui/material";
 import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
-import {toast, Toaster} from "react-hot-toast";
-import Select from 'react-select';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import {toast, Toaster} from "react-hot-toast"
+import { base_url } from '../../Utils/baseUrl';
 
 
 const getStatusColor = (status) => {
+
+ 
+
   switch (status.toLowerCase()) {
     case "return":
       return "bg-red-200 p-2 text-red-500 rounded-md  uppercase"; // Red color for "Return"
@@ -29,7 +32,7 @@ const getStatusColor = (status) => {
 };
 
 const handleDelete = ()=>{
-  // console.log("delete")
+  console.log("delete")
   toast.success("Deleted Successfully")
 }
 
@@ -38,6 +41,10 @@ const columns = [
   {
     header: "ID",
     accessorKey: "id",
+    cell: ({ row }) => {
+      const id = row.id;
+      return <span>{id}</span>;
+    },
   },
   {
     header: "Invoice No.",
@@ -56,6 +63,10 @@ const columns = [
     accessorKey: "Amount",
   },
   {
+    header: "Order Date",
+    accessorKey: "Order_date",
+  },
+  {
     header: "Status",
     accessorKey: "sataus",
     cell: ({ row }) => {
@@ -65,9 +76,9 @@ const columns = [
   },
   {
     header: "Action",
-    cell: () => (
+    cell: ({row}) => (
       <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
+        <div className="bg-red-200 p-2 rounded-md" onClick={()=>handleDelete(row.original._id)}>
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md">
@@ -87,32 +98,33 @@ const Orders = () => {
   statusOptions.push(...Array.from(UniqueStatus).map((status) => {return {value: status, label: status}}));
   const [filteredData, setFilteredData] = useState(Ordata);
 
-  //  tableInstance
-  // const handleTableInstance = (tableInstance) => {
-  //   // Now you have access to the table instance
-  //   console.log(tableInstance);
-  // };
+  const [Order , setOrder] = useState([])
+  const [isLoading  ,setIsLoading] = useState(true)
   
-
+  useEffect(() => {
+    const FetchOrders = async () => {
+      let response = await fetch(`${base_url}order`);
+      let data = await response.json();
+      setOrder(data);
+      setIsLoading(false);
+    };
+    FetchOrders();
+    console.log(Order)
+    
+  }, [])
   // status 
-  const statusCount = Ordata.reduce((acc, item) => {
+  // const statusCount = Order.reduce((acc, item) => {
 
-    const status = item.sataus;
-    if (acc[status]) {
-      acc[status]++;
-    } else {
-      acc[status] = 1;
-    }
-    return acc;
-  }, {});
+  //   const status = item.sataus;
+  //   if (acc[status]) {
+  //     acc[status]++;
+  //   } else {
+  //     acc[status] = 1;
+  //   }
+  //   return acc;
+  // }, {});
 
   const label = [
-    {
-      id: 1,
-      label: "Show By",
-      data: ["05", 10, 15, 20, 100],
-      showlabel: "Rows",
-    },
     {
       id: 2,
       label: "Status By",
@@ -158,21 +170,6 @@ const Orders = () => {
           <h1 className="uppercase">Orders</h1>
         </div>
     </div>
-      <div className="Order-Status py-4 m-4 ">
-          {/* <ul className="flex gap-4 flex-wrap items-center justify-start px-16">
-            {Object.keys(statusCount)
-              .slice(0, 3)
-              .map((status) => (
-                <li
-                  className=" w-[15rem] p-4 rounded-md shadow-md bg-[#038CCC] text-white "
-                  key={status}
-                >
-                  <p className="text-2xl">{statusCount[status]}</p>
-                  <h1 className="text-xl">{status}</h1>
-                </li>
-              ))}
-          </ul> */}
-        </div>
       {/* table col */}
       <div className=" w-full  rounded-md p-4 max-h-max ">
         <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#0a2440] text-white mx-4 rounded-md ">
@@ -190,7 +187,7 @@ const Orders = () => {
                 disablePortal
                 id="combo-box-demo"
                 options={item.data}
-                sx={{ width: 200 }}
+                sx={{ width: 400 }}
                 renderInput={(params) => (
                   <TextField  onChange={()=>sortByStatus(params.inputProps.value)} onSelectCapture={()=>sortByStatus(params.inputProps.value)} {...params} label={item.showlabel} />
                 )}
@@ -203,7 +200,7 @@ const Orders = () => {
             </label>
             <input
               type="date"
-              className="border-[1px] border-black/30 p-2 h-14 w-[12rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+              className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
             />
           </div> */}
           <div className="flex flex-col">
@@ -215,7 +212,7 @@ const Orders = () => {
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="border-[1px] border-black/30 p-2 h-14 w-[17rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
+                className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
                 placeholder="id / name / email"
               />
               <div className="absolute top-5 right-4">
@@ -226,7 +223,7 @@ const Orders = () => {
         </div>
 
         <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md ">
-          <BasicTable columns={columns} data={filteredData} />
+          <BasicTable columns={columns} data={Ordata} />
         </div>
       </div>
     </>
@@ -235,6 +232,3 @@ const Orders = () => {
 
 export default Orders
 
-{/* <div className="w-full p-4">
-<BasicTable columns={columns} data={Ordata} /> 
-</div> */}

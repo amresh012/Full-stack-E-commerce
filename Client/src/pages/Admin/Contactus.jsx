@@ -10,8 +10,8 @@ const ListProduct = () => {
       header: "Sr.No.",
       accessorKey: "_id",
       cell: ({ row }) => {
-        const id = row.original._id;
-        return <span>{id.slice(0, 3)}</span>;
+        const id = row.id;
+        return <span>{id}</span>;
       },
     },
     {
@@ -40,9 +40,9 @@ const ListProduct = () => {
          <div className="bg-blue-200 p-2 rounded-md hover:shadow-md">
           <FaEye className='text-blue-500'/>
          </div>
-           <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
+           {/* <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
             <FaPen className='text-black'/>
-           </div>
+           </div> */}
         </List>
     },
   ];

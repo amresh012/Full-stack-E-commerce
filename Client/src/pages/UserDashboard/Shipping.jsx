@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaAddressCard } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
@@ -33,6 +33,7 @@ const Shipping = () => {
       }
     },
   });
+ 
 
   return (
     <>

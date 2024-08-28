@@ -36,7 +36,6 @@ const SignUp = () => {
 
   const checkuserSignup = async (data) => {
     const response = await axios.post(`${base_url}user/check`, data, config);
-    // console.log(response)
     return response.data;
   };
 
