@@ -86,7 +86,7 @@ const ProductdetailPage = () => {
       <div className="">
         <div className=" p-12  flex gap-12 lg:flex-row flex-col ">
           {/* image-container */}
-          <div className="lg:w-1/2 w-full ">
+          <div className="w-full">
             <Carousel
               renderIndicator={false}
               autoPlay={true}

@@ -274,8 +274,8 @@ const Category = () => {
                         {product.corporateDiscount > 0 && (
                           <span className="text-2xl -mt-2 font-bold text-[#0a2440]">
                             &#8377;
-                            {product.price -
-                              product.price * (product.corporateDiscount / 100)}
+                            {(product.price -
+                              product.price * (product.corporateDiscount / 100)).toFixed(2)}
                           </span>
                         )}
                       </div>
