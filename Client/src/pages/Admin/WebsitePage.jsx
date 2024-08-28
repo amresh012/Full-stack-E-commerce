@@ -58,15 +58,6 @@ const WebsitePage = () => {
     },
   });
     
-
-      // const formData = new FormData();
-      // formData.append("file", imageRef.current.files[0]);
-
-      // const imgResponse = await axios.post('http://127.0.0.1:8032/upload', formData);
-
-     
-    
-    //  console.log(values);
      
 
   const configlabel = [

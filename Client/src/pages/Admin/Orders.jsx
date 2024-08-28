@@ -2,7 +2,6 @@
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
-import { Autocomplete, TextField } from "@mui/material";
 import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import {toast, Toaster} from "react-hot-toast"
@@ -11,30 +10,26 @@ import Select from 'react-select';
 
 
 const getStatusColor = (status) => {
-
- 
-
   switch (status.toLowerCase()) {
     case "return":
-      return "bg-red-200 p-2 text-red-500 rounded-md  uppercase"; // Red color for "Return"
+      return "bg-red-200 p-2 text-red-500 rounded-md w-full  uppercase"; // Red color for "Return"
     case "cod":
-      return "text-yellow-500 bg-yellow-200 p-2 rounded-md uppercase"; // Yellow color for "COD"
+      return "text-yellow-500 bg-yellow-200 p-2 w-full rounded-md uppercase"; // Yellow color for "COD"
     case "not processed":
-      return "text-gray-500 bg-gray-200 p-2 rounded-md uppercase"; // Gray color for "Not Processed"
+      return "text-gray-500 bg-gray-200 p-2 rounded-md w-full uppercase"; // Gray color for "Not Processed"
     case "shipped":
-      return "text-blue-500  bg-blue-200 p-2 rounded-md uppercase"; // Blue color for "Shipped"
+      return "text-blue-500  bg-blue-200 p-2 w-full rounded-md uppercase"; // Blue color for "Shipped"
     case "out of delivery":
-      return "text-purple-500  bg-purple-200 p-2 rounded-md uppercase"; // Purple color for "Out Of Delivery"
+      return "text-purple-500  bg-purple-200 p-2 w-full rounded-md uppercase"; // Purple color for "Out Of Delivery"
     case "cancelled":
-      return "text-black  bg-black/20 p-2 rounded-md uppercase"; // Black color for "Cancelled"
+      return "text-black  bg-black/20 p-2 rounded-md w-full uppercase"; // Black color for "Cancelled"
     default:
       return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
   }
 };
 
 const handleDelete = ()=>{
-  console.log("delete")
-  toast.success("Deleted Successfully")
+  
 }
 
 
@@ -77,16 +72,17 @@ const columns = [
   },
   {
     header: "Action",
-    cell: ({row}) => (
-      <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" onClick={()=>handleDelete(row.original._id)}>
+    cell: ({row}) => {
+
+    return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
+        <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md">
        <FaEye className="text-blue-500" />
        </div>
-      </div>
-    ),
+      </div>)
+  },
   },
 ];
 
