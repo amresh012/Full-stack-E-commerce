@@ -9,7 +9,8 @@ import { base_url } from "../../Utils/baseUrl";
 import {Link} from "react-router-dom"
 const CheckOut = () => {
   //generate teperory random id 
-  function generateRandomId(length = 4) {
+
+  function generateRandomId(length = 10) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const charactersLength = characters.length;
@@ -20,12 +21,13 @@ const CheckOut = () => {
     
     return result;
 }
-  const { carts, totalAmount, totalQuantity } = useSelector((state) => state.cart);
-  const {signupdata , token} = useSelector((state)=>state.auth)
+
+  const { carts, totalAmount} = useSelector((state) => state.cart);
+  const {user , token} = useSelector((state)=>state.auth)
   const dispatch = useDispatch();
-      const amount = totalAmount;
+      const amount = totalAmount * 100;
       const currency = "INR";
-      const receiptId = `recipt_${Math.random()*1000+Date.now()}`;
+      const receiptId = `recipt_${Math.random()*1000}`;
       const  address={
         street: "123 Main St",
         city: "Anytown",
@@ -50,7 +52,6 @@ const CheckOut = () => {
     });
     const order = await response.json();
     const {orderId , amount:order_amount} = order
-    console.log("order response",order);
 
     var options = {
       key: "rzp_test_oLA0LztRZUjDkX", // Enter the Key ID generated from the Dashboard
@@ -59,7 +60,7 @@ const CheckOut = () => {
       name: "KFS Fitness", //your business name
       description: "Test Transaction",
       image: "https://example.com/your_logo",
-      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      order_id:orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       handler: async function (response) {
         const body = {
           ...response,
@@ -80,9 +81,9 @@ const CheckOut = () => {
       },
       prefill: {
         //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-        name: signupdata?.name, //your customer's name
-        email: signupdata?.email,
-        contact: signupdata?.mobile //Provide the customer's phone number for better conversion rates
+        name: user?.name, //your customer's name
+        email: user?.email,
+        contact: user?.mobile //Provide the customer's phone number for better conversion rates
       },
       notes: {
         address: address
@@ -128,8 +129,21 @@ const CheckOut = () => {
           <div className="cart-items">
             <div className="cart-container w-full flex flex-col gap-2 items-center justify-around max-h-[50vh] overflow-y-scroll  no-scrollbar">
               {/* cart items here */}
-              {carts.length !== 0 &&
-                carts?.map((item) => (
+              {carts.length === 0 ?
+                 <div className="h-full w-full bg-white  capitalize text-xl font-bold grid place-content-center text-center ">
+                 <img
+                   src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
+                   alt=""
+                   className="h-44 "
+                 />
+                 <p className="text-2xl font-bold text-gray-500">Your Cart is Empty</p>
+                 <Link to='/product'>
+                   <button className="mt-12 bg-[#0a2444] text-white p-2 rounded-md">
+                     Continue Shopping
+                   </button>
+                 </Link>
+               </div>
+               : carts?.map((item) => (
                   <div
                     className="flex  border-2 w-full items-start justify-start gap-2 p-2 relative"
                     key={item.id}
@@ -178,6 +192,12 @@ const CheckOut = () => {
           </div>
         </div>
         <div className="right-box h-fit p-4 bg-gray-100 rounded-md shadow-sm mt-4">
+          <div className="address h-24">
+            <h1>Shipping Address</h1>
+              <div className="">
+                <span>Na</span>
+              </div>
+          </div>
           <div className=" p-4 Copoun-Code rounded-md space-y-4">
             <div className=" space-y-2">
               <h1 className="text-2xl font-bold">Copoun Code</h1>

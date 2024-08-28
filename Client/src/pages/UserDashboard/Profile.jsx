@@ -20,7 +20,7 @@ const getBase64 = (file) =>
 
 const Profile = () => {
     let user = useSelector((state)=>state.auth)
-    // console.log(user)
+    console.log(user)
    const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState([
@@ -96,10 +96,10 @@ const Profile = () => {
             </Modal>
           </div>
           <div className="flex items-center justify-center flex-col mt-16 p-2">
-            <p className="name font-bold text-xl">{user.signupdata?.name}</p>
+            <p className="name font-bold text-xl">{user.user?.name}</p>
             <div className="flex gap-2">
-              <p className="email">{user?.signupdata?.email}</p>
-              <p className="mobile">{user?.signupdata?.mobile}</p>
+              <p className="email">{user?.user?.email}</p>
+              <p className="mobile">{user?.user?.mobile}</p>
             </div>
           </div>
           <div className="edit-profile w-full flex items-center justify-center gap-8 p-2 ">

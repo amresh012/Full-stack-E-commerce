@@ -18,10 +18,11 @@ const Dashboard = () => {
     }
   return (
     <div className='w-full h-full bg-gray-200'>
-      <div className="header p-4 flex  flex-col items-start">
+      <div className="header p-4 flex bg-[] flex-col items-start">
         <span className='text-[4vmax]'>{getGreeting()}! </span>
         <h1 className='uppercase'>Welcome to Admin DashBoard</h1>
       </div>
+
     </div>
   )
 }

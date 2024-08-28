@@ -19,7 +19,8 @@ const {
   checkSignup,
   checkresetPasswordUser,
   verifyUser,
-  addnewAddress
+  addnewAddress,
+  getAddressById
 } = require("../controller/userCtrl");
 const {
   authMiddleware,
@@ -38,6 +39,7 @@ router.get("/reset-password/:token", checkresetPasswordUser);
 router.put("/password", authMiddleware, updatePassword);
 router.post("/login", loginUserCtrl);
 router.post("/adr", authMiddleware, addnewAddress);
+router.post("/adr/:id", authMiddleware, getAddressById);
 router.post("/admin-login", loginAdmin);
 router.get("/all-users", getallUser);
 router.get("/refresh", handleRefreshToken);

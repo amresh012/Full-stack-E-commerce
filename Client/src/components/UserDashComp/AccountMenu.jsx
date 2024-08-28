@@ -31,7 +31,6 @@ export default function AccountMenu() {
       localStorage.removeItem("token");
       dispatch(removeuser());
       toast.success("logged Out Successfully")
-      location.reload()
       navigate("/login")
     }
   }
@@ -94,9 +93,6 @@ export default function AccountMenu() {
             <Avatar /> Profile
           </MenuItem>
         </Link>
-        {/* <MenuItem onClick={handleClose}>
-            <Avatar /> My account
-          </MenuItem> */}
         <Divider />
         <Link to="/profile">
           <MenuItem onClick={handleClose}>
