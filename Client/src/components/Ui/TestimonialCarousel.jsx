@@ -49,7 +49,7 @@ const TestimonialCarousel = () => {
       )}
       <div className="flex w-[100%] gap-x-2 overflow-hidden scroll-smooth" ref={ProductCarouselRef}>
            {Array(5).fill(0).map((item, ind)=>{
-            return <TestimonialCard />
+            return <TestimonialCard key={ind} />
           })}
         </div>
     </div>

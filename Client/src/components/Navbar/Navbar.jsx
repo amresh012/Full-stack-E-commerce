@@ -69,7 +69,7 @@ const Navbar = () => {
 
       <div className="flex items-center  justify-center  cursor-pointer z-50  ">
        {
-         token !==null ?
+         token !== null ?
          <AccountMenu/>
          :
           <Link to="/login">

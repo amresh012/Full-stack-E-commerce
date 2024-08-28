@@ -7,7 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Clients } from "../../constant";
 
 import hero_bg from "../../assets/hero/hero_bg.jpg";
@@ -36,8 +36,17 @@ import achievements7 from "../../assets/achievements-7.jpg";
 import achievements8 from "../../assets/achievements-8.jpg";
 import LatestBlogCard from "../../components/Ui/LatestBlogCard";
 import BMICalculator from "../../components/BMICalculator/BMICalculator";
+import { toast, Toaster } from "react-hot-toast";
+import {base_url} from '../../Utils/baseUrl';
+import { config } from "../../Utils/axiosConfig";
+import axios from "axios";
+import { addcarts } from "../../features/cartSlice";
+import { useDispatch } from "react-redux";
 
 const HomePage = () => {
+  const [blogs, setBlogs] = useState([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     AOS.init({
       disable: "phone",
@@ -45,6 +54,24 @@ const HomePage = () => {
       easing: "ease-out-cubic",
     });
     AOS.refresh();
+  }, []);
+
+  const allBlogs = async () => {
+    try {
+      const response = await axios.get(base_url+'blog', config);
+      const data = response.data;
+      setBlogs(data);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const addToCartHandler = (item)=>{
+    dispatch(addcarts(item));
+  }
+
+  useEffect(()=>{
+    allBlogs();
   }, []);
 
   return (
@@ -72,27 +99,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mt-24  px-8">
-        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
-          Our Clients
-        </h1>
-        <div className="mx-auto mt-2 rounded-md h-[6px] w-[120px] bg-[#0a2440] mb-16"></div>
-
-        <div>
-          <Marquee pauseOnClick={true} speed={30}>
-            {Clients.map((client) => (
-              <div key={client.id}>
-                <img
-                  loading="lazy"
-                  src={client.imgurl}
-                  className="grayscale hover:grayscale-0 h-[10rem] w-[12rem] mx-2"
-                />
-              </div>
-            ))}
-          </Marquee>
-        </div>
-      </div>
-
       <div className="mt-24 px-6">
         <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
           Recommended For You
@@ -100,7 +106,7 @@ const HomePage = () => {
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[170px] bg-[#0a2440] mb-16"></div>
 
         <div>
-          <ProductCarousel />
+          <ProductCarousel addToCartHandler={addToCartHandler} />
         </div>
       </div>
 
@@ -120,7 +126,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Barbells</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/product" className="flex items-center">
+                <Link to="/category/barbells" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
@@ -135,7 +141,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Dumbbells</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/product" className="flex items-center">
+                <Link to="/category/dumbbells" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
@@ -150,7 +156,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Weight Benches</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/product" className="flex items-center">
+                <Link to="/category/weight-benches" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
@@ -163,9 +169,9 @@ const HomePage = () => {
               src={weight_reck}
             ></img>
             <div className="absolute bottom-3 left-3 text-white">
-              <p className="text-4xl uppercase font-thin">Weight Recks</p>
+              <p className="text-4xl uppercase font-thin">Weight Racks</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/product" className="flex items-center">
+                <Link to="/category/weight-racks" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
@@ -180,7 +186,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Treadmills</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/product" className="flex items-center">
+                <Link to="/category/treadmills" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
@@ -195,7 +201,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Gym Machines</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/product" className="flex items-center">
+                <Link to="/category/gym-machines" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
@@ -293,10 +299,10 @@ const HomePage = () => {
         </div>
         {/* <div className="flex flex-wrap lg:flex-nowrap gap-12 items-center justify-center "> */}
         <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-4">
-          {[...Array(3)].map((id) => (
+          {[...Array(3)].map((_,ind) => (
             <div
               className=" relative hover:scale-105 duration-700 overflow-clip cursor-pointer card rounded-md  w-full"
-              key={id}
+              key={ind}
               data-aos="flip-up"
               data-aos-delay="50"
             >
@@ -332,7 +338,7 @@ const HomePage = () => {
           <img
             loading="lazy"
             src={why_us_1}
-            className="hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full lg:h-inherit w-full lg:w-inherit"
+            className="object-cover hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full lg:h-inherit w-full lg:w-inherit"
           />
           <div className="relative h-[25rem] lg:h-[inherit] w-[80%] flex justify-center mx-auto flex-col">
             <h1 className="text-center uppercase italic text-4xl lg:text-7xl font-bold text-white">
@@ -445,7 +451,7 @@ const HomePage = () => {
           <img
             loading="lazy"
             src={why_us_2}
-            className="hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50rem] lg:h-inherit w-[100vw] lg:w-inherit"
+            className="object-cover hover:scale-105 duration-500 brightness-50 object-top lg:object-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50rem] lg:h-inherit w-[100vw] lg:w-inherit"
           />
           <div className="relative h-[25rem] lg:h-[inherit] w-[80%] flex justify-center mx-auto flex-col">
             <h1 className="text-center uppercase italic text-4xl lg:text-7xl font-bold text-white">
@@ -469,9 +475,7 @@ const HomePage = () => {
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440] mb-16"></div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-2">
-          <LatestBlogCard />
-          <LatestBlogCard />
-          <LatestBlogCard />
+          {blogs.slice(0,3).map(blog => <LatestBlogCard blog={blog} />)}
         </div>
       </div>
 
@@ -487,6 +491,28 @@ const HomePage = () => {
 
         <div className="px-4">
           <TestimonialCarousel />
+        </div>
+      </div>
+
+      
+      <div className="my-24  px-8">
+        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+          Our Clients
+        </h1>
+        <div className="mx-auto mt-2 rounded-md h-[6px] w-[120px] bg-[#0a2440] mb-16"></div>
+
+        <div>
+          <Marquee pauseOnClick={true} speed={30}>
+            {Clients.map((client) => (
+              <div key={client.id}>
+                <img
+                  loading="lazy"
+                  src={client.imgurl}
+                  className="grayscale hover:grayscale-0 h-[10rem] w-[12rem] mx-2"
+                />
+              </div>
+            ))}
+          </Marquee>
         </div>
       </div>
     </>

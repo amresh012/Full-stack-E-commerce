@@ -12,7 +12,7 @@ export const getAdmindata = createAsyncThunk(
       const response = await axios.get(`${base_url}admin`, config);
       return response.data;
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }

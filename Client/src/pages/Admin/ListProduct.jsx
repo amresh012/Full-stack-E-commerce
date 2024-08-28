@@ -16,7 +16,7 @@ const ListProduct = () => {
       setIsLoading(false);
     };
     FetchProduct();
-    console.log(product)
+    // console.log(product)
     
   }, [])
 
@@ -80,8 +80,8 @@ const ListProduct = () => {
   return (
     <>
      <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
-    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
-          <h1 className="">Contact List</h1>
+    <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
+          <h1 className="">Product List</h1>
         </div>
     </div>
     <div className="w-full p-8">

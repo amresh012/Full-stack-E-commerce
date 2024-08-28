@@ -11,12 +11,13 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {useNavigate} from "react-router-dom"
+import { removeuser } from '../../features/authSlice';
 export default function AccountMenu() {
   const navigate = useNavigate()
   const { signupdata } = useSelector((state) => state.auth);
-  console.log(signupdata);
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -28,6 +29,7 @@ export default function AccountMenu() {
   const handleLogOut=()=>{
     if( localStorage.getItem("token")){
       localStorage.removeItem("token");
+      dispatch(removeuser());
       toast.success("logged Out Successfully")
       location.reload()
       navigate("/login")

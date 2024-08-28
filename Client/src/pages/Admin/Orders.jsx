@@ -31,8 +31,9 @@ const getStatusColor = (status) => {
   }
 };
 
-const handleDelete = (id)=>{
-
+const handleDelete = ()=>{
+  console.log("delete")
+  toast.success("Deleted Successfully")
 }
 
 
@@ -90,9 +91,12 @@ const columns = [
 
 
 const Orders = () => {
-  const [search , setSearch] = useState()
-  const statusArray = Ordata.map((item) => item.sataus);
+  const [search , setSearch] = useState('');
+  const statusArray = Ordata.map(item => item.sataus);
   const UniqueStatus = new Set(statusArray);
+  let statusOptions = [{value: '', label: 'All'}]
+  statusOptions.push(...Array.from(UniqueStatus).map((status) => {return {value: status, label: status}}));
+  const [filteredData, setFilteredData] = useState(Ordata);
 
   const [Order , setOrder] = useState([])
   const [isLoading  ,setIsLoading] = useState(true)
@@ -124,10 +128,37 @@ const Orders = () => {
     {
       id: 2,
       label: "Status By",
-      data: [...UniqueStatus],
+      // data: [...UniqueStatus],
+      data: [],
       showlabel: "status",
     },
   ];
+
+  const sortByStatus = (status)=>{
+    if(status !== ''){
+      const results = Ordata.filter(order => order.sataus.toLowerCase() === status.toLowerCase());
+      setFilteredData(results);
+    }
+    else{
+      setFilteredData(Ordata);
+    }
+  }
+
+  const searchByIdEmailName = ()=>{
+    if(search.trim() === ''){
+      setFilteredData(Ordata);
+    }
+    else{
+      const results = Ordata.filter(order => (
+        (order?.id.toString() === search.trim()) || order?.orderd_by?.toLowerCase().includes(search.trim().toLowerCase()) || order?.email?.toLowerCase()?.includes(search.trim().toLowerCase())
+      ));
+      setFilteredData(results)
+    }
+  }
+
+  useEffect(()=>{
+    searchByIdEmailName();
+  }, [search])
 
   
   
@@ -135,13 +166,13 @@ const Orders = () => {
     <>
     <Toaster/>
  <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto rounded-md  mx-8 mt-4 p-4'>
-    <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+    <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Orders</h1>
         </div>
     </div>
       {/* table col */}
       <div className=" w-full  rounded-md p-4 max-h-max ">
-        <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#038CCC] text-white mx-4 rounded-md ">
+        <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#0a2440] text-white mx-4 rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
           <BsThreeDotsVertical />
         </div>
@@ -151,18 +182,19 @@ const Orders = () => {
               <label htmlFor="" className="uppercase">
                 {item.label}
               </label>
-              <Autocomplete
+              <Select onChange={(d)=>sortByStatus(d.value)} className='w-[200px]' options={statusOptions} />
+              {/* <Autocomplete
                 disablePortal
                 id="combo-box-demo"
                 options={item.data}
                 sx={{ width: 400 }}
                 renderInput={(params) => (
-                  <TextField {...params} label={item.showlabel} />
+                  <TextField  onChange={()=>sortByStatus(params.inputProps.value)} onSelectCapture={()=>sortByStatus(params.inputProps.value)} {...params} label={item.showlabel} />
                 )}
-              />
+              /> */}
             </div>
           ))}
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label htmlFor="" className="uppercase">
               Date
             </label>
@@ -170,7 +202,7 @@ const Orders = () => {
               type="date"
               className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
             />
-          </div>
+          </div> */}
           <div className="flex flex-col">
             <label htmlFor="" className="uppercase">
               Search
@@ -191,7 +223,7 @@ const Orders = () => {
         </div>
 
         <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md ">
-          <BasicTable columns={columns} data={Order} />
+          <BasicTable columns={columns} data={Ordata} />
         </div>
       </div>
     </>

@@ -8,20 +8,20 @@ const BMICalculator = () => {
 
   const [result, setResult] = useState("");
 
-  const [weightInKg, setWeightInKg] = useState();
-  const [heightInCm, setHeightInCm] = useState();
+  const [weightInKg, setWeightInKg] = useState('');
+  const [heightInCm, setHeightInCm] = useState('');
 
-  const [weightInLbs, setWeightInLbs] = useState();
-  const [heightInFeet, setHeightInFeet] = useState();
-  const [heightInInch, setHeightInInch] = useState();
+  const [weightInLbs, setWeightInLbs] = useState('');
+  const [heightInFeet, setHeightInFeet] = useState('');
+  const [heightInInch, setHeightInInch] = useState('');
 
   const changeUnitHandler = (e) => {
     setResult("");
-    setWeightInKg();
-    setHeightInCm();
-    setWeightInLbs();
-    setHeightInFeet();
-    setHeightInInch();
+    setWeightInKg("");
+    setHeightInCm("");
+    setWeightInLbs("");
+    setHeightInFeet("");
+    setHeightInInch("");
     if (e.target.value === "metric_unit") {
       setIsMetricUnit(true);
       setIsImperialUnit(false);
@@ -34,53 +34,33 @@ const BMICalculator = () => {
   const calculateBmiHandler = (e) => {
     e.preventDefault();
 
+    let bmi;
+    let status;
+
     if (isImperialUnit) {
-      const bmi =
-        (+weightInLbs * 703) / (+heightInFeet * 12 + +heightInInch) ** 2;
-        
-        let status;
-        console.log(bmi, typeof(bmi))
-        switch(bmi){
-          case (bmi < 18.5):
-            status = 'Underweight';
-            break;
-          case (bmi > 18.5 && bmi < 24.9):
-            status = 'Normal';
-            break;
-          case (bmi > 24.9 && bmi < 29.9):
-            status = 'Overweight';
-            break;
-          case (bmi > 29.9 && bmi < 34.5):
-            status = 'Obese';
-            break;
-          default:
-            status = 'Extremely Obese';
-            break;
-        }
-      setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
+        // Convert height in feet and inches to inches and calculate BMI
+        const heightInInches = (+heightInFeet * 12) + +heightInInch;
+        bmi = (+weightInLbs * 703) / (heightInInches ** 2);
     } else {
-      const bmi = +weightInKg / (+heightInCm / 100) ** 2;
-      let status;
-      console.log(bmi, typeof(bmi))
-      switch(bmi){
-        case (bmi < 18.5):
-          status = 'Underweight';
-          break;
-        case (bmi > 18.5 && bmi < 24.9):
-          status = 'Normal';
-          break;
-        case (bmi > 24.9 && bmi < 29.9):
-          status = 'Overweight';
-          break;
-        case (bmi > 29.9 && bmi < 34.5):
-          status = 'Obese';
-          break;
-        default:
-          status = 'Extremely Obese';
-          break;
-      }
-      setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
+        // Calculate BMI for metric units
+        bmi = +weightInKg / ((+heightInCm / 100) ** 2);
     }
+
+    // Determine BMI status
+    if (bmi < 18.5) {
+        status = 'Underweight';
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        status = 'Normal';
+    } else if (bmi >= 24.9 && bmi < 29.9) {
+        status = 'Overweight';
+    } else if (bmi >= 29.9 && bmi < 34.5) {
+        status = 'Obese';
+    } else {
+        status = 'Extremely Obese';
+    }
+
+    // Display the result
+    setResult(`Your BMI is ${bmi.toFixed(1)}, and weight status is: ${status}`);
   };
 
   return (
@@ -147,7 +127,7 @@ const BMICalculator = () => {
                 />
               </div>
 
-              <button className="mt-4 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out">
+              <button disabled={(weightInKg.trim() !== '' && heightInCm.trim() !== '') ? false : true} className="mt-4 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out disabled:cursor-not-allowed">
                 <div className="flex items-center justify-center gap-x-1">
                   Calculate
                   <span className="pb-1">
@@ -183,8 +163,9 @@ const BMICalculator = () => {
                   placeholder="Height / inch"
                 />
                 <button
+                disabled={(weightInLbs.trim() !== '' && heightInFeet.trim() !== '' && heightInInch.trim() !== '') ? false : true}
                   type="submit"
-                  className="mt-4 lg:mx-0 mx-2 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out"
+                  className="mt-4 lg:mx-0 mx-2 uppercase text-lg lg:text-xl bg-white px-8 py-2 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#b32995] hover:text-white duration-500 ease-in-out disabled:cursor-not-allowed"
                 >
                   <div className="flex items-center w-full justify-center  gap-2">
                    <span> Calculate</span>

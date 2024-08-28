@@ -50,12 +50,12 @@ export const cartSlice = createSlice({
         const index = state.carts.findIndex(item => item._id === newItem._id);
         state.carts[index].quantity++;
         state.carts[index].totalPrice += +newItem.price;
-        state.totalAmount += +state.carts[index].totalPrice;
+        state.totalAmount += +newItem.price;
       }
     },
     removeItem : (state,action)=>{
       const {_id} = action.payload;
-      console.log(_id, action.payload)
+      // console.log(_id, action.payload)
       const existingItemInd = state.carts.findIndex(item => item._id === _id);
       
       state.totalQuantity--;
