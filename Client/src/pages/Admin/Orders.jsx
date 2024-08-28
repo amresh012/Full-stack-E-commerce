@@ -75,16 +75,17 @@ const columns = [
   },
   {
     header: "Action",
-    cell: ({row}) => (
-      <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" onClick={()=>handleDelete(row.original._id)}>
+    cell: ({row}) => {
+
+    return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
+        <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md">
        <FaEye className="text-blue-500" />
        </div>
-      </div>
-    ),
+      </div>)
+  },
   },
 ];
 
@@ -191,7 +192,7 @@ const Orders = () => {
         </div>
 
         <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md ">
-          <BasicTable columns={columns} data={Order} />
+          <BasicTable columns={columns} data={Ordata} />
         </div>
       </div>
     </>
