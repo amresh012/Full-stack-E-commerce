@@ -332,7 +332,7 @@ const ProductEdit = () => {
               </div>
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="">weight</label>
+              <label htmlFor="">weight (kg)</label>
               <input
                 value={product.weight}
                 onChange={(e) => handleChange(e.target.id, e.target.value)}

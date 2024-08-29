@@ -267,7 +267,7 @@ const AddProduct = () => {
               </div>
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="">weight</label>
+              <label htmlFor="">weight (kg)</label>
               <input
                 value={values.weight}
                 onChange={handleChange}

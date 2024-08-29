@@ -43,6 +43,25 @@ const deleteContact = asyncHandle(async(req,res)=>{
   )
 })
 
+const contactDetails = asyncHandle(async(req,res)=>{
+  if(req.params.id){
+    const {id} = req.params;
+    try {
+      const contact = await ContactUs.findById(id);
+      if(contact){
+        res.json({ success: true, ...contact._doc });
+      }
+      else{
+        res.json({ success: false, message: "Query doesn't exist", id });
+      }
+    } catch (error) {
+      res.json(error.message)
+    }
+  }else(
+    res.json("invalid Operation")
+  )
+})
+
 const updateRemarkContact = asyncHandle(async(req,res)=>{
   if(req.body._id){
     const {_id} = req.body
@@ -58,4 +77,4 @@ const updateRemarkContact = asyncHandle(async(req,res)=>{
 })
 
 
-module.exports = { addContactus,getallContactUs,deleteContact,updateRemarkContact};
+module.exports = { addContactus,getallContactUs,deleteContact,updateRemarkContact,contactDetails};

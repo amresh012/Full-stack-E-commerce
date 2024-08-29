@@ -1,68 +1,244 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { FaUsers, FaShoppingCart, FaEye, FaTrash } from "react-icons/fa";
+import { AiFillProduct } from "react-icons/ai";
+import { BiSolidCategory } from "react-icons/bi";
+import { MdOutlinePayment } from "react-icons/md";
+import {
+  LineChart,
+  DoughnutChart,
+} from "../../components/AdminComponents/CChart";
+import BasicTable from "../../components/AdminComponents/BasicTable";
+import Ordata from "../../MOCK_DATA (4).json";
+import { base_url } from "../../Utils/baseUrl";
+import {toast, Toaster} from 'react-hot-toast';
+import {config} from '../../Utils/axiosConfig';
 
 const Dashboard = () => {
   function getGreeting() {
-        const now = new Date();
-        const hour = now.getHours();
-        let greeting;
-    
-        if (hour < 12) {
-            greeting = "Good morning!";
-        } else if (hour < 18) {
-            greeting = "Good afternoon ";
-        } else {
-            greeting = "Good evening!";
-        }
-    
-        return greeting;
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting;
+
+    if (hour < 12) {
+      greeting = "Good morning!";
+    } else if (hour < 18) {
+      greeting = "Good afternoon ";
+    } else {
+      greeting = "Good evening!";
     }
+
+    return greeting;
+  }
+
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "return":
+        return "bg-red-200 p-2 text-red-500 rounded-md w-full  uppercase"; // Red color for "Return"
+      case "cod":
+        return "text-yellow-500 bg-yellow-200 p-2 w-full rounded-md uppercase"; // Yellow color for "COD"
+      case "not processed":
+        return "text-gray-500 bg-gray-200 p-2 rounded-md w-full uppercase"; // Gray color for "Not Processed"
+      case "shipped":
+        return "text-blue-500  bg-blue-200 p-2 w-full rounded-md uppercase"; // Blue color for "Shipped"
+      case "out of delivery":
+        return "text-purple-500  bg-purple-200 p-2 w-full rounded-md uppercase"; // Purple color for "Out Of Delivery"
+      case "cancelled":
+        return "text-black  bg-black/20 p-2 rounded-md w-full uppercase"; // Black color for "Cancelled"
+      default:
+        return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
+    }
+  };
+
+  const columns = [
+    {
+      header: "ID",
+      accessorKey: "id",
+      cell: ({ row }) => {
+        const id = row.id;
+        return <span>{id}</span>;
+      },
+    },
+    {
+      header: "Invoice No.",
+      accessorKey: "Invoice",
+    },
+    {
+      header: "Orderd By",
+      accessorKey: "orderd_by",
+    },
+    {
+      header: "Contact Details",
+      accessorKey: "mobile",
+    },
+    {
+      header: "Amount in Rs",
+      accessorKey: "Amount",
+    },
+    {
+      header: "Order Date",
+      accessorKey: "Order_date",
+    },
+    {
+      header: "Status",
+      accessorKey: "sataus",
+      cell: ({ row }) => {
+        const status = row.original.sataus;
+        return <span className={getStatusColor(status)}>{status}</span>;
+      },
+    },
+    // {
+    //   header: "Action",
+    //   cell: ({row}) => {
+
+    //   return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
+    //       <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
+    //       <FaTrash className="text-red-500" />
+    //       </div>
+    //      <div className="bg-blue-200 p-2 rounded-md">
+    //      <FaEye className="text-blue-500" />
+    //      </div>
+    //     </div>)
+    // },
+    // },
+  ];
+
+  const fetchAdminData = async ()=>{
+    try{
+      console.log(config)
+      const response = await fetch(base_url+'admin', {
+        method: "GET",
+        ...config
+      });
+      const data = await response.json();
+      console.log(data)
+    }
+    catch(err){
+      toast.error(err.message);
+    }
+  }
+
+  useEffect(()=>{
+    fetchAdminData();
+  }, [])
+
   return (
-    <div className='w-full h-full bg-gray-200'>
+    <div className="">
+    <Toaster />
       <div className="header p-4 flex  flex-col items-start">
-        <span className='text-[4vmax]'>{getGreeting()}! </span>
-        <h1 className='uppercase'>Welcome to Admin DashBoard</h1>
+        <span className="text-[4vmax]">{getGreeting()}! </span>
+        <h1 className="uppercase">Welcome to Admin DashBoard</h1>
+
+        <div className="flex justify-start w-[fit-content]">
+          <div className="mt-5 flex flex-wrap gap-2">
+            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[17rem] h-auto p-2">
+              <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
+                <FaUsers />
+              </div>
+              <div className="flex-1">
+                <p className="text-2xl font-bold">New Users</p>
+                <p className="text-base -mt-1 text-gray-400 font-bold">
+                  This Month
+                </p>
+                <p className="text-4xl font-bold mt-1 text-[#619edd]">200</p>
+              </div>
+            </div>
+            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[18rem] h-auto p-2">
+              <div className="text-7xl text-[#0a2440] flex justify-center w-[6rem]">
+                <FaShoppingCart />
+              </div>
+              <div className="flex-1">
+                <p className="text-2xl font-bold">Total Orders</p>
+                <p className="text-base -mt-1 text-gray-400 font-bold">Today</p>
+                <p className="text-4xl font-bold mt-1 text-[#ce7cff]">10</p>
+              </div>
+            </div>
+            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[20rem] h-auto p-2">
+              <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
+                <AiFillProduct />
+              </div>
+              <di className="flex-1">
+                <p className="text-2xl font-bold">Total Products</p>
+                <p className="text-base -mt-1 text-gray-400 font-bold">
+                  All Time
+                </p>
+                <p className="text-4xl font-bold mt-1 text-[#ff7c7c]">14</p>
+              </di>
+            </div>
+            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[21rem] h-auto p-2">
+              <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
+                <BiSolidCategory />
+              </div>
+              <div className="flex-1">
+                <p className="text-2xl font-bold">Total Categories</p>
+                <p className="text-base -mt-1 text-gray-400 font-bold">
+                  All Time
+                </p>
+                <p className="text-4xl font-bold mt-1 text-[#4cd54b]">5</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md min-w-[17rem] p-2 h-auto">
+              <div className="flex items-center mb-2">
+                <div className="text-5xl text-[#0a2440]">
+                  <MdOutlinePayment />
+                </div>
+                <p className="text-2xl font-bold">Payments</p>
+              </div>
+              <div>
+                <div className="flex flex-wrap gap-2">
+                  <div className="border-r pr-3">
+                    <p className="text-base -mt-1 text-gray-400 font-bold">
+                      All Time
+                    </p>
+                    <p className="text-xl font-bold mt-1 text-[#ff6262]">
+                      Rs 2,00,000
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-base -mt-1 text-gray-400 font-bold">
+                      Today
+                    </p>
+                    <p className="text-xl font-bold mt-1 text-[#ff6262]">
+                      Rs 5,000
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h1 className="text-3xl font-bold mt-20 mb-5">Recent Orders</h1>
+        <div className="">
+          <BasicTable columns={columns} data={Ordata.slice(0, 5)} />
+        </div>
+
+        <h1 className="text-3xl font-bold mt-20 mb-5">Summary</h1>
+        <div className="space-y-3 w-full">
+          <div className="shadow-md rounded-md p-2 w-full p-4">
+            <div className="text-3xl font-light">Orders</div>
+            <div className="mt-4">
+              <LineChart />
+            </div>
+          </div>
+          <div className="shadow-md rounded-md p-2 w-full p-4">
+            <div className="text-3xl font-light">Customers</div>
+            <div className="mt-4">
+              <LineChart />
+            </div>
+          </div>
+          <div className="shadow-md rounded-md p-2 w-full p-4">
+            <div className="text-3xl font-light">Categories</div>
+            <div className="mt-4 w-[50%] mx-auto">
+              <DoughnutChart />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Dashboard;
 
 // import React, { useState } from 'react'
 // import AccountMenu from "../../components/UserDashComp/AccountMenu";
@@ -96,11 +272,11 @@ export default Dashboard
 
 //     return greeting;
 // }
- 
+
 //   return (
 //     <>
 //      <div className="h-24 flex justify-around  w-full p-4 ">
-         
+
 //           <div className="actions flex justify-end items-center h-full" >
 //           {/* <div className="">
 //             <IoNotificationsOutline size={30}/>
@@ -156,7 +332,7 @@ export default Dashboard
 //             </p>
 //           </div>
 //           {/* total orders */}
-//           <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4 bg-[#0A2440] text-white font-bold w-[10rem]">
+//           <div className="total-sales flex flex-col items-center rounded-md  shadow-md p-4 bg-[#0A2440] text-white font-bold w-[6rem]">
 //            <p className=''>
 //            <GoChecklist size={50}/>
 //            </p>
@@ -188,7 +364,7 @@ export default Dashboard
 //                 width={750}
 //                 height={320}
 //                 sx={{padding:"4px",stroke:"white",}}
-//               /> 
+//               />
 //          </div>
 //         </div>
 //         <div className="h-[15rem] m-2 w-full border-2 mt-6 rounded-md shadow-md"></div>
