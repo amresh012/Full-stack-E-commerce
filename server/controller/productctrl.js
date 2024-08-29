@@ -75,8 +75,13 @@ const deleteProduct = asyncHandle(async (req, res) => {
   const _id = req.params.id;
   if (_id) {
     try {
-      await ProductModel.findByIdAndDelete({ _id });
-      res.json({ success: true, message: "Deleted Sucessfully", _id });
+      const deletedProduct = await ProductModel.findByIdAndDelete({ _id });
+      if(deletedProduct){
+        return res.json({ success: true, message: "Deleted Sucessfully", _id });
+      }
+      else{
+        return res.json({ success: false, message: "Product doesn't exist", _id });
+      }
     } catch (error) {
       res.json({ error: error.message });
     }
@@ -91,8 +96,9 @@ const updateproduct = asyncHandle(async (req, res) => {
         { _id },
         req.body
       );
+      res.status(200).json({ success: true });
     } catch (error) {
-      res.send(500).send({ error: error.message });
+      res.status(500).json({ success: false, error: error.message });
     }
   } else res.json("invalid Operation");
 });

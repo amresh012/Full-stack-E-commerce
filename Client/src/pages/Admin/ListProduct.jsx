@@ -1,13 +1,94 @@
-import React, { useEffect, useState } from 'react'
-import BasicTable from '../../components/AdminComponents/BasicTable'
-import { base_url } from '../../Utils/baseUrl'
-import { FaAddressCard, FaEye, FaPen, FaTrash } from 'react-icons/fa'
-import { List } from '@mui/material'
+import React, { useEffect, useState } from "react";
+import BasicTable from "../../components/AdminComponents/BasicTable";
+import { base_url } from "../../Utils/baseUrl";
+import { FaAddressCard, FaEye, FaPen, FaTrash } from "react-icons/fa";
+import { List } from "@mui/material";
+import { toast, Toaster } from "react-hot-toast";
+import { config } from "../../Utils/axiosConfig";
+import { useNavigate } from "react-router-dom";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 const ListProduct = () => {
-  const [product , setProduct] = useState([])
-  const [isLoading  ,setIsLoading] = useState(true)
-  
+  const [product, setProduct] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [reload, setReload] = useState(false);
+  const navigate = useNavigate();
+  const [productDetails, setProductDetails] = useState({
+    name: null,
+    images: [],
+    price: null,
+    category: null,
+    subcategory: null,
+    itemCode: null,
+    height: null,
+    width: null,
+    length: null,
+    weight: null,
+    hsnCode: null,
+    perpiece: null,
+    measurment: null,
+    quantity: null,
+    description: null,
+    discount: null,
+    mindiscription: null,
+  });
+  const [open, setOpen] = useState(false);
+
+  const deleteProduct = async (id) => {
+    try {
+      const response = await fetch(`${base_url}product/${id}`, {
+        method: "DELETE",
+        ...config,
+      });
+      const data = await response.json();
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      }
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
+      setReload((prev) => !prev);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const fetchProductDetails = async (id) => {
+    try {
+      const response = await fetch(`${base_url}product/${id}`, {
+        method: "GET",
+        ...config,
+      });
+      const data = await response.json();
+      console.log(data);
+      setProductDetails({
+        name: data?.name,
+        images: data?.images,
+        price: data?.price,
+        category: data?.category,
+        subcategory: data?.subcategory,
+        itemCode: data?.itemCode,
+        height: data?.height,
+        width: data?.width,
+        length: data?.length,
+        weight: data?.weight,
+        hsnCode: data?.hsnCode,
+        perpiece: data?.perpiece,
+        measurment: data?.measurment,
+        quantity: data?.quantity,
+        description: data?.description,
+        discount: data?.corporateDiscount,
+        mindiscription: data?.mindiscription,
+      });
+      setOpen(true);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     const FetchProduct = async () => {
       let response = await fetch(`${base_url}product`);
@@ -17,8 +98,7 @@ const ListProduct = () => {
     };
     FetchProduct();
     // console.log(product)
-    
-  }, [])
+  }, [reload]);
 
   const columns = [
     {
@@ -32,10 +112,16 @@ const ListProduct = () => {
     {
       header: "Image",
       accessorKey: "images",
-      cell:({row})=>{
+      cell: ({ row }) => {
         // console.log(row.original.images[0])
-         return <img src={row.original.images[0]} alt="" className='h-16 w-16 object-cover'/>
-      }
+        return (
+          <img
+            src={row.original.images[0]}
+            alt=""
+            className="h-12 w-12 object-cover"
+          />
+        );
+      },
     },
     {
       header: "Product Name",
@@ -64,31 +150,50 @@ const ListProduct = () => {
     },
     {
       header: "Action",
-      cell:()=> <List sx={{display:"flex" , alignItems:"center", gap:4 , justifyContent:"center" , cursor:"pointer"}}>
-       <div className="bg-red-200 p-2 rounded-md hover:shadow-md">
-       <FaTrash className='text-red-500'/>
-       </div>
-       <div className="bg-blue-200 p-2 rounded-md hover:shadow-md">
-       <FaEye className='text-blue-500'/>
-       </div>
-       <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
-       <FaPen className='text-black'/>
-       </div>
-      </List >
+      cell: ({ row }) => (
+        <List
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
+          <div
+            onClick={() => deleteProduct(row.original._id)}
+            className="bg-red-200 p-2 rounded-md hover:shadow-md"
+          >
+            <FaTrash className="text-red-500" />
+          </div>
+          <div
+            onClick={() => fetchProductDetails(row.original._id)}
+            className="bg-blue-200 p-2 rounded-md hover:shadow-md"
+          >
+            <FaEye className="text-blue-500" />
+          </div>
+          <div
+            onClick={() => navigate(`/admin/product-edit/${row.original._id}`)}
+            className="bg-black/20 p-2 rounded-md hover:shadow-md"
+          >
+            <FaPen className="text-black" />
+          </div>
+        </List>
+      ),
     },
   ];
   return (
     <>
-     <div className='border-2 shadow-md flex items-center justify-normal rounded-md '>
+     <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
     <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Product List</h1>
         </div>
     </div>
-    <div className="w-full">
+    <div className="w-full p-8">
         <BasicTable  columns={columns}  data={product}/>
        </div>
     </>
-  )
-}
+  );
+};
 
-export default ListProduct
+export default ListProduct;

@@ -341,10 +341,13 @@ const deleteaUser = asyncHandler(async (req, res) => {
   validateMongoDbId(id);
 
   try {
-    const deleteaUser = await User.findByIdAndDelete(id);
-    res.json({
-      deleteaUser,
-    });
+    const deletedUser = await User.findByIdAndDelete(id);
+    if(deletedUser){
+      res.json({ success: true, message: "user deleted sucessfully", id });
+    }
+    else{
+      res.json({ success: false, message: "User doesn't exist", id });
+    }
   } catch (error) {
     throw new Error(error);
   }

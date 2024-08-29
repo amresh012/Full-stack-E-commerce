@@ -6,6 +6,33 @@ const Bulk = require("../models/bulkModel");
 const Order = require("../models/orderModel");
 const Invoices = require("../models/invoiceModel");
 const CouponCodes = require("../models/discountModel");
+const userModel = require("../models/userModel");
+
+// const getAdminData = asyncHandle(async (req, res) => {
+//   try {
+//     const date = new Date();
+
+//     const newCustomers = await userModel.aggregate([
+//       {
+//         $project: {
+//           month: {$month: '$createdAt'}
+//         }
+//       },
+//       {
+//         $match: {
+             
+//         }
+//       }
+//     ])
+
+//     console.log(newCustomers);
+//     res.json();
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).send(error);
+//   }
+// });
+
 
 const getAdminData = asyncHandle(async (req, res) => {
   try {

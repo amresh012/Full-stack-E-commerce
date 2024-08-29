@@ -43,8 +43,7 @@ const links = [
 const Navbar = () => {
   const {totalQuantity} = useSelector((state) => state.cart);
   const {token} = useSelector((state) => state.auth);
-  console.log(token)
-  
+  const site = useSelector((state) => state.site.data);
 
   
 

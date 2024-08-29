@@ -33,7 +33,7 @@ const ProductSchema = new mongoose.Schema(
     perpiece: {
       type: String,
     },
-    meausrement: {
+    measurment: {
       type: String,
     }, 
     length:{

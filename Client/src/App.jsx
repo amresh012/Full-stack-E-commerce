@@ -40,6 +40,7 @@ import Report from './pages/UserDashboard/Report'
 import Profile from "./pages/UserDashboard/Profile"
 import BlogView from './pages/Home/BlogView'
 import Category from './pages/Home/Category'
+import ProductEdit from './pages/Product/ProductEditPage'
 function App() {
 
   return (
@@ -93,6 +94,7 @@ function App() {
       <Route index element={<Dashboard/>}/>
       <Route path="users" element={<Users/>}/>
       <Route path="products" element={<AddProduct/>}/>
+      <Route path="product-edit/:id" element={<ProductEdit/>}/>
       <Route path="bulk-product" element={<AddBulkProduct/>}/>
       <Route path="bulk-images" element={<BulkImage/>}/>
       <Route path="website" element={<WebsitePage/>}/>

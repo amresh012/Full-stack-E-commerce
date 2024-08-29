@@ -25,12 +25,35 @@ const getallContactUs = asyncHandle(async (req, res) => {
 });
 
 const deleteContact = asyncHandle(async(req,res)=>{
-  console.log(req.body)
-  if(req.body._id){
-    const {_id} = req.body
+  if(req.params.id){
+    const {id} = req.params;
     try {
-      await ContactUs.findByIdAndDelete({_id})
-      res.json("Deleted Sucessfully")
+      const deletedContact = await ContactUs.findByIdAndDelete(id);
+      if(deletedContact){
+        res.json({ success: true, message: "Deleted Sucessfully", id });
+      }
+      else{
+        res.json({ success: false, message: "Query doesn't exist", id });
+      }
+    } catch (error) {
+      res.json(error.message)
+    }
+  }else(
+    res.json("invalid Operation")
+  )
+})
+
+const contactDetails = asyncHandle(async(req,res)=>{
+  if(req.params.id){
+    const {id} = req.params;
+    try {
+      const contact = await ContactUs.findById(id);
+      if(contact){
+        res.json({ success: true, ...contact._doc });
+      }
+      else{
+        res.json({ success: false, message: "Query doesn't exist", id });
+      }
     } catch (error) {
       res.json(error.message)
     }
@@ -54,4 +77,4 @@ const updateRemarkContact = asyncHandle(async(req,res)=>{
 })
 
 
-module.exports = { addContactus,getallContactUs,deleteContact,updateRemarkContact};
+module.exports = { addContactus,getallContactUs,deleteContact,updateRemarkContact,contactDetails};
