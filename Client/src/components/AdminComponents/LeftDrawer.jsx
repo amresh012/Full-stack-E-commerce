@@ -83,8 +83,10 @@ const LeftDrawer = () => {
                   }} className="hover:scale-105"><IoIosArrowDropdown /></div>}
                 </Link>
               </div>
+
               {((item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown)) && <ul className="flex-col items-center justify-start w-full">
-                {item.submenu && 
+                {item.submenu && <ul className="flex-col items-center justify-start w-full">
+                {item.submenu &&
                   item.sublink.map((link) => (
                     <Link
                       key={link.id}

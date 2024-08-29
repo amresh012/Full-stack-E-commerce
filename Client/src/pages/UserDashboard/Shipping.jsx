@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaAddressCard } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { addAddress } from "../../features/authSlice"; // Import the addAddress action
+import { base_url } from "../../Utils/baseUrl";
+import axios from "axios";
+import { config } from "../../Utils/axiosConfig";
 
 const Shipping = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  // console.log(authState)
+  console.log(authState)
 
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       name: "",
       email: "",
-      password: "",
       mobile: "",
       address: "",
       city: "",
@@ -23,11 +25,13 @@ const Shipping = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await dispatch(addAddress(values));
-        // console.log(response)
-        toast.success("Address updated Successfully")
+         const response  = await axios.post(`${base_url}user/adr` , values,{
+          ...config
+         })
+         console.log(response)
       } catch (error) {
-        toast.error("An error occurred while adding the address.");
+        console.log(error)
+        toast.error();
       } finally {
         setSubmitting(false);
       }
