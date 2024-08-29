@@ -62,36 +62,61 @@ const LeftDrawer = () => {
                   className={
                     location.pathname === item.route
                       ? "flex p-4 items-center bg-[#0A2440] text-white"
-                      : "flex p-4 items-center"
+                      : "flex p-4 items-center justify-between"
                   }
                 >
-                  <div className="">{<item.icon size={30} />}</div>
-                  <li className="p-2 uppercase">{item.label}</li>
+                  <div className="flex items-center gap-x-1">
+                    <div><item.icon size={30} /></div>
+                    <li className="p-2 uppercase">{item.label}</li>
+                  </div>
+                  {item.sublink && (
+                    <div onClick={() => {
+                      if(item.label === 'Products'){
+                        setShowProductDropdown(prev => !prev);
+                      }
+                      else if(item.label === 'Website'){
+                        setShowWebsiteDropdown(prev => !prev);
+                      }
+                      else if(item.label === 'Blogs'){
+                        setShowBlogDropdown(prev => !prev);
+                      }
+                      else{
+                        setShowCouponDropdown(prev => !prev);
+                      }
+                    }} className="hover:scale-105">
+                      <IoIosArrowDropdown />
+                    </div>
+                  )}
                 </Link>
               </div>
 
-              {((item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown)) && <ul className="flex-col items-center justify-start w-full">
-                {item.submenu && <ul className="flex-col items-center justify-start w-full">
-                {item.submenu &&
-                  item.sublink.map((link) => (
-                    <Link
-                      key={link.id}
-                      to={link.route}
-                      ref={submenuref}
-                      className={
-                        location.pathname === link.route
-                          ? "flex items-center px-10 w-full justify-start bg-[#0A2440]/80 p-2 text-white"
-                          : "flex items-center px-10 w-full justify-start hover:bg-[#0A2440]/80 p-2 hover:text-white"
-                      }
-                    >
-                      {<item.icon size={20} />}
-                      <li className="p-2 uppercase">{link.label}</li>
-                    </Link>
-                  ))}
-              </ul>}
+              {(item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown) && (
+                <ul className="flex-col items-center justify-start w-full">
+                  {item.submenu && (
+                    <ul className="flex-col items-center justify-start w-full">
+                      {item.submenu.map((link) => (
+                        <Link
+                          key={link.id}
+                          to={link.route}
+                          ref={submenuref}
+                          className={
+                            location.pathname === link.route
+                              ? "flex items-center px-10 w-full justify-start bg-[#0A2440]/80 p-2 text-white"
+                              : "flex items-center px-10 w-full justify-start hover:bg-[#0A2440]/80 p-2 hover:text-white"
+                          }
+                        >
+                          {<item.icon size={20} />}
+                          <li className="p-2 uppercase">{link.label}</li>
+                        </Link>
+                      ))}
+                    </ul>
+                  )}
+                </ul>
+              )}
             </>
           ))}
         </ul>
+
          <div
           className="absolute bottom-0 left-0 flex bg-[#0A2440] p-4 w-[94%] text-xl text-white items-center  justify-center gap-2"
           >
