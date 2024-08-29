@@ -32,12 +32,20 @@ const Login = () => {
         res.data.token
       )
      dispatch(adduser(res.data))
-      //  console.log(res)
-      if(res.success && res.payload.role === "User")
-      toast.success("Login Success")
-      navigate("/profile")
+       console.log(res)
+      if(res){
+        if(res.data.role === "admin")
+        {
+          toast.success("Login Success")
+          navigate("/admin")
+        }
+        else{
+          toast.success("Login Success")
+          navigate("/profile")
+        }
+      }
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       toast.error(error.message);
     }
   };

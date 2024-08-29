@@ -18,7 +18,7 @@ const LeftDrawer = () => {
       <nav
         className={
           expanded
-            ? "flex flex-col items-center justify-between border-r-2 w-[20rem] h-[100vh]"
+            ? "flex flex-col items-center justify-between border-r-2 w-[20rem] "
             : "w-14 overflow-hidden"
         }
       >
@@ -57,11 +57,11 @@ const LeftDrawer = () => {
                   className={
                     location.pathname === item.route
                       ? "flex p-4 items-center bg-[#0A2440] text-white"
-                      : "flex p-4 items-center"
+                      : "flex p-2 items-center"
                   }
                 >
                   <div className="">{<item.icon size={30} />}</div>
-                  <li className="p-2 uppercase">{item.label}</li>
+                  <li className="p-4 uppercase">{item.label}</li>
                 </Link>
               </div>
               <ul className="flex-col items-center justify-start w-full">

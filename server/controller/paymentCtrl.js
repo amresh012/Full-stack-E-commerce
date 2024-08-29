@@ -1,8 +1,7 @@
 const crypto =require("crypto")
-const CouponCode =require("../models/discountModel");
+const CouponCodes = require("../models/discountModel");
 const User =require("../models/userModel");
 const Razorpay =require("razorpay");
-
 
 // gernerating unique id's
 function generateId() {
@@ -17,7 +16,6 @@ const razorpay = new Razorpay({
   key_secret:process.env.RAZORPAY_SECRET_KEY,
 });
 
-// razorpay.payments.fetch(paymentId)
 
 // promise returned by instance
 // razorpay.payments.all({
@@ -30,19 +28,18 @@ const razorpay = new Razorpay({
 //   // handle error
 //   console.log("error while payment initilization",error)
 // })
+
 const createOrder = async (req, res) => {
   try {
     const {amount , cartItems , address , userId} = req.body;
     console.log(cartItems)
-    // const totalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const options = {
-      amount: amount *100 , // amount in the smallest currency unit
+      amount: amount *100  , // amount in the smallest currency unit
       currency: "INR",
       receipt: generateId(),
       notes:{
         "shipping_info":address
       }
-      
     }
     console.log("Creating Razorpay order with options:", options);
     const order = await razorpay.orders.create(options);
@@ -52,7 +49,7 @@ const createOrder = async (req, res) => {
     }
    const respo =  res.json({
       orderId:order.id,
-      amount : amount * 100,
+      amount : amount,
       cartItems,
       address,
       userId,
@@ -62,54 +59,38 @@ const createOrder = async (req, res) => {
       } 
   catch (err) {
     console.log(err);
-    res.status(500).send("Error");
+    res.status(500).send("Failed To Create Order");
   }
 };
 
 const verifyPayments = async (req, res) => {
-  console.log("verification initated")
-  try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body
+  console.log(req.body)
 
-    // Basic validation
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      return res.status(400).json({ msg: "Missing required fields" });
-    }
+  const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET_KEY);
+ 
 
-    const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
-    sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-    const digest = sha.digest("hex");
+  sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
 
-    // Secure comparison to mitigate timing attacks
-    const crypto = require('crypto');
-    const timingSafeEqual = crypto.timingSafeEqual;
-    if (!timingSafeEqual(Buffer.from(digest), Buffer.from(razorpay_signature))) {
-      return res.status(400).json({ msg: "Transaction is not legit!" });
-    }
-  console.log("verification complete")
-    
-   const rep = res.json({
-      msg: "success",
-      orderId: razorpay_order_id,
-      paymentId: razorpay_payment_id,
-    });
-    console.log("response after verified payment : ",rep)
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: "Internal Server Error" });
+  const digest = sha.digest("hex");
+
+  if (digest!== razorpay_signature) {
+      return res.status(400).json({msg: " Transaction is not legit!"});
   }
+
+  res.json({msg: " Transaction is legit!", orderId: razorpay_order_id,paymentId: razorpay_payment_id});
 };
 
 const applyCode = async (req, res, next) => {
     const user = await User.findById(req.user._id);
-    const coupon = await CouponCode.findOne({ code: req.body.code });
+    const coupon = await CouponCodes.findOne({ code: req.body.code });
     if(user.cart.isCouponApplied?.code){
       return res.status(500).send("You already applied a coupon!")
     }
   
     if (coupon) {
       let discountValue;
-      if (coupon.type == "Percentage") {
+      if (coupon.type == "percentage") {
         discountValue =
           (user.cart.totalValue / 100) * coupon.discountValue;
       } else {

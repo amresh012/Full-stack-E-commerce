@@ -37,7 +37,7 @@ const CopounList = () => {
     },
     {
       header: "Copoun Type",
-      accessorKey: "type",
+      accessorKey: "discountType",
     },
     {
       header: "Discount",

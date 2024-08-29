@@ -25,13 +25,14 @@ const Shipping = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-         const response  = await axios.post(`${base_url}user/adr` , values,{
-          ...config
-         })
-         console.log(response)
+        const response = await axios.post(`${base_url}user/adr`, ...values, config);
+        console.log(response);
       } catch (error) {
-        console.log(error)
-        toast.error();
+        if (error.response) {
+          toast.error(`Error: ${error.response.data.message}`);
+        } else {
+          toast.error("An unexpected error occurred. Please try again.");
+        }
       } finally {
         setSubmitting(false);
       }

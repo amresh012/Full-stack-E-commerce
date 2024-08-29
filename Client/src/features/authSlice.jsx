@@ -41,7 +41,7 @@ export const RegisterApi = createAsyncThunk(
 );
 export const addAddress = createAsyncThunk("user/address", async (payload) => {
   const res = await axios.post(`${base_url}user/adr`, payload, config);
-  // console.log(res)
+  console.log(res)
   return res.data;
 });
 

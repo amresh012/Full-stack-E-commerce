@@ -33,7 +33,7 @@ export const addCoupon = createAsyncThunk(
   "addCoupon",
   async (contact, thunkAPI) => {
     try {
-      const response = await axios.post(`${base_url}coupon`, contact, config);
+      const response = await axios.post(`${base_url}coupon/create`, contact, ...config);
       console.log(response)
       return response.data;
     } catch (error) {

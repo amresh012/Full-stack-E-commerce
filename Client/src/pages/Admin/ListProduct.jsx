@@ -34,7 +34,7 @@ const ListProduct = () => {
       accessorKey: "images",
       cell:({row})=>{
         // console.log(row.original.images[0])
-         return <img src={row.original.images[0]} alt="" className='h-12 w-12 object-cover'/>
+         return <img src={row.original.images[0]} alt="" className='h-16 w-16 object-cover'/>
       }
     },
     {
@@ -79,12 +79,12 @@ const ListProduct = () => {
   ];
   return (
     <>
-     <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
+     <div className='border-2 shadow-md flex items-center justify-normal rounded-md '>
     <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Product List</h1>
         </div>
     </div>
-    <div className="w-full p-8">
+    <div className="w-full">
         <BasicTable  columns={columns}  data={product}/>
        </div>
     </>
