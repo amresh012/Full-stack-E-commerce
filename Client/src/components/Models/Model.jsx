@@ -15,10 +15,7 @@ const style = {
   p:4,
 };
 
-export default function BasicModal({Text , icon , children}) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function BasicModal({open, handleOpen, handleClose, icon , children}) {
 
   return (
     <div>
