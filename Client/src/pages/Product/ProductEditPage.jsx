@@ -1,6 +1,6 @@
 import { Autocomplete, TextField } from "@mui/material";
 // import React, { useRef, useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { gym_equipment } from "../../constant";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -8,8 +8,31 @@ import { base_url } from "../../Utils/baseUrl";
 import { toast, Toaster } from "react-hot-toast";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
+import { useEffect, useState } from "react";
+import {config} from '../../Utils/axiosConfig';
 
-const AddProduct = () => {
+const ProductEdit = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState({
+    name: "",
+    images: [],
+    price: "",
+    category: "",
+    subcategory: "",
+    itemCode: "",
+    height: 0,
+    width: 0,
+    length: 0,
+    weight: 0,
+    hsnCode: "",
+    perpiece: "",
+    measurment: "",
+    quantity: "",
+    description: "",
+    discount: 0,
+    mindiscription: "",
+  });
+
   const { Dragger } = Upload;
   const props = {
     name: "file",
@@ -38,58 +61,100 @@ const AddProduct = () => {
     },
   };
 
-  const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
-    initialValues: {
-       name: "",
-       images:[],
-        price: "",
-        category:"",
-        subcategory:"",
-        itemCode:"",
-        height:0,
-        width:0,
-        length:0,
-        weight:0,
-        hsnCode:"",
-        perpiece:"",
-        measurment:"",
-        quantity:"",
-        description:"",
-        discount:0,
-        mindiscription:"",
-    },
-    onSubmit: async (values, { setSubmitting }) => {
-        try {
-          const name = values.name.toLowerCase()
-          const category = values.category.toLowerCase();
-          const subcategory = values.subcategory.toLowerCase();
-          const dataToSend = { ...values, category, subcategory, name };
-          const response = await axios.post(`${base_url}product/add`, dataToSend);
-          console.log(values)
-          if(response.data.error){
-             throw new Error(response.data.error)
-          }
-          else{
-            toast.success('Product Added Successfully')
-          }
-        } catch (error) {
-        //    console.log(error.message)
+//   const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+//     initialValues: product,
+//     onSubmit: async (values, { setSubmitting }) => {
+//       try {
+//         const name = product.name.toLowerCase();
+//         const category = product.category.toLowerCase();
+//         const subcategory = product.subcategory.toLowerCase();
+//         const dataToSend = { ...values, category, subcategory, name };
+//         const response = await axios.post(`${base_url}product/add`, dataToSend);
+//         console.log(values);
+//         if (response.data.error) {
+//           throw new Error(response.data.error);
+//         } else {
+//           toast.success("Product Added Successfully");
+//         }
+//       } catch (error) {
+//         //    console.log(error.message)
+//         toast.error(error.message);
+//       } finally {
+//         setSubmitting(false);
+//       }
+//     },
+//   });
+
+  const editProduct = async (e)=>{
+    e.preventDefault();
+    try {
+        const name = product.name.toLowerCase();
+        const category = product.category.toLowerCase();
+        const subcategory = product.subcategory.toLowerCase();
+        const dataToSend = { ...product, category, subcategory, name };
+        const response = await axios.post(`${base_url}product/update`, dataToSend, config);
+        console.log(response)
+        if (response.data?.success) {
+            toast.success("Product Updated Successfully");
+        } else {
+            throw new Error(response.data.error);
+        }
+    } catch (error) {
         toast.error(error.message);
-      } finally {
-        setSubmitting(false);
-      }
-    },
-  });
+    }
+  }
+
+  const fetchProductDetails = async (id) => {
+    try {
+      const response = await fetch(`${base_url}product/${id}`);
+      const data = await response.json();
+      setProduct({
+        _id: data?._id,
+        name: data?.name,
+        images: [],
+        price: data?.price,
+        category: data?.category,
+        subcategory: data.subcategory,
+        itemCode: data?.itemCode,
+        height: data?.height,
+        width: data?.width,
+        length: data?.length,
+        weight: data?.weight,
+        hsnCode: data?.hsnCode,
+        perpiece: data?.perpiece,
+        measurment: data?.measurment,
+        quantity: data?.quantity,
+        description: data?.description,
+        discount: data?.discount,
+        mindiscription: data?.mindiscription,
+      });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleChange = (key, value)=>{
+    console.log(key, value)
+    setProduct(prev => {console.log(prev); return {...prev, [key]: value}});
+  }
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    } else {
+      fetchProductDetails(id);
+    }
+  }, []);
 
   return (
     <>
       <Toaster />
       <div className="border-2 mt-24 mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around mx-4 p-6">
         <div className="text-3xl font-bold bg-[#0a2440] w-full p-4 rounded-md text-center text-white">
-          <Link to="/admin/product-list">Add Products</Link>
+          <Link to="/admin/product-list">Edit Product</Link>
         </div>
         {/* Product add */}
-        <form onSubmit={handleSubmit} className="w-full space-y-12">
+        <form onSubmit={editProduct} className="w-full space-y-12">
           {/* section-1 */}
           <div className="flex justify-around items-center gap-12">
             <div className="input-1 w-full flex-col flex">
@@ -98,8 +163,8 @@ const AddProduct = () => {
                 required
                 type="text"
                 id="name"
-                value={values.name}
-                onChange={handleChange}
+                value={product.name}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md outline-none px-2 "
                 placeholder="enter product name"
               />
@@ -108,9 +173,9 @@ const AddProduct = () => {
               <label htmlFor="">Product Category</label>
               <input
                 type="text"
-                value={values.category}
+                value={product.category}
                 id="category"
-                onChange={handleChange}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2"
                 placeholder="enter category"
               />
@@ -119,9 +184,9 @@ const AddProduct = () => {
               <label htmlFor="">Product Sub category</label>
               <input
                 type="text"
-                value={values.subcategory}
+                value={product.subcategory}
                 id="subcategory"
-                onChange={handleChange}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2"
                 placeholder="enter subcategory"
               />
@@ -135,8 +200,8 @@ const AddProduct = () => {
                 required
                 type="text"
                 id="price"
-                value={values.price}
-                onChange={handleChange}
+                value={product.price}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md outline-none px-2 placeholder:px-2 "
                 placeholder="enter product price"
               />
@@ -147,8 +212,8 @@ const AddProduct = () => {
                 required
                 type="text"
                 id="perpiece"
-                value={values.perpiece}
-                onChange={handleChange}
+                value={product.perpiece}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md outline-none  px-2 "
                 placeholder="enter product price"
               />
@@ -159,8 +224,8 @@ const AddProduct = () => {
                 required
                 type="text"
                 id="quantity"
-                value={values.quantity}
-                onChange={handleChange}
+                value={product.quantity}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md outline-none  px-2 "
                 placeholder="enter quantity"
               />
@@ -172,8 +237,8 @@ const AddProduct = () => {
               <label htmlFor="">Item Code</label>
               <input
                 required
-                value={values.itemCode}
-                onChange={handleChange}
+                value={product.itemCode}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 type="number"
                 id="itemCode"
                 className="h-14 border-2 rounded-md outline-none px-2 "
@@ -184,8 +249,8 @@ const AddProduct = () => {
               <label htmlFor="">HSN Code</label>
               <input
                 required
-                value={values.hsnCode}
-                onChange={handleChange}
+                value={product.hsnCode}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 type="number"
                 id="hsnCode"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
@@ -196,8 +261,8 @@ const AddProduct = () => {
               <label htmlFor="">Unit Of Measurement</label>
               <input
                 required
-                value={values.measurment}
-                onChange={handleChange}
+                value={product.measurment}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 id="measurment"
                 type="text"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
@@ -210,8 +275,8 @@ const AddProduct = () => {
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="">Height</label>
               <input
-                value={values.height}
-                onChange={handleChange}
+                value={product.height}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 type="number"
                 id="height"
                 className="h-14 border-2 rounded-md outline-none px-2 "
@@ -221,8 +286,8 @@ const AddProduct = () => {
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="">Width</label>
               <input
-                value={values.width}
-                onChange={handleChange}
+                value={product.width}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 type="number"
                 id="width"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
@@ -232,8 +297,8 @@ const AddProduct = () => {
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="">Length</label>
               <input
-                value={values.length}
-                onChange={handleChange}
+                value={product.length}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 id="length"
                 type="number"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
@@ -248,8 +313,8 @@ const AddProduct = () => {
               <input
                 type="number"
                 id="discount"
-                value={values.discount}
-                onChange={handleChange}
+                value={product.discount}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md outline-none px-2 "
                 placeholder="enter Corporate Discount"
               />
@@ -269,8 +334,8 @@ const AddProduct = () => {
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="">weight</label>
               <input
-                value={values.weight}
-                onChange={handleChange}
+                value={product.weight}
+                onChange={(e) => handleChange(e.target.id, e.target.value)}
                 id="weight"
                 type="number"
                 className="h-14 border-2 rounded-md outline-none  px-2 "
@@ -284,8 +349,8 @@ const AddProduct = () => {
             <label htmlFor="">Product Description</label>
             <TextField
               required={true}
-              value={values.mindiscription}
-              onChange={handleChange}
+              value={product.mindiscription}
+              onChange={(e) => handleChange(e.target.id, e.target.value)}
               id="mindiscription"
               label="Description"
               variant="outlined"
@@ -306,7 +371,12 @@ const AddProduct = () => {
                 uploading company data or other banned files.
               </p>
             </Dragger>
-              <button className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]" type="submit">Add Product</button>
+            <button
+              className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]"
+              type="submit"
+            >
+              Edit Product
+            </button>
           </div>
         </form>
       </div>
@@ -314,4 +384,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default ProductEdit;

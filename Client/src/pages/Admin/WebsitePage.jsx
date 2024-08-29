@@ -117,7 +117,7 @@ const WebsitePage = () => {
     <>
       <Toaster />
       <div className="border-2 mt-12 rounded-md shadow-md  h-auto flex flex-col items-center justify-around mx-12 p-2  ">
-        <div className="text-3xl font-bold p-8 bg-[#038CCC] text-white w-full shadow-md rounded-md ">
+        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Website Configuration</h1>
         </div>
         {/* section-2 */}
@@ -207,8 +207,8 @@ const WebsitePage = () => {
             onClick={handleChange}
             className="flex justify-center gap-4 w-full text-center duration-300"
           >
-            <button  className="bg-[#038CCC] p-2 rounded-md text-white uppercase">Change Occurance</button>
-            <button className="bg-[#038CCC] p-2 rounded-md text-white uppercase" type="reset" onClick={handleReset}>
+            <button  className="bg-[#0a2440] p-2 rounded-md text-white uppercase">Change Occurance</button>
+            <button className="bg-[#0a2440] p-2 rounded-md text-white uppercase" type="reset" onClick={handleReset}>
               Reset Occurance
             </button>
           </div>

@@ -25,12 +25,16 @@ const getallContactUs = asyncHandle(async (req, res) => {
 });
 
 const deleteContact = asyncHandle(async(req,res)=>{
-  console.log(req.body)
-  if(req.body._id){
-    const {_id} = req.body
+  if(req.params.id){
+    const {id} = req.params;
     try {
-      await ContactUs.findByIdAndDelete({_id})
-      res.json("Deleted Sucessfully")
+      const deletedContact = await ContactUs.findByIdAndDelete(id);
+      if(deletedContact){
+        res.json({ success: true, message: "Deleted Sucessfully", id });
+      }
+      else{
+        res.json({ success: false, message: "Query doesn't exist", id });
+      }
     } catch (error) {
       res.json(error.message)
     }

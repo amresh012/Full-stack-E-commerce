@@ -3,6 +3,8 @@ import BasicTable from '../../components/AdminComponents/BasicTable'
 import { base_url } from '../../Utils/baseUrl';
 import { List } from '@mui/material';
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa';
+import {toast, Toaster} from 'react-hot-toast';
+import {config} from '../../Utils/axiosConfig';
 
 const ListProduct = () => {
   const columns = [
@@ -32,9 +34,9 @@ const ListProduct = () => {
     },
     {
       header: "Action",
-      cell:()=>
+      cell:({row})=>
         <List className='flex items-center gap-2 justify-center cursor-pointer'>
-         <div className="bg-red-200 p-2 rounded-md hover:shadow-md">
+         <div onClick={()=>deleteContact(row.original._id)} className="bg-red-200 p-2 rounded-md hover:shadow-md">
           <FaTrash className='text-red-500'/>
          </div>
          <div className="bg-blue-200 p-2 rounded-md hover:shadow-md">
@@ -47,9 +49,31 @@ const ListProduct = () => {
     },
   ];
 
+  const deleteContact = async (id)=>{
+    try {
+      const response = await fetch(`${base_url}contact/${id}`, {
+        method: "DELETE",
+        ...config
+      });
+      const data = await response.json();
+      console.log(data)
+      if(!data.success){
+        toast.error(data.message);
+        return;
+      }
+      
+      setReload(prev => !prev);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+  
+
   // contact data fetch
   const [contact , setContact] = useState([])
-  const [isLoading  ,setIsLoading] = useState(true)
+  const [isLoading  ,setIsLoading] = useState(true);
+  const [reload, setReload] = useState(false);
   
   useEffect(() => {
     const FetchContact = async () => {
@@ -60,10 +84,11 @@ const ListProduct = () => {
     };
     FetchContact();
     // console.log(contact)
-  }, [])
+  }, [reload])
 
   return (
     <>
+    <Toaster />
     <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
     <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Contact List</h1>

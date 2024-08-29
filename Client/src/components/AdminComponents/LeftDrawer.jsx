@@ -64,7 +64,7 @@ const LeftDrawer = () => {
                   <li className="p-2 uppercase">{item.label}</li>
                 </Link>
               </div>
-              <ul className="hidden  flex-col items-center justify-start w-full">
+              <ul className="flex-col items-center justify-start w-full">
                 {item.submenu &&
                   item.sublink.map((link) => (
                     <Link

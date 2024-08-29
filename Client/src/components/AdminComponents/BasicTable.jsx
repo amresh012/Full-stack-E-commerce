@@ -7,7 +7,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-const BasicTable = ({columns, data }) => {
+const BasicTable = ({columns, data}) => {
   const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
