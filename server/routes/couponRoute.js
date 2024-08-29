@@ -12,7 +12,7 @@ router.get("/admin",authMiddleware,isAdmin, getCoupons);
 router.get("/:id", getCouponById);
 router.post("/create",authMiddleware , isAdmin, CreateCopoun);
 router.put("/",isAdmin, updateCoupon);
-router.delete("/:_id",authMiddleware,isAdmin,deleteCoupon)
+router.delete("/:id",authMiddleware,isAdmin,deleteCoupon)
 
 
 router.post('/validate', ValidateCopoun);        // Validate a coupon

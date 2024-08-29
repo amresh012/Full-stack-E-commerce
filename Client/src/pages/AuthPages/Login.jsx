@@ -31,12 +31,14 @@ const Login = () => {
       localStorage.setItem("token",
         res.data.token
       )
-     dispatch(adduser(res.data))
-       console.log(res)
-      if(res){
+      console.log(res)
+      console.log("can not get into if condition")
+      if(res.status === 200){
+        console.log("into if condition")
+        dispatch(adduser(formData))
         if(res.data.role === "admin")
-        {
-          toast.success("Login Success")
+          {
+          toast.success("Admin Login Success")
           navigate("/admin")
         }
         else{
@@ -44,8 +46,12 @@ const Login = () => {
           navigate("/profile")
         }
       }
+      else{
+        console.log(res.data)
+        throw new Error(res.data)
+      }
     } catch (error) {
-      console.log(error)
+      console.log("error from response",error)
       toast.error(error.message);
     }
   };

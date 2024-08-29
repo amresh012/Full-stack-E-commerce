@@ -113,7 +113,6 @@ const ListProduct = () => {
       header: "Image",
       accessorKey: "images",
       cell: ({ row }) => {
-        // console.log(row.original.images[0])
         return (
           <img
             src={row.original.images[0]}
@@ -131,15 +130,16 @@ const ListProduct = () => {
       header: "Price / unit",
       accessorKey: "price",
     },
-    // {
-    //   header: "Discount",
-    //   accessorKey: "corporate_discount",
-    //   cell: ({ row }) => {
-    //     const discount = row.original?.Individual_discount;
-    //     console.log(discount)
-    //     return <span>{discount}</span>;
-    //   },
-    // },
+    {
+      header: "Discount",
+      accessorKey: "discount",
+      cell: ({ row }) => {
+        console.log(row)
+        const discount = row.original?.discount;
+        console.log(discount)
+        return <span>{discount}</span>;
+      },
+    },
     {
       header: "Quantity",
       accessorKey: "quantity",
@@ -184,14 +184,132 @@ const ListProduct = () => {
   ];
   return (
     <>
-     <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
-    <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
+      <Toaster />
+      {open && (
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[50%] h-[35rem] bg-white p-5 rounded-md overflow-auto"
+          style={{ boxShadow: "0 0 4px 1px #c3bcbc" }}
+        >
+          <div
+            onClick={() => {
+              setOpen(false);
+              setProductDetails({
+                name: null,
+                images: [],
+                price: null,
+                category: null,
+                subcategory: null,
+                itemCode: null,
+                height: null,
+                width: null,
+                length: null,
+                weight: null,
+                hsnCode: null,
+                perpiece: null,
+                measurment: null,
+                quantity: null,
+                description: null,
+                discount: null,
+                mindiscription: null,
+              });
+            }}
+            className="flex justify-between text-3xl"
+          >
+            <h1 className="font-bold text-3xl">Product Details</h1>
+            <div className="hover:text-red-500">
+              <IoCloseCircleOutline />
+            </div>
+          </div>
+          <div>
+            <div className="mt-3 text-lg">
+              <div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Name:</span>
+                  <span>{productDetails?.name}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Description:</span>
+                  <span>
+                    {productDetails?.mindiscription ||
+                      productDetails?.description}
+                  </span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Category:</span>
+                  <span>{productDetails?.category}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Subcategory:</span>
+                  <span>{productDetails?.subcategory}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Price:</span>
+                  <span>{productDetails?.price}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Discount:</span>
+                  <span>{productDetails?.discount}%</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Height:</span>
+                  <span>{productDetails?.height}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Width:</span>
+                  <span>{productDetails?.width}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Length:</span>
+                  <span>{productDetails?.length}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Weight:</span>
+                  <span>{productDetails?.weight} kg</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Measurement Unit:</span>
+                  <span>{productDetails?.measurment}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Item Code:</span>
+                  <span>{productDetails?.itemCode}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">HSN Code:</span>
+                  <span>{productDetails?.hsnCode}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Per Piece Price:</span>
+                  <span>{productDetails?.perpiece}</span>
+                </div>
+                <div className="mb-1 flex items-start gap-x-2">
+                  <span className="font-semibold">Quantity:</span>
+                  <span>{productDetails?.quantity}</span>
+                </div>
+                <div className="mb-1 flex flex-col items-start gap-y-2">
+                  <span className="font-semibold">Product Images:</span>
+                  <div className="grid grid-cols-3 gap-2">
+                    {productDetails?.images?.map((img) => (
+                      <img
+                        src={img[0]}
+                        className="h-[10rem] w-full object-contain"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Product List</h1>
         </div>
-    </div>
-    <div className="w-full p-8">
-        <BasicTable  columns={columns}  data={product}/>
-       </div>
+      </div>
+      <div className="w-full">
+        <BasicTable columns={columns} data={product} />
+      </div>
     </>
   );
 };

@@ -14,10 +14,7 @@ const LeftDrawer = () => {
   const [showWebsiteDropdown, setShowWebsiteDropdown] = useState(false);
   const [showBlogDropdown, setShowBlogDropdown] = useState(false);
   const [showCouponDropdown, setShowCouponDropdown] = useState(false);
-  const submenuref = useRef(null)
-  const handleClick = ()=>{
-    submenuref.current.style.width=0
-  }
+
   return (
     <div className="relative">
       <nav
@@ -54,7 +51,6 @@ const LeftDrawer = () => {
               <div
                 className="hover:bg-[#0A2440] hover:text-white duration-300 text-xl"
                 key={item.id}
-                onClick={handleClick}
               >
                 <Link
                   to={item.route}
@@ -90,15 +86,14 @@ const LeftDrawer = () => {
                 </Link>
               </div>
 
-              {(item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown) && (
+              {((item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown)) && (
                 <ul className="flex-col items-center justify-start w-full">
                   {item.submenu && (
                     <ul className="flex-col items-center justify-start w-full">
-                      {item.submenu.map((link) => (
+                      {item.sublink.map((link) => (
                         <Link
                           key={link.id}
                           to={link.route}
-                          ref={submenuref}
                           className={
                             location.pathname === link.route
                               ? "flex items-center px-10 w-full justify-start bg-[#0A2440]/80 p-2 text-white"

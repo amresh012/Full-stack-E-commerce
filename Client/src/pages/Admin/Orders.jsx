@@ -163,14 +163,14 @@ const Orders = () => {
   return (
     <>
     <Toaster/>
- <div className='flex flex-col justify-around gap-12 items-center border-2 shadow-md h-auto rounded-md  mx-8 mt-4 p-4'>
+ <div className='flex flex-col justify-around gap-12 items-center  '>
     <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Orders</h1>
         </div>
     </div>
       {/* table col */}
-      <div className=" w-full  rounded-md p-4 max-h-max ">
-        <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#0a2440] text-white mx-4 rounded-md ">
+      <div className=" w-full  rounded-md  max-h-max ">
+        <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#0a2440] text-white  rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
           <BsThreeDotsVertical />
         </div>
@@ -220,7 +220,7 @@ const Orders = () => {
           </div>
         </div>
 
-        <div className="w-full p-4 border-2 mt-4 rounded-md  shadow-md ">
+        <div className="w-full  ">
           <BasicTable columns={columns} data={filteredData} />
         </div>
       </div>

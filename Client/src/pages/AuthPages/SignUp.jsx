@@ -25,6 +25,7 @@ const SignUp = () => {
     email: '',
     password: '',
     mobile: '',
+    role:"admin",
   });
 
   const handleChange = (e) => {
