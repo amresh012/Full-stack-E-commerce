@@ -57,10 +57,11 @@ const Users = () => {
         return (
           <select
             value={row.original.role}
+            onChange={(e)=>handleRoleChange(row.original._id, e.target.value)}
             className="border-2 p-2 outline-none rounded-md border-[#038CCC]"
           >
             <option value="Admin">Admin</option>
-            <option value="Admin">Users</option>
+            <option value="User">User</option>
             <option value="Bussiness">Bussiness</option>
           </select>
         );
@@ -105,9 +106,10 @@ const Users = () => {
             </div>
             <Space direction="vertical">
               <Switch
+                onClick={(e)=>blockUser(e, row.original._id)}
                 checkedChildren={<MdBlockFlipped className="mt-[5px]" />}
                 unCheckedChildren={<CgUnblock />}
-                defaultChecked
+                defaultChecked={row.original.isBlocked}
               />
             </Space>
           </List>
@@ -157,6 +159,35 @@ const Users = () => {
       toast.error(error.message);
     }
   };
+
+  const blockUser = async (block, id)=>{
+    try {
+      const response = await fetch(`${base_url}user/${block ? 'block-user' : 'unblock-user'}/${id}`, {
+        method: "PUT",
+        ...config
+      });
+      const data = await response.json();
+      toast.success(`${block ? 'Blocked successfully.' : 'Unblocked successfully.'}`)
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
+  const handleRoleChange = async (id, role)=>{
+    try {
+      const response = await fetch(`${base_url}user/edit-role/${id}`, {
+        method: "PUT",
+        ...config,
+        body: JSON.stringify({
+          role
+        })
+      });
+      const data = await response.json();
+      toast.success('Role changed successfully.')
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
 
   useEffect(() => {
     const FetchUsers = async () => {

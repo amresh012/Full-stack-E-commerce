@@ -41,6 +41,8 @@ import Profile from "./pages/UserDashboard/Profile"
 import BlogView from './pages/Home/BlogView'
 import Category from './pages/Home/Category'
 import ProductEdit from './pages/Product/ProductEditPage'
+import ListBlogs from './pages/Admin/ListBlogs'
+import EditBlog from './pages/Admin/EditBlog'
 function App() {
 
   return (
@@ -104,6 +106,8 @@ function App() {
       <Route path="coupon" element={<Copoun/>}/>
       <Route path="coupon-list" element={<CopounList/>}/>
       <Route path="blog" element={<AdminBlog/>}/>
+      <Route path="blog-list" element={<ListBlogs/>}/>
+      <Route path="blog-edit/:id" element={<EditBlog/>}/>
       </Route>
     </Routes>
    </Suspense>     

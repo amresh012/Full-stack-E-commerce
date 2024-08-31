@@ -58,11 +58,11 @@ const ProductCard = ({ product, addToCartHandler }) => {
               }}
               className="font-bold mt-2"
             >
-              &#8377;{price}
+              &#8377;{(+price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
             </span>
             {corporateDiscount > 0 && (
               <span className="text-2xl -mt-2 font-bold text-[#0a2440]">
-                &#8377;{discountedPrice}
+                &#8377;{+parseInt(discountedPrice).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
               </span>
             )}
           </div>

@@ -1,5 +1,5 @@
 // import React from 'react'
-import {Kfs_logo} from "../../assets/images"
+import Kfs_logo from "../../assets/logo.png";
 import { linksAdmin } from '../../constant';
 import {Link} from "react-router-dom"
 import { FiLogOut } from "react-icons/fi";
@@ -24,17 +24,17 @@ const LeftDrawer = () => {
             : "w-14 overflow-hidden"
         }
       >
-        <div className="h-24 w-full border-b-2 flex items-center justify-around">
+        <div className="h-24 w-full border-b-2 flex items-center justify-around py-2">
           <img
             src={Kfs_logo}
             alt=""
             className={`overflow-hidden transition-all ${
-              expanded ? "w-48" : "w-0"
+              expanded ? "w-28" : "w-0"
             }`}
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}
-            className="p-2.5 mt-2 rounded-full bg-gray-100 hover:bg-gray-200"
+            className="p-2.5 mt-5 rounded-full bg-gray-100 hover:bg-gray-200"
           >
             {expanded ? (
               <BsChevronBarRight size={20} />

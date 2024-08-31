@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUsers, FaShoppingCart, FaEye, FaTrash } from "react-icons/fa";
 import { AiFillProduct } from "react-icons/ai";
 import { BiSolidCategory } from "react-icons/bi";
@@ -10,10 +10,34 @@ import {
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import Ordata from "../../MOCK_DATA (4).json";
 import { base_url } from "../../Utils/baseUrl";
-import {toast, Toaster} from 'react-hot-toast';
-import {config} from '../../Utils/axiosConfig';
+import { toast, Toaster } from "react-hot-toast";
+import { config } from "../../Utils/axiosConfig";
 
 const Dashboard = () => {
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalNewCustomers, setTotalNewCustomers] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalCategories, setTotalCategories] = useState(0);
+  const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState(0);
+  const [totalPaymentsToday, setTotalPaymentsToday] = useState(0);
+
+  const [categoriesData, setCategoriesData] = useState({
+    labels: [],
+    data: [],
+  });
+
+  const [customersData, setCustomersData] = useState({
+    labels: [],
+    data: [],
+  });
+
+  const [ordersData, setOrdersData] = useState({
+    labels: [],
+    data: [],
+  });
+
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
   function getGreeting() {
     const now = new Date();
     const hour = now.getHours();
@@ -102,28 +126,62 @@ const Dashboard = () => {
     // },
   ];
 
-  const fetchAdminData = async ()=>{
-    try{
-      console.log(config)
-      const response = await fetch(base_url+'admin', {
+  const fetchAdminData = async () => {
+    try {
+      const response = await fetch(base_url + "admin", {
         method: "GET",
-        ...config
+        ...config,
       });
       const data = await response.json();
-      console.log(data)
-    }
-    catch(err){
+      if (!data?.success) {
+        throw new Error("Something went wrong");
+      }
+      setTotalNewCustomers(data.totalNewCustomers);
+      setTotalCategories(data.totalCategories);
+      setTotalOrders(data.totalOrders);
+      setTotalCategories(data.totalCategories);
+      setTotalProducts(data.totalProducts);
+      setTotalPaymentsToday(data.totalPaymentsToday);
+      setTotalPaymentsAllTime(data.totalPaymentsAllTime);
+      console.log(data.customersSummary);
+
+      const categoriesLabels = data?.categoriesSummary.map(
+        (category) =>
+          category._id.substr(0, 1).toUpperCase() + category?._id.substr(1)
+      );
+      const categoriesData = data?.categoriesSummary.map(
+        (category) => category.count
+      );
+      setCategoriesData({
+        labels: categoriesLabels,
+        data: categoriesData,
+      });
+
+      const customersData = months.map((month,ind)=>{
+        const index = data.customersSummary.findIndex(customer => customer._id === ind+1);
+        if(index === -1){
+          return 0;
+        }
+        else{
+          return data.customersSummary[index].count;
+        }
+      })
+      setCustomersData({
+        labels: months,
+        data: customersData
+      })
+    } catch (err) {
       toast.error(err.message);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchAdminData();
-  }, [])
+  }, []);
 
   return (
     <div className="">
-    <Toaster />
+      <Toaster />
       <div className="header p-4 flex  flex-col items-start">
         <span className="text-[4vmax]">{getGreeting()}! </span>
         <h1 className="uppercase">Welcome to Admin DashBoard</h1>
@@ -135,11 +193,13 @@ const Dashboard = () => {
                 <FaUsers />
               </div>
               <div className="flex-1">
-                <p className="text-2xl font-bold">New Users</p>
+                <p className="text-2xl font-bold">New Customers</p>
                 <p className="text-base -mt-1 text-gray-400 font-bold">
                   This Month
                 </p>
-                <p className="text-4xl font-bold mt-1 text-[#619edd]">200</p>
+                <p className="text-4xl font-bold mt-1 text-[#619edd]">
+                  {totalNewCustomers}
+                </p>
               </div>
             </div>
             <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[18rem] h-auto p-2">
@@ -149,7 +209,9 @@ const Dashboard = () => {
               <div className="flex-1">
                 <p className="text-2xl font-bold">Total Orders</p>
                 <p className="text-base -mt-1 text-gray-400 font-bold">Today</p>
-                <p className="text-4xl font-bold mt-1 text-[#ce7cff]">10</p>
+                <p className="text-4xl font-bold mt-1 text-[#ce7cff]">
+                  {totalOrders}
+                </p>
               </div>
             </div>
             <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[20rem] h-auto p-2">
@@ -161,7 +223,9 @@ const Dashboard = () => {
                 <p className="text-base -mt-1 text-gray-400 font-bold">
                   All Time
                 </p>
-                <p className="text-4xl font-bold mt-1 text-[#ff7c7c]">14</p>
+                <p className="text-4xl font-bold mt-1 text-[#ff7c7c]">
+                  {totalProducts}
+                </p>
               </di>
             </div>
             <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[21rem] h-auto p-2">
@@ -173,7 +237,9 @@ const Dashboard = () => {
                 <p className="text-base -mt-1 text-gray-400 font-bold">
                   All Time
                 </p>
-                <p className="text-4xl font-bold mt-1 text-[#4cd54b]">5</p>
+                <p className="text-4xl font-bold mt-1 text-[#4cd54b]">
+                  {totalCategories}
+                </p>
               </div>
             </div>
             <div className="flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md min-w-[17rem] p-2 h-auto">
@@ -190,7 +256,7 @@ const Dashboard = () => {
                       All Time
                     </p>
                     <p className="text-xl font-bold mt-1 text-[#ff6262]">
-                      Rs 2,00,000
+                      Rs {totalPaymentsAllTime}
                     </p>
                   </div>
                   <div>
@@ -198,7 +264,7 @@ const Dashboard = () => {
                       Today
                     </p>
                     <p className="text-xl font-bold mt-1 text-[#ff6262]">
-                      Rs 5,000
+                      Rs {totalPaymentsToday}
                     </p>
                   </div>
                 </div>
@@ -217,19 +283,22 @@ const Dashboard = () => {
           <div className="shadow-md rounded-md p-2 w-full p-4">
             <div className="text-3xl font-light">Orders</div>
             <div className="mt-4">
-              <LineChart />
+            <LineChart label={"Orders"} labels={ordersData?.labels} data={ordersData?.data} />
             </div>
           </div>
           <div className="shadow-md rounded-md p-2 w-full p-4">
             <div className="text-3xl font-light">Customers</div>
             <div className="mt-4">
-              <LineChart />
+              <LineChart label={"New Customers"} labels={customersData?.labels} data={customersData?.data} />
             </div>
           </div>
           <div className="shadow-md rounded-md p-2 w-full p-4">
             <div className="text-3xl font-light">Categories</div>
             <div className="mt-4 w-[50%] mx-auto">
-              <DoughnutChart />
+              <DoughnutChart
+                labels={categoriesData?.labels}
+                data={categoriesData?.data}
+              />
             </div>
           </div>
         </div>

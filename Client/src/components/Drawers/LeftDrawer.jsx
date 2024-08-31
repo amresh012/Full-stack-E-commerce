@@ -128,7 +128,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
                     <p className="font-bold">{item.name.slice(0, 20)}</p>
                     <p className="flex items-center">
                       <img src={rupee} alt="" className="h-3" />
-                      {item.price}
+                      {(+item.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                     </p>
                     <p className="quantity">{item.quantity}</p>
                     <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">

@@ -42,8 +42,11 @@ const deleteblogs = asyncHandle(async (req, res) => {
   if (req.body._id) {
     const { _id } = req.body;
     try {
-      await Blogs.findByIdAndDelete({ _id });
-      res.json("Deleted Sucessfully");
+      const deletedBlog = await Blogs.findByIdAndDelete({ _id });
+      if(deletedBlog){
+        res.json({success: true, message: "Deleted Sucessfully"});
+      }
+      res.json({success: false, message: "Blog doesn't exist"});
     } catch (error) {
       res.json(error.message);
     }
@@ -52,7 +55,6 @@ const deleteblogs = asyncHandle(async (req, res) => {
   }
 });
 const updateblog = asyncHandle(async (req, res) => {
-  console.log(req.body)
   if (req.body._id) {
     const { _id } = req.body;
     const dta = {
@@ -61,17 +63,40 @@ const updateblog = asyncHandle(async (req, res) => {
       image: req.body.image,
     }
     try {
-      const updateblog = await Blogs.findByIdAndUpdate({_id},dta)
-      res.json({message:"Blog is updated Sucessfully.",data:updateblog,sucsess:true})
+      const updateblog = await Blogs.findByIdAndUpdate({_id},dta);
+      res.json({message:"Blog updated Sucessfully.",success:true})
     } catch (error) {
       res.status(500).send(error.message);
     }
   } else res.status(500).send("invalid Operation");
 });
 
+const getBlog = asyncHandle(async (req, res)=>{
+  if(req.params.id){
+    const {id} = req.params;
+    const blog = await Blogs.findById(id);
+    if(blog){
+      res.json({
+        success: true,
+        ...blog._doc
+      })
+    }
+    else{
+      res.json({
+        success: false,
+        message: "Blog doesn't exist."
+      })
+    }
+  }
+  else{
+    res.json("invalid operation");
+  }
+})
+
 module.exports = {
   addBlog,
   getallblogs,
   deleteblogs,
   updateblog,
+  getBlog
 };

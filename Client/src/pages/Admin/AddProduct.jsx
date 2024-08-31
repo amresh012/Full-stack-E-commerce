@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-// import React, { useRef, useState } from 'react'
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { gym_equipment } from "../../constant";
 import { useFormik } from "formik";
@@ -10,6 +10,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 
 const AddProduct = () => {
+  const [isImageUploading, setIsImageUploading] = useState(false);
   const { Dragger } = Upload;
   const props = {
     name: "file",
@@ -20,8 +21,10 @@ const AddProduct = () => {
       const { status } = info.file;
       if (status !== "uploading") {
         // console.log(info.file, info.fileList);
+        setIsImageUploading(true);
       }
       if (status === "done") {
+        setIsImageUploading(false);
         message.success(
           `${info.file.name.slice(0, 10)} file uploaded  successfully.`
         );
@@ -31,6 +34,11 @@ const AddProduct = () => {
         );
       } else if (status === "error") {
         message.error(`${info.file.name.slice(0, 20)} file upload failed.`);
+      } else if(status === "removed"){
+        setFieldValue(
+          "images",
+          []
+        );
       }
     },
     onDrop(e) {
@@ -61,6 +69,15 @@ const AddProduct = () => {
     onSubmit: async (values, { setSubmitting }) => {
       console.log(values)
         try {
+          if(isImageUploading){
+            toast.error('Please wait while the images are uploading.');
+            return;
+          }
+          if(values.images.length === 0){
+            toast.error('Please select an image.');
+            return;
+          }
+
           const name = values.name.toLowerCase()
           const category = values.category.toLowerCase();
           const subcategory = values.subcategory.toLowerCase();
@@ -134,7 +151,7 @@ const AddProduct = () => {
               <label htmlFor="">Product Price</label>
               <input
                 required
-                type="text"
+                type="number"
                 id="price"
                 value={values.price}
                 onChange={handleChange}
@@ -143,10 +160,10 @@ const AddProduct = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="">Price Per Pices</label>
+              <label htmlFor="">Price Per Piece</label>
               <input
                 required
-                type="text"
+                type="number"
                 id="perpiece"
                 value={values.perpiece}
                 onChange={handleChange}
@@ -155,10 +172,10 @@ const AddProduct = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="">Product Qunatity</label>
+              <label htmlFor="">Product Quantity</label>
               <input
                 required
-                type="text"
+                type="number"
                 id="quantity"
                 value={values.quantity}
                 onChange={handleChange}

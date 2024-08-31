@@ -262,13 +262,13 @@ const Category = () => {
                           }}
                           className="font-bold"
                         >
-                          &#8377;{product.price}
+                          &#8377;{(+product.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                         </span>
                         {product.corporateDiscount > 0 && (
                           <span className="text-[20px] font-bold text-[#0a2440]">
                             &#8377;
                             {(product.price -
-                              product.price * (product.corporateDiscount / 100)).toFixed(2)}
+                              product.price * (product.corporateDiscount / 100)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                           </span>
                         )}
                       </div>

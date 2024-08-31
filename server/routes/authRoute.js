@@ -49,7 +49,7 @@ router.delete("/:id", deleteaUser);
 router.put("/order/update-order/:id", authMiddleware);
 router.put("/edit-user", authMiddleware, updatedUser);
 router.put("/edit-role/:id", authMiddleware, isAdmin,  updateRole);
-router.put("/block-user/:id", authMiddleware, isAdmin, isSuper, blockUser);
+router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
 router.put("/unblock-user/:id",authMiddleware, isAdmin, unblockUser);
 
 module.exports = router;
