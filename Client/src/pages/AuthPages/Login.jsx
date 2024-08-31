@@ -3,11 +3,11 @@ import { useDispatch } from "react-redux";
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
 import { toast, Toaster } from "react-hot-toast";
-import { adduser, LoginApi } from "../../features/authSlice";
+import {adduser} from "../../features/authSlice";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
-import { base_url } from "../../Utils/baseUrl";
 import axios from "axios";
+import { base_url } from "../../Utils/baseUrl";
 
 const Login = () => {
   const navigate= useNavigate()
@@ -27,7 +27,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(LoginApi(formData));
+      const res = await axios.post(`${base_url}user/login`, formData)
+      localStorage.setItem("token",
+        res.data.token
+      )
+     dispatch(adduser(res.data))
+       console.log(res)
+      if(res.success && res.payload.role === "User")
       toast.success("Login Success")
       navigate("/profile")
     } catch (error) {

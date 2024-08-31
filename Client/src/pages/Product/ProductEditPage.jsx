@@ -1,5 +1,4 @@
 import { Autocomplete, TextField } from "@mui/material";
-// import React, { useRef, useState } from 'react'
 import { Link, useParams } from "react-router-dom";
 import { gym_equipment } from "../../constant";
 import { useFormik } from "formik";
@@ -9,13 +8,14 @@ import { toast, Toaster } from "react-hot-toast";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { useEffect, useState } from "react";
-import {config} from '../../Utils/axiosConfig';
+import { config } from "../../Utils/axiosConfig";
 
 const ProductEdit = () => {
   const { id } = useParams();
+  const [isImageUploading, setIsImageUploading] = useState(false);
+  const [images, setImages] = useState([]);
   const [product, setProduct] = useState({
     name: "",
-    images: [],
     price: "",
     category: "",
     subcategory: "",
@@ -43,8 +43,10 @@ const ProductEdit = () => {
       const { status } = info.file;
       if (status !== "uploading") {
         // console.log(info.file, info.fileList);
+        setIsImageUploading(true);
       }
       if (status === "done") {
+        setIsImageUploading(false);
         message.success(
           `${info.file.name.slice(0, 10)} file uploaded  successfully.`
         );
@@ -54,6 +56,8 @@ const ProductEdit = () => {
         );
       } else if (status === "error") {
         message.error(`${info.file.name.slice(0, 20)} file upload failed.`);
+      } else if (status === "removed") {
+        setFieldValue("images", []);
       }
     },
     onDrop(e) {
@@ -61,48 +65,59 @@ const ProductEdit = () => {
     },
   };
 
-//   const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
-//     initialValues: product,
-//     onSubmit: async (values, { setSubmitting }) => {
-//       try {
-//         const name = product.name.toLowerCase();
-//         const category = product.category.toLowerCase();
-//         const subcategory = product.subcategory.toLowerCase();
-//         const dataToSend = { ...values, category, subcategory, name };
-//         const response = await axios.post(`${base_url}product/add`, dataToSend);
-//         console.log(values);
-//         if (response.data.error) {
-//           throw new Error(response.data.error);
-//         } else {
-//           toast.success("Product Added Successfully");
-//         }
-//       } catch (error) {
-//         //    console.log(error.message)
-//         toast.error(error.message);
-//       } finally {
-//         setSubmitting(false);
-//       }
-//     },
-//   });
+  // const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+  //   initialValues: product,
+  //   onSubmit: async (values, { setSubmitting }) => {
+  //     try {
+  //       const name = product.name.toLowerCase();
+  //       const category = product.category.toLowerCase();
+  //       const subcategory = product.subcategory.toLowerCase();
+  //       const dataToSend = { ...values, category, subcategory, name };
+  //       const response = await axios.post(`${base_url}product/add`, dataToSend);
+  //       console.log(values);
+  //       if (response.data.error) {
+  //         throw new Error(response.data.error);
+  //       } else {
+  //         toast.success("Product Added Successfully");
+  //       }
+  //     } catch (error) {
+  //       //    console.log(error.message)
+  //       toast.error(error.message);
+  //     } finally {
+  //       setSubmitting(false);
+  //     }
+  //   },
+  // });
 
-  const editProduct = async (e)=>{
+  const editProduct = async (e) => {
     e.preventDefault();
     try {
-        const name = product.name.toLowerCase();
-        const category = product.category.toLowerCase();
-        const subcategory = product.subcategory.toLowerCase();
-        const dataToSend = { ...product, category, subcategory, name };
-        const response = await axios.post(`${base_url}product/update`, dataToSend, config);
-        console.log(response)
-        if (response.data?.success) {
-            toast.success("Product Updated Successfully");
-        } else {
-            throw new Error(response.data.error);
-        }
+      if(isImageUploading){
+        toast.error('Please wait while the images are uploading.');
+        return;
+      }
+
+      const name = product.name.toLowerCase();
+      const category = product.category.toLowerCase();
+      const subcategory = product.subcategory.toLowerCase();
+      const dataToSend =
+        images?.length > 0
+          ? { ...product, category, subcategory, name, images }
+          : { ...product, category, subcategory, name, images: undefined };
+      const response = await axios.post(
+        `${base_url}product/update`,
+        dataToSend,
+        config
+      );
+      if (response.data?.success) {
+        toast.success("Product Updated Successfully");
+      } else {
+        throw new Error(response.data.error);
+      }
     } catch (error) {
-        toast.error(error.message);
+      toast.error(error.message);
     }
-  }
+  };
 
   const fetchProductDetails = async (id) => {
     try {
@@ -125,7 +140,7 @@ const ProductEdit = () => {
         measurment: data?.measurment,
         quantity: data?.quantity,
         description: data?.description,
-        discount: data?.discount,
+        corporateDiscount: +data?.corporateDiscount,
         mindiscription: data?.mindiscription,
       });
     } catch (error) {
@@ -133,10 +148,11 @@ const ProductEdit = () => {
     }
   };
 
-  const handleChange = (key, value)=>{
-    console.log(key, value)
-    setProduct(prev => {console.log(prev); return {...prev, [key]: value}});
-  }
+  const handleChange = (key, value) => {
+    setProduct((prev) => {
+      return { ...prev, [key]: value };
+    });
+  };
 
   useEffect(() => {
     if (!id) {
@@ -198,7 +214,7 @@ const ProductEdit = () => {
               <label htmlFor="">Product Price</label>
               <input
                 required
-                type="text"
+                type="number"
                 id="price"
                 value={product.price}
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
@@ -207,10 +223,10 @@ const ProductEdit = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="">Price Per Pices</label>
+              <label htmlFor="">Price Per Piece</label>
               <input
                 required
-                type="text"
+                type="number"
                 id="perpiece"
                 value={product.perpiece}
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
@@ -219,10 +235,10 @@ const ProductEdit = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="">Product Qunatity</label>
+              <label htmlFor="">Product Quantity</label>
               <input
                 required
-                type="text"
+                type="number"
                 id="quantity"
                 value={product.quantity}
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
@@ -312,8 +328,8 @@ const ProductEdit = () => {
               <label htmlFor="">Discount</label>
               <input
                 type="number"
-                id="discount"
-                value={product.discount}
+                id="corporateDiscount"
+                value={product.corporateDiscount}
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
                 className="h-14 border-2 rounded-md outline-none px-2 "
                 placeholder="enter Corporate Discount"

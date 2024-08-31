@@ -52,11 +52,11 @@ const ProductdetailPage = () => {
       : toast.error("Your Are Not Logged In");
   };
 
-  // const handleReviewView = () => {
-  // token
-  //     ? setReviewVisible(!reviewvisible)
-  //     : toast.error("Your Are Not Logged In");
-  // };
+  const handleReviewView = () => {
+  token
+      ? setReviewVisible(!reviewvisible)
+      : toast.error("Your Are Not Logged In");
+  };
 
   const handleIncr = () => {
     dispatch(addcarts(product));
@@ -118,18 +118,18 @@ const ProductdetailPage = () => {
                 />
               </div>}
               {!product?.corporateDiscount || product?.corporateDiscount === '0' && (
-                <span className="text-2xl font-bold">Rs {product?.price}</span>
+                <span className="text-2xl font-bold">Rs {(+product?.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</span>
               )}
               {product?.corporateDiscount && product?.corporateDiscount !== '0' && (
                 <span className="text-2xl font-bold line-through text-red-500">
-                  Rs {product?.price}
+                  Rs {(+product?.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </span>
               )}
               {product?.corporateDiscount && product?.corporateDiscount !== '0' && (
                 <span className="ml-2 text-2xl font-bold">
                   Rs{" "}
                   {(product.price -
-                    product.price * (product.corporateDiscount / 100)).toFixed(2)}
+                    product.price * (product.corporateDiscount / 100)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </span>
               )}
             </div>

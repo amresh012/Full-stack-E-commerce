@@ -1,33 +1,20 @@
 import React from "react";
 import { CChart } from "@coreui/react-chartjs";
 
-export const LineChart = () => {
+export const LineChart = ({label, labels, data}) => {
   return (
     <CChart
       type="line"
       data={{
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
+        labels: labels,
         datasets: [
           {
-            label: "My First dataset",
-            backgroundColor: "red",
-            borderColor: "red",
-            pointBackgroundColor: "red",
+            label: label,
+            backgroundColor: "#41B883",
+            borderColor: "#41B883",
+            pointBackgroundColor: "#41B883",
             pointBorderColor: "#fff",
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
+            data: data,
           },
           //   {
           //     label: "My Second dataset",
@@ -70,16 +57,16 @@ export const LineChart = () => {
   );
 };
 
-export const DoughnutChart = () => {
+export const DoughnutChart = ({labels, data}) => {
   return (
     <CChart
       type="doughnut"
       data={{
-        labels: ["VueJs", "EmberJs", "ReactJs", "AngularJs"],
+        labels: labels,
         datasets: [
           {
-            backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16"],
-            data: [40, 20, 80, 10],
+            backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16", "#ea73ff", "#ff7600", "#8263ff", "#e0e329"],
+            data: data,
           },
         ],
       }}

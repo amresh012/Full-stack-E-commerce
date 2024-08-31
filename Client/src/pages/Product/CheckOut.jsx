@@ -153,7 +153,7 @@ const CheckOut = () => {
                       <p className="font-bold">{item.name.slice(0, 20)}</p>
                       <p className="flex items-center">
                         <LiaRupeeSignSolid />
-                        {item.price}
+                        {(+item.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                       </p>
                       <p className="quantity">{item.quantity}</p>
                       <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
@@ -207,7 +207,7 @@ const CheckOut = () => {
                 <p className="">Sub Total</p>
                 <p className=" font-bold flex gap-1 items-center">
                   <LiaRupeeSignSolid />
-                  {totalAmount}
+                  {totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </p>
               </div>
 
@@ -215,7 +215,7 @@ const CheckOut = () => {
                 <p>Copoun Discount</p>
                 <p className=" font-bold flex gap-1 items-center">
                   <LiaRupeeSignSolid />
-                  {/* {totalAmount} */}
+                  {/* {totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} */}
                   0
                 </p>
               </div>
@@ -232,7 +232,7 @@ const CheckOut = () => {
                 <p>Cart Total</p>
                 <p className=" font-bold flex gap-1 items-center">
                   <LiaRupeeSignSolid />
-                  {totalAmount}
+                  {totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </p>
               </div>
             </div>

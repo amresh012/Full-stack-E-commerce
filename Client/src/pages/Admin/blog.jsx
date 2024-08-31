@@ -26,7 +26,11 @@ const AdminBlog = () => {
       const formData = new FormData();
       formData.append("file", imageRef.current.files[0]);
 
-      const imgResponse = await axios.post('http://127.0.0.1:8032/upload', formData);
+      const imgResponse = await axios.post("https://images.deepmart.shop/upload", formData);
+
+      if(imgResponse?.data?.error){
+        throw new Error(imgResponse.data.error);
+      }
 
       const response = await axios.post(
         base_url + "blog/add",

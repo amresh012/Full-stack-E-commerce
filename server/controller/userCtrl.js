@@ -43,7 +43,7 @@ const checkSignup = async (req, res) => {
 
 const verifyUser = asyncHandler(async (req, res) => {
   let token;
-  console.log(req?.headers)
+  // console.log(req?.headers)
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1];
     try {
@@ -166,7 +166,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 });
 const addnewAddress = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const user = await User.findById(_id);
     if (!user) {
@@ -247,9 +247,9 @@ const updatedUser = asyncHandler(async (req, res) => {
 });
 const updateRole = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+  // console.log(id);
   const { role } = req.body;
-  console.log(role);
+  // console.log(role);
   validateMongoDbId(id);
 
   try {
@@ -317,7 +317,6 @@ const deleteaUser = asyncHandler(async (req, res) => {
 
 const blockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   validateMongoDbId(id);
 
   try {
@@ -338,7 +337,7 @@ const blockUser = asyncHandler(async (req, res) => {
 
 const unblockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+  // console.log(id);
   validateMongoDbId(id);
 
   try {
@@ -379,7 +378,7 @@ const forgetPasswordToken = asyncHandler(async (req, res) => {
   if (!user) res.json({ error: "Email is not Registered with us !" });
   try {
     const token = await user.createPasswordResetToken();
-    console.log(token);
+    // console.log(token);
     await user.save();
     const sendData = `<h1 style=\"color: #333; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; margin-bottom: 16px;\">Password Reset<\/h1>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 8px;\">Hi there,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">We received a request to reset your password. Please click the link below to reset your password:<\/p>\r\n<p style=\"margin-bottom: 16px;\"><a href='${req.headers.origin}/reset-password/${token}' style=\"background-color: #007bff; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; padding: 10px 16px; text-decoration: none;\">Reset Password<\/a><\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">If you did not request a password reset, you can ignore this email and your password will not be changed.<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;\">Thank you,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 0;\">KFS Fitness Team<\/p>\r\n`;
     const data = {
