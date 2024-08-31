@@ -109,7 +109,7 @@ const userSchema = new mongoose.Schema(
         mobile: {
           type: String,
         },
-        adr: {
+        address: {
           type: String,
         },
         city: {

@@ -69,6 +69,7 @@ const columns = [
       const status = row.original.sataus;
       return <span className={getStatusColor(status)}>{status}</span>;
     },
+    size: 270,
   },
   {
     header: "Action",
@@ -209,7 +210,7 @@ const Orders = () => {
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
+                className="border-[1px] border-black/30 p-2 h-10 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
                 placeholder="id / name / email"
               />
               <div className="absolute top-5 right-4">

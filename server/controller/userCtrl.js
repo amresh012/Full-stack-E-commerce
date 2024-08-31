@@ -172,12 +172,50 @@ const addnewAddress = asyncHandler(async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    user.address.push(req.body.address);
+    // Validate req.body.address
+    const address = req.body.address;
+    if (!address || !address.name || !address.email || !address.mobile || !address.address || !address.city || !address.pincode || !address.state) {
+      return res.status(400).json({ message: "Invalid address" });
+    }
+    // Check if address is an array
+    if (!Array.isArray(user.address)) {
+      user.address = [];
+    }
+    // Add new address to the array
+    user.address.push(address);
+    // Use $addToSet to add new address only if it doesn't already exist
+    // user.address = [...new Set([...user.address, address])];
     await user.save();
     res.status(201).json({ message: "Address added successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+// getaddrss by id 
+const getAddressById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+
+  // Check if the user is authorized to access the address
+  if (!req.user || req.user._id !== userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  try {
+    // Query the database to retrieve the address by id
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Address not found' });
+    }
+
+    // Return the address data
+    res.json(address);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -450,4 +488,5 @@ module.exports = {
   checkresetPasswordUser,
   verifyUser,
   addnewAddress,
+  getAddressById
 };

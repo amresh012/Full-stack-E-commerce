@@ -1,4 +1,3 @@
-// const { createRazorpayInstance }  = require("../config/razorpayconfig")
 const crypto =require("crypto")
 const CouponCode =require("../models/discountModel");
 const User =require("../models/userModel");
@@ -37,7 +36,7 @@ const createOrder = async (req, res) => {
     console.log(cartItems)
     // const totalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const options = {
-      amount: amount * 100, // amount in the smallest currency unit
+      amount: amount *100 , // amount in the smallest currency unit
       currency: "INR",
       receipt: generateId(),
       notes:{
@@ -53,13 +52,13 @@ const createOrder = async (req, res) => {
     }
    const respo =  res.json({
       orderId:order.id,
-      amount : amount,
+      amount : amount * 100,
       cartItems,
       address,
       userId,
       paystatus:"Created"
     });
-    console.log("checkoutpage response log",respo)
+    
       } 
   catch (err) {
     console.log(err);
@@ -68,22 +67,39 @@ const createOrder = async (req, res) => {
 };
 
 const verifyPayments = async (req, res) => {
-  // const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-  //   req.body;
+  console.log("verification initated")
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-  // const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
-  // sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-  // const digest = sha.digest("hex");
-  // if (digest !== razorpay_signature) {
-  //   return res.status(400).json({ msg: "Transaction is not legit!" });
-  // }
+    // Basic validation
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({ msg: "Missing required fields" });
+    }
 
-  // res.json({
-  //   msg: "success",
-  //   orderId: razorpay_order_id,
-  //   paymentId: razorpay_payment_id,
-  // });
+    const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
+    sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+    const digest = sha.digest("hex");
+
+    // Secure comparison to mitigate timing attacks
+    const crypto = require('crypto');
+    const timingSafeEqual = crypto.timingSafeEqual;
+    if (!timingSafeEqual(Buffer.from(digest), Buffer.from(razorpay_signature))) {
+      return res.status(400).json({ msg: "Transaction is not legit!" });
+    }
+  console.log("verification complete")
+    
+   const rep = res.json({
+      msg: "success",
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+    });
+    console.log("response after verified payment : ",rep)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
 };
+
 const applyCode = async (req, res, next) => {
     const user = await User.findById(req.user._id);
     const coupon = await CouponCode.findOne({ code: req.body.code });
