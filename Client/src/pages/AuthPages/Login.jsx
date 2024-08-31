@@ -32,9 +32,7 @@ const Login = () => {
         res.data.token
       )
       console.log(res)
-      console.log("can not get into if condition")
       if(res.status === 200){
-        console.log("into if condition")
         dispatch(adduser(formData))
         if(res.data.role === "admin")
           {

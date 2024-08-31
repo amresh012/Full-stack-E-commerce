@@ -26,7 +26,7 @@ const Setting = () => {
     e.preventDefault()
    try{
     const res = await dispatch(ProfileResetApi(formData))
-    console.log(res)
+    // console.log(res)
     if(res.success){
       toast.success("Profile Updated Successfully")
     }

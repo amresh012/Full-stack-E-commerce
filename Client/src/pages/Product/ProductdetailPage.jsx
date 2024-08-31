@@ -52,11 +52,11 @@ const ProductdetailPage = () => {
       : toast.error("Your Are Not Logged In");
   };
 
-  // const handleReviewView = () => {
-  // token
-  //     ? setReviewVisible(!reviewvisible)
-  //     : toast.error("Your Are Not Logged In");
-  // };
+  const handleReviewView = () => {
+  token
+      ? setReviewVisible(!reviewvisible)
+      : toast.error("Your Are Not Logged In");
+  };
 
   const handleIncr = () => {
     dispatch(addcarts(product));

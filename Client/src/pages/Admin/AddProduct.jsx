@@ -59,6 +59,7 @@ const AddProduct = () => {
         mindiscription:"",
     },
     onSubmit: async (values, { setSubmitting }) => {
+      console.log(values)
         try {
           const name = values.name.toLowerCase()
           const category = values.category.toLowerCase();

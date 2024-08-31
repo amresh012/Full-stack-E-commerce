@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const otpSchema = new mongoose.Schema({
+const invoiceSchema = new mongoose.Schema({
   invoiceNo: {
     type: String,
     required: true,
@@ -22,7 +22,7 @@ const otpSchema = new mongoose.Schema({
   },
 });
 
-const OTP = mongoose.model('invoice', otpSchema);
+const OTP = mongoose.model('invoice', invoiceSchema);
 
 module.exports = OTP;
 

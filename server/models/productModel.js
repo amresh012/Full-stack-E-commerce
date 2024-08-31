@@ -59,7 +59,7 @@ const ProductSchema = new mongoose.Schema(
     quantity: {
       type: Number,
     },
-    discount: {
+    corporateDiscount: {
       type: String,
       validate: {
         validator: function (value) {

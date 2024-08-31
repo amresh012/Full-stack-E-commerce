@@ -3,9 +3,10 @@ import BasicTable from '../../components/AdminComponents/BasicTable';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
 import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
+import { config } from '../../Utils/axiosConfig';
 import Select from 'react-select';
 
 
@@ -28,9 +29,6 @@ const getStatusColor = (status) => {
   }
 };
 
-const handleDelete = ()=>{
-  
-}
 
 
 const columns = [
@@ -51,8 +49,8 @@ const columns = [
     accessorKey: "orderd_by",
   },
   {
-    header: "Contact Details",
-    accessorKey: "mobile",
+    header: "TransactionID",
+    accessorKey: "transaction",
   },
   {
     header: "Amount in Rs",
@@ -74,9 +72,8 @@ const columns = [
   {
     header: "Action",
     cell: ({row}) => {
-
     return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
+        <div className="bg-red-200 p-2 rounded-md" >
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md">
@@ -86,7 +83,25 @@ const columns = [
   },
   },
 ];
+// delete Order
 
+const handleDelete = async (id) => {
+  try {
+    const response = await fetch(`${base_url}user/${id}`, {
+      method: "DELETE",
+      ...config,
+    });
+    const data = await response.json();
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
+    setReload((prev) => !prev);
+    toast.success(data.message);
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 
 const Orders = () => {
   const [search , setSearch] = useState('');
@@ -110,23 +125,10 @@ const Orders = () => {
     console.log(Order)
     
   }, [])
-  // status 
-  // const statusCount = Order.reduce((acc, item) => {
-
-  //   const status = item.sataus;
-  //   if (acc[status]) {
-  //     acc[status]++;
-  //   } else {
-  //     acc[status] = 1;
-  //   }
-  //   return acc;
-  // }, {});
-
   const label = [
     {
       id: 2,
       label: "Status By",
-      // data: [...UniqueStatus],
       data: [],
       showlabel: "status",
     },
@@ -181,15 +183,7 @@ const Orders = () => {
                 {item.label}
               </label>
               <Select onChange={(d)=>sortByStatus(d.value)} className='w-[200px]' options={statusOptions} />
-              {/* <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={item.data}
-                sx={{ width: 400 }}
-                renderInput={(params) => (
-                  <TextField  onChange={()=>sortByStatus(params.inputProps.value)} onSelectCapture={()=>sortByStatus(params.inputProps.value)} {...params} label={item.showlabel} />
-                )}
-              /> */}
+             
             </div>
           ))}
           {/* <div className="flex flex-col">
