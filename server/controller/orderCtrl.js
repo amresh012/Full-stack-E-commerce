@@ -9,7 +9,6 @@ const invoice = require("./invoiceCtrl");
 function generateId() {
   const timestamp = new Date().getTime();
   const randomDigits = Math.floor(10000000 + Math.random() * 90000000); // Random 8-digit number
-
   const orderId = `${timestamp}${randomDigits}`.substring(0, 8);
   return orderId;
 }
@@ -98,13 +97,6 @@ const createOrder = async (req, res, next) => {
       { new: true }
     );
     res.redirect(`https://eccomerce1.deepmart.shop/users/orders/success`);
-    // res.redirect(`http://localhost:3001/users/orders/success`);
-    // const data = {
-    //   to: "khuswahapankaj00@gmail.com",
-    //   subject: "Invoice Details",
-    //   html: invoice(detail),
-    // };
-    // sendEmail(data)
   } else {
     res.status(500).send({ error: "No product found in user cart" });
   }
@@ -130,7 +122,7 @@ const getOrders = async (req, res) => {
       path: "products.product",
       model: "product",
     });
-
+    console.log("Orders Error",orders)
     const orderArr = orders.map((order) => ({
       transactionId: order.transactionId,
       products: order.products.map((product) => ({

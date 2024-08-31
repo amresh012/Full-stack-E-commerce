@@ -14,10 +14,7 @@ const LeftDrawer = () => {
   const [showWebsiteDropdown, setShowWebsiteDropdown] = useState(false);
   const [showBlogDropdown, setShowBlogDropdown] = useState(false);
   const [showCouponDropdown, setShowCouponDropdown] = useState(false);
-  const submenuref = useRef(null)
-  const handleClick = ()=>{
-    submenuref.current.style.width=0
-  }
+
   return (
     <div className="relative">
       <nav
@@ -54,7 +51,6 @@ const LeftDrawer = () => {
               <div
                 className="hover:bg-[#0A2440] hover:text-white duration-300 text-xl"
                 key={item.id}
-                onClick={handleClick}
               >
                 <Link
                   to={item.route}
@@ -65,47 +61,57 @@ const LeftDrawer = () => {
                       : "flex p-4 items-center justify-between"
                   }
                 >
-                  
-                  <div className="flex items-center gap-x-1">{<div><item.icon size={30} /></div>}<li className="p-2 uppercase">{item.label}</li></div>
-                  {item.sublink && <div onClick={()=>{
-                    if(item.label === 'Products'){
-                      setShowProductDropdown(prev => !prev);
-                    }
-                    else if(item.label === 'Website'){
-                      setShowWebsiteDropdown(prev => !prev);
-                    }
-                    else if(item.label === 'Blogs'){
-                      setShowBlogDropdown(prev => !prev);
-                    }
-                    else{
-                      setShowCouponDropdown(prev => !prev);
-                    }
-                  }} className="hover:scale-105"><IoIosArrowDropdown /></div>}
+                  <div className="flex items-center gap-x-1">
+                    <div><item.icon size={30} /></div>
+                    <li className="p-2 uppercase">{item.label}</li>
+                  </div>
+                  {item.sublink && (
+                    <div onClick={() => {
+                      if(item.label === 'Products'){
+                        setShowProductDropdown(prev => !prev);
+                      }
+                      else if(item.label === 'Website'){
+                        setShowWebsiteDropdown(prev => !prev);
+                      }
+                      else if(item.label === 'Blogs'){
+                        setShowBlogDropdown(prev => !prev);
+                      }
+                      else{
+                        setShowCouponDropdown(prev => !prev);
+                      }
+                    }} className="hover:scale-105">
+                      <IoIosArrowDropdown />
+                    </div>
+                  )}
                 </Link>
               </div>
 
-              {((item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown)) && <ul className="flex-col items-center justify-start w-full">
-                {item.submenu && <ul className="flex-col items-center justify-start w-full">
-                {item.submenu &&
-                  item.sublink.map((link) => (
-                    <Link
-                      key={link.id}
-                      to={link.route}
-                      ref={submenuref}
-                      className={
-                        location.pathname === link.route
-                          ? "flex items-center px-10 w-full justify-start bg-[#0A2440]/80 p-2 text-white"
-                          : "flex items-center px-10 w-full justify-start hover:bg-[#0A2440]/80 p-2 hover:text-white"
-                      }
-                    >
-                      {<item.icon size={20} />}
-                      <li className="p-2 uppercase">{link.label}</li>
-                    </Link>
-                  ))}
-              </ul>}
+              {((item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown)) && (
+                <ul className="flex-col items-center justify-start w-full">
+                  {item.submenu && (
+                    <ul className="flex-col items-center justify-start w-full">
+                      {item.sublink.map((link) => (
+                        <Link
+                          key={link.id}
+                          to={link.route}
+                          className={
+                            location.pathname === link.route
+                              ? "flex items-center px-10 w-full justify-start bg-[#0A2440]/80 p-2 text-white"
+                              : "flex items-center px-10 w-full justify-start hover:bg-[#0A2440]/80 p-2 hover:text-white"
+                          }
+                        >
+                          {<item.icon size={20} />}
+                          <li className="p-2 uppercase">{link.label}</li>
+                        </Link>
+                      ))}
+                    </ul>
+                  )}
+                </ul>
+              )}
             </>
           ))}
         </ul>
+
          <div
           className="absolute bottom-0 left-0 flex bg-[#0A2440] p-4 w-[94%] text-xl text-white items-center  justify-center gap-2"
           >

@@ -1,51 +1,133 @@
-const asyncHandle = require("express-async-handler");
+// routes/coupon.js
+const express = require('express');
+const router = express.Router();
 const Coupon = require("../models/discountModel");
+const { generateCouponCode, calculateExpiryDate } = require('../utils/couponUtils');
 
-const addcoupon = asyncHandle(async (req, res) => {
-  console.log(req.body);
+
+
+// Create a new coupon
+
+// Create a new coupon with generated code and expiry date
+const CreateCopoun = async (req, res) => {
   try {
-    await Coupon.create(req.body);
-    const resp = {
-      success: "Coupon is created sucessfully",
-    };
-    res.json(resp);
+    const { discountType, discountValue, usageLimit, daysValid } = req.body;
+
+    // Generate the coupon code and expiry date
+    const code = generateCouponCode();
+    const expiryDate = calculateExpiryDate(daysValid);
+
+    const newCoupon = new Coupon({
+      code,
+      discountType,
+      discountValue,
+      expiryDate,
+      usageLimit,
+    });
+
+    await newCoupon.save();
+    res.status(201).json({ message: 'Coupon created successfully', coupon: newCoupon });
   } catch (error) {
-    res.status(500).send({ error: error.message });
+     console.log(error)
+    res.status(500).json({ error: 'Failed To Create Copoun Something Went Wrong' });
   }
-});
+};
 
-const getCoupon = asyncHandle(async (req, res) => {
-  const test = await Coupon.find();
-  res.json(test);
-});
-
-const deleteCoupon = asyncHandle(async (req, res) => {
-  const { _id } = req.params;
-  if (_id) {
-    try {
-      await Coupon.findByIdAndDelete({ _id });
-      res.json("Deleted Sucessfully");
-    } catch (error) {
-      res.status(500).send(error.message);
+// Validate a coupon
+const ValidateCopoun = async (req, res) => {
+  try {
+    const { code } = req.body;
+    const coupon = await Coupon.findOne({ code });
+    if (!coupon || !coupon.isActive || coupon.expiryDate < new Date() || coupon.usageCount >= coupon.usageLimit) {
+      return res.status(400).json({ error: 'Invalid or expired coupon' });
     }
-  } else  res.status(500).send("invalid Operation");
-});
+    res.status(200).json({ coupon });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
 
-const updateCoupon = asyncHandle(async (req, res) => {
-  if (req.body._id) {
-    const { _id } = req.body;
-    try {
-      await Coupon.findByIdAndUpdate({ _id }, req.body);
-      res.json("Coupon Updated Sucessfully");
-    } catch (error) {
-      res.json(error.message);
+// Update coupon usage
+const ApplyCopoun = async (req, res) => {
+  try {
+    const { code } = req.body;
+    const coupon = await Coupon.findOne({ code });
+    if (coupon && coupon.isActive && coupon.expiryDate >= new Date() && coupon.usageCount < coupon.usageLimit) {
+      coupon.usageCount += 1;
+      await coupon.save();
+      res.status(200).json({ message: 'Coupon applied successfully' });
+    } else {
+      res.status(400).json({ error: 'Invalid or expired coupon' });
     }
-  } else res.json("invalid Operation");
-});
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Get all coupons
+const getCoupons = async (req, res) => {
+  try {
+    const coupons = await Coupon.find();
+    res.status(200).json(coupons);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error });
+  }
+};
+
+// Get a single coupon by ID
+const getCouponById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coupon = await Coupon.findById(id);
+    if (!coupon) {
+      return res.status(404).json({ error: 'Coupon not found' });
+    }
+    res.status(200).json(coupon);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Update a coupon
+const updateCoupon = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { code, discountType, discountValue, expiryDate, usageLimit } = req.body;
+    const coupon = await Coupon.findByIdAndUpdate(
+      id,
+      { code, discountType, discountValue, expiryDate, usageLimit },
+      { new: true }
+    );
+    if (!coupon) {
+      return res.status(404).json({ error: 'Coupon not found' });
+    }
+    res.status(200).json({ message: 'Coupon updated successfully', coupon });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Delete a coupon
+const deleteCoupon = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coupon = await Coupon.findByIdAndDelete(id);
+    if (!coupon) {
+      return res.status(404).json({ error: 'Coupon not found' });
+    }
+    res.status(200).json({ message: 'Coupon deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 
 module.exports = {
-  addcoupon,
-  getCoupon,
-  deleteCoupon,
-  updateCoupon,
-};
+  CreateCopoun,
+  ValidateCopoun ,
+   ApplyCopoun ,
+   getCoupons
+    ,deleteCoupon ,
+    updateCoupon ,
+    getCouponById};

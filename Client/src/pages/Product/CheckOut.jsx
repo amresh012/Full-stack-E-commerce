@@ -1,15 +1,20 @@
 // import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
-import { applyCouponcode } from "../../features/cartSlice";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import {removeItem } from "../../features/cartSlice";
 import { addcarts } from "../../features/cartSlice";
 import { base_url } from "../../Utils/baseUrl";
 import {Link} from "react-router-dom"
+import { config } from "../../Utils/axiosConfig";
+import Copoun from "../../components/Copoun/Copoun"
+import { useState } from "react";
+import {resetCart} from "../../features/cartSlice"
 const CheckOut = () => {
-  //generate teperory random id 
+  const [discount, setDiscount] = useState(0);
 
+ const dispatch = useDispatch()
+  //generate teperory random id 
   function generateRandomId(length = 10) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
@@ -18,14 +23,13 @@ const CheckOut = () => {
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    
     return result;
 }
 
   const { carts, totalAmount} = useSelector((state) => state.cart);
-  const {user , token} = useSelector((state)=>state.auth)
-  const dispatch = useDispatch();
-      const amount = totalAmount * 100;
+ 
+ 
+      const amount = totalAmount;
       const currency = "INR";
       const receiptId = `recipt_${Math.random()*1000}`;
       const  address={
@@ -34,7 +38,7 @@ const CheckOut = () => {
         state: "CA",
         zip: "12345",
       }
-      const id = Math.random()*6
+
   const paymentHandler = async (e) => {
     const response = await fetch( `${ base_url}payment/createOrder`, {
       method: "POST",
@@ -46,24 +50,34 @@ const CheckOut = () => {
         address:address,
         userId: generateRandomId()
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+        ...config
     });
     const order = await response.json();
     const {orderId , amount:order_amount} = order
+    console.log(order)
 
     var options = {
       key: "rzp_test_oLA0LztRZUjDkX", // Enter the Key ID generated from the Dashboard
-      amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      amount:order_amount,
       currency,
       name: "KFS Fitness", //your business name
       description: "Test Transaction",
       image: "https://example.com/your_logo",
       order_id:orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       handler: async function (response) {
+        dispatch(resetCart())
+         const paymentData =  {
+          paymentId: response.razorpay_payment_id,
+          order_id: response.razorpay_order_id,
+          razorpay_signature: response.razorpay_signature,
+          amount:order_amount,
+          items:cartitems,
+          userId:userId,
+          address:address
+         }
+
         const body = {
-          ...response,
+          ...paymentData,
         };
 
         const validateRes = await fetch(
@@ -79,12 +93,11 @@ const CheckOut = () => {
         const jsonRes = await validateRes.json();
         console.log(jsonRes);
       },
-      prefill: {
-        //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-        name: user?.name, //your customer's name
-        email: user?.email,
-        contact: user?.mobile //Provide the customer's phone number for better conversion rates
-      },
+      // prefill: {
+      //   name: signupdata?.name, //your customer's name
+      //   email: signupdata?.email,
+      //   contact: signupdata?.mobile //Provide the customer's phone number for better conversion rates
+      // },
       notes: {
         address: address
       },
@@ -127,14 +140,14 @@ const CheckOut = () => {
             <p className="item">{carts.length} Item in your cart</p>
           </div>
           <div className="cart-items">
-            <div className="cart-container w-full flex flex-col gap-2 items-center justify-around max-h-[50vh] overflow-y-scroll  no-scrollbar">
+            <div className="cart-container rounded-b-md  w-full flex flex-col gap-2 items-center justify-around h-[100vh] overflow-y-scroll  no-scrollbar">
               {/* cart items here */}
               {carts.length === 0 ?
-                 <div className="h-full w-full bg-white  capitalize text-xl font-bold grid place-content-center text-center ">
+                 <div className="h-full  mt-12 w-full bg-white  capitalize text-xl font-bold grid place-content-center text-center ">
                  <img
                    src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
                    alt=""
-                   className="h-44 "
+                   className="h-[20vw] "
                  />
                  <p className="text-2xl font-bold text-gray-500">Your Cart is Empty</p>
                  <Link to='/product'>
@@ -145,11 +158,11 @@ const CheckOut = () => {
                </div>
                : carts?.map((item) => (
                   <div
-                    className="flex  border-2 w-full items-start justify-start gap-2 p-2 relative"
+                    className="flex border-b w-full items-start justify-start gap-2 p-2 relative"
                     key={item.id}
                   >
                     <span
-                      className="text-red-500  cursor-pointer rounded-full absolute right-3 font-bold"
+                      className="bg-[#0a2444] text-white  cursor-pointer rounded-full absolute right-3 font-bold"
                       onClick={() => handleRemoveItem(item)}
                     >
                       <IoIosCloseCircleOutline size={22} />
@@ -192,31 +205,31 @@ const CheckOut = () => {
           </div>
         </div>
         <div className="right-box h-fit p-4 bg-gray-100 rounded-md shadow-sm mt-4">
-          <div className="address h-24">
-            <h1>Shipping Address</h1>
-              <div className="">
-                <span>Na</span>
+          <div className="address p-4 Copoun-Code rounded-md space-y-4">
+            <h1 className="text-2xl font-bold capitalize">Shipping Address</h1>
+              <div className="flex justify-between">
+                <span>Address:</span>
+                <p className="">Your Address</p>
+              </div>
+              <div className="flex justify-between">
+                <span>City:</span>
+                <p className="">Your City</p>
+              </div>
+              <div className="flex justify-between">
+                <span>State:</span>
+                <p className="">Your State</p>
+              </div>
+              <div className="flex justify-between">
+                <span>PinCode:</span>
+                <p className="">239641</p>
+              </div>
+              <div className="flex justify-between">
+                <span>Country:</span>
+                <p className="">INDIA</p>
               </div>
           </div>
           <div className=" p-4 Copoun-Code rounded-md space-y-4">
-            <div className=" space-y-2">
-              <h1 className="text-2xl font-bold">Copoun Code</h1>
-              <p className="some-text">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Perferendis recusandae accusamus dolor maiores.
-              </p>
-            </div>
-            <div className="copoun-input flex flex-col gap-4 ">
-              <input
-                type="text"
-                value={20}
-                className="h-12 rounded-full border px-4 placeholder:px-2 focus:outline-[#0A2440]"
-                placeholder="Enter your copoun code"
-              />
-              <button className="bg-[#0A2440] text-white p-2 rounded-md">
-                Apply Copoun
-              </button>
-            </div>
+            <Copoun setDiscount={setDiscount}/>
           </div>
           <div className="cart-box p-4 space-y-2">
             <div className="bg-[#0A2440] text-white p-4 rounded-md uppercase font-bold">
@@ -240,13 +253,13 @@ const CheckOut = () => {
                 </p>
               </div>
 
-              {/* <div className="sub-total flex justify-between p-2">
+              <div className="sub-total flex justify-between p-2">
                 <p>Shipping Charges</p>
                 <p className=" font-bold flex gap-1 items-center ">
                   <LiaRupeeSignSolid />
                   {totalAmount}
                 </p>
-              </div> */}
+              </div>
 
               <div className="sub-total flex justify-between p-2 font-bold text-xl">
                 <p>Cart Total</p>
@@ -256,13 +269,20 @@ const CheckOut = () => {
                 </p>
               </div>
             </div>
-              <div 
+             {  <div 
              className="checkout-button w-full flex items-center justify-center" 
              onClick={paymentHandler}>
                <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
                  CheckOut
                </button>
              </div>
+            //  :
+            //  <div className="Login button w-full flex items-center justify-center">
+            //     <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
+            //      Login
+            //    </button>
+            //  </div>
+             }
            
           </div>
         </div>

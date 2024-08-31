@@ -11,6 +11,9 @@ const Report = () => {
           </div>
           <h1 className="uppercase">Report</h1>
         </div>
+        <div className="">
+          
+        </div>
      </div>
    </>
   )

@@ -113,7 +113,6 @@ const ListProduct = () => {
       header: "Image",
       accessorKey: "images",
       cell: ({ row }) => {
-        // console.log(row.original.images[0])
         return (
           <img
             src={row.original.images[0]}
@@ -131,15 +130,16 @@ const ListProduct = () => {
       header: "Price / unit",
       accessorKey: "price",
     },
-    // {
-    //   header: "Discount",
-    //   accessorKey: "corporate_discount",
-    //   cell: ({ row }) => {
-    //     const discount = row.original?.Individual_discount;
-    //     console.log(discount)
-    //     return <span>{discount}</span>;
-    //   },
-    // },
+    {
+      header: "Discount",
+      accessorKey: "discount",
+      cell: ({ row }) => {
+        console.log(row)
+        const discount = row.original?.discount;
+        console.log(discount)
+        return <span>{discount}</span>;
+      },
+    },
     {
       header: "Quantity",
       accessorKey: "quantity",
@@ -307,7 +307,7 @@ const ListProduct = () => {
           <h1 className="">Product List</h1>
         </div>
       </div>
-      <div className="w-full p-8">
+      <div className="w-full">
         <BasicTable columns={columns} data={product} />
       </div>
     </>

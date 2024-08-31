@@ -17,7 +17,6 @@ const Loading = () => {
   return (
     <div style={styles} className="flex-column gap-2 text-dark">
       <HashLoader  color="#11cdef" />
-
     </div>
   );
 };

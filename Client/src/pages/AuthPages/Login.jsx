@@ -28,11 +28,29 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(LoginApi(formData));
-      toast.success("Login Success")
-      navigate("/profile")
+      const res = await axios.post(`${base_url}user/login`, formData)
+      localStorage.setItem("token",
+        res.data.token
+      )
+      console.log(res)
+      if(res.status === 200){
+        dispatch(adduser(formData))
+        if(res.data.role === "admin")
+          {
+          toast.success("Admin Login Success")
+          navigate("/admin")
+        }
+        else{
+          toast.success("Login Success")
+          navigate("/profile")
+        }
+      }
+      else{
+        console.log(res.data)
+        throw new Error(res.data)
+      }
     } catch (error) {
-      // console.log(error)
+      console.log("error from response",error)
       toast.error(error.message);
     }
   };

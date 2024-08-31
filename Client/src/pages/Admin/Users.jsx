@@ -33,6 +33,7 @@ const Users = () => {
       accessorKey: "id",
       cell: ({ row }) => {
         const id = row.id;
+        console.log(row.original._id)
         return <span>{id}</span>;
       },
     },

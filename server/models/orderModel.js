@@ -1,5 +1,4 @@
 const mongoose = require("mongoose"); // Erase if already required
-
 // Declare the Schema of the Mongo model
 
 var orderSchema = new mongoose.Schema(
@@ -7,6 +6,11 @@ var orderSchema = new mongoose.Schema(
     transactionId: {
       type: String,
       require: true,
+    },
+    Orderid:
+    {
+       type:String,
+       require:true
     },
     invoiceNo: {
       type: String,
@@ -28,7 +32,7 @@ var orderSchema = new mongoose.Schema(
       ref: "User",
     },
     address: {
-      type: String,
+      type:[],
       require:true
     },
     status: {

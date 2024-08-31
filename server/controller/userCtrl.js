@@ -166,7 +166,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
 });
 const addnewAddress = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  // console.log(req.body);
   try {
     const user = await User.findById(_id);
     if (!user) {
@@ -174,6 +173,7 @@ const addnewAddress = asyncHandler(async (req, res) => {
     }
     // Validate req.body.address
     const address = req.body.address;
+    console.log(address)
     if (!address || !address.name || !address.email || !address.mobile || !address.address || !address.city || !address.pincode || !address.state) {
       return res.status(400).json({ message: "Invalid address" });
     }
@@ -181,10 +181,9 @@ const addnewAddress = asyncHandler(async (req, res) => {
     if (!Array.isArray(user.address)) {
       user.address = [];
     }
-    // Add new address to the array
     user.address.push(address);
     // Use $addToSet to add new address only if it doesn't already exist
-    // user.address = [...new Set([...user.address, address])];
+    user.address = [...new Set([...user.address, address])];
     await user.save();
     res.status(201).json({ message: "Address added successfully" });
   } catch (error) {

@@ -2,8 +2,11 @@ import React from 'react'
 import { GoChecklist } from "react-icons/go";
 import moment from "moment"
 import { MdCurrencyRupee } from "react-icons/md";
+import { useSelector } from 'react-redux';
 
 const MyOrders = () => {
+  const {orders} = useSelector((state)=>state.userorder)
+  console.log(orders)
   return (
     <>
      <div className="border-2  mb-4 rounded-md mx-4">
@@ -15,7 +18,7 @@ const MyOrders = () => {
         </div>
         <div className="orders-section h-[100vh] space-y-2 p-2 overflow-auto ">
           {
-            [...Array(12)].map((_,id)=>(
+           orders.map((order,id)=>(
               <>
                 <div className="w-full p-2 uppercase   border-2 rounded-md flex items-start justify-between">
                   <div className="flex items-start justify-start">

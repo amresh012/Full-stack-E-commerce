@@ -67,6 +67,7 @@ const AddProduct = () => {
         mindiscription:"",
     },
     onSubmit: async (values, { setSubmitting }) => {
+      console.log(values)
         try {
           if(isImageUploading){
             toast.error('Please wait while the images are uploading.');

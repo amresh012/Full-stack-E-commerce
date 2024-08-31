@@ -14,13 +14,6 @@ const initialState = {
   token: null,
 };
 
-export const LoginApi = createAsyncThunk("login", async (payload) => {
-  const res = await axios.post(`${base_url}user/login`, payload);
-  console.log(res)
-  localStorage.setItem("token", res.data.token);
-  // console.log(res.data.token)
-  return res.data;
-});
 
 export const VerifyApi = createAsyncThunk("Verify", async () => {
   const res = await axios.post(`${base_url}user/verify`, {}, config);
@@ -41,7 +34,7 @@ export const RegisterApi = createAsyncThunk(
 );
 export const addAddress = createAsyncThunk("user/address", async (payload) => {
   const res = await axios.post(`${base_url}user/adr`, payload, config);
-  // console.log(res)
+  console.log(res)
   return res.data;
 });
 
@@ -70,20 +63,20 @@ export const authSlice = createSlice({
         state.loading = false;
         toast.error(action.payload.message);
       })
-      .addCase(LoginApi.fulfilled, (state, action) => {
-        state.success = true;
-        if (action.payload._id) {
-          if (action.payload.role === "admin") {
-            return window.location.href="/admin"
-          }
-        } else {
-          console.log(action.payload);
-          toast.error(action.payload);
-        }
-      })
-      .addCase(LoginApi.rejected, (state) => {
-        state.error = true;
-      })
+      // .addCase(LoginApi.fulfilled, (state, action) => {
+      //   state.success = true;
+      //   if (action.payload._id) {
+      //     if (action.payload.role === "admin") {
+      //       return window.location.href="/admin"
+      //     }
+      //   } else {
+      //     console.log(action.payload);
+      //     toast.error(action.payload);
+      //   }
+      // })
+      // .addCase(LoginApi.rejected, (state) => {
+      //   state.error = true;
+      // })
       // .addCase(VerifyApi.fulfilled, (state, action) => {
       //   (state.success = true), (state.user = action.payload);
       // })
