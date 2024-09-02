@@ -12,6 +12,7 @@ import { config } from "../../Utils/axiosConfig";
 
 const ProductEdit = () => {
   const { id } = useParams();
+  const [isUpdating, setIsUpdating] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [images, setImages] = useState([]);
   const [product, setProduct] = useState({
@@ -92,6 +93,7 @@ const ProductEdit = () => {
   const editProduct = async (e) => {
     e.preventDefault();
     try {
+      setIsUpdating(true);
       if(isImageUploading){
         toast.error('Please wait while the images are uploading.');
         return;
@@ -116,6 +118,9 @@ const ProductEdit = () => {
       }
     } catch (error) {
       toast.error(error.message);
+    }
+    finally{
+      setIsUpdating(false);
     }
   };
 
@@ -388,10 +393,11 @@ const ProductEdit = () => {
               </p>
             </Dragger>
             <button
-              className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]"
+            disabled={isUpdating}
+              className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440] disabled:bg-[#d9d5d5] disabled:border-[#d9d5d5] disabled:text-black disabled:cursor-not-allowed"
               type="submit"
             >
-              Edit Product
+              {isUpdating ? 'Updating...' : 'Edit Product'}
             </button>
           </div>
         </form>

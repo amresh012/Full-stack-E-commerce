@@ -7,6 +7,7 @@ import axios from "axios"
 import {base_url} from "../../Utils/baseUrl"
 import {config} from "../../Utils/axiosConfig"
 import {toast , Toaster } from "react-hot-toast"
+import { useState } from "react";
 
 const CouponFormSchema = Yup.object().shape({
   usageLimit: Yup.string()
@@ -27,6 +28,7 @@ const CouponFormSchema = Yup.object().shape({
 });
 
 const AddCoupon = () => {
+  const [isAdding, setIsAdding] = useState(false);
   const err = {
     color: "red",
     fontSize: "12px",
@@ -47,6 +49,7 @@ const AddCoupon = () => {
       onSubmit={async(values, { setSubmitting }) => {
         // console.log(values)
         try {
+          setIsAdding(true);
           const response = await axios.post(`${base_url}coupon/create`, values, config);
           toast.success(response.data.message)
         } catch (error) {
@@ -54,6 +57,7 @@ const AddCoupon = () => {
           toast.error(response.data.message)
         }
         finally{
+          setIsAdding(false);
           setSubmitting(false)
         }
          
@@ -148,7 +152,7 @@ const AddCoupon = () => {
                 <div
             className="flex justify-center gap-4 w-full text-center duration-300 mt-4"
           >
-            <button  className="bg-[#0a2440] w-2/6 p-2 rounded-md text-white uppercase">Add Copoun</button>
+            <button disabled={isAdding} className="bg-[#0a2440] w-2/6 p-2 rounded-md text-white uppercase disabled:bg-[#d9d5d5] disabled:border-[#d9d5d5] disabled:text-black disabled:cursor-not-allowed">{isAdding ? 'Adding...' : 'Add Copoun'}</button>
            
           </div>
           </Form>

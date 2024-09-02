@@ -605,18 +605,18 @@ export const linksAdmin = [
       },
     ],
   },
-  {
-    label: "Website",
-    icon: CgWebsite,
-    submenu: true,
-    sublink: [
-      {
-        label: "Home Page",
-        route: "/admin/website",
-        icon: CgWebsite,
-      },
-    ],
-  },
+  // {
+  //   label: "Website",
+  //   icon: CgWebsite,
+  //   submenu: true,
+  //   sublink: [
+  //     {
+  //       label: "Home Page",
+  //       route: "/admin/website",
+  //       icon: CgWebsite,
+  //     },
+  //   ],
+  // },
   {
     label: "Blogs",
     icon: FaBlog,

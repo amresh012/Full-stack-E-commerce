@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 const EditBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
   const imageRef = useRef();
   const { id } = useParams();
 
@@ -17,6 +18,7 @@ const EditBlog = () => {
     e.preventDefault();
 
     try {
+      setIsUpdating(true);
       let imgResponse;
 
       if (imageRef.current.files.length > 0) {
@@ -50,8 +52,10 @@ const EditBlog = () => {
       }
       throw new Error(response.data.message);
     } catch (error) {
-    console.log(error)
-      toast.error(error?.response?.data?.error || error?.response?.data?.message || "Something went wrong");
+      toast.error(error?.response?.data?.message || error?.message || 'Something went wrong');
+    }
+    finally{
+      setIsUpdating(false);
     }
   };
 
@@ -78,7 +82,7 @@ const EditBlog = () => {
         <Toaster />
       <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
         <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="">Add Blogs</h1>
+          <h1 className="">Edit Blog</h1>
         </div>
       </div>
       <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
@@ -117,10 +121,11 @@ const EditBlog = () => {
           </div>
 
           <button
-            className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]"
+            disabled={isUpdating}
+            className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440] disabled:bg-[#d9d5d5] disabled:border-[#d9d5d5] disabled:text-black disabled:cursor-not-allowed"
             type="submit"
           >
-            Edit Blog
+            {isUpdating ? 'Updating...' : 'Edit Blog'}
           </button>
         </form>
       </div>
