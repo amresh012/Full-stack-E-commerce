@@ -19,6 +19,7 @@ const orderRoute = require("./routes/orderRoute");
 const payRoute = require("./routes/paymentRoute");
 const couponRoute = require("./routes/couponRoute");
 const imageRoute = require("./routes/imageRoute");
+const shipRocketRoute = require("./routes/shiprocketRoute")
 const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
@@ -50,6 +51,8 @@ app.use("/api/coupon", couponRoute);
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/uploads", uploadimageRoute);
 app.use("/api/images", imageRoute);
+app.use("/api/shiprocket",shipRocketRoute)
+
 app.use(express.static("public"));
 app.set("views", __dirname + "/public");
 app.engine("html", require("ejs").renderFile);

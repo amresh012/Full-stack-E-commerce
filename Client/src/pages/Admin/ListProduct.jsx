@@ -132,11 +132,10 @@ const ListProduct = () => {
     },
     {
       header: "Discount",
-      accessorKey: "discount",
+      accessorKey: "corporateDiscount",
       cell: ({ row }) => {
-        console.log(row)
-        const discount = row.original?.discount;
-        console.log(discount)
+        const discount = row.original.corporateDiscount
+        // console.log(discount)
         return <span>{discount}</span>;
       },
     },
@@ -148,6 +147,15 @@ const ListProduct = () => {
       header: "Category",
       accessorKey: "category",
     },
+    // {
+    //   header: "Created At",
+    //   accessorKey: "createdAt", // accessorKey should be a valid key, without spaces
+    //   cell: ({ getValue }) => {
+    //     const date = getValue();
+    //     return date ? date.toLocaleString() : null; // add a null check to avoid errors
+    //   },
+    //   size: 240
+    // },
     {
       header: "Action",
       cell: ({ row }) => (
@@ -155,7 +163,7 @@ const ListProduct = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 4,
+            gap: 2,
             justifyContent: "center",
             cursor: "pointer",
           }}

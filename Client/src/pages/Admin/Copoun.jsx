@@ -119,7 +119,7 @@ const AddCoupon = () => {
               <ErrorMessage style={err} name="discountValue" component="div" />
             </div>
             <div className=" flex flex-col w-1/4  gap-2 p-2">
-              <label htmlFor="discountValue">Copoun Validity</label>
+              <label htmlFor="discountValue">Copoun Validity(in days)</label>
               <Field
                 type="number"
                 id="daysValid"
@@ -127,7 +127,7 @@ const AddCoupon = () => {
                 className={`rounded-md h-12 outline-none border-2 px-2 ${
                   touched.code && errors.code ? "is-invalid" : ""
                 }`}
-                 placeholder="Enter Copoun Value 1-100"
+                 placeholder="Enter Copoun Value 1-30"
                 />
               <ErrorMessage style={err} name="daysValid" component="div" />
             </div>
@@ -140,7 +140,7 @@ const AddCoupon = () => {
                 className={`rounded-md h-12 outline-none border-2 px-2 ${
                   touched.code && errors.code ? "is-invalid" : ""
                 }`}
-                 placeholder="Enter Copoun Value 1-100"
+                 placeholder="Enter Copoun usage limit "
                 />
               <ErrorMessage style={err} name="usageCount" component="div" />
             </div> 

@@ -9,25 +9,28 @@ import { base_url } from '../../Utils/baseUrl';
 import { config } from '../../Utils/axiosConfig';
 import Select from 'react-select';
 
-
-const getStatusColor = (status) => {
-  switch (status.toLowerCase()) {
-    case "return":
-      return "bg-red-200 p-2 text-red-500 rounded-md w-full  uppercase"; // Red color for "Return"
-    case "cod":
-      return "text-yellow-500 bg-yellow-200 p-2 w-full rounded-md uppercase"; // Yellow color for "COD"
-    case "not processed":
-      return "text-gray-500 bg-gray-200 p-2 rounded-md w-full uppercase"; // Gray color for "Not Processed"
-    case "shipped":
-      return "text-blue-500  bg-blue-200 p-2 w-full rounded-md uppercase"; // Blue color for "Shipped"
-    case "out of delivery":
-      return "text-purple-500  bg-purple-200 p-2 w-full rounded-md uppercase"; // Purple color for "Out Of Delivery"
-    case "cancelled":
-      return "text-black  bg-black/20 p-2 rounded-md w-full uppercase"; // Black color for "Cancelled"
-    default:
-      return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
-  }
-};
+const statusArray = Ordata.map(item => item.sataus);
+const UniqueStatus = new Set(statusArray);
+const statusOptions = Array.from(UniqueStatus)
+// console.log(UniqueStatus)
+// const getStatusColor = (status) => {
+//   switch (status.toLowerCase()) {
+//     case "return":
+//       return "bg-red-200 p-2 text-red-500 rounded-md w-full  uppercase"; // Red color for "Return"
+//     case "cod":
+//       return "text-yellow-500 bg-yellow-200 p-2 w-full rounded-md uppercase"; // Yellow color for "COD"
+//     case "not processed":
+//       return "text-gray-500 bg-gray-200 p-2 rounded-md w-full uppercase"; // Gray color for "Not Processed"
+//     case "shipped":
+//       return "text-blue-500  bg-blue-200 p-2 w-full rounded-md uppercase"; // Blue color for "Shipped"
+//     case "out of delivery":
+//       return "text-purple-500  bg-purple-200 p-2 w-full rounded-md uppercase"; // Purple color for "Out Of Delivery"
+//     case "cancelled":
+//       return "text-black  bg-black/20 p-2 rounded-md w-full uppercase"; // Black color for "Cancelled"
+//     default:
+//       return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
+//   }
+// };
 
 
 
@@ -37,7 +40,7 @@ const columns = [
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.id;
-      return <span>{id}</span>;
+      return <span>{+id+1}</span>;
     },
   },
   {
@@ -64,8 +67,17 @@ const columns = [
     header: "Status",
     accessorKey: "sataus",
     cell: ({ row }) => {
-      const status = row.original.sataus;
-      return <span className={getStatusColor(status)}>{status}</span>;
+      // const status = row.original.sataus;
+      return( 
+        <select className="p-2 border-2" required>
+          {
+            statusOptions?.map((stat)=>(
+              <option value={stat}>{stat}</option>
+            ))
+          }
+        </select>
+      // <span className={getStatusColor(status)}>{status}</span>
+    )
     },
     size: 270,
   },
@@ -85,28 +97,27 @@ const columns = [
 ];
 // delete Order
 
-const handleDelete = async (id) => {
-  try {
-    const response = await fetch(`${base_url}user/${id}`, {
-      method: "DELETE",
-      ...config,
-    });
-    const data = await response.json();
-    if (!data.success) {
-      toast.error(data.message);
-      return;
-    }
-    setReload((prev) => !prev);
-    toast.success(data.message);
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+// const handleDelete = async (id) => {
+//   try {
+//     const response = await fetch(`${base_url}user/${id}`, {
+//       method: "DELETE",
+//       ...config,
+//     });
+//     const data = await response.json();
+//     if (!data.success) {
+//       toast.error(data.message);
+//       return;
+//     }
+//     setReload((prev) => !prev);
+//     toast.success(data.message);
+//   } catch (error) {
+//     toast.error(error.message);
+//   }
+// };
 
 const Orders = () => {
   const [search , setSearch] = useState('');
-  const statusArray = Ordata.map(item => item.sataus);
-  const UniqueStatus = new Set(statusArray);
+ 
   let statusOptions = [{value: '', label: 'All'}]
   statusOptions.push(...Array.from(UniqueStatus).map((status) => {return {value: status, label: status}}));
   const [filteredData, setFilteredData] = useState(Ordata);

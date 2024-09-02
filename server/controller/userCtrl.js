@@ -164,31 +164,84 @@ const loginAdmin = asyncHandler(async (req, res) => {
     throw new Error("Invalid Credentials");
   }
 });
-const addnewAddress = asyncHandler(async (req, res) => {
+const addnewAddress = asyncHandler(async (req, res, next) => {
   const { _id } = req.user;
+
+  validateMongoDbId(_id);
+
   try {
+    // Check if address already exists in Address schema
+    const existingAddress = await Address.findOne(req.body);
+
+    if (existingAddress) {
+      const user = await User.findById(_id);
+      const existingUserAddress = user.address.find(
+        (address) => address.toString() === existingAddress._id.toString()
+      );
+
+      if (existingUserAddress) {
+        const response = {
+          success: true,
+          message: "Address saved successfully",
+        };
+        return res.json(response);
+      }
+
+      // If address already exists, update user's address and send response
+      const updatedUser = await User.findByIdAndUpdate(
+        _id,
+        {
+          $push: { address: existingAddress._id },
+        },
+        {
+          new: true,
+        }
+      );
+
+      const response = {
+        success: true,
+        message: "Address saved successfully",
+        user: updatedUser,
+      };
+      return res.json(response);
+    }
+
+    // If address does not exist, create and save new address
+    const newAddress = await Address.create(req.body);
+
+    // Check if address already exists in User's address array
     const user = await User.findById(_id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    const existingUserAddress = user.address.find(
+      (address) => address.toString() === newAddress._id.toString()
+    );
+
+    if (existingUserAddress) {
+      const response = {
+        success: true,
+        message: "Address saved successfully",
+      };
+      return res.json(response);
     }
-    // Validate req.body.address
-    const address = req.body.address;
-    console.log(address)
-    if (!address || !address.name || !address.email || !address.mobile || !address.address || !address.city || !address.pincode || !address.state) {
-      return res.status(400).json({ message: "Invalid address" });
-    }
-    // Check if address is an array
-    if (!Array.isArray(user.address)) {
-      user.address = [];
-    }
-    user.address.push(address);
-    // Use $addToSet to add new address only if it doesn't already exist
-    user.address = [...new Set([...user.address, address])];
-    await user.save();
-    res.status(201).json({ message: "Address added successfully" });
+
+    // If address does not exist in User's address array, push it to the array
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        $push: { address: newAddress._id },
+      },
+      {
+        new: true,
+      }
+    );
+
+    const response = {
+      success: true,
+      message: "Address saved successfully",
+      user: updatedUser,
+    };
+    res.json(response);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    throw new Error(error);
   }
 });
 

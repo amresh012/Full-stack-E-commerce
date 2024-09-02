@@ -42,7 +42,8 @@ import BlogView from './pages/Home/BlogView'
 import Category from './pages/Home/Category'
 import ProductEdit from './pages/Product/ProductEditPage'
 import ListBlogs from './pages/Admin/ListBlogs'
-import EditBlog from './pages/Admin/EditBlog'
+import EditBlog from "./pages/Admin/EditBlog"
+import Confirmation from './pages/Product/Confirmation'
 function App() {
 
   return (
@@ -57,6 +58,7 @@ function App() {
       <Route path="/product/:id" element={<ProductdetailPage/>}/>
       <Route path="/product-category/*" element={<Category />}/>
       <Route path="/checkout" element={<CheckOut/>}/>
+      <Route path={`/Order-confirmed`} element={<Confirmation/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
       <Route path="/blog/:id" element={<BlogView/>}/>
@@ -67,6 +69,7 @@ function App() {
       <Route path='terms&conditions' element = {<TermsAndConditions/>}/>
       <Route path='shipping-policy' element = {<ShippingPolicy/>}/>
       <Route path='return-policy' element = {<ReturnPolicy/>}/>
+
       </Route>
       </Route>
 

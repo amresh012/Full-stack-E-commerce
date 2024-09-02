@@ -10,7 +10,9 @@ import { config } from "../../Utils/axiosConfig";
 import Copoun from "../../components/Copoun/Copoun"
 import { useState } from "react";
 import {resetCart} from "../../features/cartSlice"
+import {useNavigate} from "react-router-dom"
 const CheckOut = () => {
+  const navigate = useNavigate()
   const [discount, setDiscount] = useState(0);
 
  const dispatch = useDispatch()
@@ -27,12 +29,14 @@ const CheckOut = () => {
 }
 
   const { carts, totalAmount} = useSelector((state) => state.cart);
+  const {user , signupdata, success} = useSelector((state)=> state.auth)
+    // console.log(signupdata, user, success)
  
  
       const amount = totalAmount;
       const currency = "INR";
-      const receiptId = `recipt_${Math.random()*1000}`;
-      const  address={
+      const receiptId = `recipt_${Math.random()*100}`;
+      const address = {
         street: "123 Main St",
         city: "Anytown",
         state: "CA",
@@ -40,7 +44,7 @@ const CheckOut = () => {
       }
 
   const paymentHandler = async (e) => {
-    const response = await fetch( `${ base_url}payment/createOrder`, {
+    const response = await fetch(`${ base_url}payment/createOrder`, {
       method: "POST",
       body: JSON.stringify({
         amount,
@@ -50,11 +54,11 @@ const CheckOut = () => {
         address:address,
         userId: generateRandomId()
       }),
-        ...config
+      ...config
     });
     const order = await response.json();
-    const {orderId , amount:order_amount} = order
-    console.log(order)
+    const {orderId , amount:order_amount , cartItems, address:orderaddress, userId:userid } = order
+    
 
     var options = {
       key: "rzp_test_oLA0LztRZUjDkX", // Enter the Key ID generated from the Dashboard
@@ -65,31 +69,27 @@ const CheckOut = () => {
       image: "https://example.com/your_logo",
       order_id:orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       handler: async function (response) {
-        dispatch(resetCart())
-         const paymentData =  {
+        const paymentData =  {
           paymentId: response.razorpay_payment_id,
           order_id: response.razorpay_order_id,
           razorpay_signature: response.razorpay_signature,
           amount:order_amount,
-          items:cartitems,
-          userId:userId,
-          address:address
-         }
-
-        const body = {
-          ...paymentData,
-        };
-
+          items:cartItems,
+          userId:userid,
+          address:orderaddress
+        }
+        console.log(paymentData)
+        navigate(`/order-confirmed`,{state:paymentData})
+        dispatch(resetCart())
         const validateRes = await fetch(
           `${ base_url}payment/verifyPayments`,
           {
             method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-              "Content-Type": "application/json",
-            },
+            body: JSON.stringify(paymentData),
+            ...config
           }
         );
+        console.log(handler)
         const jsonRes = await validateRes.json();
         console.log(jsonRes);
       },
@@ -140,7 +140,7 @@ const CheckOut = () => {
             <p className="item">{carts.length} Item in your cart</p>
           </div>
           <div className="cart-items">
-            <div className="cart-container rounded-b-md  w-full flex flex-col gap-2 items-center justify-around h-[100vh] overflow-y-scroll  no-scrollbar">
+            <div className="cart-container rounded-b-md  w-full flex flex-col gap-2 items-start justify-star h-[100vh] overflow-y-scroll  no-scrollbar">
               {/* cart items here */}
               {carts.length === 0 ?
                  <div className="h-full  mt-12 w-full bg-white  capitalize text-xl font-bold grid place-content-center text-center ">
@@ -206,7 +206,7 @@ const CheckOut = () => {
         </div>
         <div className="right-box h-fit p-4 bg-gray-100 rounded-md shadow-sm mt-4">
           <div className="address p-4 Copoun-Code rounded-md space-y-4">
-            <h1 className="text-2xl font-bold capitalize">Shipping Address</h1>
+            <h1 className="text-2xl font-bold capitalize">Address Information</h1>
               <div className="flex justify-between">
                 <span>Address:</span>
                 <p className="">Your Address</p>

@@ -43,6 +43,7 @@ const createOrder = async (req, res) => {
       userId,
       paystatus:"Created"
     });
+    console.log(respo)
     return respo;
       } 
   catch (err) {
@@ -52,6 +53,8 @@ const createOrder = async (req, res) => {
 };
 
 const verifyPayments = async (req, res) => {
+  console.log("inside payment verification conrtroer")
+  console.log(req.body)
   const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body
   console.log(req.body)
   const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET_KEY);

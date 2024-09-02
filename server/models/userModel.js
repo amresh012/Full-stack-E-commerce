@@ -98,34 +98,7 @@ const userSchema = new mongoose.Schema(
       },
     },
     order: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
-    address: [
-      {
-        name: {
-          type: String,
-        },
-        email: {
-          type: String,
-        },
-        mobile: {
-          type: String,
-        },
-        address: {
-          type: String,
-        },
-        city: {
-          type: String,
-        },
-        pincode: {
-          type: String,
-        },
-        state: {
-          type: String,
-        },
-        gstNo: {
-          type: String,
-        },
-      },
-    ],
+    address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
     refreshToken: {
       type: String,
     },
