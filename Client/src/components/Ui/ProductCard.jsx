@@ -62,7 +62,7 @@ const ProductCard = ({ product, addToCartHandler }) => {
             </span>
             {corporateDiscount > 0 && (
               <span className="text-2xl -mt-2 font-bold text-[#0a2440]">
-                &#8377;{+parseInt(discountedPrice).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                &#8377;{(+discountedPrice).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
               </span>
             )}
           </div>

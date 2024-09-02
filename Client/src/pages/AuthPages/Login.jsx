@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
 import { toast, Toaster } from "react-hot-toast";
-// import {adduser} from "../../features/authSlice";
+import {adduser} from "../../features/authSlice";
 import {adduser} from "../../features/authSlice";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";

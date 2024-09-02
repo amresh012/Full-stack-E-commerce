@@ -150,14 +150,15 @@ const searchProduct = asyncHandle(async (req, res) => {
 });
 
 const getallProduct = asyncHandle(async (req, res, next) => {
-  const Product = await ProductModel.find().populate("subcategory").populate({
+  const Product = await ProductModel.find().sort({'updatedAt': 'desc'}).populate("subcategory").populate({
     path: "reviews",
     model: "reviews",
     populate: {
       path: "user",
       model: "User",
     },
-  });;
+  });
+  console.log(Product[0])
   if (req.query) {
     next();
   } else {

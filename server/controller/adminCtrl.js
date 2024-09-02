@@ -71,12 +71,12 @@ const getAdminData = asyncHandle(async (req, res) => {
           year: { $year: "$createdAt" },
         },
       },
-      {
-        $match: {
-          month: date.getMonth() + 1,
-          year: date.getFullYear()
-        },
-      },
+      // {
+      //   $match: {
+      //     month: date.getMonth() + 1,
+      //     year: date.getFullYear()
+      //   },
+      // },
       {
         $group: {
           _id: '$month',

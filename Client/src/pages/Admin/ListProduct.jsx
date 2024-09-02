@@ -106,7 +106,7 @@ const ListProduct = () => {
       accessorKey: "_id",
       cell: ({ row }) => {
         const id = row.id;
-        return <span>{id}</span>;
+        return <span>{(+id)+1}</span>;
       },
     },
     {
@@ -133,9 +133,11 @@ const ListProduct = () => {
     {
       header: "Discount",
       accessorKey: "corporateDiscount",
+      accessorKey: "corporateDiscount",
       cell: ({ row }) => {
-        const discount = row.original.corporateDiscount
-        // console.log(discount)
+        console.log(row)
+        const discount = row.original?.discount;
+        console.log(discount)
         return <span>{discount}</span>;
       },
     },

@@ -66,7 +66,7 @@ const CopounList = () => {
       accessorKey: "id",
       cell: ({ row }) => {
         const id = row.id;
-        return <span>{Number(id)}</span>;
+        return <span>{Number(id)+1}</span>;
       },
     },
     {

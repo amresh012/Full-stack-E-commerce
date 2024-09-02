@@ -10,6 +10,7 @@ import { config } from "../../Utils/axiosConfig";
 const AdminBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isAdding, setIsAdding] = useState(false);
   const imageRef = useRef();
 
 
@@ -23,6 +24,7 @@ const AdminBlog = () => {
     }
 
     try {
+      setIsAdding(true);
       const formData = new FormData();
       formData.append("file", imageRef.current.files[0]);
 
@@ -47,6 +49,9 @@ const AdminBlog = () => {
     } catch (error) {
       toast.error(error?.response?.data?.error || 'Something went wrong');
     }
+    finally{
+      setIsAdding(true);
+    }
   };
 
 
@@ -54,7 +59,7 @@ const AdminBlog = () => {
     <>
       <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
         <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="">Add Blogs</h1>
+          <h1 className="">Add Blog</h1>
         </div>
       </div>
       <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
@@ -87,7 +92,8 @@ const AdminBlog = () => {
             <input className="w-full p-2 border-2 rounded-md" required type="file" ref={imageRef} accept=".jpg, .png, .webp" />
           </div>
 
-            <button className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440]" type="submit">Add Blog</button>
+            <button disabled={isAdding} className="w-full border-2 cursor-pointer  text-center border-[#0a2440] text-[#0a2440] px-12 py-2 hover:text-white  duration-300 hover:bg-[#0a2440] disabled:bg-[#d9d5d5] disabled:border-[#d9d5d5] disabled:text-black disabled:cursor-not-allowed" type="submit">{isAdding ? 
+            'Adding...' : 'Add Blog'}</button>
 
         </form>
       </div>
