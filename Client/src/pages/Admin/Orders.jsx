@@ -37,7 +37,7 @@ const columns = [
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.id;
-      return <span>{id}</span>;
+      return <span>{(+id)+1}</span>;
     },
   },
   {

@@ -1,12 +1,16 @@
 // import React from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { Field, useFormik } from "formik";
-import { updateSiteConfig } from "../../features/Website/configSlice";
+// import { updateSiteConfig } from "../../features/Website/configSlice";
 import { useDispatch } from "react-redux";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import axios from "axios";
+import { base_url } from "../../Utils/baseUrl";
+
 const WebsitePage = () => {
   const imageRef = useRef();
- const dispatch = useDispatch()
+  const [isChanging, setIsChanging] = useState(false);
+ const dispatch = useDispatch();
   const {
     values,
     handleReset,
@@ -31,6 +35,7 @@ const WebsitePage = () => {
         return;
       }
       try {
+        setIsChanging(true);
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("title", values.title);
@@ -53,6 +58,7 @@ const WebsitePage = () => {
         // console.log(error.message)
         toast.error(error.message);
       } finally {
+        setIsChanging(true);
         setSubmitting(false);
       }
     },
@@ -207,7 +213,7 @@ const WebsitePage = () => {
             onClick={handleChange}
             className="flex justify-center gap-4 w-full text-center duration-300"
           >
-            <button  className="bg-[#0a2440] p-2 rounded-md text-white uppercase">Change Occurance</button>
+            <button disabled={isChanging} className="bg-[#0a2440] p-2 rounded-md text-white uppercase disabled:bg-[#d9d5d5] disabled:border-[#d9d5d5] disabled:text-black disabled:cursor-not-allowed">{isChanging ? 'Changing...' :   'Change Occurance'}</button>
             <button className="bg-[#0a2440] p-2 rounded-md text-white uppercase" type="reset" onClick={handleReset}>
               Reset Occurance
             </button>
