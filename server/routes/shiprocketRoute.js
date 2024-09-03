@@ -4,6 +4,6 @@ const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const { createOrder } = require("../controller/shiprocketctrl");
 const router = express.Router();
 
-router.post("/", createOrder );
+router.post("/",authMiddleware , createOrder );
 
 module.exports = router;

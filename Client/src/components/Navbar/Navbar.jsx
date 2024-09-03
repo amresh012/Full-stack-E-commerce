@@ -10,6 +10,8 @@ import Logo from "../reusablesUI/Logo";
 import AccountMenu from "../UserDashComp/AccountMenu";
 import { useSelector } from "react-redux";
 
+const mobileNavVisibleWidth = 600
+
 const links = [
   {
     label: "Home",
@@ -42,8 +44,7 @@ const links = [
 
 const Navbar = () => {
   const {totalQuantity} = useSelector((state) => state.cart);
-  const {token} = useSelector((state) => state.auth);
-  const site = useSelector((state) => state.site.data);
+  const token = localStorage.getItem("token")  
 
   
 
@@ -82,9 +83,9 @@ const Navbar = () => {
             <LeftDrawer icon={<BiShoppingBag color="white" size={25} className="" />} />
           </Badge>
          </div>
-      {
-        innerWidth < 900 &&  <MobileNav navlinks={links}/>
-      }
+        <div className="lg:hidden block">
+        <MobileNav navlinks={links}/>
+        </div>
       </div>
     </nav>
   );

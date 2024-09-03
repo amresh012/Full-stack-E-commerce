@@ -21,6 +21,7 @@ const razorpay = new Razorpay({
             ]
           }
                 const response = await razorpay.invoices.create(options)
+                console.log(response)
                 res.json(response)
                 }catch(error){
                     console.log(error)

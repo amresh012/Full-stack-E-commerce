@@ -18,7 +18,7 @@ const SignUp = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const authentication = useSelector((state) => state.auth);
-  // console.log(authentication);
+  console.log(authentication);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -43,12 +43,12 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const response = await checkuserSignup(formData);
-      // console.log(response);
-      if (!response.error) {
+      console.log(response)
+      if (!response.error ) {
         dispatch(RegisterApi(formData));
         toast.success("Registration successful!");
         dispatch(addSignupdata(formData));
-        // Redirect to login page or dashboard
+
         navigate("/login");
       }
       else {

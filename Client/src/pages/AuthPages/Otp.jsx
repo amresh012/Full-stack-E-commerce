@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from "axios"
+import {base_url} from "../../Utils/baseUrl"
+import {toast, Toaster} from "react-hot-toast"
 const OTPInput = ({ length, onChange }) => {
   const [otp, setOtp] = useState(Array(length).fill(''));
 
@@ -36,21 +38,33 @@ const OTPInput = ({ length, onChange }) => {
 
 const OTPComponent = () => {
   const [otp, setOtp] = useState(0);
-  // console.log(otp)
+ 
 
-  const handleChange = (value) => {
-      setOtp(value);
-      // console.log(value)
+  const handleChange = useCallback((value) => {
+    console.log(value);
+    setOtp(value);
+  }, [setOtp]);
+
+const handleSubmit = async (e) => {
+  const getotp = await otp;
+  e.preventDefault();
+  try {
+    const sentOtp = await axios.post(`${base_url}otp/verify`, getotp);
+    console.log(sentOtp);
+    if (sentOtp.status === 200) {
+      toast.success("OTP verifyed successfully successfully");
+    } else {
+      console.error("Error sending OTP:", sentOtp.data);
+    }
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+  }
 };
-  const handleSubmit = (e , otp) => {
-    e.preventDefault();
-    alert('Submitted OTP:', otp);
-    // window.location.href="/reset-password"
-  };
 
   return (
+    <>
+    <Toaster/>
     <div className="flex justify-center items-center h-[50vh]">
-      
       <div className="w-full max-w-md p-8 space-y-8 flex items-center justify-center flex-col bg-white rounded shadow">
         <h2 className="text-2xl font-bold text-center">Enter OTP</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -71,6 +85,7 @@ const OTPComponent = () => {
         </form>
       </div>
     </div>
+              </>
   );
 };
 

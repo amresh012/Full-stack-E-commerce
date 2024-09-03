@@ -20,7 +20,8 @@ const {
   checkresetPasswordUser,
   verifyUser,
   addnewAddress,
-  getAddressById
+  getAddressById,
+  // getUserByEmail
 } = require("../controller/userCtrl");
 const {
   authMiddleware,
@@ -44,7 +45,8 @@ router.post("/admin-login", loginAdmin);
 router.get("/all-users", getallUser);
 router.get("/refresh", handleRefreshToken);
 router.post("/logout", logout);
-router.get("/:id", authMiddleware, isAdmin, getaUser);
+router.get("/:id", authMiddleware, getaUser);//isAdmin middleware  put if required
+// router.get('/:email', getUserByEmail);
 router.delete("/:id", deleteaUser);
 router.put("/order/update-order/:id", authMiddleware);
 router.put("/edit-user", authMiddleware, updatedUser);

@@ -16,7 +16,7 @@ import {useNavigate} from "react-router-dom"
 import { removeuser } from '../../features/authSlice';
 export default function AccountMenu() {
   const navigate = useNavigate()
-  const { signupdata } = useSelector((state) => state.auth);
+  const name = localStorage.getItem("name")
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -48,7 +48,7 @@ export default function AccountMenu() {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar sx={{ width: 32, height: 32 }}>
-              {signupdata?.name.slice(0, 2)}
+              {name.slice(0, 2)}
             </Avatar>
           </IconButton>
         </Tooltip>

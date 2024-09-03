@@ -9,6 +9,7 @@ import moment from "moment"
 const deliveryCharge = 12
 const Confirmation = () => {
     const [current, setCurrent] = useState(4);
+
     const onChange = (value) => {
         console.log('onChange:', value);
         setCurrent(value);
@@ -25,11 +26,11 @@ const Confirmation = () => {
        <div className="flex items-center justify-around flex-col gap-2">
         <span className=''>THANK YOU</span>
         <p className='text-3xl font-bold'>  YOU ORDER IS CONFIRMED</p>
-        <p>We Will Send You an Email confirmation to {email}</p>
+        <p>We Will Send You an Email confirmation to</p>
        </div>
        <div className="stepper rounded-md  shadow-md w-full p-4 bg-white text-black flex flex-col items-center gap-12 ">
         <div className="text-2xl">
-            <p>Order #{orderid} was placed  on {moment().format('MMMM Do YYYY')} and is currently in progress</p>
+            <p>Order #{stat.order_id} was placed  on {moment().format('MMMM Do YYYY')} and is currently in progress</p>
         </div>
        <Steps
        responsive={true}
@@ -107,7 +108,7 @@ const Confirmation = () => {
         <div className="amout space-y-4 ">
             <div className="flex justify-between">
                 <p>Sub total</p>
-                <p>{amount}</p>
+                <p>{stat.amount}</p>
             </div>
             <div className="flex justify-between">
                 <p>Delivery Charges</p>
@@ -115,7 +116,7 @@ const Confirmation = () => {
             </div>
             <div className="flex justify-between font-bold text-xl border-t-2 border-black pt-2">
                 <p>Total</p>
-                <p>{amount- deliveryCharge}</p>
+                <p>{stat.amount- deliveryCharge}</p>
             </div>
         </div>
       </div>

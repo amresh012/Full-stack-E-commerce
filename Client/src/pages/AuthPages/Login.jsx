@@ -4,7 +4,6 @@ import { IoLockClosedOutline } from 'react-icons/io5';
 import { CiMail } from 'react-icons/ci';
 import { toast, Toaster } from "react-hot-toast";
 import {adduser} from "../../features/authSlice";
-import {adduser} from "../../features/authSlice";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -79,7 +78,7 @@ const Login = () => {
                 Email
               </label>
               <div className="relative flex max-h-fit">
-                <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white text-white">
+                <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white">
                   <CiMail />
                 </div>
                 <input
@@ -97,7 +96,7 @@ const Login = () => {
                 Password
               </label>
               <div className="relative flex">
-                <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white text-white">
+                <div className="flex items-center justify-center text-xl w-12  bg-[#144170]  text-white">
                   <IoLockClosedOutline />
                 </div>
                 <input

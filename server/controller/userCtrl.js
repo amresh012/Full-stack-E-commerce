@@ -336,25 +336,20 @@ const updatedUser = asyncHandler(async (req, res) => {
   }
 });
 const updateRole = asyncHandler(async (req, res) => {
+  console.log(req.body)
   const { id } = req.params;
-  // console.log(id);
   const { role } = req.body;
-  // console.log(role);
-  validateMongoDbId(id);
 
+  if (!validateMongoDbId(id)) {
+    throw new Error('Invalid MongoDB ID');
+  }
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      {
-        role: role,
-      },
-      {
-        new: true,
-      }
-    );
-    res.json(updatedUser);
+    const updatedUser = await User.findByIdAndUpdate(id, { role }, { new: true });
+    console.log(updatedUser)
+   return  res.json(updatedUser);
   } catch (error) {
-    throw new Error(error);
+    console.error(error);
+    res.status(500).json({ message: 'Error updating user role' });
   }
 });
 
@@ -385,6 +380,22 @@ const getaUser = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+// get user by email
+// const getUserByEmail = asyncHandler(async (req, res) => {
+//   console.log(req.body)
+//   const { email } = req.params;
+//   try {
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+//     res.json(user);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
 
 // Get a single user
 
@@ -468,7 +479,8 @@ const forgetPasswordToken = asyncHandler(async (req, res) => {
   if (!user) res.json({ error: "Email is not Registered with us !" });
   try {
     const token = await user.createPasswordResetToken();
-    // console.log(token);
+    console.log(token);
+     console.log(req.headers.origin)
     await user.save();
     const sendData = `<h1 style=\"color: #333; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; margin-bottom: 16px;\">Password Reset<\/h1>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 8px;\">Hi there,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">We received a request to reset your password. Please click the link below to reset your password:<\/p>\r\n<p style=\"margin-bottom: 16px;\"><a href='${req.headers.origin}/reset-password/${token}' style=\"background-color: #007bff; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; padding: 10px 16px; text-decoration: none;\">Reset Password<\/a><\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">If you did not request a password reset, you can ignore this email and your password will not be changed.<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;\">Thank you,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 0;\">KFS Fitness Team<\/p>\r\n`;
     const data = {
@@ -540,5 +552,6 @@ module.exports = {
   checkresetPasswordUser,
   verifyUser,
   addnewAddress,
-  getAddressById
+  getAddressById,
+  // getUserByEmail
 };

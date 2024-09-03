@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
 const OTP = require("../models/otpmodel");
 require("dotenv").config();
+
 const sendOtpOnMail = asyncHandle(async (req, res) => {
   const otp = randomstring.generate({
     length: 4,
@@ -11,12 +12,12 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
   const html = `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
   <div style="margin:50px auto;width:70%;padding:20px 0">
     <div style="border-bottom:1px solid #eee">
-      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Deepnap Softech Tech</a>
+      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">KFS FITNESS</a>
     </div>
     <p style="font-size:1.1em">Hi,</p>
-    <p>Thank you for choosing Deepnap Softech. Use the following OTP to complete your to continue of submition. OTP is valid for 5 minutes only</p>
+    <p>Thank you for choosing KFS FITNESS. Use the following OTP to complete your to continue of submition. OTP is valid for 5 minutes only</p>
     <h2 style="background: blue;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
-    <p style="font-size:0.9em;">Regards,<br />Deepnap Softech Tech team</p>
+    <p style="font-size:0.9em;">Regards,<br />KFS FITNESS TEAM</p>
     <hr style="border:none;border-top:1px solid #eee" />
     
   </div>
@@ -30,14 +31,14 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
         host: "smtp.gmail.com",
         port: 587,
         auth: {
-          user: process.env.MAIL_ID,
-          pass: process.env.MP,
+          user: process.env.EMAIL_ID,
+          pass: process.env.EMAIL_PASSWORD,
         },
       });
       let info = await transporter.sendMail({
-        from: "<no-reply@eccomerce1.deepmart.shop>",
+        from: "<kfsfitnessnoreply@gmail.com>",
         to: email,
-        subject: "OTP verification by Deepnap Softech Tech",
+        subject: "OTP verification by KFS Fitness",
         // text: otp, // plain text body
         html: html,
       });
@@ -54,18 +55,22 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
   }
 });
 const verifyOtp = async (req, res) => {
-  console.log(req.body);
-  if (req.body.email) {
-    const { email, otp } = req.body;
-    const otpverify = await OTP.findOne({ email, otp });
-    console.log(otpverify, req.body);
-    if (otpverify) {
-      res.json({ sucess: "OTP Verified" });
+  console.log(req.body)
+  if (!req.body || !req.body.otp) {
+    return res.status(400).json({ error: "Invalid data" });
+  }
+
+  const { otp } = req.body;
+  try {
+    const otpVerify = await OTP.findOne({ otp });
+    if (otpVerify) {
+      return res.json({ success: "OTP Verified" });
     } else {
-      res.json("Inavlid OTP");
+      return res.status(401).json({ error: "Invalid OTP" });
     }
-  } else {
-    res.json("Invalid data");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 module.exports = { sendOtpOnMail, verifyOtp };

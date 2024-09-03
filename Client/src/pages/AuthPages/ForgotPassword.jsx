@@ -14,8 +14,8 @@ const ForgotPassword = ()=> {
   const handleSubmit =async (e) => {
       e.preventDefault();
       try {
-        const res=  await axios.post(`${base_url}user/forgot-password-token`, { email });
-        //  console.log(res)
+        const res=  await axios.post(`${base_url}otp/send`, { email });
+        console.log(res)
         if(res.data.error){
           throw new Error(res.data.error)
         }
@@ -29,6 +29,9 @@ const ForgotPassword = ()=> {
           },5000)
       } catch (error) {
         setMessage(error.message);
+        setTimeout(() => {
+          setMessage("")
+        },5000)
       }
   };
 
@@ -61,7 +64,7 @@ const ForgotPassword = ()=> {
             </div>
           </div>
             <div>
-              {message && <p className='text-italic text-center w-full p-2 text-red-500'>{message}</p> }
+              {message && <p className={success?"text-green-500 text-center p-2":"text-red-500 text-center p-2"}>{message}</p> }
             <button
               type="submit"
               className="w-full px-4 py-2 text-white bg-[#038CCC] rounded-md hover:bg-[#038CCC]/80 focus:outline-non focus:bg-[#038CCC]"

@@ -22,8 +22,8 @@ const BasicTable = ({columns, data}) => {
     onSortingChange: setSorting,
   });
   return (
-    <div className="shadow-md rounded-md p-2">
-
+    <>
+    <div className="shadow-md rounded-md p-2 w-[100%] overflow-x-scroll">
          <select
          className="border-2 p-4 outline-none m-4 w-2/6"
           value={table.getState().pagination.pageSize}
@@ -37,7 +37,7 @@ const BasicTable = ({columns, data}) => {
             </option>
           ))}
         </select>
-      <table className="">
+      <table className="overflow-scroll ">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -103,7 +103,8 @@ const BasicTable = ({columns, data}) => {
           />
         </span>
         </div>
-      <div className="w-full flex gap-12 p-4  items-center justify-center">
+    </div>
+    <div className="w-full flex gap-12 p-4  items-center justify-center">
         <button
           className={
             !table.getCanPreviousPage()
@@ -123,14 +124,14 @@ const BasicTable = ({columns, data}) => {
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
-        >
+          >
           &lt;
         </button>
         <button
           className={
             !table.getCanNextPage()
-              ? "cursor-not-allowed "
-              : "p-2 text-xl font-bold bg-[#0a2440] rounded-md text-white "
+            ? "cursor-not-allowed "
+            : "p-2 text-xl font-bold bg-[#0a2440] rounded-md text-white "
           }
           disabled={!table.getCanNextPage()}
           onClick={() => table.nextPage()}
@@ -149,7 +150,7 @@ const BasicTable = ({columns, data}) => {
          Last Page
         </button>
       </div>
-    </div>
+              </>
   );
 };
 

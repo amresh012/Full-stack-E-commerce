@@ -12,10 +12,11 @@ var orderSchema = new mongoose.Schema(
        type:String,
        require:true
     },
-    invoiceNo: {
-      type: String,
-      require:true
-    },
+    // invoiceNo: {
+    //   type:mongoose.Schema.Types.ObjectId,
+    //   ref:"invoice",
+    //   require:true
+    // },
     products: [
       {
         product: {
@@ -32,15 +33,18 @@ var orderSchema = new mongoose.Schema(
       ref: "User",
     },
     address: {
-      type:[],
+      type:String,
       require:true
     },
     status: {
       type: String,
       default: "Processing",
+      statuses: [
+        'Not Processed', 'Cancelled', 'return Successfully', 'Dispatch', 'return',
+        'Out Of Delivery', 'Order Confirmed', 'Processing', 'Shipped', 'COD'
+      ]
     },
-  },
-  {
+  },{
     timestamps: true,
   }
 );

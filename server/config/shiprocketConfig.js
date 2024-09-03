@@ -15,3 +15,5 @@ async function authenticate() {
     console.error('Authentication failed:', error.response.data);
   }
 }
+
+module.exports = { authenticate };

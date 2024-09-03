@@ -2,41 +2,19 @@
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Ordata from "../../MOCK_DATA (4).json"
-import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
+import { FaDownload, FaEye, FaSearch, FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
-import { config } from '../../Utils/axiosConfig';
 import Select from 'react-select';
 
 const statusArray = Ordata.map(item => item.sataus);
 const UniqueStatus = new Set(statusArray);
 const statusOptions = Array.from(UniqueStatus)
-// console.log(UniqueStatus)
-// const getStatusColor = (status) => {
-//   switch (status.toLowerCase()) {
-//     case "return":
-//       return "bg-red-200 p-2 text-red-500 rounded-md w-full  uppercase"; // Red color for "Return"
-//     case "cod":
-//       return "text-yellow-500 bg-yellow-200 p-2 w-full rounded-md uppercase"; // Yellow color for "COD"
-//     case "not processed":
-//       return "text-gray-500 bg-gray-200 p-2 rounded-md w-full uppercase"; // Gray color for "Not Processed"
-//     case "shipped":
-//       return "text-blue-500  bg-blue-200 p-2 w-full rounded-md uppercase"; // Blue color for "Shipped"
-//     case "out of delivery":
-//       return "text-purple-500  bg-purple-200 p-2 w-full rounded-md uppercase"; // Purple color for "Out Of Delivery"
-//     case "cancelled":
-//       return "text-black  bg-black/20 p-2 rounded-md w-full uppercase"; // Black color for "Cancelled"
-//     default:
-//       return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
-//   }
-// };
-
-
 
 const columns = [
   {
-    header: "ID",
+    header: "Sr No.",
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.id;
@@ -44,12 +22,33 @@ const columns = [
     },
   },
   {
-    header: "Invoice No.",
+    header: "OrderID",
     accessorKey: "Invoice",
+    size:300,
   },
   {
-    header: "Orderd By",
+    header: "Order Date",
+    accessorKey: "Order_date",
+  },
+  {
+    header: "Customer Name",
     accessorKey: "orderd_by",
+  },
+  {
+    header: "Customer Email",
+    accessorKey: "email",
+  },
+  {
+    header: "Orderd Products",
+    accessorKey: "email",
+  },
+  {
+    header: "Order Status",
+    accessorKey: "email",
+  },
+  {
+    header: "Pay Method",
+    accessorKey: "email",
   },
   {
     header: "TransactionID",
@@ -58,10 +57,6 @@ const columns = [
   {
     header: "Amount in Rs",
     accessorKey: "Amount",
-  },
-  {
-    header: "Order Date",
-    accessorKey: "Order_date",
   },
   {
     header: "Status",
@@ -85,11 +80,14 @@ const columns = [
     header: "Action",
     cell: ({row}) => {
     return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" >
+        <div className="bg-red-200 p-2 rounded-md" title="delete order">
         <FaTrash className="text-red-500" />
         </div>
-       <div className="bg-blue-200 p-2 rounded-md">
+       <div className="bg-blue-200 p-2 rounded-md" title="View Order Details">
        <FaEye className="text-blue-500" />
+       </div>
+       <div className="bg-green-200 p-2 rounded-md" title="download invoice">
+       <FaDownload className="text-green-500" />
        </div>
       </div>)
   },

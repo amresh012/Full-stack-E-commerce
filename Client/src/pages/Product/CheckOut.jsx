@@ -14,6 +14,12 @@ import {useNavigate} from "react-router-dom"
 const CheckOut = () => {
   const navigate = useNavigate()
   const [discount, setDiscount] = useState(0);
+  const [isBilling , setIsBilling] = useState(true)
+  const handleChecked =  ()=>{
+    if(isBilling){
+      
+    }
+  }
 
  const dispatch = useDispatch()
   //generate teperory random id 
@@ -33,7 +39,7 @@ const CheckOut = () => {
     // console.log(signupdata, user, success)
  
  
-      const amount = totalAmount;
+      const amount = totalAmount*100;
       const currency = "INR";
       const receiptId = `recipt_${Math.random()*100}`;
       const address = {
@@ -58,8 +64,8 @@ const CheckOut = () => {
     });
     const order = await response.json();
     const {orderId , amount:order_amount , cartItems, address:orderaddress, userId:userid } = order
-    
 
+    // ************************************************************************************************************
     var options = {
       key: "rzp_test_oLA0LztRZUjDkX", // Enter the Key ID generated from the Dashboard
       amount:order_amount,
@@ -79,18 +85,17 @@ const CheckOut = () => {
           address:orderaddress
         }
         console.log(paymentData)
-        navigate(`/order-confirmed`,{state:paymentData})
-        dispatch(resetCart())
         const validateRes = await fetch(
-          `${ base_url}payment/verifyPayments`,
+          `${ base_url}payment/verifyPayment`,
           {
             method: "POST",
             body: JSON.stringify(paymentData),
             ...config
           }
         );
-        console.log(handler)
         const jsonRes = await validateRes.json();
+        navigate(`/order-confirmed`,{state:paymentData})
+        dispatch(resetCart())
         console.log(jsonRes);
       },
       // prefill: {
@@ -207,6 +212,10 @@ const CheckOut = () => {
         <div className="right-box h-fit p-4 bg-gray-100 rounded-md shadow-sm mt-4">
           <div className="address p-4 Copoun-Code rounded-md space-y-4">
             <h1 className="text-2xl font-bold capitalize">Address Information</h1>
+            <div className="isbilling_isShipping flex justify-between items-center font-bold text-red-500">
+              <p className="">Shipping address is Same as Billing Address</p>
+              <input type="checkbox"checked={isBilling} onChange={handleChecked} />
+            </div>
               <div className="flex justify-between">
                 <span>Address:</span>
                 <p className="">Your Address</p>
