@@ -48,7 +48,6 @@ function App() {
 
   return (
    <Suspense fallback={<Loader/>}>
-      
     <Routes>
       <Route element ={<Layout/>}>
       <Route path='/' element={<HomePage/>}/>
@@ -69,7 +68,6 @@ function App() {
       <Route path='terms&conditions' element = {<TermsAndConditions/>}/>
       <Route path='shipping-policy' element = {<ShippingPolicy/>}/>
       <Route path='return-policy' element = {<ReturnPolicy/>}/>
-
       </Route>
       </Route>
 

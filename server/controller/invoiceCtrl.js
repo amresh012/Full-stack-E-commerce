@@ -6,29 +6,46 @@ const razorpay = new Razorpay({
     key_secret:process.env.RAZORPAY_SECRET_KEY,
   });
 
-
+  const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (15 * 24 * 60 * 60);
   const createInvoice = async (req, res)=>{
     try{
-        const {customer_id , amount , orderid , paymentid, gtno, address , itemid } = req.body
-        const options = {
-            "type": "invoice",
-            "date": Date(),
-            "customer_id": "cust_E7q0trFqXgExmT",
-            "line_items": [
-              {
-                "item_id": "item_DRt61i2NnL8oy6"
-              }
-            ]
-          }
+        const {customer, line_items} = req.body
+        {
+          type ="invoice",
+          description= `Invoice for the month of ${Date.now().toLocaleString()}`,
+          customer= {
+            name:customer.name,
+            contact:customer.mobile,
+            email:customer.email,
+            billing_address: customer.billing_address,
+            shipping_address:customer.shipping_address
+          },
+          line_items= line_items ,
+          sms_notify= 1,
+          email_notify= 1,
+          currency= "INR",
+          expire_by= fifteenDaysAhead
+        }
                 const response = await razorpay.invoices.create(options)
                 console.log(response)
                 res.json(response)
+                // save invoice data in database in invoice model
+                const invoice = new invoiceModel({
+                  orderId: order_id,
+                  paymentId:paymentId,
+                  amount: amount, // Convert amount to rupees
+                  cartItems:items,
+                  address,
+                  user,
+                  paymentStatus: "Success"
+    })
+                invoice.save()
                 }catch(error){
                     console.log(error)
     }
   }
 
-
+module.exports= {createInvoice}
 
 
 

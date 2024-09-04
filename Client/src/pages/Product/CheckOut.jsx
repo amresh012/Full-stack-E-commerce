@@ -15,6 +15,8 @@ const CheckOut = () => {
   const navigate = useNavigate()
   const [discount, setDiscount] = useState(0);
   const [isBilling , setIsBilling] = useState(true)
+
+
   const handleChecked =  ()=>{
     if(isBilling){
       
@@ -35,11 +37,9 @@ const CheckOut = () => {
 }
 
   const { carts, totalAmount} = useSelector((state) => state.cart);
-  const {user , signupdata, success} = useSelector((state)=> state.auth)
-    // console.log(signupdata, user, success)
- 
- 
-      const amount = totalAmount*100;
+  const auth = useSelector((state) => state.auth);
+
+      const amount = totalAmount;
       const currency = "INR";
       const receiptId = `recipt_${Math.random()*100}`;
       const address = {
@@ -48,9 +48,8 @@ const CheckOut = () => {
         state: "CA",
         zip: "12345",
       }
-
   const paymentHandler = async (e) => {
-    const response = await fetch(`${ base_url}payment/createOrder`, {
+    const response = await fetch(`${base_url}payment/createOrder`, {
       method: "POST",
       body: JSON.stringify({
         amount,
@@ -58,11 +57,12 @@ const CheckOut = () => {
         receipt: receiptId,
         cartItems:carts,
         address:address,
-        userId: generateRandomId()
+        user:auth
       }),
       ...config
     });
     const order = await response.json();
+    console.log(order)
     const {orderId , amount:order_amount , cartItems, address:orderaddress, userId:userid } = order
 
     // ************************************************************************************************************
@@ -79,25 +79,38 @@ const CheckOut = () => {
           paymentId: response.razorpay_payment_id,
           order_id: response.razorpay_order_id,
           razorpay_signature: response.razorpay_signature,
-          amount:order_amount,
-          items:cartItems,
-          userId:userid,
-          address:orderaddress
-        }
-        console.log(paymentData)
-        const validateRes = await fetch(
-          `${ base_url}payment/verifyPayment`,
-          {
+          amount: order_amount,
+          items: cartItems,
+          user: userid,
+          address: orderaddress
+        };
+        console.log(paymentData);
+        try {
+          const validateRes = await fetch(`${base_url}payment/verifyPayment`, {
             method: "POST",
-            body: JSON.stringify(paymentData),
-            ...config
+            ...config,
+            body: JSON.stringify(paymentData), // Pass the object directly
+          });
+          if (!validateRes.ok) {
+            // Handle HTTP errors
+            console.error(`HTTP error! Status: ${validateRes.status}`);
+            return;
           }
-        );
-        const jsonRes = await validateRes.json();
-        navigate(`/order-confirmed`,{state:paymentData})
-        dispatch(resetCart())
-        console.log(jsonRes);
+      
+          const jsonRes = await validateRes.json();
+          console.log(jsonRes);
+      
+          // Navigate to the order confirmation page
+          navigate(`/order-confirmed`, { state: paymentData });
+      
+          // Reset the cart
+          dispatch(resetCart());
+      
+        } catch (error) {
+          console.error("Error validating payment:", error);
+        }
       },
+      
       // prefill: {
       //   name: signupdata?.name, //your customer's name
       //   email: signupdata?.email,
@@ -148,7 +161,7 @@ const CheckOut = () => {
             <div className="cart-container rounded-b-md  w-full flex flex-col gap-2 items-start justify-star h-[100vh] overflow-y-scroll  no-scrollbar">
               {/* cart items here */}
               {carts.length === 0 ?
-                 <div className="h-full  mt-12 w-full bg-white  capitalize text-xl font-bold grid place-content-center text-center ">
+                 <div className="  mt-12 w-full bg-white  capitalize text-xl font-bold grid place-content-center text-center ">
                  <img
                    src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
                    alt=""

@@ -5,32 +5,71 @@ const InvoiceModel = require("../models/invoiceModel")
 const Invoice = require("../controller/invoiceCtrl")
 
 
-  const savePaymentDetails = async (req, res) => {
-    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, amount, currency } = req.body;
-  
-    const newPayment = new OrderModel({
-        payment_id: razorpay_payment_id,
-        order_id: razorpay_order_id,
-        signature: razorpay_signature,
-        amount: amount,
-        currency: currency,
-        status: "success",
-        created_at: new Date()
-    });
-  
-    try {
-        await newPayment.save();
-        res.send("Payment saved successfully");
-    } catch (error) {
-        res.status(500).send("Error saving payment details");
-    }
-  };
-  
 
   // get All Orders
-  const getAllorders = (req, res)=>{
-   
-  }
+  const getAllOrders = async (req, res) => {
+    try {
+      // Fetch all orders from the database
+      const orders = await OrderModel.find()
+      .populate({
+        path: "cartItems",
+        populate: [
+          { path: "_id",
+            model: "product",
+            select: "name"
+           },
+        ]
+
+      }).populate(
+        {
+          path: "user",
+          model:"User",
+          select: "name email _id  mobile"
+        }
+      );
+      // Send the orders as the response
+      res.status(200).json({
+        success: true,
+        count: orders.length,
+        data: orders,
+      });
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      
+      // Send an error response
+      res.status(500).json({
+        success: false,
+        message: "Error fetching orders",
+        error: error.message,
+      });
+    }
+  };
+
+  const deleteOrder = async (req, res) => {
+    try {
+      // Get the order id from the request parameters
+      const id = req.params._id;
+  
+      // Find and remove the order by its id
+      const order = await OrderModel.findOneAndRemove({ _id: id });
+  
+      // If the order is not found, return a 404 error
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+  
+      // Find and remove the associated invoice
+      await InvoiceModel.findOneAndRemove({ orderId: id });
+  
+      // Return a success message
+      res.json({ message: "Order deleted successfully" });
+    } catch (error) {
+      // Log the error and return a 500 error
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
 
   // getSinglOrder
   const getSingleOrder = async (req, res) => {}
@@ -70,7 +109,7 @@ const Invoice = require("../controller/invoiceCtrl")
       };
 
 
-module.exports= {getInvoices, editOrderStatus , getSingleOrder ,savePaymentDetails}
+module.exports= {getInvoices, editOrderStatus , deleteOrder, getSingleOrder ,getAllOrders}
 
 
 

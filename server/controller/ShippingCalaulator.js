@@ -1,9 +1,6 @@
 var axios = require('axios');
 const authLogin  = require("../config/shiprocketConfig")
-console.log(authLogin)
-//+++++++++++++++++++++++++++++++++++++++++++++++++
-/* GET home page. */
-//+++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 router.post('/shiprocket-rate-calculation', async function(req, res, next) {
   let rs_data = await srShippingRateCalculation(700008,700009,5,2000);

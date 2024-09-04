@@ -1,16 +1,49 @@
 // import React from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Ordata from "../../MOCK_DATA (4).json"
+// import Ordata from "../../MOCK_DATA (4).json"
 import { FaDownload, FaEye, FaSearch, FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
-import Select from 'react-select';
+import {config} from "../../Utils/axiosConfig"
+import moment from "moment"
+import Loader from "../../components/reusablesUI/Loader"
 
-const statusArray = Ordata.map(item => item.sataus);
-const UniqueStatus = new Set(statusArray);
-const statusOptions = Array.from(UniqueStatus)
+const orderStates = [
+  "Pending",          // Order has been placed but not yet processed
+  "Processing",       // Order is being prepared
+  "Shipped",          // Order has been shipped but not yet delivered
+  "Out for Delivery", // Order is out for delivery
+  "Delivered",        // Order has been delivered to the customer
+  "Cancelled",        // Order has been cancelled
+  "Returned",         // Order has been returned by the customer
+  "Refunded",         // Payment has been refunded to the customer
+];
+
+
+const deleteProduct = async (id) => {
+  try {
+    const response = await fetch(`${base_url}order/${id}`, {
+      method: "DELETE",
+      ...config,
+    });
+    const data = await response.json();
+    if (data.error) {
+      toast.error(data.error);
+      return;
+    }
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
+    setReload((prev) => !prev);
+    toast.success(data.message);
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
 
 const columns = [
   {
@@ -23,64 +56,69 @@ const columns = [
   },
   {
     header: "OrderID",
-    accessorKey: "Invoice",
-    size:300,
+    accessorKey: "orderId",
   },
   {
-    header: "Order Date",
+    header: "Date",
     accessorKey: "Order_date",
+    cell:({row})=>{
+      // console.log(row)
+      const date = row.original
+      return <span>{moment(date).format('DD/MM/YYYY hh:mm')}</span>;
+    }
   },
   {
-    header: "Customer Name",
+    header: "Name",
     accessorKey: "orderd_by",
   },
   {
-    header: "Customer Email",
-    accessorKey: "email",
+    header: "Products",
+    accessorKey: "cartItems",
+    cell:({row})=>{
+      const name = row.original.cartItems[0]?._id.name
+      return <span>{name}</span>;
+    }
   },
   {
-    header: "Orderd Products",
-    accessorKey: "email",
-  },
-  {
-    header: "Order Status",
-    accessorKey: "email",
-  },
-  {
-    header: "Pay Method",
-    accessorKey: "email",
+    header: "Quantity",
+    accessorKey: "cartItems",
+    cell:({row})=>{
+      const quantity = row.original.cartItems[0]?.quantity
+      return <span>{quantity}</span>;
+    }
   },
   {
     header: "TransactionID",
-    accessorKey: "transaction",
+    accessorKey: "paymentId",
   },
   {
-    header: "Amount in Rs",
-    accessorKey: "Amount",
+    header: "Amount",
+    accessorKey: "amount",
   },
   {
     header: "Status",
-    accessorKey: "sataus",
-    cell: ({ row }) => {
-      // const status = row.original.sataus;
+    accessorKey: "paymentStatus",
+    size: 270,
+  },
+  {
+      header:"Order Status",
+      cell:({ row }) => {
       return( 
         <select className="p-2 border-2" required>
           {
-            statusOptions?.map((stat)=>(
+            orderStates?.map((stat)=>(
               <option value={stat}>{stat}</option>
             ))
           }
         </select>
-      // <span className={getStatusColor(status)}>{status}</span>
     )
     },
-    size: 270,
   },
   {
     header: "Action",
     cell: ({row}) => {
     return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" title="delete order">
+        <div className="bg-red-200 p-2 rounded-md" title="delete order"  onClick={() => deleteProduct(row.original._id)}>
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md" title="View Order Details">
@@ -93,47 +131,53 @@ const columns = [
   },
   },
 ];
-// delete Order
-
-// const handleDelete = async (id) => {
-//   try {
-//     const response = await fetch(`${base_url}user/${id}`, {
-//       method: "DELETE",
-//       ...config,
-//     });
-//     const data = await response.json();
-//     if (!data.success) {
-//       toast.error(data.message);
-//       return;
-//     }
-//     setReload((prev) => !prev);
-//     toast.success(data.message);
-//   } catch (error) {
-//     toast.error(error.message);
-//   }
-// };
 
 const Orders = () => {
   const [search , setSearch] = useState('');
- 
   let statusOptions = [{value: '', label: 'All'}]
-  statusOptions.push(...Array.from(UniqueStatus).map((status) => {return {value: status, label: status}}));
-  const [filteredData, setFilteredData] = useState(Ordata);
-
+  
   const [Order , setOrder] = useState([])
   const [isLoading  ,setIsLoading] = useState(true)
+  const [filteredData, setFilteredData] = useState([]);
   
   useEffect(() => {
     const FetchOrders = async () => {
-      let response = await fetch(`${base_url}order`);
-      let data = await response.json();
-      setOrder(data);
-      setIsLoading(false);
+      setIsLoading(true); // Start loader
+  
+      try {
+        const response = await fetch(`${base_url}order`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch orders");
+        }
+  
+        const data = await response.json();
+        setOrder(data.data);
+        setFilteredData(data.data)
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        toast.error("Failed to load orders, please try again later.");
+      } finally {
+        setIsLoading(false); // Stop loader
+      }
     };
+  
     FetchOrders();
-    console.log(Order)
-    
-  }, [])
+  
+    // Cleanup function to cancel any ongoing requests when the component unmounts
+    return () => {
+      // If you are using libraries like axios, you can cancel the request here.
+      // Not necessary with fetch, unless you're managing abort controllers.
+    };
+  }, [base_url]); // Added dependency in case `base_url` changes
+  
+  // Log orders only after state is updated
+  useEffect(() => {
+    // console.log(Order);
+  }, [Order]); // Only log when Order is updated
+
+  
+
+  
   const label = [
     {
       id: 2,
@@ -145,20 +189,20 @@ const Orders = () => {
 
   const sortByStatus = (status)=>{
     if(status !== ''){
-      const results = Ordata.filter(order => order.sataus.toLowerCase() === status.toLowerCase());
+      const results = Order.filter(order => order.sataus.toLowerCase() === status.toLowerCase());
       setFilteredData(results);
     }
     else{
-      setFilteredData(Ordata);
+      setFilteredData(Order);
     }
   }
 
   const searchByIdEmailName = ()=>{
     if(search.trim() === ''){
-      setFilteredData(Ordata);
+      setFilteredData(Order);
     }
     else{
-      const results = Ordata.filter(order => (
+      const results = Order.filter(order => (
         (order?.id.toString() === search.trim()) || order?.orderd_by?.toLowerCase().includes(search.trim().toLowerCase()) || order?.email?.toLowerCase()?.includes(search.trim().toLowerCase())
       ));
       setFilteredData(results)
@@ -191,7 +235,6 @@ const Orders = () => {
               <label htmlFor="" className="uppercase">
                 {item.label}
               </label>
-              <Select onChange={(d)=>sortByStatus(d.value)} className='w-[200px]' options={statusOptions} />
              
             </div>
           ))}
@@ -224,7 +267,9 @@ const Orders = () => {
         </div>
 
         <div className="w-full  ">
-          <BasicTable columns={columns} data={filteredData} />
+         {
+          isLoading  && Order.length === 0? <Loader/> : <BasicTable columns={columns} data={filteredData} />
+         }
         </div>
       </div>
     </>

@@ -37,7 +37,7 @@ const createOrder = async (req, res) => {
     }
    const respo =  res.json({
       orderId:order.id,
-      amount : amount*100,
+      amount : amount,
       cartItems,
       address,
       userId,
@@ -52,23 +52,49 @@ const createOrder = async (req, res) => {
 };
 
 const verifyPayment = async (req, res) => {
-  const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
+  console.log("Received request body:", req.body);
 
+  const { paymentId,order_id, razorpay_signature, amount, items, address, user } = req.body;
   const key_secret = process.env.RAZORPAY_SECRET_KEY;
 
-  const generated_signature = crypto.createHmac('sha256', key_secret)
-                                     .update(razorpay_order_id + "|" + razorpay_payment_id)
-                                     .digest('hex');
+  // Prepare the string that needs to be signed
+  const body = order_id+"|"+paymentId;
+  console.log("String to be signed:", body);
 
-  if (generated_signature === razorpay_signature) {
-      // Payment is verified, save to database
-      res.send("Payment verified successfully");
+  // Generate the expected signature
+  const expectedSignature = crypto
+    .createHmac("sha256", key_secret)
+    .update(body.toString())
+    .digest("hex");
+
+  console.log("Generated signature:", expectedSignature);
+  console.log("Razorpay signature received:", razorpay_signature);
+
+  const isAuthentic = expectedSignature === razorpay_signature;
+  console.log("Is the signature authentic?", isAuthentic);
+
+  if (isAuthentic) {
+    try {
+      const order = new orderModel({
+        orderId: order_id,
+        paymentId:paymentId,
+        amount: amount, // Convert amount to rupees
+        cartItems:items,
+        address,
+        user,
+        paymentStatus: "Success"
+      });
+      console.log("order-saved succesfully")
+      await order.save();
+      return res.status(200).send("Payment verified and order saved successfully");
+    } catch (err) {
+      console.error("Error saving order:", err);
+      return res.status(500).send("Error saving order");
+    }
   } else {
-      res.status(400).send("Invalid payment verification");
+    return res.status(400).send("Invalid payment verification");
   }
 };
-
-
 
 async function applyCode(req, res, next) {
   const user = await User.findById(req.user._id);

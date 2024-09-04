@@ -23,7 +23,7 @@ const BasicTable = ({columns, data}) => {
   });
   return (
     <>
-    <div className="shadow-md rounded-md p-2 w-[100%] overflow-x-scroll">
+    <div className="shadow-md rounded-md p-2 w-[99%] overflow-x-scroll">
          <select
          className="border-2 p-4 outline-none m-4 w-2/6"
           value={table.getState().pagination.pageSize}
@@ -38,7 +38,7 @@ const BasicTable = ({columns, data}) => {
           ))}
         </select>
       <table className="overflow-scroll ">
-        <thead>
+        <thead className="">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (

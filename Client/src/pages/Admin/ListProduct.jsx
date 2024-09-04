@@ -117,7 +117,7 @@ const ListProduct = () => {
           <img
             src={row.original.images[0]}
             alt=""
-            className="h-12 w-12 object-cover"
+            className="h-16 w-16 object-cover"
           />
         );
       },
@@ -133,11 +133,8 @@ const ListProduct = () => {
     {
       header: "Discount",
       accessorKey: "corporateDiscount",
-      accessorKey: "corporateDiscount",
       cell: ({ row }) => {
-        console.log(row)
-        const discount = row.original?.discount;
-        console.log(discount)
+        const discount = row.original?.corporateDiscount;
         return <span>{discount}</span>;
       },
     },
@@ -149,15 +146,6 @@ const ListProduct = () => {
       header: "Category",
       accessorKey: "category",
     },
-    // {
-    //   header: "Created At",
-    //   accessorKey: "createdAt", // accessorKey should be a valid key, without spaces
-    //   cell: ({ getValue }) => {
-    //     const date = getValue();
-    //     return date ? date.toLocaleString() : null; // add a null check to avoid errors
-    //   },
-    //   size: 240
-    // },
     {
       header: "Action",
       cell: ({ row }) => (
