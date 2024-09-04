@@ -1,0 +1,42 @@
+const { PDFDocument } = require('pdf-lib');
+const fetch = require('node-fetch'); // For fetching the PDF if it's available online
+
+(async () => {
+  // Replace with your Razorpay PDF URL or local path if you have it
+  const pdfUrl = 'URL_TO_YOUR_PDF'; // Or 'path_to_your_pdf.pdf' for local files
+  
+  // Fetch the PDF (if online)
+  const existingPdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
+
+  // Load the PDF
+  const pdfDoc = await PDFDocument.load(existingPdfBytes);
+
+  // Modify the PDF - e.g., add text to the first page
+  const pages = pdfDoc.getPages();
+  const firstPage = pages[0];
+
+  // Adding text to the first page
+  firstPage.drawText('Hello, world!', {
+    x: 50,
+    y: 700,
+    size: 30,
+    color: rgb(0, 0.53, 0.71),
+  });
+
+  // Serialize the document to bytes
+  const pdfBytes = await pdfDoc.save();
+
+  // You can now use pdfBytes in-memory - e.g., send it as response in an API
+  // For example, you can send it as a response in an HTTP server
+  const express = require('express');
+  const app = express();
+
+  app.get('/download-pdf', (req, res) => {
+    res.contentType("application/pdf");
+    res.send(pdfBytes);
+  });
+
+  app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+  });
+})();
