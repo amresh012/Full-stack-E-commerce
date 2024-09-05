@@ -3,7 +3,7 @@ const Review = require("../models/Review");
 const Product = require("../models/Product");
 
 // Create a review
-exports.createReview = async (req, res) => {
+const createReview = async (req, res) => {
   try {
     const { productId, rating, comment } = req.body;
 
@@ -29,7 +29,7 @@ exports.createReview = async (req, res) => {
 };
 
 // Get all reviews for a product
-exports.getProductReviews = async (req, res) => {
+const getProductReviews = async (req, res) => {
   try {
     const reviews = await Review.find({
       product: req.params.productId,
@@ -41,7 +41,7 @@ exports.getProductReviews = async (req, res) => {
 };
 
 // Update a review
-exports.updateReview = async (req, res) => {
+const updateReview = async (req, res) => {
   try {
     const { rating, comment } = req.body;
     const review = await Review.findById(req.params.id);
@@ -69,7 +69,7 @@ exports.updateReview = async (req, res) => {
 };
 
 // Delete a review
-exports.deleteReview = async (req, res) => {
+const deleteReview = async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
 
@@ -91,3 +91,6 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+module.exports = {deleteReview,updateReview,createReview}

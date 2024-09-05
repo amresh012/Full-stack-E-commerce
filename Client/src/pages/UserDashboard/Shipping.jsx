@@ -1,19 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { FaAddressCard } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
-import { addAddress } from "../../features/authSlice"; // Import the addAddress action
 import { base_url } from "../../Utils/baseUrl";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
 
 const Shipping = () => {
-  const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+  const id = authState.user._id
   const orders = useSelector((state) => state.userorder);
   console.log(orders)
-  // console.log(authState)
 
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -22,16 +20,19 @@ const Shipping = () => {
       address: "",
       city: "",
       state: "",
-      pincode: "",
+      zipcode: "",
     },
     onSubmit: async (values, { setSubmitting }) => {
-      console.log(values)
+      const datatoSend = {...values ,id }
       try {
-        // const response = await dispatch(addAddress(values))
-        const response = await axios.post(`${base_url}user/adr`, values, config);
+        const response = await axios.post(`${base_url}user/adr`, datatoSend, config);
         console.log(response);
+        if(response.data.success){
+          toast.success(response.data.message);
+        }
       } catch (error) {
         if (error.response) {
+          console.log(error)
           toast.error(`Error: ${error.response.data.message}`);
         } else {
           toast.error("An unexpected error occurred. Please try again.");
@@ -120,8 +121,8 @@ const Shipping = () => {
                 <label htmlFor="">POSTAL CODE:</label>
                 <input
                   type="text"
-                  id="pincode"
-                  value={values.pincode}
+                  id="zipcode"
+                  value={values.zipcode}
                   onChange={handleChange}
                   className="h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2"
                   placeholder="enter postal code"

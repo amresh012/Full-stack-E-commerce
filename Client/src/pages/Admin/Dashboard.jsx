@@ -110,20 +110,6 @@ const Dashboard = () => {
         return <span className={getStatusColor(status)}>{status}</span>;
       },
     },
-    // {
-    //   header: "Action",
-    //   cell: ({row}) => {
-
-    //   return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
-    //       <div className="bg-red-200 p-2 rounded-md" onClick={handleDelete}>
-    //       <FaTrash className="text-red-500" />
-    //       </div>
-    //      <div className="bg-blue-200 p-2 rounded-md">
-    //      <FaEye className="text-blue-500" />
-    //      </div>
-    //     </div>)
-    // },
-    // },
   ];
 
   const fetchAdminData = async () => {

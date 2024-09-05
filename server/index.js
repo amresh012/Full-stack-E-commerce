@@ -76,5 +76,3 @@ app.listen(PORT ,() => {
 });
 
 
-// password Ca57Fj1DM5LFnBzd
-// username :deepnapsoftech

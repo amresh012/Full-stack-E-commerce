@@ -47,14 +47,16 @@ const AddCoupon = () => {
       }}
       validationSchema={CouponFormSchema}
       onSubmit={async(values, { setSubmitting }) => {
-        // console.log(values)
+        console.log(values)
         try {
           setIsAdding(true);
           const response = await axios.post(`${base_url}coupon/create`, values, config);
-          toast.success(response.data.message)
+          if(response.data.error){
+            throw new Error(response.data.error)
+          }
+          toast.success("Copoun Created Successfully")
         } catch (error) {
-          console.log(response.data.message)
-          toast.error(response.data.message)
+          toast.error(error.message)
         }
         finally{
           setIsAdding(false);

@@ -2,21 +2,23 @@
 import { useSelector, useDispatch } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import {removeItem } from "../../features/cartSlice";
-import { addcarts } from "../../features/cartSlice";
+import {removeItem,resetCart,addcarts } from "../../features/cartSlice";
 import { base_url } from "../../Utils/baseUrl";
 import {Link} from "react-router-dom"
 import { config } from "../../Utils/axiosConfig";
 import Copoun from "../../components/Copoun/Copoun"
-import { useState } from "react";
-import {resetCart} from "../../features/cartSlice"
+import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom"
+import ShippingModal from "../../components/Models/ShippingModel";
+
 const CheckOut = () => {
   const navigate = useNavigate()
   const [discount, setDiscount] = useState(0);
   const [isBilling , setIsBilling] = useState(true)
-
-
+  const [couriercompnies, setCourierCompnies] = useState([])
+  const [selectedShiping , setSelectedShipping] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  console.log(couriercompnies)
   const handleChecked =  ()=>{
     if(isBilling){
       
@@ -24,30 +26,58 @@ const CheckOut = () => {
   }
 
  const dispatch = useDispatch()
-  //generate teperory random id 
-  function generateRandomId(length = 10) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
   const { carts, totalAmount} = useSelector((state) => state.cart);
   const auth = useSelector((state) => state.auth);
+  const user = auth.signupdata
 
       const amount = totalAmount;
       const currency = "INR";
       const receiptId = `recipt_${Math.random()*100}`;
-      const address = {
-        street: "123 Main St",
-        city: "Anytown",
-        state: "CA",
-        zip: "12345",
-      }
+       
+// Calculate Shipping Charges on Orders
+
+const calculateShippingCharge = async () => {
+  const pickup_postcode = "121004";  // Replace with your pickup postcode
+  const delivery_postcode = "273013";  // Use the user's pincode
+  const weight="20"
+  // const weight = carts.reduce((total, item) => total + item.weight * item.quantity, 0);  // Sum of item weights
+
+  const response = await fetch(`${base_url}shiprocket/shiprocket-rate-calculation`, {
+    method: "POST",
+    body: JSON.stringify({
+      pickup_postcode,
+      delivery_postcode,
+      weight,
+      declared_value: totalAmount,
+    }),
+    ...config,
+  });
+
+  const data = await response.json();
+  // console.log(data)
+  // console.log(data.mainset.data.available_courier_companies)
+  if (data.status) {
+    setShippingCharge(data.mainset.shipping_charge);
+    setCourierCompnies(data.mainset.data.available_courier_companies);
+    // Set the shipping charge from response
+  } else {
+    console.error("Error fetching shipping charges:", data.message);
+  }
+};
+
+// Call the shipping charge calculation when the component mounts or address changes
+useEffect(() => {
+  if (carts.length > 0) {
+    calculateShippingCharge();
+  }
+}, [carts]);
+// Calculate Shipping Charges on Orders
+
+const handleShippingSelect = (shippingData) => {
+  console.log("Selected Shipping Method:", shippingData);
+  setSelectedShipping(shippingData); // Store the selected shipping option in the state
+};
+
   const paymentHandler = async (e) => {
     const response = await fetch(`${base_url}payment/createOrder`, {
       method: "POST",
@@ -57,7 +87,7 @@ const CheckOut = () => {
         receipt: receiptId,
         cartItems:carts,
         address:address,
-        user:auth
+        user:user
       }),
       ...config
     });
@@ -111,11 +141,11 @@ const CheckOut = () => {
         }
       },
       
-      // prefill: {
-      //   name: signupdata?.name, //your customer's name
-      //   email: signupdata?.email,
-      //   contact: signupdata?.mobile //Provide the customer's phone number for better conversion rates
-      // },
+      prefill: {
+        name:user?.name, //your customer's name
+        email:user?.email,
+        contact:user?.mobile //Provide the customer's phone number for better conversion rates
+      },
       notes: {
         address: address
       },
@@ -279,7 +309,7 @@ const CheckOut = () => {
                 <p>Shipping Charges</p>
                 <p className=" font-bold flex gap-1 items-center ">
                   <LiaRupeeSignSolid />
-                  {totalAmount}
+                  {(selectedShiping?.freight_charge) || 0   }
                 </p>
               </div>
 
@@ -287,7 +317,7 @@ const CheckOut = () => {
                 <p>Cart Total</p>
                 <p className=" font-bold flex gap-1 items-center">
                   <LiaRupeeSignSolid />
-                  {totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                  {(totalAmount+selectedShiping?.freight_charge).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -309,6 +339,7 @@ const CheckOut = () => {
           </div>
         </div>
       </div>
+     <ShippingModal data={couriercompnies} isOpen={isModalOpen} setIsOpen={setIsModalOpen} onShippingSelect={handleShippingSelect} />
     </>
   );
 };

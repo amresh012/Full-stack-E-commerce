@@ -10,6 +10,7 @@ const { mongooseError } = require("../middlewares/errorHandler");
 const request = require("request");
 const randomstring = require("randomstring");
 const OTP = require("../models/otpmodel");
+const Address = require("../models/addressModel")
 
 // Create a User ----------------------------------------------
 const checkSignup = async (req, res) => {
@@ -301,6 +302,7 @@ const addnewAddress = asyncHandler(async (req, res, next) => {
 
 // getaddrss by id
 const getAddressById = asyncHandler(async (req, res) => {
+  console.log(req.params)
   const { id } = req.params;
   const { _id: userId } = req.user;
 
@@ -311,14 +313,14 @@ const getAddressById = asyncHandler(async (req, res) => {
 
   try {
     // Query the database to retrieve the address by id
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate({path:"address" , model:"Address" , select:" name address city  state zipcode mobile "});
 
     if (!user) {
       return res.status(404).json({ error: "Address not found" });
     }
 
     // Return the address data
-    res.json(address);
+    res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -379,6 +381,8 @@ const updatedUser = asyncHandler(async (req, res) => {
         name: req?.body?.name,
         email: req?.body?.email,
         mobile: req?.body?.mobile,
+        gstNo:req?.body?.gstNo,
+        panNo:req?.body.panNo
       },
       {
         new: true,
@@ -412,7 +416,9 @@ const updateRole = asyncHandler(async (req, res) => {
 // Get all users
 const getallUser = asyncHandler(async (req, res) => {
   try {
-    const getUsers = await User.find();
+    const getUsers = await User.find()
+    .populate({path:"address" , model:"Address" , select:" name address city  state zipcode "})
+
     res.json(getUsers);
   } catch (error) {
     throw new Error(error);

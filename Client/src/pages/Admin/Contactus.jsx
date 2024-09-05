@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable'
 import { base_url } from '../../Utils/baseUrl';
 import { List } from '@mui/material';
-import { FaEye, FaPen, FaTrash } from 'react-icons/fa';
+import { FaEye, FaTrash } from 'react-icons/fa';
 import {toast, Toaster} from 'react-hot-toast';
 import {config} from '../../Utils/axiosConfig';
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -53,9 +53,6 @@ const ListProduct = () => {
          <div onClick={()=>fetchQueryDetails(row.original._id)} className="bg-blue-200 p-2 rounded-md hover:shadow-md">
           <FaEye className='text-blue-500'/>
          </div>
-           {/* <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
-            <FaPen className='text-black'/>
-           </div> */}
         </List>
     },
   ];

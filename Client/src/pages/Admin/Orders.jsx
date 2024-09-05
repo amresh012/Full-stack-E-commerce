@@ -98,7 +98,6 @@ const columns = [
   {
     header: "Status",
     accessorKey: "paymentStatus",
-    size: 270,
   },
   {
       header:"Order Status",

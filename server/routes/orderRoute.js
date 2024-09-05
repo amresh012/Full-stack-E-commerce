@@ -12,5 +12,5 @@ router.get("/", getAllOrders);
 router.delete("/:id", deleteOrder)
 router.get("/invoice",authMiddleware, getInvoices);
 // router.get("/admin",authMiddleware,isAdmin, getAdminProduct);
-router.put("/",authMiddleware,isAdmin, editOrderStatus);
+// router.put("/",authMiddleware,isAdmin, editOrderStatus);
 module.exports = router;

@@ -49,7 +49,7 @@ const createOrder = async (req, res) => {
   const amount = req.body.amount;
   const shiprocket = {
     order_id: orderid.toString(),
-    order_date: "2024-07-24 11:11",
+    order_date: Date.now().toLocaleString() ,
     pickup_location: "Primary",
     billing_customer_name: user.firstname,
     billing_last_name: user.lastname,
