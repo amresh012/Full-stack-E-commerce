@@ -85,6 +85,7 @@ th {
   text-align: center;
   padding:15px;
   color: white;
+  min-width: 10rem;
   background-color: #0a2440;
 }
 td{

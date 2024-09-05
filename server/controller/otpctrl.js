@@ -6,6 +6,7 @@ const userModel = require("../models/userModel");
 const { generateToken } = require("../config/jwtToken");
 
 require("dotenv").config();
+
 const sendOtpOnMail = asyncHandle(async (req, res) => {
   const otp = randomstring.generate({
     length: 4,
@@ -43,9 +44,9 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
         },
       });
       let info = await transporter.sendMail({
-        from: "<no-reply@eccomerce1.deepmart.shop>",
+        from: "<kfsfitnessnoreply@gmail.com>",
         to: email,
-        subject: "OTP verification by Deepnap Softech Tech",
+        subject: "OTP verification by KFS Fitness",
         // text: otp, // plain text body
         html: html,
       });

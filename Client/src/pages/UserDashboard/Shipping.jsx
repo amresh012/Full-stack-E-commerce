@@ -11,12 +11,13 @@ import { config } from "../../Utils/axiosConfig";
 const Shipping = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  console.log(authState)
+  const orders = useSelector((state) => state.userorder);
+  console.log(orders)
+  // console.log(authState)
 
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       name: "",
-      email: "",
       mobile: "",
       address: "",
       city: "",
@@ -24,8 +25,10 @@ const Shipping = () => {
       pincode: "",
     },
     onSubmit: async (values, { setSubmitting }) => {
+      console.log(values)
       try {
-        const response = await axios.post(`${base_url}user/adr`, ...values, config);
+        // const response = await dispatch(addAddress(values))
+        const response = await axios.post(`${base_url}user/adr`, values, config);
         console.log(response);
       } catch (error) {
         if (error.response) {

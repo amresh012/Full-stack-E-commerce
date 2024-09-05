@@ -117,7 +117,7 @@ const ListProduct = () => {
           <img
             src={row.original.images[0]}
             alt=""
-            className="h-12 w-12 object-cover"
+            className="h-16 w-16 object-cover"
           />
         );
       },
@@ -134,9 +134,7 @@ const ListProduct = () => {
       header: "Discount",
       accessorKey: "corporateDiscount",
       cell: ({ row }) => {
-        console.log(row)
         const discount = row.original?.corporateDiscount;
-        console.log(discount)
         return <span>{discount}</span>;
       },
     },
@@ -155,7 +153,7 @@ const ListProduct = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 4,
+            gap: 2,
             justifyContent: "center",
             cursor: "pointer",
           }}

@@ -8,8 +8,6 @@ const xlsx = require("xlsx");
 const addProduct = asyncHandle(async (req, res) => {
   let product = req.body;
   const alreadyavail = await ProductModel.findOne({ name: product.name });
-  // const subproducts = req.body.subItems?.map((ele) => ele?._id);
-  // product.subItems = subproducts;
   if (alreadyavail) {
     try {
       const updateproduct = await ProductModel.findOneAndUpdate(

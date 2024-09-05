@@ -42,12 +42,12 @@ import BlogView from './pages/Home/BlogView'
 import Category from './pages/Home/Category'
 import ProductEdit from './pages/Product/ProductEditPage'
 import ListBlogs from './pages/Admin/ListBlogs'
-import EditBlog from './pages/Admin/EditBlog'
+import EditBlog from "./pages/Admin/EditBlog"
+import Confirmation from './pages/Product/Confirmation'
 function App() {
 
   return (
    <Suspense fallback={<Loader/>}>
-      
     <Routes>
       <Route element ={<Layout/>}>
       <Route path='/' element={<HomePage/>}/>
@@ -57,6 +57,7 @@ function App() {
       <Route path="/product/:id" element={<ProductdetailPage/>}/>
       <Route path="/product-category/*" element={<Category />}/>
       <Route path="/checkout" element={<CheckOut/>}/>
+      <Route path={`/Order-confirmed`} element={<Confirmation/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
       <Route path="/blog/:id" element={<BlogView/>}/>

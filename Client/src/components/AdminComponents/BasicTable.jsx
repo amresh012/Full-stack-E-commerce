@@ -46,8 +46,23 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
           Send SMS
         </button>
       )}
-      <table className="">
-        <thead>
+
+    <div className="shadow-md rounded-md p-2 w-[99%] overflow-x-scroll">
+         <select
+         className="border-2 p-4 outline-none m-4 w-2/6"
+          value={table.getState().pagination.pageSize}
+          onChange={e => {
+            table.setPageSize(Number(e.target.value))
+          }}
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      <table className="overflow-scroll ">
+        <thead className="">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
@@ -113,8 +128,11 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
             className="border p-1 rounded outline-none w-16"
           />
         </span>
-      </div>
-      <div className="w-full flex gap-12 p-4  items-center justify-center">
+
+        </div>
+    </div>
+    <div className="w-full flex gap-12 p-4  items-center justify-center">
+
         <button
           className={
             !table.getCanPreviousPage()
@@ -134,14 +152,14 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
           }
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
-        >
+          >
           &lt;
         </button>
         <button
           className={
             !table.getCanNextPage()
-              ? "cursor-not-allowed "
-              : "p-2 text-xl font-bold bg-[#0a2440] rounded-md text-white "
+            ? "cursor-not-allowed "
+            : "p-2 text-xl font-bold bg-[#0a2440] rounded-md text-white "
           }
           disabled={!table.getCanNextPage()}
           onClick={() => table.nextPage()}
@@ -160,7 +178,7 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
           Last Page
         </button>
       </div>
-    </div>
+              </>
   );
 };
 

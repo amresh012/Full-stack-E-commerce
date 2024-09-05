@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [totalCategories, setTotalCategories] = useState(0);
   const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState(0);
   const [totalPaymentsToday, setTotalPaymentsToday] = useState(0);
-
+ console.log(totalOrders)
   const [categoriesData, setCategoriesData] = useState({
     labels: [],
     data: [],
@@ -280,19 +280,19 @@ const Dashboard = () => {
 
         <h1 className="text-3xl font-bold mt-20 mb-5">Summary</h1>
         <div className="space-y-3 w-full">
-          <div className="shadow-md rounded-md p-2 w-full p-4">
+          <div className="shadow-md rounded-md  w-full p-4">
             <div className="text-3xl font-light">Orders</div>
             <div className="mt-4">
             <LineChart label={"Orders"} labels={ordersData?.labels} data={ordersData?.data} />
             </div>
           </div>
-          <div className="shadow-md rounded-md p-2 w-full p-4">
+          <div className="shadow-md rounded-md  w-full p-4">
             <div className="text-3xl font-light">Customers</div>
             <div className="mt-4">
               <LineChart label={"New Customers"} labels={customersData?.labels} data={customersData?.data} />
             </div>
           </div>
-          <div className="shadow-md rounded-md p-2 w-full p-4">
+          <div className="shadow-md rounded-md  w-full p-4">
             <div className="text-3xl font-light">Categories</div>
             <div className="mt-4 w-[50%] mx-auto">
               <DoughnutChart

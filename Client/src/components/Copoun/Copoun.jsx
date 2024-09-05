@@ -35,7 +35,7 @@ const Coupon = ({ setDiscount }) => {
         },5000)
     }
     } catch (error) {
-      setMessage('Invalid or expired coupon');
+      setMessage('Unable to apply copoun');
       setSuccess(false)
     }
   };

@@ -59,6 +59,7 @@ const BulkImage = () => {
       multiple: true,
       action: `https://images.deepmart.shop/upload`,
       onSubmit(info) {
+        console.log(info)
         const { status } = info.file;
         if (status !== "uploading") {
           console.log(info.file.response, info.fileList);

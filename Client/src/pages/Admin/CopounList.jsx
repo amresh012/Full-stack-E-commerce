@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { base_url } from '../../Utils/baseUrl';
 import { config } from '../../Utils/axiosConfig';
 import { Toaster, toast } from 'react-hot-toast';
+import moment from "moment"
 
 const CopounList = () => {
   const [copoun , setCopoun] = useState([])
@@ -20,7 +21,7 @@ const CopounList = () => {
     FetchCopoun();
     
   }, [])
-  // console.log(copoun)
+  console.log(copoun)
 
   //delete copoun
   const deleteProduct = async (id) => {
@@ -46,7 +47,19 @@ const CopounList = () => {
     }
   };
 
-
+ [
+  {
+    _id: '66d29e57bb369c37ab897270',
+    code: 'KFS7XC0',
+    discountType: 'percentage',
+    discountValue: 12,
+    expiryDate: '2024-09-01T04:38:47.824Z',
+    usageLimit: 1,
+    usageCount: 0,
+    isActive: true,
+    __v: 0
+  }
+]
   const columns = [
     {
       header: "Sr.No.",
@@ -67,6 +80,21 @@ const CopounList = () => {
     {
       header: "Discount",
       accessorKey: "discountValue",
+    },
+    {
+      header: "Expiry Date",
+      accessorKey: "expiryDate",
+      cell:({row})=>{
+        return  <p>{moment(row.original.expiryDate).format('DD/MM/YYYY')}</p>
+      }
+    },
+    {
+      header: "Usage Limit",
+      accessorKey: "usageLimit",
+    },
+    {
+      header: "Count ",
+      accessorKey: "usageCount",
     },
     {
       header: "Action",

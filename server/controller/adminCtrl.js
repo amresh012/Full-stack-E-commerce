@@ -38,15 +38,30 @@ const getAdminData = asyncHandle(async (req, res) => {
     const totalOrders = await orderModel.aggregate([
       {
         $project: {
-          createdAt: 1,
+          month: { $month: "$createdAt" },
+          year: { $year: "$createdAt" },
+          dayOfMonth: { $dayOfMonth: "$createdAt" },
+
+
         },
       },
       {
         $match: {
-          createdAt: date,
+          month: date.getMonth()+1,
+          year: date.getFullYear(),
+          dayOfMonth: date.getDate()
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count:{
+            $sum: 1
+          }
         },
       },
     ]);
+
 
     const totalProducts = await productModel.find().countDocuments();
 
@@ -102,7 +117,7 @@ const getAdminData = asyncHandle(async (req, res) => {
     // console.log("Orders Summary", ordersSummary);
     // console.log("Customers Summary", customersSummary);
     // console.log("Categories Summary", categoriesSummary);
-
+   console.log(totalOrders)
     res.status(200).json({
       success: true,
       totalNewCustomers: totalNewCustomers.length > 0 ? totalNewCustomers[0].count : 0,
@@ -121,6 +136,7 @@ const getAdminData = asyncHandle(async (req, res) => {
     res.status(400).send(error);
   }
 });
+
 
 // const getAdminData = asyncHandle(async (req, res) => {
 //   try {

@@ -106,6 +106,7 @@ const OTPComponent = () => {
                   <p className="underline text-[#0c0c0cdb]">Back to home</p>
                 </Link>
               </div>
+
             </div>
           </form>
         </div>

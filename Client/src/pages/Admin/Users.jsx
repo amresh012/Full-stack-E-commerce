@@ -144,7 +144,7 @@ const Users = () => {
       accessorKey: "id",
       cell: ({ row }) => {
         const id = row.id;
-        return <span>{+id + 1}</span>;
+        return <span>{(+id)+1}</span>;
       },
     },
     {
@@ -172,7 +172,7 @@ const Users = () => {
           >
             <option value="Admin">Admin</option>
             <option value="User">User</option>
-            <option value="Bussiness">Bussiness</option>
+            <option value="Employee">Employee</option>
           </select>
         );
       },
@@ -298,7 +298,10 @@ const Users = () => {
         }),
       });
       const data = await response.json();
-      toast.success("Role changed successfully.");
+      // console.log(data)
+      if(!data.error){
+      toast.success('Role changed successfully.')
+      }
     } catch (error) {
       toast.error(error.message);
     }

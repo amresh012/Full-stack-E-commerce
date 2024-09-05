@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { faker } from "@faker-js/faker"
 import { Modal } from 'antd';
+import {FaPhone} from "react-icons/fa"
 import { MdCurrencyRupee } from "react-icons/md";
 import { PlusOutlined } from '@ant-design/icons';
 import {Upload } from 'antd';
 import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux"
-
+import { base_url } from '../../Utils/baseUrl';
+import { config } from '../../Utils/axiosConfig';
+import {useSelector} from "react-redux"
+import axios from "axios"
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -19,8 +22,18 @@ const getBase64 = (file) =>
 
 
 const Profile = () => {
-    let user = useSelector((state)=>state.auth)
-    console.log(user)
+  const auth = useSelector((state)=>state.auth)
+  console.log(auth)
+  useEffect(()=>{
+    localStorage.setItem("name",auth?.signupdata?.name)
+    localStorage.setItem("email",auth?.signupdata?.email)
+    localStorage.setItem("mobile",auth?.signupdata?.mobile)
+  },[auth])
+  const [profile , setProfile] = useState({
+    name:localStorage.getItem("name"),
+    email:localStorage.getItem("email"),
+    mobile:localStorage.getItem("mobile")
+    })
    const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState([
@@ -62,6 +75,20 @@ const Profile = () => {
   const handleCancel = () => {
     setPreviewOpen(false);
   };
+
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //    try{
+  //     const response = await axios.post(`${base_url}user/${auth.user.email}`, config)
+  //     console.log(response)
+  //     setProfile(data);
+  //    }
+  //    catch(error){
+  //     console.log(error);
+  //    }
+  //   };
+  //   fetchProducts();
+  // }, []);
   return (
     <>
       <div className="mx-4 flex flex-col rounded-md overflow-clip  shadow-sm">
@@ -96,10 +123,10 @@ const Profile = () => {
             </Modal>
           </div>
           <div className="flex items-center justify-center flex-col mt-16 p-2">
-            <p className="name font-bold text-xl">{user.user?.name}</p>
+            <p className="name font-bold text-xl">{profile.name || "User"}</p>
             <div className="flex gap-2">
-              <p className="email">{user?.user?.email}</p>
-              <p className="mobile">{user?.user?.mobile}</p>
+              <p className="email">{profile.email || "email"}</p>
+              <p className="mobile flex gap-2"><FaPhone/>{profile.mobile || "mobile"}</p>
             </div>
           </div>
           <div className="edit-profile w-full flex items-center justify-center gap-8 p-2 ">

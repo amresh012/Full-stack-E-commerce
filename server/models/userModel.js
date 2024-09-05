@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "User",
-      roles: ["Admin", "Bussiness","User"],
+      roles: ["Admin", "Employee","User"],
     },
     super: {
       type: Boolean,
@@ -98,34 +98,7 @@ const userSchema = new mongoose.Schema(
       },
     },
     order: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
-    address: [
-      {
-        name: {
-          type: String,
-        },
-        email: {
-          type: String,
-        },
-        mobile: {
-          type: String,
-        },
-        address: {
-          type: String,
-        },
-        city: {
-          type: String,
-        },
-        pincode: {
-          type: String,
-        },
-        state: {
-          type: String,
-        },
-        gstNo: {
-          type: String,
-        },
-      },
-    ],
+    address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
     refreshToken: {
       type: String,
     },

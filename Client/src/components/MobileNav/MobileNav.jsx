@@ -19,7 +19,7 @@ const MobileNav = ({navlinks}) => {
       <Space>
         <Radio.Group value={placement} onChange={onChange}>
         </Radio.Group>
-        <Button onClick={showDrawer} className='hover:bg-none border-none bg-transparent text-white'>
+        <Button className='bg-transparent border-none text-white p-0 pt-2 '  onClick={showDrawer}>
          <HiMiniBars3BottomRight size={25}/>
         </Button>
       </Space>
@@ -33,7 +33,7 @@ const MobileNav = ({navlinks}) => {
         <div className="">
             {
                 navlinks.map((link) => (
-                    <div className="hover:bg-red-400">
+                    <div className="">
                         <Link to={link.route} key={link.label} className=" hover:border-b-2 hover:border-[#ff4700] uppercase font-light text-base">
                         <li className="list-none py-2">{link.label}</li>
                         </Link>
