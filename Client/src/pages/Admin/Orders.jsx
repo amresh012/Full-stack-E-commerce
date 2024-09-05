@@ -12,14 +12,14 @@ import moment from "moment"
 import Loader from "../../components/reusablesUI/Loader"
 
 const orderStates = [
-  "Pending",          // Order has been placed but not yet processed
-  "Processing",       // Order is being prepared
-  "Shipped",          // Order has been shipped but not yet delivered
-  "Out for Delivery", // Order is out for delivery
-  "Delivered",        // Order has been delivered to the customer
-  "Cancelled",        // Order has been cancelled
-  "Returned",         // Order has been returned by the customer
-  "Refunded",         // Payment has been refunded to the customer
+  "Pending",
+  "Processing",       
+  "Shipped",          
+  "Out for Delivery", 
+  "Delivered",        
+  "Cancelled",        
+  "Returned",         
+  "Refunded",        
 ];
 
 
