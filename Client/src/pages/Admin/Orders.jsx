@@ -1,6 +1,7 @@
 // import React from 'react'
-import BasicTable from '../../components/AdminComponents/BasicTable';
+import BasicTable from "../../components/AdminComponents/BasicTable";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import Select from "react-select";
 // import Ordata from "../../MOCK_DATA (4).json"
 import { FaDownload, FaEye, FaSearch, FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
@@ -44,14 +45,13 @@ const deleteProduct = async (id) => {
   }
 };
 
-
 const columns = [
   {
     header: "Sr No.",
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.id;
-      return <span>{(+id)+1}</span>;
+      return <span>{+id + 1}</span>;
     },
   },
   {
@@ -162,6 +162,7 @@ const Orders = () => {
     };
   
     FetchOrders();
+
   
     // Cleanup function to cancel any ongoing requests when the component unmounts
     return () => {
@@ -169,15 +170,7 @@ const Orders = () => {
       // Not necessary with fetch, unless you're managing abort controllers.
     };
   }, [base_url]); // Added dependency in case `base_url` changes
-  
-  // Log orders only after state is updated
-  useEffect(() => {
-    // console.log(Order);
-  }, [Order]); // Only log when Order is updated
 
-  
-
-  
   const label = [
     {
       id: 2,
@@ -187,6 +180,7 @@ const Orders = () => {
     },
   ];
 
+
   const sortByStatus = (status)=>{
     if(status !== ''){
       const results = Order.filter(order => order.sataus.toLowerCase() === status.toLowerCase());
@@ -195,7 +189,7 @@ const Orders = () => {
     else{
       setFilteredData(Order);
     }
-  }
+  };
 
   const searchByIdEmailName = ()=>{
     if(search.trim() === ''){
@@ -209,22 +203,20 @@ const Orders = () => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     searchByIdEmailName();
-  }, [search])
+  }, [search]);
 
-  
-  
   return (
     <>
-    <Toaster/>
- <div className='flex flex-col justify-around gap-12 items-center  '>
-    <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
+      <Toaster />
+      <div className="mt-5 px-5 flex flex-col justify-around gap-12 items-center  ">
+        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Orders</h1>
         </div>
-    </div>
+      </div>
       {/* table col */}
-      <div className=" w-full  rounded-md  max-h-max ">
+      <div className="mt-5 px-5 w-full  rounded-md  max-h-max ">
         <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#0a2440] text-white  rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
           <BsThreeDotsVertical />
@@ -235,7 +227,13 @@ const Orders = () => {
               <label htmlFor="" className="uppercase">
                 {item.label}
               </label>
-             
+
+              <Select
+                onChange={(d) => sortByStatus(d.value)}
+                className="w-[200px]"
+                options={statusOptions}
+              />
+
             </div>
           ))}
           {/* <div className="flex flex-col">
@@ -274,7 +272,6 @@ const Orders = () => {
       </div>
     </>
   );
-}
+};
 
-export default Orders
-
+export default Orders;

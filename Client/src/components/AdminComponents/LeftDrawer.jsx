@@ -63,16 +63,29 @@ const LeftDrawer = () => {
                 >
                   <div className="flex items-center gap-x-1">
                     <div><item.icon size={30} /></div>
-                    <li className="p-2 uppercase">{item.label}</li>
+                    <li onClick={() => {
+                      if(item.label === 'Products'){
+                        setShowProductDropdown(prev => !prev);
+                      }
+                      // else if(item.label === 'Website'){
+                      //   setShowWebsiteDropdown(prev => !prev);
+                      // }
+                      else if(item.label === 'Blogs'){
+                        setShowBlogDropdown(prev => !prev);
+                      }
+                      else{
+                        setShowCouponDropdown(prev => !prev);
+                      }
+                    }}  className="p-2 uppercase">{item.label}</li>
                   </div>
                   {item.sublink && (
                     <div onClick={() => {
                       if(item.label === 'Products'){
                         setShowProductDropdown(prev => !prev);
                       }
-                      else if(item.label === 'Website'){
-                        setShowWebsiteDropdown(prev => !prev);
-                      }
+                      // else if(item.label === 'Website'){
+                      //   setShowWebsiteDropdown(prev => !prev);
+                      // }
                       else if(item.label === 'Blogs'){
                         setShowBlogDropdown(prev => !prev);
                       }

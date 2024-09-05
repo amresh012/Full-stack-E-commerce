@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import { base_url } from "../../Utils/baseUrl";
 import { FaEye, FaTrash } from "react-icons/fa";
@@ -26,8 +26,119 @@ const Users = () => {
   });
   const [open, setOpen] = useState(false);
   const [fetchingUser, setFetchingUser] = useState(false);
+  const [showSmsModal, setShowSmsModal] = useState(false);
+  const [templateId, setTemplateId] = useState();
+  const [senderId, setSenderId] = useState();
+  const [entityId, setEntityId] = useState();
+  const [message, setMessage] = useState();
 
-  const columns = [
+  const toggleModalHandler = useCallback(()=>{
+    setShowSmsModal(prev => !prev);
+  }, []);
+
+  const sendSms = async (usersMobile) => {
+    try {
+      const response = await fetch(base_url + "sms/send", {
+        method: "POST",
+        ...config,
+        body: JSON.stringify({
+          mobiles: usersMobile,
+          templateId,
+          senderId,
+          entityId,
+          message
+        }),
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      toast.success("Message sent successfully");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const sendSmsToSelected = async (e) => {
+    e.preventDefault();
+
+    if(!templateId && !templateId?.trim?.length > 0){
+      toast.error('Please fill the Template ID field');
+      return;
+    }
+    if(!senderId && !senderId?.trim?.length > 0){
+      toast.error('Please fill the Sender ID field');
+      return;
+    }
+    if(!entityId && !entityId?.trim?.length > 0){
+      toast.error('Please fill the Entity ID field');
+      return;
+    }
+    if(!message && !message?.trim?.length > 0){
+      toast.error('Please fill the message field');
+      return;
+    }
+
+    const allUsers = document.getElementsByClassName("user-select");
+    const selectedUsers = Array.from(allUsers).filter((user) => user.checked);
+
+    if (selectedUsers.length === 0) {
+      toast.error("Please select atleast 1 user");
+      return;
+    }
+
+    const selectedUserMobiles = selectedUsers.map((user) => user.value);
+
+    sendSms(selectedUserMobiles);
+  };
+
+  const sendSmsToAll = async (e) => {
+    e.preventDefault();
+    
+    if(!templateId && !templateId?.trim?.length > 0){
+      toast.error('Please fill the Template ID field');
+      return;
+    }
+    if(!senderId && !senderId?.trim?.length > 0){
+      toast.error('Please fill the Sender ID field');
+      return;
+    }
+    if(!entityId && !entityId?.trim?.length > 0){
+      toast.error('Please fill the Entity ID field');
+      return;
+    }
+    if(!message && !message?.trim?.length > 0){
+      toast.error('Please fill the message field');
+      return;
+    }
+
+    const allUsersMobile = users.map((user) => user.mobile);
+
+    if (users.length === 0) {
+      toast.error("No users found");
+      return;
+    }
+
+    sendSms(allUsersMobile);
+  };
+
+  const columns = useMemo(()=>[
+    {
+      header: "Select",
+      accessorKey: "select",
+      cell: ({ row }) => {
+        return (
+          <div className="container">
+            <input
+              type="checkbox"
+              className="user-select"
+              value={row.original.mobile}
+            />
+            <span className="checkmark"></span>
+          </div>
+        );
+      },
+    },
     {
       header: "Sr.No.",
       accessorKey: "id",
@@ -56,7 +167,7 @@ const Users = () => {
         return (
           <select
             value={row.original.role}
-            onChange={(e)=>handleRoleChange(row.original._id, e.target.value)}
+            onChange={(e) => handleRoleChange(row.original._id, e.target.value)}
             className="border-2 p-2 outline-none rounded-md border-[#038CCC]"
           >
             <option value="Admin">Admin</option>
@@ -105,7 +216,7 @@ const Users = () => {
             </div>
             <Space direction="vertical">
               <Switch
-                onClick={(e)=>blockUser(e, row.original._id)}
+                onClick={(e) => blockUser(e, row.original._id)}
                 checkedChildren={<MdBlockFlipped className="mt-[5px]" />}
                 unCheckedChildren={<CgUnblock />}
                 defaultChecked={row.original.isBlocked}
@@ -115,7 +226,7 @@ const Users = () => {
         );
       },
     },
-  ];
+  ], []);
 
   const deleteUser = async (id) => {
     try {
@@ -159,27 +270,32 @@ const Users = () => {
     }
   };
 
-  const blockUser = async (block, id)=>{
+  const blockUser = async (block, id) => {
     try {
-      const response = await fetch(`${base_url}user/${block ? 'block-user' : 'unblock-user'}/${id}`, {
-        method: "PUT",
-        ...config
-      });
+      const response = await fetch(
+        `${base_url}user/${block ? "block-user" : "unblock-user"}/${id}`,
+        {
+          method: "PUT",
+          ...config,
+        }
+      );
       const data = await response.json();
-      toast.success(`${block ? 'Blocked successfully.' : 'Unblocked successfully.'}`)
+      toast.success(
+        `${block ? "Blocked successfully." : "Unblocked successfully."}`
+      );
     } catch (error) {
       toast.error(error.message);
     }
-  }
+  };
 
-  const handleRoleChange = async (id, role)=>{
+  const handleRoleChange = async (id, role) => {
     try {
       const response = await fetch(`${base_url}user/edit-role/${id}`, {
         method: "PUT",
         ...config,
         body: JSON.stringify({
-          role
-        })
+          role,
+        }),
       });
       const data = await response.json();
       // console.log(data)
@@ -189,7 +305,7 @@ const Users = () => {
     } catch (error) {
       toast.error(error.message);
     }
-  }
+  };
 
   useEffect(() => {
     const FetchUsers = async () => {
@@ -201,22 +317,82 @@ const Users = () => {
     FetchUsers();
   }, [reload]);
 
+
   return (
     <div>
       <Toaster />
-      {open && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[50%] h-[15rem] bg-white p-5 rounded-md" style={{boxShadow: "0 0 4px 1px #c3bcbc"}}>
-          <div onClick={()=>{
-            setOpen(false);
-            setUserDetails({
-              name: null,
-              email: null,
-              mobile: null,
-            })
-          }} className="flex justify-between text-3xl">
-            <h1 className="font-bold text-3xl">User Details</h1>
-            <div className="hover:text-red-500"><IoCloseCircleOutline /></div>
+      {showSmsModal && (
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[50%] h-[30rem] bg-white p-5 rounded-md z-10 overflow-auto"
+          style={{ boxShadow: "0 0 4px 1px #c3bcbc" }}
+        >
+          <div className="flex justify-between text-3xl">
+            <h1 className="font-bold text-3xl">Send SMS</h1>
+            <div
+              onClick={toggleModalHandler}
+              className="hover:text-red-500"
+            >
+              <IoCloseCircleOutline />
             </div>
+          </div>
+
+          <div className="">
+            <form className="mt-3">
+              <div className="mb-3 flex flex-col gap-y-2">
+                <label>Template ID</label>
+                <input value={templateId} onChange={(e)=>setTemplateId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
+              </div>
+              <div className="mb-3 flex flex-col gap-y-2">
+                <label>Sender ID</label>
+                <input value={senderId} onChange={(e)=>setSenderId(e.target.value)} className="border rounded text-lg px-3 py-1" type="text" />
+              </div>
+              <div className="mb-3 flex flex-col gap-y-2">
+                <label>Entity ID</label>
+                <input value={entityId} onChange={(e)=>setEntityId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
+              </div>
+              <div className="mb-3 flex flex-col gap-y-2">
+                <label>Message</label>
+                <textarea value={message} onChange={(e)=>setMessage(e.target.value)} className="border rounded text-lg px-3 py-1" />
+              </div>
+              <div className="flex justify-end gap-x-2 mb-3">
+                <button type="submit"
+                  className="px-6 rounded py-3 text-lg bg-[#0a2440] border border-[#0a2440] text-white hover:bg-white hover:text-[#0a2440]"
+                  onClick={sendSmsToSelected}
+                >
+                  Send SMS to selected
+                </button>
+                <button type="submit"
+                  className="px-6 rounded py-3 text-lg bg-white border border-[#0a2440] text-[#0a2440] hover:bg-[#0a2440] hover:text-white"
+                  onClick={sendSmsToAll}
+                >
+                  Send SMS to all
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {open && (
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[50%] h-[15rem] bg-white p-5 rounded-md"
+          style={{ boxShadow: "0 0 4px 1px #c3bcbc" }}
+        >
+          <div
+            onClick={() => {
+              setOpen(false);
+              setUserDetails({
+                name: null,
+                email: null,
+                mobile: null,
+              });
+            }}
+            className="flex justify-between text-3xl"
+          >
+            <h1 className="font-bold text-3xl">User Details</h1>
+            <div className="hover:text-red-500">
+              <IoCloseCircleOutline />
+            </div>
+          </div>
           <div>
             {!fetchingUser && (
               <div className="mt-3 text-lg">
@@ -247,7 +423,11 @@ const Users = () => {
         </div>
       </div>
       <div className="m-12 shadow-md border-2 rounded-md p-2">
-        <BasicTable columns={columns} data={users} />
+        <BasicTable
+          columns={columns}
+          data={users}
+          toggleModalHandler={toggleModalHandler}
+        />
       </div>
     </div>
   );
