@@ -7,6 +7,9 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("./emailCtrl");
 const { mongooseError } = require("../middlewares/errorHandler");
+const request = require("request");
+const randomstring = require("randomstring");
+const OTP = require("../models/otpmodel");
 
 // Create a User ----------------------------------------------
 const checkSignup = async (req, res) => {
@@ -120,14 +123,65 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
           super: findUser?.super,
         });
       } else {
-        res.status(403).send({ message: "you are block by Super Admin" });
+        res.status(403).send({ message: "you are blocked by Admin" });
       }
     } else {
-      res.status(401).send("Invalid Credentials");
+      res.status(401).send({ message: "Invalid Credentials" });
     }
   } else {
     res.status(201).json("User not Found");
   }
+});
+
+// Login a user with mobile no.
+const loginUserWithMobile = asyncHandler(async (req, res) => {
+  const { mobile } = req.body;
+  const user = await User.findOne({ mobile });
+  if (!user) {
+    return res.status(401).json({
+      status: 404,
+      success: false,
+      message: "User doesn't exist",
+    });
+  }
+
+  // Send OTP to mobile
+  let otp = '';
+  const isExistingOtp = await OTP.findOne({mobile});
+  if(isExistingOtp){
+    otp = isExistingOtp.otp;
+  }
+  else{
+    otp = randomstring.generate({
+      length: 4,
+      charset: "numeric",
+    });
+    await OTP.create({mobile, otp});
+  }
+
+  const message = `${otp} is your one-time password (OTP) to create your ITSYBIZZ account. Please enter the OTP to proceed.`;
+
+  let options = {
+    url: `${process.env.SEND_SINGLE_MSG_API}UserID=${process.env.API_KEY}&Password=${process.env.API_SECRET}&SenderID=${process.env.SENDER_ID}&Phno=${mobile}&EntityID=${process.env.ENTITY_ID}&TemplateID=${process.env.TEMPLATE_ID}&Msg=${message}`,
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+  };
+
+  request.post(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "OTP has been sent to your mobile no.",
+      });
+    }
+    else{
+      return res.status(500).json({
+        status: 500,
+        success: false,
+        message: "Something went wrong",
+      });
+    }
+  });
 });
 
 // admin login
@@ -173,8 +227,17 @@ const addnewAddress = asyncHandler(async (req, res) => {
     }
     // Validate req.body.address
     const address = req.body.address;
-    console.log(address)
-    if (!address || !address.name || !address.email || !address.mobile || !address.address || !address.city || !address.pincode || !address.state) {
+    console.log(address);
+    if (
+      !address ||
+      !address.name ||
+      !address.email ||
+      !address.mobile ||
+      !address.address ||
+      !address.city ||
+      !address.pincode ||
+      !address.state
+    ) {
       return res.status(400).json({ message: "Invalid address" });
     }
     // Check if address is an array
@@ -192,14 +255,14 @@ const addnewAddress = asyncHandler(async (req, res) => {
   }
 });
 
-// getaddrss by id 
+// getaddrss by id
 const getAddressById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { _id: userId } = req.user;
 
   // Check if the user is authorized to access the address
   if (!req.user || req.user._id !== userId) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
@@ -207,14 +270,14 @@ const getAddressById = asyncHandler(async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ error: 'Address not found' });
+      return res.status(404).json({ error: "Address not found" });
     }
 
     // Return the address data
     res.json(address);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -341,10 +404,9 @@ const deleteaUser = asyncHandler(async (req, res) => {
 
   try {
     const deletedUser = await User.findByIdAndDelete(id);
-    if(deletedUser){
+    if (deletedUser) {
       res.json({ success: true, message: "user deleted sucessfully", id });
-    }
-    else{
+    } else {
       res.json({ success: false, message: "User doesn't exist", id });
     }
   } catch (error) {
@@ -487,5 +549,6 @@ module.exports = {
   checkresetPasswordUser,
   verifyUser,
   addnewAddress,
-  getAddressById
+  getAddressById,
+  loginUserWithMobile,
 };

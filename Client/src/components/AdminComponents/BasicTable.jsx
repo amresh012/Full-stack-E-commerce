@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -7,12 +7,12 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-const BasicTable = ({columns, data}) => {
+const BasicTable = ({ columns, data, toggleModalHandler }) => {
   const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
-    data : data ,
-    columns : columns,
+    data: data,
+    columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(20),
     getSortedRowModel: getSortedRowModel(),
@@ -21,49 +21,60 @@ const BasicTable = ({columns, data}) => {
     },
     onSortingChange: setSorting,
   });
+
   return (
     <div className="shadow-md rounded-md p-2">
+      <select
+        className="border-2 p-4 outline-none m-4 w-2/6"
+        value={table.getState().pagination.pageSize}
+        onChange={(e) => {
+          table.setPageSize(Number(e.target.value));
+        }}
+      >
+        {[10, 20, 30, 40, 50].map((pageSize) => (
+          <option key={pageSize} value={pageSize}>
+            Show {pageSize}
+          </option>
+        ))}
+      </select>
 
-         <select
-         className="border-2 p-4 outline-none m-4 w-2/6"
-          value={table.getState().pagination.pageSize}
-          onChange={e => {
-            table.setPageSize(Number(e.target.value))
-          }}
+      {toggleModalHandler && (
+        <button
+          className="px-6 rounded py-3 text-lg bg-[#0a2440] border border-[#0a2440] text-white hover:bg-white hover:text-[#0a2440]"
+          onClick={toggleModalHandler}
         >
-          {[10, 20, 30, 40, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
+          Send SMS
+        </button>
+      )}
       <table className="">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}  className={
-                  header.column.getCanSort()
-                    ? 'cursor-pointer select-none'
-                    : ''
-                } onClick={header.column.getToggleSortingHandler()}
-                title={
-                  header.column.getCanSort()
-                    ? header.column.getNextSortingOrder() === 'asc'
-                      ? 'Sort ascending'
-                      : header.column.getNextSortingOrder() === 'desc'
-                        ? 'Sort descending'
-                        : 'Clear sort'
-                    : undefined
-                }
+                <th
+                  key={header.id}
+                  className={
+                    header.column.getCanSort()
+                      ? "cursor-pointer select-none"
+                      : ""
+                  }
+                  onClick={header.column.getToggleSortingHandler()}
+                  title={
+                    header.column.getCanSort()
+                      ? header.column.getNextSortingOrder() === "asc"
+                        ? "Sort ascending"
+                        : header.column.getNextSortingOrder() === "desc"
+                        ? "Sort descending"
+                        : "Clear sort"
+                      : undefined
+                  }
                 >
                   {flexRender(
                     header.column.columnDef.header,
                     header.getContext()
                   )}
-                  {
-                    {asc:"🔼" , des :"🔽" }[header.column.getIsSorted()] ?? null
-                  }
+                  {{ asc: "🔼", des: "🔽" }[header.column.getIsSorted()] ??
+                    null}
                 </th>
               ))}
             </tr>
@@ -81,11 +92,11 @@ const BasicTable = ({columns, data}) => {
           ))}
         </tbody>
       </table>
-      <div className="flex m-4 p-4 gap-4 items-center"> 
+      <div className="flex m-4 p-4 gap-4 items-center">
         <span className="flex items-center gap-1">
           <div>Page</div>
           <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </strong>
         </span>
@@ -95,14 +106,14 @@ const BasicTable = ({columns, data}) => {
           <input
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              table.setPageIndex(page)
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              table.setPageIndex(page);
             }}
             className="border p-1 rounded outline-none w-16"
           />
         </span>
-        </div>
+      </div>
       <div className="w-full flex gap-12 p-4  items-center justify-center">
         <button
           className={
@@ -146,7 +157,7 @@ const BasicTable = ({columns, data}) => {
           disabled={!table.getCanNextPage()}
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         >
-         Last Page
+          Last Page
         </button>
       </div>
     </div>

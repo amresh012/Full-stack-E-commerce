@@ -1,14 +1,13 @@
 // import React from 'react'
-import BasicTable from '../../components/AdminComponents/BasicTable';
+import BasicTable from "../../components/AdminComponents/BasicTable";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Ordata from "../../MOCK_DATA (4).json"
-import { FaEye, FaSearch, FaTrash } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
-import {toast, Toaster} from "react-hot-toast"
-import { base_url } from '../../Utils/baseUrl';
-import { config } from '../../Utils/axiosConfig';
-import Select from 'react-select';
-
+import Ordata from "../../MOCK_DATA (4).json";
+import { FaEye, FaSearch, FaTrash } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+import { base_url } from "../../Utils/baseUrl";
+import { config } from "../../Utils/axiosConfig";
+import Select from "react-select";
 
 const getStatusColor = (status) => {
   switch (status.toLowerCase()) {
@@ -29,15 +28,13 @@ const getStatusColor = (status) => {
   }
 };
 
-
-
 const columns = [
   {
     header: "ID",
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.id;
-      return <span>{(+id)+1}</span>;
+      return <span>{+id + 1}</span>;
     },
   },
   {
@@ -71,16 +68,18 @@ const columns = [
   },
   {
     header: "Action",
-    cell: ({row}) => {
-    return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" >
-        <FaTrash className="text-red-500" />
+    cell: ({ row }) => {
+      return (
+        <div className="flex w-full justify-around gap-2 cursor-pointer ">
+          <div className="bg-red-200 p-2 rounded-md">
+            <FaTrash className="text-red-500" />
+          </div>
+          <div className="bg-blue-200 p-2 rounded-md">
+            <FaEye className="text-blue-500" />
+          </div>
         </div>
-       <div className="bg-blue-200 p-2 rounded-md">
-       <FaEye className="text-blue-500" />
-       </div>
-      </div>)
-  },
+      );
+    },
   },
 ];
 // delete Order
@@ -104,16 +103,20 @@ const handleDelete = async (id) => {
 };
 
 const Orders = () => {
-  const [search , setSearch] = useState('');
-  const statusArray = Ordata.map(item => item.sataus);
+  const [search, setSearch] = useState("");
+  const statusArray = Ordata.map((item) => item.sataus);
   const UniqueStatus = new Set(statusArray);
-  let statusOptions = [{value: '', label: 'All'}]
-  statusOptions.push(...Array.from(UniqueStatus).map((status) => {return {value: status, label: status}}));
+  let statusOptions = [{ value: "", label: "All" }];
+  statusOptions.push(
+    ...Array.from(UniqueStatus).map((status) => {
+      return { value: status, label: status };
+    })
+  );
   const [filteredData, setFilteredData] = useState(Ordata);
 
-  const [Order , setOrder] = useState([])
-  const [isLoading  ,setIsLoading] = useState(true)
-  
+  const [Order, setOrder] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const FetchOrders = async () => {
       let response = await fetch(`${base_url}order`);
@@ -122,9 +125,8 @@ const Orders = () => {
       setIsLoading(false);
     };
     FetchOrders();
-    console.log(Order)
-    
-  }, [])
+    console.log(Order);
+  }, []);
   const label = [
     {
       id: 2,
@@ -134,44 +136,47 @@ const Orders = () => {
     },
   ];
 
-  const sortByStatus = (status)=>{
-    if(status !== ''){
-      const results = Ordata.filter(order => order.sataus.toLowerCase() === status.toLowerCase());
+  const sortByStatus = (status) => {
+    if (status !== "") {
+      const results = Ordata.filter(
+        (order) => order.sataus.toLowerCase() === status.toLowerCase()
+      );
+      setFilteredData(results);
+    } else {
+      setFilteredData(Ordata);
+    }
+  };
+
+  const searchByIdEmailName = () => {
+    if (search.trim() === "") {
+      setFilteredData(Ordata);
+    } else {
+      const results = Ordata.filter(
+        (order) =>
+          order?.id.toString() === search.trim() ||
+          order?.orderd_by
+            ?.toLowerCase()
+            .includes(search.trim().toLowerCase()) ||
+          order?.email?.toLowerCase()?.includes(search.trim().toLowerCase())
+      );
       setFilteredData(results);
     }
-    else{
-      setFilteredData(Ordata);
-    }
-  }
+  };
 
-  const searchByIdEmailName = ()=>{
-    if(search.trim() === ''){
-      setFilteredData(Ordata);
-    }
-    else{
-      const results = Ordata.filter(order => (
-        (order?.id.toString() === search.trim()) || order?.orderd_by?.toLowerCase().includes(search.trim().toLowerCase()) || order?.email?.toLowerCase()?.includes(search.trim().toLowerCase())
-      ));
-      setFilteredData(results)
-    }
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     searchByIdEmailName();
-  }, [search])
+  }, [search]);
 
-  
-  
   return (
     <>
-    <Toaster/>
- <div className='flex flex-col justify-around gap-12 items-center  '>
-    <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
+      <Toaster />
+      <div className="mt-5 px-5 flex flex-col justify-around gap-12 items-center  ">
+        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Orders</h1>
         </div>
-    </div>
+      </div>
       {/* table col */}
-      <div className=" w-full  rounded-md  max-h-max ">
+      <div className="mt-5 px-5 w-full  rounded-md  max-h-max ">
         <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#0a2440] text-white  rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
           <BsThreeDotsVertical />
@@ -182,8 +187,11 @@ const Orders = () => {
               <label htmlFor="" className="uppercase">
                 {item.label}
               </label>
-              <Select onChange={(d)=>sortByStatus(d.value)} className='w-[200px]' options={statusOptions} />
-             
+              <Select
+                onChange={(d) => sortByStatus(d.value)}
+                className="w-[200px]"
+                options={statusOptions}
+              />
             </div>
           ))}
           {/* <div className="flex flex-col">
@@ -220,7 +228,6 @@ const Orders = () => {
       </div>
     </>
   );
-}
+};
 
-export default Orders
-
+export default Orders;

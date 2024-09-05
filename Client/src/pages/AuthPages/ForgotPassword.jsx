@@ -3,32 +3,39 @@ import {toast, Toaster} from "react-hot-toast"
 import axios from "axios"
 import { base_url } from '../../Utils/baseUrl';
 import Divider from "../../components/reusablesUI/Divider"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaFingerprint } from 'react-icons/fa';
 
 const ForgotPassword = ()=> {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [success , setSuccess] = useState(false)
+  const [success , setSuccess] = useState(false);
+  const [gettingOtp, setGettingOtp] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit =async (e) => {
       e.preventDefault();
       try {
-        const res=  await axios.post(`${base_url}user/forgot-password-token`, { email });
-        //  console.log(res)
-        if(res.data.error){
-          throw new Error(res.data.error)
+        setGettingOtp(true);
+        const res=  await axios.post(`${base_url}otp/send`, { email });
+        console.log(res)
+        if(!res.data.success){
+          throw new Error(res.data.message)
         }
         else{
           setSuccess(true)
           toast.success(`Your Otp has sent to your mail`);
           setMessage(`we sent code to ${email}`)
           }
-        setTimeout(() => {
-            window.location.href = "/otp"
-          },5000)
+        navigate('/otp', {state: {email}});
       } catch (error) {
-        setMessage(error.message);
+        setMessage(error?.response?.data?.message || error.message || 'Something went wrong');
+        setTimeout(() => {
+          setMessage("")
+        },5000)
+      }
+      finally{
+        setGettingOtp(false);
       }
   };
 
@@ -61,12 +68,13 @@ const ForgotPassword = ()=> {
             </div>
           </div>
             <div>
-              {message && <p className='text-italic text-center w-full p-2 text-red-500'>{message}</p> }
+              {message && <p className={success?"text-green-500 text-center p-2":"text-red-500 text-center p-2"}>{message}</p> }
             <button
+            disabled={gettingOtp}
               type="submit"
-              className="w-full px-4 py-2 text-white bg-[#038CCC] rounded-md hover:bg-[#038CCC]/80 focus:outline-non focus:bg-[#038CCC]"
+              className="w-full px-4 py-2 text-white bg-[#038CCC] rounded-md hover:bg-[#038CCC]/80 focus:outline-non focus:bg-[#038CCC] disabled:bg-[#bfbfbf] disabled:cursor-not-allowed"
             >
-              Send Reset Link
+              {gettingOtp ? 'Getting OTP...' : 'Send Reset Link'}
             </button>
           </div>
            <Divider/>

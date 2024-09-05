@@ -158,7 +158,6 @@ const getallProduct = asyncHandle(async (req, res, next) => {
       model: "User",
     },
   });
-  console.log(Product[0])
   if (req.query) {
     next();
   } else {
@@ -214,7 +213,6 @@ const uploadBulkProduct = expressAsyncHandler(async (req, res) => {
     };
 
     const validationResult = await ValidateSchema(productData);
-    console.log(validationResult);
 
     if (validationResult.isValid) {
       validProducts.push(productData);
@@ -227,7 +225,6 @@ const uploadBulkProduct = expressAsyncHandler(async (req, res) => {
   }
 
   res.send({ validProducts, invalidProducts });
-  console.log("first");
 });
 
 module.exports = {
