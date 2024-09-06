@@ -37,7 +37,6 @@ const Product = () => {
     };
     fetchProducts();
   }, []);
-  // }, [search]);
 
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);

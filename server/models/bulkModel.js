@@ -20,6 +20,7 @@ const BulkSchema = new mongoose.Schema(
     remark: {
       type: String,
       default: "pending",
+      remarkState:["processing" , "created","pending"]
     },
   },
   {

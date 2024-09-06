@@ -17,8 +17,6 @@ import axios from "axios";
 const SignUp = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const authentication = useSelector((state) => state.auth);
-  console.log(authentication);
 
   const [formData, setFormData] = useState({
     name: '',

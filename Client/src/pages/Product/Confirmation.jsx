@@ -6,7 +6,6 @@ import { BsReceiptCutoff } from "react-icons/bs";
 import {useLocation} from "react-router-dom"
 import moment from "moment"
 
-const deliveryCharge = 12
 const Confirmation = () => {
     const [current, setCurrent] = useState(4);
 

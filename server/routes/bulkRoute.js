@@ -5,10 +5,11 @@ const {
   deletebulk,
   updateRemarkbulk,
 } = require("../controller/bulkCtrl");
+const {authMiddleware , isAdmin} = require("../middlewares/authMiddleware")
 
 const router = express.Router();
 router.get("/", getallBulk);
-router.post("/", addBulk);
-router.put("/", updateRemarkbulk);
-router.delete("/", deletebulk);
+router.post("/addbulk",authMiddleware , isAdmin, addBulk);
+router.put("/updateremark",updateRemarkbulk);
+router.delete("/deletebulk",authMiddleware , isAdmin, deletebulk);
 module.exports = router;

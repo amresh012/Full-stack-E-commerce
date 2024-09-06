@@ -48,7 +48,6 @@ export default function AccountMenu() {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar sx={{ width: 32, height: 32 }}>
-              {name.slice(0, 2)}
             </Avatar>
           </IconButton>
         </Tooltip>

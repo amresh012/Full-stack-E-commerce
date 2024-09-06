@@ -20,13 +20,12 @@ const Invoice = require("../controller/invoiceCtrl")
            },
         ]
 
-      }).populate(
-        {
-          path: "user",
-          model:"User",
-          select: "name email _id  mobile"
-        }
-      );
+      }
+      ).populate({
+        path: "invoiceNo",
+        model: "invoice",
+        select: "invoiceNo"
+      })
       // Send the orders as the response
       res.status(200).json({
         success: true,
@@ -82,7 +81,6 @@ const Invoice = require("../controller/invoiceCtrl")
     
         const order = await OrderModel.findOneAndUpdate(
           { invoiceNo },
-          { status },
           { new: true } // Return the modified document
         );
     
@@ -100,7 +98,7 @@ const Invoice = require("../controller/invoiceCtrl")
 
     const getInvoices = async (req, res) => {
         try {
-          const invoices = await InvoiceModel.find({ orderby: req.user._id });
+          const invoices = await InvoiceModel.find({ orderby: req.user._id }).populate({path:"orderby" , model:"User", select:"name"});
           res.send(invoices);
         } catch (error) {
           console.error(error);

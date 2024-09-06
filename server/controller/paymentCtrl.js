@@ -40,7 +40,6 @@ const createOrder = async (req, res) => {
       amount : amount,
       cartItems,
       address,
-      userId,
       paystatus:"Created"
     });
     return respo;
@@ -81,7 +80,6 @@ const verifyPayment = async (req, res) => {
         amount: amount, // Convert amount to rupees
         cartItems:items,
         address,
-        user,
         paymentStatus: "Success"
       });
       console.log("order-saved succesfully")

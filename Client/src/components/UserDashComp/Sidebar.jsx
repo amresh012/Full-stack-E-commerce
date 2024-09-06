@@ -1,5 +1,7 @@
 import React from 'react'
 import {Link} from  "react-router-dom"
+import { IoIosLogOut } from "react-icons/io";
+
 const links = [
     {
         id:1,
@@ -56,18 +58,16 @@ const links = [
 ]
 
 const Sidebar = () => {
-    // location = useLocation()
-    // console.log(location)
   return (
     <div className=' h-screen lg:w-[20rem] border-r-2 p-2 shadow-md'>
-      {/* <div className="h-24 flex items-center justify-center font-bold text-2xl border-b-2">
+      <div className="h-24 flex items-center justify-center font-bold text-2xl border-b-2">
         <h1>My Account</h1>
-      </div> */}
+      </div>
        <ul className="">
         {
             links.map((item)=>(
                 <div className=" h-full border-b-2 " key={item.id}>
-                    <li className="font-bold text-2xl bg-[#144170] text-white p-2 uppercase">{item.header}</li>
+                    <li className="font-bold text-2xl bg-[#0a2444] text-white p-2 uppercase">{item.header}</li>
                     {
                       item.submenu && item.sublink?.map((link)=>(
                         <ul  key={link.label} className="flex  gap-2 m-2 justify-start hover:bg-[#144170] rounded-md cursor-pointer hover:text-white font-medium items-start ">
@@ -84,6 +84,10 @@ const Sidebar = () => {
             ))
         }
        </ul>
+        <div className=" gap-2 bg-red-500 text-white mt-12 w-full h-12 flex items-center justify-center">
+            <button>LOGOUT</button>
+            <IoIosLogOut size={20}/>
+        </div>
     </div>
   )
 }

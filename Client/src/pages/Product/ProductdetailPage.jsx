@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, Chip, Rating } from "@mui/material";
-import { FaCheckCircle, FaGlobe, FaLock } from "react-icons/fa";
+import { FaCheckCircle, FaGlobe, FaLock, FaPen, FaPenAlt } from "react-icons/fa";
 import ReviewForm from "../../components/ReviewForm/ReviewForm";
 import Ratingdata from "../../MOCK_DATA (6).json";
 import { toast, Toaster } from "react-hot-toast";
@@ -17,21 +17,21 @@ const ProductdetailPage = () => {
   const [quantity, setQuantity] = useState(0);
   const [reviewvisible, setReviewVisible] = useState(false);
   const [endrating, setEndRating] = useState(4);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const dispatch = useDispatch();
   const {carts} = useSelector(state => state.cart);
-  const {token} = useSelector(state => state.auth);
+
+  const token = localStorage.getItem("token")
   
   // fetch product by id
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${base_url}product/${id}`);
-        // console.log(response)
         const data = await response.json();
+        console.log(data)
         setproduct(data);
       } catch (error) {
-        // console.error(error);
+        console.error(error);
       }
     };
     fetchProducts();
@@ -155,7 +155,7 @@ const ProductdetailPage = () => {
               </div>
             </div>
             <div className="pt-2 text-gray-500 font-bold italic">
-              <p>UPI & Cards Accepted , Online approvalsin 2 minute</p>
+              <p>UPI & Cards Accepted , Online approvals in 2 minute</p>
             </div>
             <div className="qua space-y-4  mt-2">
               <h1 className="font-bold  text-xl">Quantity</h1>
@@ -174,6 +174,18 @@ const ProductdetailPage = () => {
                   -
                 </button>
               </div>
+            </div>
+            <div className="diemnsions p-4">
+               <h1  className="text-2xl">Dimensions:</h1>
+               <p className="text-gray-500 font-bold italic">length: {product?.length}cm</p>
+               <p className="text-gray-500 font-bold italic">height: {product?.height}cm</p>
+               <p className="text-gray-500 font-bold italic">weight: {product?.weight}kg</p>
+               <p className="text-gray-500 font-bold italic">width: {product?.width}cm</p>
+{/* 
+               height: 200,
+    length: 100,
+    width: 150,
+    weight: 100 */}
             </div>
             <div
               className="action-buttons flex flex-col gap-4 my-6"
@@ -240,16 +252,16 @@ const ProductdetailPage = () => {
                   precision={0.5}
                 />
               </p>
-
               <p className="font-medium lg:text-sm text-base">
                 Based on 12 reviews
               </p>
             </div>
             <div
-              className="rightcontent border-2 p-2 hover:bg-black border-black hover:text-white"
+              className="rightcontent border-2 flex items-center justify-center gap-2 p-2 hover:bg-black border-black hover:text-white"
               onClick={handleReviewView}
             >
               <button>Write a Review</button>
+              <FaPen/>
             </div>
           </div>
         </div>

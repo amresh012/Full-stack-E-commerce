@@ -18,21 +18,26 @@ const CheckOut = () => {
   const [couriercompnies, setCourierCompnies] = useState([])
   const [selectedShiping , setSelectedShipping] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(true);
-  console.log(couriercompnies)
+  const token = localStorage.getItem("token")
   const handleChecked =  ()=>{
     if(isBilling){
       
     }
   }
-
  const dispatch = useDispatch()
   const { carts, totalAmount} = useSelector((state) => state.cart);
   const auth = useSelector((state) => state.auth);
+  let CartTotal = totalAmount + Number(selectedShiping?.freight_charge?.toFixed(0) || 0);
   const user = auth.signupdata
-
-      const amount = totalAmount;
+      const amount = CartTotal;
       const currency = "INR";
       const receiptId = `recipt_${Math.random()*100}`;
+      const  address= {
+        street:"123 Main St",
+        city : "Anytown",
+        state:"CA"
+      }
+      
        
 // Calculate Shipping Charges on Orders
 
@@ -57,7 +62,6 @@ const calculateShippingCharge = async () => {
   // console.log(data)
   // console.log(data.mainset.data.available_courier_companies)
   if (data.status) {
-    setShippingCharge(data.mainset.shipping_charge);
     setCourierCompnies(data.mainset.data.available_courier_companies);
     // Set the shipping charge from response
   } else {
@@ -78,8 +82,8 @@ const handleShippingSelect = (shippingData) => {
   setSelectedShipping(shippingData); // Store the selected shipping option in the state
 };
 
-  const paymentHandler = async (e) => {
-    const response = await fetch(`${base_url}payment/createOrder`, {
+const paymentHandler = async (e) => {
+  const response = await fetch(`${base_url}payment/createOrder`, {
       method: "POST",
       body: JSON.stringify({
         amount,
@@ -111,7 +115,6 @@ const handleShippingSelect = (shippingData) => {
           razorpay_signature: response.razorpay_signature,
           amount: order_amount,
           items: cartItems,
-          user: userid,
           address: orderaddress
         };
         console.log(paymentData);
@@ -121,12 +124,7 @@ const handleShippingSelect = (shippingData) => {
             ...config,
             body: JSON.stringify(paymentData), // Pass the object directly
           });
-          if (!validateRes.ok) {
-            // Handle HTTP errors
-            console.error(`HTTP error! Status: ${validateRes.status}`);
-            return;
-          }
-      
+           console.log("")
           const jsonRes = await validateRes.json();
           console.log(jsonRes);
       
@@ -300,7 +298,7 @@ const handleShippingSelect = (shippingData) => {
                 <p>Copoun Discount</p>
                 <p className=" font-bold flex gap-1 items-center">
                   <LiaRupeeSignSolid />
-                  {/* {totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} */}
+                   
                   0
                 </p>
               </div>
@@ -317,25 +315,25 @@ const handleShippingSelect = (shippingData) => {
                 <p>Cart Total</p>
                 <p className=" font-bold flex gap-1 items-center">
                   <LiaRupeeSignSolid />
-                  {(totalAmount+selectedShiping?.freight_charge).toFixed(2)}
+                  {CartTotal}
                 </p>
               </div>
             </div>
-             {  <div 
+             { token ? 
+              <div 
              className="checkout-button w-full flex items-center justify-center" 
              onClick={paymentHandler}>
                <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
                  CheckOut
                </button>
              </div>
-            //  :
-            //  <div className="Login button w-full flex items-center justify-center">
-            //     <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
-            //      Login
-            //    </button>
-            //  </div>
+             :
+             <div className="Login button w-full flex items-center justify-center">
+             <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
+              Login
+            </button>
+          </div>
              }
-           
           </div>
         </div>
       </div>

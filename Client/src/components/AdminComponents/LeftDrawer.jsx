@@ -126,7 +126,7 @@ const LeftDrawer = () => {
         </ul>
 
          <div
-          className="absolute bottom-0 left-0 flex bg-[#0A2440] p-4 w-[94%] text-xl text-white items-center  justify-center gap-2"
+          className=" flex bg-[#0A2440] p-4 w-[94%] text-xl text-white items-center  justify-center gap-2"
           >
           <button className="uppercase">LogOut</button>
           <FiLogOut/>

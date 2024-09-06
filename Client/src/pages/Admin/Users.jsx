@@ -289,6 +289,7 @@ const Users = () => {
   };
 
   const handleRoleChange = async (id, role) => {
+    console.log(id)
     try {
       const response = await fetch(`${base_url}user/edit-role/${id}`, {
         method: "PUT",
@@ -298,9 +299,12 @@ const Users = () => {
         }),
       });
       const data = await response.json();
-      // console.log(data)
-      if(!data.error){
+      console.log(data)
+      if(!data.error && data.status!=="fail"){
       toast.success('Role changed successfully.')
+      }
+      else{
+        toast.error(data.message)
       }
     } catch (error) {
       toast.error(error.message);

@@ -15,6 +15,7 @@ const Coupon = ({ setDiscount }) => {
       if (response.data.coupon) {
         setDiscount(response.data.coupon.discountValue);
         setSuccess(true)
+        setMessage('Valid Copoun');
     }
     } catch (error) {
       setMessage('Invalid or expired coupon');
@@ -40,6 +41,7 @@ const Coupon = ({ setDiscount }) => {
     }
   };
   const handleCopoun = (e)=>{
+    console.log(e.target.value)
     setCouponCode(e.target.value)
     validateCoupon()
   }

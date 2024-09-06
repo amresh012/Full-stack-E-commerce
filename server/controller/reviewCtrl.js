@@ -1,11 +1,11 @@
 // controllers/reviewController.js
-const Review = require("../models/Review");
-const Product = require("../models/Product");
+const Review = require("../models/reviewModel");
+const Product = require("../models/productModel");
 
 // Create a review
 const createReview = async (req, res) => {
   try {
-    const { productId, rating, comment } = req.body;
+    const { productId,title, rating, comment } = req.body;
 
     // Ensure product exists
     const product = await Product.findById(productId);
@@ -16,10 +16,11 @@ const createReview = async (req, res) => {
     const review = new Review({
       product: productId,
       user: req.user._id,
+      title,
       rating,
       comment,
     });
-
+    console.log(review)
     await review.save();
 
     res.status(201).json(review);
@@ -93,4 +94,4 @@ const deleteReview = async (req, res) => {
 };
 
 
-module.exports = {deleteReview,updateReview,createReview}
+module.exports = {deleteReview,updateReview,createReview,getProductReviews}

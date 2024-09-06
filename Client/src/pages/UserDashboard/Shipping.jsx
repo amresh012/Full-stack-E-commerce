@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaAddressCard } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
@@ -6,12 +6,9 @@ import { useFormik } from "formik";
 import { base_url } from "../../Utils/baseUrl";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
-
 const Shipping = () => {
-  const authState = useSelector((state) => state.auth);
-  const id = authState.user._id
-  const orders = useSelector((state) => state.userorder);
-  console.log(orders)
+  const [oldAddres , setOldAddres] = useState()
+ const id = "66dad1de820d008c4f863433"
 
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -23,16 +20,16 @@ const Shipping = () => {
       zipcode: "",
     },
     onSubmit: async (values, { setSubmitting }) => {
-      const datatoSend = {...values ,id }
+      const datatoSend = {...values }
       try {
         const response = await axios.post(`${base_url}user/adr`, datatoSend, config);
         console.log(response);
-        if(response.data.success){
+        if(response.data.success)
+        {
           toast.success(response.data.message);
         }
       } catch (error) {
         if (error.response) {
-          console.log(error)
           toast.error(`Error: ${error.response.data.message}`);
         } else {
           toast.error("An unexpected error occurred. Please try again.");
@@ -43,7 +40,6 @@ const Shipping = () => {
     },
   });
  
-
   return (
     <>
       <Toaster />

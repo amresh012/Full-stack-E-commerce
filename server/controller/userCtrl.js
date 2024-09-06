@@ -313,7 +313,8 @@ const getAddressById = asyncHandler(async (req, res) => {
 
   try {
     // Query the database to retrieve the address by id
-    const user = await User.findById(id).populate({path:"address" , model:"Address" , select:" name address city  state zipcode mobile "});
+    const user = await User.findById(id)
+    console.log(user)
 
     if (!user) {
       return res.status(404).json({ error: "Address not found" });
@@ -417,7 +418,16 @@ const updateRole = asyncHandler(async (req, res) => {
 const getallUser = asyncHandler(async (req, res) => {
   try {
     const getUsers = await User.find()
-    .populate({path:"address" , model:"Address" , select:" name address city  state zipcode "})
+    .populate({path:"address" , model:"Address" , select:" name address city  state zipcode mobile "})
+    .populate(
+      [
+        {
+          path:"order",
+          model:"Order",
+          select:"order_id paymentId amount cartItems invoiceNo paymentStatus "
+        }
+      ]
+    )
 
     res.json(getUsers);
   } catch (error) {
@@ -427,35 +437,7 @@ const getallUser = asyncHandler(async (req, res) => {
 
 // Get a single user
 
-const getaUser = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  validateMongoDbId(id);
 
-  try {
-    const getaUser = await User.findById(id);
-    res.json({
-      getaUser,
-    });
-  } catch (error) {
-    throw new Error(error);
-  }
-});
-
-// get user by email
-// const getUserByEmail = asyncHandler(async (req, res) => {
-//   console.log(req.body)
-//   const { email } = req.params;
-//   try {
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-//     res.json(user);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// });
 
 // Get a single user
 
@@ -497,7 +479,6 @@ const blockUser = asyncHandler(async (req, res) => {
 
 const unblockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  // console.log(id);
   validateMongoDbId(id);
 
   try {
@@ -594,7 +575,7 @@ module.exports = {
   createUser,
   loginUserCtrl,
   getallUser,
-  getaUser,
+  // getaUser,
   deleteaUser,
   updatedUser,
   blockUser,

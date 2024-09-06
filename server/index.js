@@ -20,6 +20,7 @@ const payRoute = require("./routes/paymentRoute");
 const couponRoute = require("./routes/couponRoute");
 const imageRoute = require("./routes/imageRoute");
 const smsRoute = require("./routes/smsRoute");
+const reviewsRoute =  require("./routes/reviewRoute")
 const shipRocketRoute = require("./routes/shiprocketRoute");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -48,6 +49,7 @@ app.use("/api/config", websiteRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/payment", payRoute);
 app.use("/api/product", productRoute);
+app.use("/api/reviews", reviewsRoute);
 app.use("/api/coupon", couponRoute);
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/uploads", uploadimageRoute);

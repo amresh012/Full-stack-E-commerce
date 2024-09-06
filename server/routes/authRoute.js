@@ -3,7 +3,7 @@ const {
   createUser,
   loginUserCtrl,
   getallUser,
-  getaUser,
+  // getaUser,
   deleteaUser,
   updatedUser,
   blockUser,
@@ -28,7 +28,6 @@ const {
 const {
   authMiddleware,
   isAdmin,
-  isSuper,
 } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
@@ -48,8 +47,7 @@ router.post("/admin-login", loginAdmin);
 router.get("/all-users", getallUser);
 router.get("/refresh", handleRefreshToken);
 router.post("/logout", logout);
-router.get("/:id", authMiddleware, getaUser);//isAdmin middleware  put if required
-// router.get('/:email', getUserByEmail);
+// router.get("/:id", authMiddleware, getaUser);//isAdmin middleware  put if required
 router.delete("/:id", deleteaUser);
 router.put("/order/update-order/:id", authMiddleware);
 router.put("/edit-user", authMiddleware, updatedUser);

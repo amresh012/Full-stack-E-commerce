@@ -5,14 +5,19 @@ const invoiceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  invoiceId:{
+    type:String,
+    required:true,
+    unique:true
+  },
   products: [{
     productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
     quantity: { type: Number, required: true },
     price: { type: Number, required: true }
   }],
-  invoice:{
-    type:String
-  },
+  // invoice:{
+  //   type:String
+  // },
   orderby:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -21,6 +26,7 @@ const invoiceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
 });
 
 const OTP = mongoose.model('invoice', invoiceSchema);
