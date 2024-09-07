@@ -25,7 +25,7 @@ const getallBulk = asyncHandle(async (req, res) => {
 });
 
 const deletebulk = asyncHandle(async (req, res) => {
-  console.log(req.body);
+  
   if (req.body._id) {
     const { _id } = req.body;
     try {

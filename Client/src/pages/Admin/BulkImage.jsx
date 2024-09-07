@@ -37,14 +37,14 @@ const BulkImage = () => {
       onSubmit: async (values, { setSubmitting }) => {
         try {
           const response = await axios.post(`${base_url}images`, values);
-          console.log(values);
+          
           if (response.data.error) {
             throw new Error(response.data.error);
           } else {
             toast.success("Image Uploaded Successfully");
           }
         } catch (error) {
-          console.log(error)
+          
           toast.error(error.message);
         } finally {
           setSubmitting(false);
@@ -59,10 +59,10 @@ const BulkImage = () => {
       multiple: true,
       action: `https://images.deepmart.shop/upload`,
       onSubmit(info) {
-        console.log(info)
+        
         const { status } = info.file;
         if (status !== "uploading") {
-          console.log(info.file.response, info.fileList);
+          
           setFieldValue("url", info.file.response);
           setFieldValue("name", info.file.name);
         }
@@ -74,7 +74,7 @@ const BulkImage = () => {
       },
       onDrop(e) {
         handleImgUpload(e.dataTransfer.files);
-        console.log("Dropped Image ", e.dataTransfer.files)
+        
       },
     };
   

@@ -6,6 +6,80 @@ import { AiOutlineProduct } from "react-icons/ai";
 import { CgWebsite } from "react-icons/cg";
 import { FaBlog } from "react-icons/fa";
 
+
+// our solutions
+export const gymEcommerceSolutions = [
+  {
+    category: "Gym Equipment and Accessories",
+    solutions: [
+      { feature: "Product Variety", description: "Sell a wide variety of gym equipment like treadmills, dumbbells, resistance bands, and yoga mats." },
+      { feature: "Custom Bundles", description: "Offer equipment bundles based on fitness goals (e.g., weight loss, muscle building)." },
+      { feature: "Product Guides", description: "Provide detailed guides or blog posts on how to use various equipment." }
+    ]
+  },
+  {
+    category: "Home Gym Setup",
+    solutions: [
+      { feature: "Custom Packages", description: "Provide tailored home gym setup services based on available space, budget, and fitness goals." },
+      { feature: "Consultation Services", description: "Offer virtual consultations to help customers design their home gyms." },
+      { feature: "Installation Services", description: "Include installation and assembly services as part of the purchase." }
+    ]
+  },
+  {
+    category: "Commercial Gym Setup",
+    solutions: [
+      { feature: "Bulk Equipment Deals", description: "Offer discounted packages for gyms setting up or upgrading their facilities." },
+      { feature: "Gym Design", description: "Provide 3D design and layout services to help commercial gyms optimize their space." },
+      { feature: "Maintenance and Support", description: "Include ongoing support and maintenance plans for equipment." }
+    ]
+  },
+  {
+    category: "Fitness Apparel and Accessories",
+    solutions: [
+      { feature: "Clothing Line", description: "Sell gym wear like compression clothing, training shoes, and other fitness-related apparel." },
+      { feature: "Fitness Accessories", description: "Include items such as gym bags, water bottles, and sweatbands." }
+    ]
+  },
+  {
+    category: "Subscription-Based Services",
+    solutions: [
+      { feature: "Personalized Workout Plans", description: "Provide tailored workout programs based on user fitness levels and goals." },
+      { feature: "Nutrition Plans", description: "Offer meal plans or dietary advice to complement workout routines." },
+      { feature: "Virtual Training", description: "Enable access to virtual personal trainers or fitness classes through subscription plans." }
+    ]
+  },
+  {
+    category: "Membership Discounts and Loyalty Programs",
+    solutions: [
+      { feature: "Loyalty Points", description: "Offer points on every purchase that can be redeemed for discounts or free products." },
+      { feature: "Membership Tiers", description: "Create tiers (Bronze, Silver, Gold) that offer increasing discounts and exclusive access to products or services." }
+    ]
+  },
+  // {
+  //   category: "Fitness Gadgets",
+  //   solutions: [
+  //     { feature: "Wearables", description: "Sell fitness trackers, smartwatches, and heart rate monitors to track workouts and health metrics." },
+  //     { feature: "Smart Equipment", description: "Offer smart gym equipment that can sync with mobile apps or track progress automatically." }
+  //   ]
+  // },
+  // {
+  //   category: "Supplement Sales",
+  //   solutions: [
+  //     { feature: "Protein Powders & Bars", description: "Offer a range of supplements like protein shakes, meal replacements, and pre-workout powders." },
+  //     { feature: "Nutrition Guides", description: "Include detailed information about supplements and when to use them." }
+  //   ]
+  // },
+  // {
+  //   category: "Community Building",
+  //   solutions: [
+  //     { feature: "Fitness Forums", description: "Provide a space where customers can share their fitness journeys, ask questions, and seek motivation." },
+  //     { feature: "Workshops and Webinars", description: "Host virtual fitness workshops or webinars featuring trainers, nutritionists, or athletes." }
+  //   ]
+  // },
+];
+
+
+
 export const links = [
   {
     name: "Accessories",

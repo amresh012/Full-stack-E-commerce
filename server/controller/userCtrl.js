@@ -47,7 +47,7 @@ const checkSignup = async (req, res) => {
 
 const verifyUser = asyncHandler(async (req, res) => {
   let token;
-  // console.log(req?.headers)
+  // 
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1];
     try {
@@ -302,7 +302,7 @@ const addnewAddress = asyncHandler(async (req, res, next) => {
 
 // getaddrss by id
 const getAddressById = asyncHandler(async (req, res) => {
-  console.log(req.params)
+  
   const { id } = req.params;
   const { _id: userId } = req.user;
 
@@ -314,7 +314,7 @@ const getAddressById = asyncHandler(async (req, res) => {
   try {
     // Query the database to retrieve the address by id
     const user = await User.findById(id)
-    console.log(user)
+    
 
     if (!user) {
       return res.status(404).json({ error: "Address not found" });
@@ -395,7 +395,7 @@ const updatedUser = asyncHandler(async (req, res) => {
   }
 });
 const updateRole = asyncHandler(async (req, res) => {
-  console.log(req.body)
+  
   const { id } = req.params;
   const { role } = req.body;
 
@@ -404,7 +404,7 @@ const updateRole = asyncHandler(async (req, res) => {
   }
   try {
     const updatedUser = await User.findByIdAndUpdate(id, { role }, { new: true });
-    console.log(updatedUser)
+    
    return  res.json(updatedUser);
   } catch (error) {
     console.error(error);
@@ -519,8 +519,8 @@ const forgetPasswordToken = asyncHandler(async (req, res) => {
   if (!user) res.json({ error: "Email is not Registered with us !" });
   try {
     const token = await user.createPasswordResetToken();
-    console.log(token);
-     console.log(req.headers.origin)
+    
+     
     await user.save();
     const sendData = `<h1 style=\"color: #333; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; margin-bottom: 16px;\">Password Reset<\/h1>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 8px;\">Hi there,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">We received a request to reset your password. Please click the link below to reset your password:<\/p>\r\n<p style=\"margin-bottom: 16px;\"><a href='${req.headers.origin}/reset-password/${token}' style=\"background-color: #007bff; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; padding: 10px 16px; text-decoration: none;\">Reset Password<\/a><\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">If you did not request a password reset, you can ignore this email and your password will not be changed.<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;\">Thank you,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 0;\">KFS Fitness Team<\/p>\r\n`;
     const data = {

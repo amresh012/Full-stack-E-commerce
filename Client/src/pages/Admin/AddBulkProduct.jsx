@@ -29,7 +29,7 @@ const AddBulkProduct = () => {
       }
     },
     onDrop(e) {
-      // console.log("Dropped files", e.dataTransfer.files);
+      // 
     },
   };
  

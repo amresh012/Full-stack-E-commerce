@@ -18,7 +18,7 @@ const ForgotPassword = ()=> {
       try {
         setGettingOtp(true);
         const res=  await axios.post(`${base_url}otp/send`, { email });
-        console.log(res)
+        
         if(!res.data.success){
           throw new Error(res.data.message)
         }

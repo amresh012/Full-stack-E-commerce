@@ -1,9 +1,10 @@
 // components/CouponForm.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {base_url} from "../../Utils/baseUrl"
+import { config } from '../../Utils/axiosConfig';
 
-const Coupon = ({ setDiscount }) => {
+const Coupon = ({ setDiscount, setDiscountType }) => {
   const [couponCode, setCouponCode] = useState('');
   const [message, setMessage] = useState('');
   const [success , setSuccess] =  useState(false)
@@ -12,8 +13,10 @@ const Coupon = ({ setDiscount }) => {
   const validateCoupon = async () => {
     try {
       const response = await axios.post(`${base_url}coupon/validate`, { code: couponCode });
+      // console.log(response)
       if (response.data.coupon) {
         setDiscount(response.data.coupon.discountValue);
+        setDiscountType(response.data.coupon.discountType);
         setSuccess(true)
         setMessage('Valid Copoun');
     }
@@ -23,28 +26,50 @@ const Coupon = ({ setDiscount }) => {
     }
   };
 
-  const applyCopoun = async () => {
-    try {
-      const response = await axios.post(`${base_url}payment/couponcode`, { code: couponCode });
-      console.log(response)
-      if (response.data.coupon) {
-        setDiscount(response.data.coupon.discountValue);
-        setSuccess(true)
-        setMessage('Coupon applied successfully');
-        setTimeout(()=>{
-            setMessage("")
-        },5000)
+  const applyCoupon = async () => {
+    if (!couponCode) {
+      setMessage("Please enter a coupon code");
+      setSuccess(false);
+      return;
     }
+  
+    try {
+      const response = await axios.post(`${base_url}payment/couponcode`, { code: couponCode }, config);
+      console.log(response)
+      // Check if coupon is successfully applied
+      if (response.data.cart?.isCouponApplied) {
+        setDiscount(response.data.cart.isCouponApplied.discountValue);
+        setSuccess(true);
+        setMessage("Coupon applied successfully!");
+        // Clear the message after 5 seconds
+        setTimeout(() => {
+          setMessage("");
+        }, 5000);
+      } else {
+        setMessage("Failed to apply the coupon.");
+        setSuccess(false);
+      }
     } catch (error) {
-      setMessage('Unable to apply copoun');
-      setSuccess(false)
+      // Handle error response from the server
+      if (error.response && error.response.data) {
+        console.log(error.response && error.response.data)
+        setMessage(error.response.data.message || "Unable to apply coupon");
+      } else {
+        setMessage("Network or server error. Please try again.");
+      }
+      setSuccess(false);
     }
   };
-  const handleCopoun = (e)=>{
-    console.log(e.target.value)
-    setCouponCode(e.target.value)
-    validateCoupon()
-  }
+  
+  // Handle the coupon input change
+  const handleCopoun = (e) => {
+    setCouponCode(e.target.value);
+  };
+
+  useEffect(()=>{
+      validateCoupon();
+  },[couponCode])
+  
 
   return (
     <div className=" p-4 Copoun-Code rounded-md space-y-4">
@@ -55,7 +80,7 @@ const Coupon = ({ setDiscount }) => {
       Perferendis recusandae accusamus dolor maiores.
     </p>
   </div>
-  <div className="copoun-input flex flex-col gap-4 ">
+  <div className="copoun-input flex flex-col ">
     <input
       type="text"
       value={couponCode}
@@ -63,16 +88,14 @@ const Coupon = ({ setDiscount }) => {
       className={`h-12 rounded-full border px-4 placeholder:px-2 ${success ? "outline-green-500" : "outline-red-500"}`}
       placeholder="Enter your copoun code"
     />
-    <button onClick={applyCopoun} className="bg-[#0A2440] text-white p-2 rounded-md">
-      Apply Copoun
-    </button>
-    {message && 
-    <p className='flex justify-center items-center w-full'>
-        {
-            success ?<span className='text-green-500 bg-green-200 p-2 rounded-md'>{message}</span>:<span className='text-red-500 p-2 bg-red-200 rounded-md'>{message}</span>
-        }
+     {message && 
+    <p className='w-full text-center'>
+        {success ?<span className='text-green-500'>{message}</span>:<span className='text-red-500'>{message}</span>}
     </p>
     }
+    <button onClick={applyCoupon} className="bg-[#0A2440] text-white p-2 rounded-md">
+      Apply Copoun
+    </button>
   </div> 
       </div>
   );

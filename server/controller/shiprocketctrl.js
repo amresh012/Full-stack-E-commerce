@@ -1,5 +1,5 @@
 const Product = require("../models/productModel");
-const Adress = require("../models/AddressModel");
+const Adress = require("../models/addressModel");
 const axios = require("axios");
 const User = require("../models/userModel");
 
@@ -25,7 +25,7 @@ const createOrder = async (req, res) => {
     let pro = {
       name: product.title,
       sku: product.slug,
-      units: 1,
+      units: product.quantity,
       length:product.length,
       width: product.width,
       height: product.height,
@@ -71,7 +71,7 @@ const createOrder = async (req, res) => {
     height: 20,
     weight: 2.5,
   };
-   console.log(shiprocket)
+   
   const headersConfig = {
     headers: {
       "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const createOrder = async (req, res) => {
     if (resp.data.error) {
       res.status(500).send({ message:resp.data.error });
     } else {
-      console.log("hi after shiprocket")
+      
       makepdf(useremail)
       res.json({success:true,shippting:resp.data});
     }

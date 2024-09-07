@@ -21,6 +21,9 @@ const Product = () => {
   const [sortedProducts, setSortedProducts] = useState([]);
   const [selectedOption, setSelectedOption] = useState("Low to High");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  // number of products per page
   const productsPerPage = 9;
   const dispatch = useDispatch();
 
@@ -31,12 +34,25 @@ const Product = () => {
         : `${base_url}product`;
       let response = await fetch(url);
       let data = await response.json();
-      setProducts(data);
-      setSortedProducts(data);
-      setIsLoading(false);
+
+      const filteredData = selectedCategories.length > 0
+        ? data.filter(product => selectedCategories.includes(product.category))
+        : data;
+        setProducts(filteredData);
+        setSortedProducts(filteredData);
+        setIsLoading(false);
     };
     fetchProducts();
-  }, []);
+  }, [search, selectedCategories]);
+
+  // filter based on selected category
+  const handleCategoryChange = (category) => {
+    setSelectedCategories((prevCategories) =>
+      prevCategories.includes(category)
+        ? prevCategories.filter((c) => c !== category)
+        : [...prevCategories, category]
+    );
+  };
 
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
@@ -125,19 +141,25 @@ const Product = () => {
               label="Reset"
               sx={{ bgcolor: "#0A2440", color: "#fff" }}
               icon={<GrPowerReset size={18} />}
+              onClick={() => setSelectedCategories([])}
             />
           </div>
           <div className="p-2 space-y-2">
             <h1 className="font-bold">Category</h1>
             <div className="flex flex-col gap-2"></div>
             <div className="no-scrollbar cursor-pointer">
-              {gym_equipment.slice(``).map((item, index) => (
+              {gym_equipment.map((item, index) => (
                 <div
                   className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md"
                   key={index}
                 >
-                  <input type="checkbox" className="cursor-pointer" />
-                  <p>{item}</p>
+                  <input 
+                  type="checkbox" 
+                  className="cursor-pointer"
+                  onChange={() => handleCategoryChange(item)}
+                  checked={selectedCategories.includes(item)}
+                   />
+                  <p className="lowercase">{item}</p>
                 </div>
               ))}
             </div>

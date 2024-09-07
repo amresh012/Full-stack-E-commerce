@@ -39,7 +39,7 @@ const ProductCarousel = ({addToCartHandler}) => {
     let response = await fetch(`${base_url}product`);
     let data = await response.json();
     setProducts(data);
-    // console.log(data);
+    // 
   };
 
   useEffect(() => {

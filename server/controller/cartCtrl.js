@@ -156,7 +156,7 @@ const removeAnItem = asyncHandle(async (req, res) => {
       0
     );
     user.cart.totalValue = totalCartValue;
-    console.log(totalCartValue);
+    
     res.json({ products: data, totalCartValue });
   } catch (error) {
     console.error(error);
@@ -167,7 +167,7 @@ const removeAnItem = asyncHandle(async (req, res) => {
 const updatecart = asyncHandle(async (req, res) => {
   const { _id } = req.user;
   const { id, type } = req.body;
-console.log(req.body)
+
   try {
     const product = await Product.findById(id);
     if (!product) {
@@ -189,9 +189,9 @@ console.log(req.body)
     let previousQty = cartItem.count;
 
     if (type === "inc") {
-      console.log(previousQty);
+      
       previousQty = previousQty + 1;
-      console.log(previousQty);
+      
     }
 
     if (type === "dec") {

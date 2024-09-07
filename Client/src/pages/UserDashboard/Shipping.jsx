@@ -23,7 +23,7 @@ const Shipping = () => {
       const datatoSend = {...values }
       try {
         const response = await axios.post(`${base_url}user/adr`, datatoSend, config);
-        console.log(response);
+        
         if(response.data.success)
         {
           toast.success(response.data.message);

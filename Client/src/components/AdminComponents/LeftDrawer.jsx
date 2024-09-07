@@ -25,13 +25,15 @@ const LeftDrawer = () => {
         }
       >
         <div className="h-24 w-full border-b-2 flex items-center justify-around py-2">
-          <img
+         <Link to="/">
+         <img
             src={Kfs_logo}
             alt=""
             className={`overflow-hidden transition-all ${
               expanded ? "w-28" : "w-0"
             }`}
           />
+         </Link>
           <button
             onClick={() => setExpanded((curr) => !curr)}
             className="p-2.5 mt-5 rounded-full bg-gray-100 hover:bg-gray-200"

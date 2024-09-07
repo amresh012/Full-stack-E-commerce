@@ -20,7 +20,7 @@ const razorpay = new Razorpay({
 const createOrder = async (req, res) => {
   try {
     const {amount , cartItems , address , userId} = req.body;
-    console.log(cartItems)
+    
     const options = {
       amount: amount *100  , // amount in the smallest currency unit
       currency: "INR",
@@ -29,9 +29,9 @@ const createOrder = async (req, res) => {
         "shipping_info":address
       }
     }
-    // console.log("Creating Razorpay order with options:", options);
+    // 
     const order = await razorpay.orders.create(options);
-    // console.log("Razorpay order created:", order);
+    // 
     if (!order) {
       return res.status(500).send("Failed to create Order");
     }
@@ -45,33 +45,27 @@ const createOrder = async (req, res) => {
     return respo;
       } 
   catch (err) {
-    console.log(err);
+    
     return res.status(500).send("Failed To Create Order");
   }
 };
 
 const verifyPayment = async (req, res) => {
-  console.log("Received request body:", req.body);
+  
 
   const { paymentId,order_id, razorpay_signature, amount, items, address, user } = req.body;
   const key_secret = process.env.RAZORPAY_SECRET_KEY;
 
   // Prepare the string that needs to be signed
   const body = order_id+"|"+paymentId;
-  console.log("String to be signed:", body);
+  
 
   // Generate the expected signature
   const expectedSignature = crypto
     .createHmac("sha256", key_secret)
     .update(body.toString())
     .digest("hex");
-
-  console.log("Generated signature:", expectedSignature);
-  console.log("Razorpay signature received:", razorpay_signature);
-
   const isAuthentic = expectedSignature === razorpay_signature;
-  console.log("Is the signature authentic?", isAuthentic);
-
   if (isAuthentic) {
     try {
       const order = new orderModel({
@@ -82,7 +76,7 @@ const verifyPayment = async (req, res) => {
         address,
         paymentStatus: "Success"
       });
-      console.log("order-saved succesfully")
+      
       await order.save();
       return res.status(200).send("Payment verified and order saved successfully");
     } catch (err) {
@@ -94,32 +88,68 @@ const verifyPayment = async (req, res) => {
   }
 };
 
-async function applyCode(req, res, next) {
-  const user = await User.findById(req.user._id);
-  const coupon = await CouponCodes.findOne({ code: req.body.code });
-  if (user.cart.isCouponApplied?.code) {
-    return res.status(500).send("You already applied a coupon!");
-  }
+const applyCode = async (req, res, next) => {
+  try {
+    // Ensure coupon code exists in the request body
+    const { code } = req.body;
+    if (!code) {
+      return res.status(400).send("Coupon code is required.");
+    }
 
-  if (coupon) {
-    let discountValue;
-    if (coupon.type == "percentage") {
-      discountValue =
-        (user.cart.totalValue / 100) * coupon.discountValue;
+    // Fetch the user by ID and populate their cart details if necessary
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    // Check if a coupon is already applied
+    if (user.cart.isCouponApplied?.code) {
+      return res.status(400).send("You have already applied a coupon.");
+    }
+
+    // Find the coupon by code
+    const coupon = await CouponCodes.findOne({ code });
+    if (!coupon) {
+      return res.status(400).send("Invalid coupon code.");
+    }
+
+    // Calculate the discount value based on the coupon type (percentage or fixed amount)
+    let discountValue = 0;
+    if (coupon.type === "percentage") {
+      discountValue = (user.cart.totalValue * coupon.discountValue) / 100;
     } else {
       discountValue = coupon.discountValue;
     }
-    user.cart.totalValue = user.cart.totalValue - discountValue;
+  console.log(discountValue)
+    // Ensure the totalValue doesn't go negative after applying the discount
+    const newTotalValue = user.cart.totalValue - discountValue;
+    console.log(newTotalValue)
+    if (newTotalValue < 0) {
+      return res.status(400).send("Discount exceeds the cart total value.");
+    }
+
+    // Apply the coupon to the user's cart
+    user.cart.totalValue = newTotalValue;
     user.cart.isCouponApplied = {
       code: coupon.code,
       discountValue: discountValue,
     };
+
+    // Save the updated user cart
     await user.save();
-    res.send(user.cart);
-  } else {
-    res.status(500).send("The coupon code is invalid!");
+
+    // Send the updated cart back to the client
+    res.status(200).json({
+      message: "Coupon applied successfully!",
+      cart: user.cart,
+    });
+  } catch (error) {
+    // Handle unexpected server errors
+    console.error("Error applying coupon:", error);
+    res.status(500).send("An error occurred while applying the coupon.");
   }
-}
+};
+
 
 module.exports={
   createOrder,

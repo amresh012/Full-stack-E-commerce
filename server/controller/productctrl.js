@@ -145,11 +145,11 @@ const searchProduct = asyncHandle(async (req, res) => {
 });
 
 const getallProduct = asyncHandle(async (req, res, next) => {
-  const Product = await ProductModel.find().sort({'updatedAt': 'desc'}).populate("subcategory").populate({
+  const Product = await ProductModel.find().populate("subcategory").populate({
     path: "reviews",
     model: "reviews",
     select:"title , rating , desc"
-  });
+  }).sort({'updatedAt': 'desc'})
   if (req.query) {
     next();
   } else {

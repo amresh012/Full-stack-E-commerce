@@ -14,21 +14,46 @@ import ShippingModal from "../../components/Models/ShippingModel";
 const CheckOut = () => {
   const navigate = useNavigate()
   const [discount, setDiscount] = useState(0);
+  const [discountType, setDiscountType] = useState("");
   const [isBilling , setIsBilling] = useState(true)
   const [couriercompnies, setCourierCompnies] = useState([])
   const [selectedShiping , setSelectedShipping] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(true);
   const token = localStorage.getItem("token")
+  console.log(config)
+  console.log(couriercompnies)
   const handleChecked =  ()=>{
     if(isBilling){
       
     }
   }
+
+  // to close the model if there is no courier company 
+    useEffect(()=>{
+      if(!couriercompnies){
+        setIsModalOpen(false)
+      }
+    },[couriercompnies])
+
  const dispatch = useDispatch()
-  const { carts, totalAmount} = useSelector((state) => state.cart);
+//  Getting CartItems and Total amount from cartslice
+  const { carts, totalAmount,totalWeight,totalQuantity} = useSelector((state) => state.cart);
+
+    // getting auth fouserId name email mobile data from authSlice
   const auth = useSelector((state) => state.auth);
-  let CartTotal = totalAmount + Number(selectedShiping?.freight_charge?.toFixed(0) || 0);
   const user = auth.signupdata
+
+// calculating total checkout amount after adding Shipping Charges from shiprocket api
+  const deliverCharge =  Number(selectedShiping?.freight_charge?.toFixed(0) || 0)
+  let CartTotal = totalAmount + deliverCharge;
+  // calculate discount
+  if (discountType === "percentage") {
+    CartTotal = CartTotal - (CartTotal * (discount / 100));
+  } else if (discountType === "fixed") {
+    CartTotal = CartTotal - discount;
+  }
+
+  // data to create order in Razorpay for payments
       const amount = CartTotal;
       const currency = "INR";
       const receiptId = `recipt_${Math.random()*100}`;
@@ -37,15 +62,12 @@ const CheckOut = () => {
         city : "Anytown",
         state:"CA"
       }
-      
        
-// Calculate Shipping Charges on Orders
-
+//Function for getting Shipping Partners and 
 const calculateShippingCharge = async () => {
   const pickup_postcode = "121004";  // Replace with your pickup postcode
   const delivery_postcode = "273013";  // Use the user's pincode
-  const weight="20"
-  // const weight = carts.reduce((total, item) => total + item.weight * item.quantity, 0);  // Sum of item weights
+  const weight = totalWeight || 0
 
   const response = await fetch(`${base_url}shiprocket/shiprocket-rate-calculation`, {
     method: "POST",
@@ -59,8 +81,7 @@ const calculateShippingCharge = async () => {
   });
 
   const data = await response.json();
-  // console.log(data)
-  // console.log(data.mainset.data.available_courier_companies)
+  console.log(data)
   if (data.status) {
     setCourierCompnies(data.mainset.data.available_courier_companies);
     // Set the shipping charge from response
@@ -78,7 +99,7 @@ useEffect(() => {
 // Calculate Shipping Charges on Orders
 
 const handleShippingSelect = (shippingData) => {
-  console.log("Selected Shipping Method:", shippingData);
+  
   setSelectedShipping(shippingData); // Store the selected shipping option in the state
 };
 
@@ -96,7 +117,7 @@ const paymentHandler = async (e) => {
       ...config
     });
     const order = await response.json();
-    console.log(order)
+    
     const {orderId , amount:order_amount , cartItems, address:orderaddress, userId:userid } = order
 
     // ************************************************************************************************************
@@ -117,22 +138,24 @@ const paymentHandler = async (e) => {
           items: cartItems,
           address: orderaddress
         };
-        console.log(paymentData);
+        
         try {
           const validateRes = await fetch(`${base_url}payment/verifyPayment`, {
             method: "POST",
             ...config,
             body: JSON.stringify(paymentData), // Pass the object directly
           });
-           console.log("")
+           
+
+           const ConfirmedOrder =  {...paymentData,deliverCharge,totalAmount,totalQuantity }
+           // Navigate to the order confirmation page
+           navigate(`/order-confirmed`, { state: ConfirmedOrder });
+       
+           // Reset the cart
+           dispatch(resetCart());
+
           const jsonRes = await validateRes.json();
-          console.log(jsonRes);
-      
-          // Navigate to the order confirmation page
-          navigate(`/order-confirmed`, { state: paymentData });
-      
-          // Reset the cart
-          dispatch(resetCart());
+          
       
         } catch (error) {
           console.error("Error validating payment:", error);
@@ -179,8 +202,8 @@ const paymentHandler = async (e) => {
   };
   return (
     <>
-      <div className=" flex p-4">
-        <div className="left-box w-[100vw] h-full p-4 ">
+      <div className=" flex lg:flex-row flex-col p-4">
+        <div className="left-box w-[100vw] min-w-[40rem] h-full p-4 ">
           <div className="bg-gray-100 rounded-md p-2 ">
             <h1 className="text-2xl font-bold uppercase">Cart CheckOut</h1>
             <p className="item">{carts.length} Item in your cart</p>
@@ -193,7 +216,7 @@ const paymentHandler = async (e) => {
                  <img
                    src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
                    alt=""
-                   className="h-[20vw] "
+                   className="lg:h-[20vw] "
                  />
                  <p className="text-2xl font-bold text-gray-500">Your Cart is Empty</p>
                  <Link to='/product'>
@@ -279,7 +302,7 @@ const paymentHandler = async (e) => {
               </div>
           </div>
           <div className=" p-4 Copoun-Code rounded-md space-y-4">
-            <Copoun setDiscount={setDiscount}/>
+            <Copoun setDiscount={setDiscount} setDiscountType={setDiscountType}/>
           </div>
           <div className="cart-box p-4 space-y-2">
             <div className="bg-[#0A2440] text-white p-4 rounded-md uppercase font-bold">
@@ -288,7 +311,7 @@ const paymentHandler = async (e) => {
             <div className="calculation-box border-2 p-2 rounded-md bg-gray-200">
               <div className="sub-total flex justify-between p-2 ">
                 <p className="">Sub Total</p>
-                <p className=" font-bold flex gap-1 items-center">
+                <p className=" font-bold flex items-center">
                   <LiaRupeeSignSolid />
                   {totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </p>
@@ -297,15 +320,14 @@ const paymentHandler = async (e) => {
               <div className="sub-total flex justify-between p-2">
                 <p>Copoun Discount</p>
                 <p className=" font-bold flex gap-1 items-center">
-                  <LiaRupeeSignSolid />
-                   
-                  0
+                 
+                  {discountType==="percentage"?`${discount}%`:<p className="flex  items-center"><LiaRupeeSignSolid/>{discount || 0}</p>}
                 </p>
               </div>
 
               <div className="sub-total flex justify-between p-2">
                 <p>Shipping Charges</p>
-                <p className=" font-bold flex gap-1 items-center ">
+                <p className=" font-bold flex items-center ">
                   <LiaRupeeSignSolid />
                   {(selectedShiping?.freight_charge) || 0   }
                 </p>
@@ -313,7 +335,7 @@ const paymentHandler = async (e) => {
 
               <div className="sub-total flex justify-between p-2 font-bold text-xl">
                 <p>Cart Total</p>
-                <p className=" font-bold flex gap-1 items-center">
+                <p className=" font-bold flex items-center">
                   <LiaRupeeSignSolid />
                   {CartTotal}
                 </p>
@@ -328,11 +350,13 @@ const paymentHandler = async (e) => {
                </button>
              </div>
              :
+            <Link to="/login">
              <div className="Login button w-full flex items-center justify-center">
              <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
               Login
             </button>
           </div>
+            </Link>
              }
           </div>
         </div>

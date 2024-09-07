@@ -27,7 +27,7 @@ const razorpay = new Razorpay({
           expire_by= fifteenDaysAhead
         }
                 const response = await razorpay.invoices.create(options)
-                console.log(response)
+                
                 res.json(response)
                 // save invoice data in database in invoice model
                 const invoice = new invoiceModel({
@@ -41,7 +41,7 @@ const razorpay = new Razorpay({
     })
                 invoice.save()
                 }catch(error){
-                    console.log(error)
+                    
     }
   }
 

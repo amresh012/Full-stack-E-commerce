@@ -3,13 +3,11 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { CgGym } from "react-icons/cg";
 import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
-import { Clients } from "../../constant";
-
+import { Clients, gymEcommerceSolutions } from "../../constant";
 import hero_bg from "../../assets/hero/hero_bg.jpg";
 import weight_reck from "../../assets/GymEquipmentPng/weight-reck.jpg";
 import weight_bench from "../../assets/GymEquipmentPng/weight-bench.jpg";
@@ -17,14 +15,9 @@ import treadmill from "../../assets/GymEquipmentPng/treadmill.jpg";
 import gym_machine from "../../assets/GymEquipmentPng/gym-machine.jpg";
 import barbell from "../../assets/GymEquipmentPng/barbell.jpg";
 import dumbbell from "../../assets/GymEquipmentPng/dumbbell.jpg";
-import product1 from "../../assets/products/product1.webp";
-import product2 from "../../assets/products/product2.webp";
-import product3 from "../../assets/products/product3.webp";
 import why_us_1 from "../../assets/why-us-1.jpg";
 import why_us_2 from "../../assets/why-us-2.jpg";
-import ProductCard from "../../components/Ui/ProductCard";
 import ProductCarousel from "../../components/Ui/ProductCarousel";
-import TestimonialCard from "../../components/Ui/TestimonialCard";
 import TestimonialCarousel from "../../components/Ui/TestimonialCarousel";
 import achievements1 from "../../assets/achievements-1.jpg";
 import achievements2 from "../../assets/achievements-2.jpg";
@@ -104,7 +97,10 @@ const HomePage = () => {
           Recommended For You
         </h1>
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[170px] bg-[#0a2440] mb-16"></div>
-
+         <Link to="/product" className="w-full flex justify-end items-center pr-4 p-2 underline  gap-2">
+         <button type="button" className="uppercase">View All</button>
+         <IoIosArrowRoundForward size={30}/>
+         </Link>
         <div>
           <ProductCarousel addToCartHandler={addToCartHandler} />
         </div>
@@ -285,7 +281,7 @@ const HomePage = () => {
       </div>
 
       {/* Our Solutions */}
-      <div className="Our-Solution mt-24 space-y-8">
+      <div className="Our-Solution flex flex-col h-full gap-12 py-12 bg-gray-100 ">
         <div className="flex flex-col items-center justify-center text-center">
           <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
             Our Solutions
@@ -298,42 +294,25 @@ const HomePage = () => {
           </p>
         </div>
         {/* <div className="flex flex-wrap lg:flex-nowrap gap-12 items-center justify-center "> */}
-        <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-4">
-          {[...Array(3)].map((_,ind) => (
-            <div
-              className=" relative hover:scale-105 duration-700 overflow-clip cursor-pointer card rounded-md  w-full"
-              key={ind}
-              data-aos="flip-up"
-              data-aos-delay="50"
-            >
-              <div className="circlem h-24 absolute -top-2  -right-6 w-24 rounded-full border-4 border-white bg-[#0a2440]">
-                <CgGym size={55} className="m-4 text-white " />
-              </div>
-              <div className="Gym-setup rounded-md border ">
-                <h1 className="text-xl lg:text-4xl p-4 bg-gradient-to-tr text-white bg-[#0a2440]">
-                  Gym Setup
-                </h1>
-                <ol className="list-decimal px-12 py-6 space-y-4">
-                  <li className="text-base lg:text-lg font-extralight">
-                    World class equipment
-                  </li>
-                  <li className="text-base lg:text-lg font-extralight">
-                    Pan-India service
-                  </li>
-                  <li className="text-base lg:text-lg font-extralight">
-                    Fitternity listing and lead gen support
-                  </li>
-                  <li className="text-base lg:text-lg font-extralight">
-                    Full demand management guarantee
-                  </li>
-                </ol>
-              </div>
-            </div>
-          ))}
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {
+            gymEcommerceSolutions.map((sol)=>(
+               <div className="min-h-[25rem] w-[25rem] p-4 border-2 hover:shadow-sm bg-white hover:scale-105 duration-300 " key={sol.category}>
+                 <h1 className="heading text-center text-2xl font-bold p-4 uppercase">{sol.category}</h1>
+                 <ul>
+            {sol.solutions.map((solution, index) => (
+              <li key={index} className="p-2">
+                <strong className="uppercase">{solution.feature}:</strong> {solution.description}
+              </li>
+            ))}
+          </ul>
+               </div>
+            ))
+          }
         </div>
       </div>
 
-      <div className="mt-24 flex flex-col lg:flex-row h-auto lg:h-[50rem] w-full">
+      <div className="pt-12 flex flex-col lg:flex-row h-auto lg:h-[50rem] w-full">
         <div className="relative flex-1 overflow-hidden lg:h-[inherit]">
           <img
             loading="lazy"

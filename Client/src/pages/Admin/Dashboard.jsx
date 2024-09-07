@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [totalCategories, setTotalCategories] = useState(0);
   const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState(0);
   const [totalPaymentsToday, setTotalPaymentsToday] = useState(0);
- console.log(totalOrders)
+ 
   const [categoriesData, setCategoriesData] = useState({
     labels: [],
     data: [],
@@ -129,7 +129,7 @@ const Dashboard = () => {
       setTotalProducts(data.totalProducts);
       setTotalPaymentsToday(data.totalPaymentsToday);
       setTotalPaymentsAllTime(data.totalPaymentsAllTime);
-      console.log(data.customersSummary);
+      
 
       const categoriesLabels = data?.categoriesSummary.map(
         (category) =>

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const MyOrders = () => {
   const {orders} = useSelector((state)=>state.userorder)
-  console.log(orders)
+  
   return (
     <>
      <div className="border-2  mb-4 rounded-md mx-4">

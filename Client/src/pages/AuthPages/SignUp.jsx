@@ -41,7 +41,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const response = await checkuserSignup(formData);
-      console.log(response)
+      
       if (!response.error ) {
         dispatch(RegisterApi(formData));
         toast.success("Registration successful!");

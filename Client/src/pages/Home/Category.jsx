@@ -23,7 +23,7 @@ const Category = () => {
   const dispatch = useDispatch();
 
   const fetchProducts = async (category, subcategory) => {
-    console.log(category, subcategory)
+    
     try {
       setIsLoading(true);
       let url = `${base_url}product?category=${category}&subcategory=${subcategory}`;
@@ -113,7 +113,7 @@ const Category = () => {
 
   useEffect(() => {
     const searchParams = window.location.search.split('&');
-    console.log(searchParams)
+    
     let category = '';
     let subcategory = '';
     if(searchParams.length === 0){

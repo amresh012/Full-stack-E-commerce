@@ -40,10 +40,10 @@ const ProductEdit = () => {
     multiple: true,
     action: `https://images.deepmart.shop/upload`,
     onChange(info) {
-      // console.log(info);
+      // 
       const { status } = info.file;
       if (status !== "uploading") {
-        // console.log(info.file, info.fileList);
+        // 
         setIsImageUploading(true);
       }
       if (status === "done") {
@@ -62,7 +62,7 @@ const ProductEdit = () => {
       }
     },
     onDrop(e) {
-      // console.log("Dropped files", e.dataTransfer.files);
+      // 
     },
   };
 
@@ -75,14 +75,14 @@ const ProductEdit = () => {
   //       const subcategory = product.subcategory.toLowerCase();
   //       const dataToSend = { ...values, category, subcategory, name };
   //       const response = await axios.post(`${base_url}product/add`, dataToSend);
-  //       console.log(values);
+  //       
   //       if (response.data.error) {
   //         throw new Error(response.data.error);
   //       } else {
   //         toast.success("Product Added Successfully");
   //       }
   //     } catch (error) {
-  //       //    console.log(error.message)
+  //       //    
   //       toast.error(error.message);
   //     } finally {
   //       setSubmitting(false);

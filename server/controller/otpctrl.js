@@ -51,8 +51,8 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
         html: html,
       });
 
-      console.log("Message sent: %s", info.messageId);
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      
+      
       res.status(200).json({ status: 200, success: true, message: "OTP generated and sent successfully" });
     } catch (error) {
       console.error("Error generating OTP", error);
@@ -63,11 +63,11 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
   }
 });
 const verifyOtp = async (req, res) => {
-  console.log(req.body);
+  
   if (req.body.email) {
     const { email, otp } = req.body;
     const otpverify = await OTP.findOne({ email, otp });
-    console.log(otpverify, req.body);
+    
     if (otpverify) {
       await OTP.deleteOne({email, otp});
       res.status(200).json({

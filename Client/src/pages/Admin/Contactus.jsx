@@ -64,7 +64,7 @@ const ListProduct = () => {
         ...config
       });
       const data = await response.json();
-      console.log(data)
+      
       if(!data.success){
         toast.error(data.message);
         return;
@@ -118,7 +118,7 @@ const ListProduct = () => {
       setIsLoading(false);
     };
     FetchContact();
-    // console.log(contact)
+    // 
   }, [reload])
 
   return (

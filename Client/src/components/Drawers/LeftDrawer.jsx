@@ -73,7 +73,6 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
     <Box
     sx={{ width:  isMobile ? 250 : isTablet? 350 : 450 }}
     role="presentation"
-    // onClick={toggleDrawer(anchor, false)}
     onKeyDown={toggleDrawer(anchor, false)}
     className="no-scrollbar"
     >
@@ -145,8 +144,10 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
             <Link
                 to="/checkout"
                 className="bg-[#0A2440] text-white w-full text-center rounded-md active:scale-95"
+                onClick={toggleDrawer(anchor, false)}
               >
-                <button className=" p-2  uppercase">
+                <button className=" p-2  uppercase" 
+                >
                   Check Out
                 </button>
               </Link>

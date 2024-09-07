@@ -28,7 +28,7 @@ const ProductdetailPage = () => {
       try {
         const response = await fetch(`${base_url}product/${id}`);
         const data = await response.json();
-        console.log(data)
+        
         setproduct(data);
       } catch (error) {
         console.error(error);

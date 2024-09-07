@@ -151,7 +151,7 @@ const ListBlogs = () => {
     const FetchBlogs = async () => {
       let response = await fetch(`${base_url}blog/`);
       let data = await response.json();
-      console.log(data);
+      
       setBlogs(data);
       setIsLoading(false);
     };

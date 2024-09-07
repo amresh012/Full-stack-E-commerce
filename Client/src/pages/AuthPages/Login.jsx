@@ -98,7 +98,7 @@ const Login = () => {
             </h1>
           </div>
         </div>
-        <div className="bg-[#0A2440] text-white p-8 w-[30rem] space-y-4 rounded-md shadow-sm lg:shadow-none">
+        <div className="bg-[#0A2440] text-white p-8 w-[30rem] space-y-4  shadow-sm lg:shadow-none">
           <div className="flex flex-col items-center justify-center mt-4">
             <h1 className="text-4xl font-bold">SignIn</h1>
             <p className="text-xs">or use your account</p>
@@ -114,7 +114,7 @@ const Login = () => {
                     Email
                   </label>
                   <div className="relative flex max-h-fit">
-                    <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white text-white">
+                    <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white">
                       <CiMail />
                     </div>
                     <input

@@ -70,10 +70,10 @@ const getAdminData = asyncHandle(async (req, res) => {
     const totalPaymentsToday = 0;
     const totalPaymentsAllTime = 0;
     
-    // console.log("NEW CUSTOMERS", totalNewCustomers);
-    // console.log("Total Orders", totalOrders);
-    // console.log("Total Products", totalProducts);
-    // console.log("Total Categories", totalCategories);
+    // 
+    // 
+    // 
+    // 
     
     const recentOrders = await orderModel.find().sort({ createdAt: -1 }).limit(5);
     
@@ -113,11 +113,11 @@ const getAdminData = asyncHandle(async (req, res) => {
       }
     ]);
 
-    // console.log("Recent Orders", recentOrders);
-    // console.log("Orders Summary", ordersSummary);
-    // console.log("Customers Summary", customersSummary);
-    // console.log("Categories Summary", categoriesSummary);
-   console.log(totalOrders)
+    // 
+    // 
+    // 
+    // 
+   
     res.status(200).json({
       success: true,
       totalNewCustomers: totalNewCustomers.length > 0 ? totalNewCustomers[0].count : 0,
@@ -132,7 +132,7 @@ const getAdminData = asyncHandle(async (req, res) => {
       categoriesSummary
     })
   } catch (error) {
-    console.log(error);
+    
     res.status(400).send(error);
   }
 });
@@ -189,7 +189,7 @@ const getAdminData = asyncHandle(async (req, res) => {
 //       codes,
 //     });
 //   } catch (error) {
-//     console.log(error);
+//     
 //     res.status(400).send(error);
 //   }
 // });

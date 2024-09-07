@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 
 export const uploadFiles = async (data) => {
   const formData = new FormData();
-  // console.log(data )
+  // 
   data.forEach((file) => {
     formData.append("file", file);
   });

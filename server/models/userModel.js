@@ -92,7 +92,7 @@ const userSchema = new mongoose.Schema(
           total: Number,
         },
       ],
-      totalValue: Number,
+      totalValue: { type: Number, default: 0 },
       isCouponApplied: {
         type: Object,
       },

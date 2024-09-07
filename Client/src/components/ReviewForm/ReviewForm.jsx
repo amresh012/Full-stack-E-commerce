@@ -24,7 +24,7 @@ const ReviewForm = () => {
             toast.success(response.data.success);
           }
         } catch (error) {
-          // console.log(typeof(error.message))
+          // 
           toast.error(error.message);
         } finally {
           setSubmitting(false);

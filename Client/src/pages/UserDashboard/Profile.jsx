@@ -17,7 +17,7 @@ const Profile = () => {
   }
 )
  const auth = useSelector((state)=>state.auth)
- console.log(auth)
+ 
   const fetchUserDetails = async (id) => {
     try {
       const response = await fetch(`${base_url}user/${id}`, {
@@ -25,7 +25,7 @@ const Profile = () => {
         ...config,
       });
       const data = await response.json();
-      console.log(data)
+      
       setData({
         name: data?.getaUser?.name,
         email: data?.getaUser?.email,

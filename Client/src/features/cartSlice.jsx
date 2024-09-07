@@ -10,6 +10,7 @@ const initialState = {
   error: false,
   totalAmount: 0,
   totalQuantity: 0,
+  totalWeight:0
 };
 
 
@@ -46,16 +47,18 @@ export const cartSlice = createSlice({
           images: newItem.images,
         });
         state.totalAmount += +newItem.price;
+        state.totalWeight += newItem.weight;
       } else {
         const index = state.carts.findIndex(item => item._id === newItem._id);
         state.carts[index].quantity++;
         state.carts[index].totalPrice += +newItem.price;
         state.totalAmount += +newItem.price;
+
       }
     },
     removeItem : (state,action)=>{
       const {_id} = action.payload;
-      // console.log(_id, action.payload)
+      // 
       const existingItemInd = state.carts.findIndex(item => item._id === _id);
       
       state.totalQuantity--;
@@ -73,6 +76,7 @@ export const cartSlice = createSlice({
       state.carts = [];
       state.totalAmount = 0;
       state.totalQuantity = 0;
+      state.totalWeight=0
     },
   
   },

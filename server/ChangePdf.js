@@ -10,7 +10,7 @@ const path = require('path');
   const pdfPath =('invoice.pdf'); // Adjust path as needed
   // const pdfPath = 'C:/Users/Yatish Sharma/Desktop/NEWCLONE/MegaMenu-main/server/invoice.pdf';
 
-  console.log('PDF path:', pdfPath);
+  
 
   app.get('/download-pdf', async (req, res) => {
     try {
@@ -53,7 +53,7 @@ const path = require('path');
   });
 
   app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+    
   });
 })();
 

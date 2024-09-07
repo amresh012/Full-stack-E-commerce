@@ -63,7 +63,7 @@ const ListProduct = () => {
         ...config,
       });
       const data = await response.json();
-      console.log(data);
+      
       setProductDetails({
         name: data?.name,
         images: data?.images,
@@ -97,7 +97,7 @@ const ListProduct = () => {
       setIsLoading(false);
     };
     FetchProduct();
-    // console.log(product)
+    // 
   }, [reload]);
 
   const columns = [

@@ -25,7 +25,7 @@ export const RegisterApi = createAsyncThunk(
   async (payload, thunkApi) => {
     try {
       const res = await axios.post(`${base_url}user/register`, payload);
-      // console.log()
+      // 
       return res.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data);
@@ -34,7 +34,7 @@ export const RegisterApi = createAsyncThunk(
 );
 export const addAddress = createAsyncThunk("user/address", async (payload) => {
   const res = await axios.post(`${base_url}user/adr`, payload, config);
-  console.log(res)
+  
   return res.data;
 });
 
@@ -70,7 +70,7 @@ export const authSlice = createSlice({
       //       return window.location.href="/admin"
       //     }
       //   } else {
-      //     console.log(action.payload);
+      //     
       //     toast.error(action.payload);
       //   }
       // })

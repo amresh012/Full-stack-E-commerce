@@ -12,7 +12,7 @@ export const getAdmindata = createAsyncThunk(
       const response = await axios.get(`${base_url}admin`, config);
       return response.data;
     } catch (error) {
-      // console.log(error.message);
+      // 
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -34,7 +34,7 @@ export const addCoupon = createAsyncThunk(
   async (contact, thunkAPI) => {
     try {
       const response = await axios.post(`${base_url}coupon/create`, contact, ...config);
-      console.log(response)
+      
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.error);

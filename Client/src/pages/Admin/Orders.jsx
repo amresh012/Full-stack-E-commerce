@@ -62,7 +62,7 @@ const columns = [
     header: "Date",
     accessorKey: "Order_date",
     cell:({row})=>{
-      // console.log(row)
+      // 
       const date = row.original
       return <span>{moment(date).format('DD/MM/YYYY hh:mm')}</span>;
     }

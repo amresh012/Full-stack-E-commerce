@@ -48,14 +48,14 @@ const WebsitePage = () => {
         formData.append("textCol", values.textCol);
         formData.append("homepageBanner", values.homepageBanner);
         const response = await axios.post(`${base_url}config`, values);
-        console.log(values);
+        
         if (response.data.error) {
           throw new Error(response.data.error);
         } else {
           toast.success("Occurance Changed Successfully");
         }
       } catch (error) {
-        // console.log(error.message)
+        // 
         toast.error(error.message);
       } finally {
         setIsChanging(true);

@@ -88,7 +88,7 @@ const Invoice = require("../controller/invoiceCtrl")
           return res.status(404).json({ error: "Order not found" });
         }
     
-        console.log(order);
+        
         res.json({ message: "Order status updated successfully", order });
       } catch (error) {
         console.error(error);
@@ -145,7 +145,7 @@ module.exports= {getInvoices, editOrderStatus , deleteOrder, getSingleOrder ,get
 //   }
 //   let totalValue = parseInt(user.cart.totalValue);
 //   let isCoupon = false;
-//   console.log(user.cart);
+//   
 //   if (user.cart?.products?.length > 0) {
 //     if (user.cart.isCouponApplied?.code) {
 //       isCoupon = {
@@ -241,7 +241,7 @@ module.exports= {getInvoices, editOrderStatus , deleteOrder, getSingleOrder ,get
 //       path: "products.product",
 //       model: "product",
 //     });
-//     console.log(orders)
+//     
 //     const orderArr = orders.map((order) => ({
 //       transactionId: order.transactionId,
 //       products: order.products.map((product) => ({
@@ -284,7 +284,7 @@ module.exports= {getInvoices, editOrderStatus , deleteOrder, getSingleOrder ,get
 //     const orderArr = await Promise.all(
 //       orders.map(async (order) => {
 //         const user = await User.findById(order.orderby);
-//         console.log(user.address, order.address);
+//         
 //         const address = user.address?.find(
 //           (adr) => JSON.stringify(adr._id) == order.address
 //         );
@@ -327,7 +327,7 @@ module.exports= {getInvoices, editOrderStatus , deleteOrder, getSingleOrder ,get
 //       return res.status(404).json({ error: "Order not found" });
 //     }
 
-//     console.log(order);
+//     
 //     res.json({ message: "Order status updated successfully", order });
 //   } catch (error) {
 //     console.error(error);

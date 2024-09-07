@@ -26,6 +26,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
 const os = require("os");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 const PORT = process.env.PORT || 7021;
 dotenv.config();
 const app = express();
@@ -33,10 +35,39 @@ const app = express();
 mongoose.set("strictQuery", true);
 dbConnect();
 app.use(morgan("dev"));
-app.use(cors());
+// Define your allowed origins
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://kfsecommerce.deepmart.shop",
+];
+
+// CORS options
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Authorization,Content-Type",
+  preflightContinue: false,
+  optionsSuccessStatus: 204, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  exposedHeaders: ["Content-Disposition"]
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static("public"));
+// rate limiting
+app.use(helmet()); // Adds various security headers
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // Limit each IP to 100 requests per 15 minutes
+}));
 
 app.use("/api/user", authRouter);
 app.use("/api/cart", cartRoute);
@@ -74,7 +105,7 @@ app.use(errorHandler);
 
 
 app.listen(PORT ,() => {
-  console.log(`Server listening on:${PORT}`);
+  console.log("server is listening on Port :",PORT)
 });
 
 

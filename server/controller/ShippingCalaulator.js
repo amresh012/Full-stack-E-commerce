@@ -26,10 +26,7 @@ async function srShippingRateCalculation(pickup_postcode, delivery_postcode, wei
     
     try {
       let getToken = process.env.SHIP_ROCKET_TOKEN
-      console.log(getToken)
-      
       let params = `pickup_postcode=${pickup_postcode}&delivery_postcode=${delivery_postcode}&weight=${weight}&cod=1&declared_value=${declared_value}&rate_calculator=1&blocked=1&is_return=0&is_web=1&is_dg=0&only_qc_couriers=0`;
-      // console.log(params)
       if (getToken) {
         var config = {
           method: 'get',

@@ -28,7 +28,7 @@ const CreateCopoun = async (req, res) => {
     await newCoupon.save();
     res.status(201).json({ message: 'Coupon created successfully', coupon: newCoupon });
   } catch (error) {
-     console.log(error)
+     
     res.status(500).json({ error: 'Failed To Create Copoun Something Went Wrong' });
   }
 };
@@ -70,7 +70,7 @@ const getCoupons = async (req, res) => {
     const coupons = await Coupon.find();
     res.status(200).json(coupons);
   } catch (error) {
-    console.log(error)
+    
     res.status(500).json({ error });
   }
 };

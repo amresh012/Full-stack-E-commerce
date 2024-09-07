@@ -47,7 +47,7 @@ const AddCoupon = () => {
       }}
       validationSchema={CouponFormSchema}
       onSubmit={async(values, { setSubmitting }) => {
-        console.log(values)
+        
         try {
           setIsAdding(true);
           const response = await axios.post(`${base_url}coupon/create`, values, config);
@@ -170,7 +170,7 @@ export default AddCoupon;
 
 
 // onSubmit={(values, { setSubmitting }) => {
-//   console.log(values)
+//   
 //   dispatch(addCoupon(values))
 //     .then(() => {
 //       toast.success("Coupon added successfully!");
