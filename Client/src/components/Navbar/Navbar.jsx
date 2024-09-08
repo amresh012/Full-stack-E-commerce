@@ -45,7 +45,7 @@ const links = [
 const Navbar = () => {
   const {totalQuantity} = useSelector((state) => state.cart);
   const token = localStorage.getItem("token")  
-
+  const {user} = useSelector(state => state.auth);
   
 
   return (
@@ -69,7 +69,7 @@ const Navbar = () => {
 
       <div className="flex items-center  justify-center  cursor-pointer z-50  ">
        {
-         token !== null ?
+         user !== null ?
          <AccountMenu/>
          :
           <Link to="/login">

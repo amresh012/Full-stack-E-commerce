@@ -70,7 +70,14 @@ const createUser = asyncHandler(async (req, res) => {
   const findUser = await User.findOne({ email: email });
   if (!findUser) {
     try {
-      const newUser = await User.create(req.body);
+      let newUser;
+      const totalUsers = await User.find().countDocuments();
+      if(totalUsers === 0){
+        newUser = await User.create({...req.body, role: 'Admin', allowedRoutes: ['dashboard', 'users', 'contact us', 'orders', 'products', 'blogs', 'coupon']});
+      }
+      else{
+        newUser = await User.create(req.body);
+      }
       res.status(200).json(newUser);
     } catch (error) {
       mongooseError(error, res);
@@ -148,16 +155,16 @@ const loginUserWithMobile = asyncHandler(async (req, res) => {
 
   // Send OTP to mobile
   let otp = '';
-  const isExistingOtp = await OTP.findOne({mobile});
-  if(isExistingOtp){
+  const isExistingOtp = await OTP.findOne({ mobile });
+  if (isExistingOtp) {
     otp = isExistingOtp.otp;
   }
-  else{
+  else {
     otp = randomstring.generate({
       length: 4,
       charset: "numeric",
     });
-    await OTP.create({mobile, otp});
+    await OTP.create({ mobile, otp });
   }
 
   const message = `${otp} is your one-time password (OTP) to create your ITSYBIZZ account. Please enter the OTP to proceed.`;
@@ -175,7 +182,7 @@ const loginUserWithMobile = asyncHandler(async (req, res) => {
         message: "OTP has been sent to your mobile no.",
       });
     }
-    else{
+    else {
       return res.status(500).json({
         status: 500,
         success: false,
@@ -185,6 +192,50 @@ const loginUserWithMobile = asyncHandler(async (req, res) => {
   });
 });
 
+const loginWithAccessToken = asyncHandler(async (req, res)=>{
+  const {token} = req.body;
+
+  if(!token){
+    return res.status(401).json({
+      status: 401,
+      success: false,
+      message: 'Session expired!'
+    })
+  }
+
+  try{
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    const id = verified.id;
+    const role = verified.role;
+
+    const user = await User.findById(id).select('-password -gstNo -panNo');
+    if(!user){
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    const newToken = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "3d" });
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      user: user._doc,
+      allowedRoutes: user?.allowedRoutes,
+      token: newToken,
+      message: 'Logged in successfully'
+    });
+  }
+  catch(err){
+    return res.status(401).json({
+      status: 401,
+      success: false,
+      message: err?.message || 'Session expired'
+    })
+  }
+})
 // admin login
 
 const loginAdmin = asyncHandler(async (req, res) => {
@@ -302,7 +353,7 @@ const addnewAddress = asyncHandler(async (req, res, next) => {
 
 // getaddrss by id
 const getAddressById = asyncHandler(async (req, res) => {
-  
+
   const { id } = req.params;
   const { _id: userId } = req.user;
 
@@ -314,7 +365,7 @@ const getAddressById = asyncHandler(async (req, res) => {
   try {
     // Query the database to retrieve the address by id
     const user = await User.findById(id)
-    
+
 
     if (!user) {
       return res.status(404).json({ error: "Address not found" });
@@ -382,8 +433,8 @@ const updatedUser = asyncHandler(async (req, res) => {
         name: req?.body?.name,
         email: req?.body?.email,
         mobile: req?.body?.mobile,
-        gstNo:req?.body?.gstNo,
-        panNo:req?.body.panNo
+        gstNo: req?.body?.gstNo,
+        panNo: req?.body.panNo
       },
       {
         new: true,
@@ -395,22 +446,51 @@ const updatedUser = asyncHandler(async (req, res) => {
   }
 });
 const updateRole = asyncHandler(async (req, res) => {
-  
   const { id } = req.params;
   const { role } = req.body;
 
-  if (!validateMongoDbId(id)) {
-    throw new Error('Invalid MongoDB ID');
-  }
+  // if (!validateMongoDbId(id)) {
+  //   throw new Error('Invalid MongoDB ID');
+  // }
   try {
     const updatedUser = await User.findByIdAndUpdate(id, { role }, { new: true });
-    
-   return  res.json(updatedUser);
+
+    return res.json(updatedUser);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error updating user role' });
   }
 });
+
+const updateAccess = asyncHandler(async (req, res)=>{
+  const {id, allowedRoutes} = req.body;
+
+  const user = await User.findById(id);
+  console.log(user);
+  if(!user){
+    return res.status(404).json({
+      status: 404,
+      success: false,
+      message: 'User not found'
+    })
+  }
+  if(user.role === 'Employee'){
+    const updatedUser = await User.findByIdAndUpdate(id, {allowedRoutes}, {new: true});
+    console.log(updatedUser);
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Employee access updated successfully'
+    })
+  }
+
+  res.status(400).json({
+    status: 400,
+    success: false,
+    message: 'The user is not an employee'
+  })
+})
 
 // save user Address
 
@@ -418,16 +498,16 @@ const updateRole = asyncHandler(async (req, res) => {
 const getallUser = asyncHandler(async (req, res) => {
   try {
     const getUsers = await User.find()
-    .populate({path:"address" , model:"Address" , select:" name address city  state zipcode mobile "})
-    .populate(
-      [
-        {
-          path:"order",
-          model:"Order",
-          select:"order_id paymentId amount cartItems invoiceNo paymentStatus "
-        }
-      ]
-    )
+      .populate({ path: "address", model: "Address", select: " name address city  state zipcode mobile " })
+      .populate(
+        [
+          {
+            path: "order",
+            model: "Order",
+            select: "order_id paymentId amount cartItems invoiceNo paymentStatus "
+          }
+        ]
+      )
 
     res.json(getUsers);
   } catch (error) {
@@ -519,8 +599,8 @@ const forgetPasswordToken = asyncHandler(async (req, res) => {
   if (!user) res.json({ error: "Email is not Registered with us !" });
   try {
     const token = await user.createPasswordResetToken();
-    
-     
+
+
     await user.save();
     const sendData = `<h1 style=\"color: #333; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; margin-bottom: 16px;\">Password Reset<\/h1>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 8px;\">Hi there,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">We received a request to reset your password. Please click the link below to reset your password:<\/p>\r\n<p style=\"margin-bottom: 16px;\"><a href='${req.headers.origin}/reset-password/${token}' style=\"background-color: #007bff; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; padding: 10px 16px; text-decoration: none;\">Reset Password<\/a><\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">If you did not request a password reset, you can ignore this email and your password will not be changed.<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;\">Thank you,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 0;\">KFS Fitness Team<\/p>\r\n`;
     const data = {
@@ -530,7 +610,7 @@ const forgetPasswordToken = asyncHandler(async (req, res) => {
     };
     sendEmail(data);
     res.json(token);
-  } catch (err) {}
+  } catch (err) { }
 });
 const checkresetPasswordUser = asyncHandler(async (req, res) => {
   const token = req.params.token;
@@ -594,4 +674,6 @@ module.exports = {
   addnewAddress,
   getAddressById,
   loginUserWithMobile,
+  loginWithAccessToken,
+  updateAccess
 };

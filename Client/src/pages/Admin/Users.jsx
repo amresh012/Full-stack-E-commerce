@@ -13,6 +13,7 @@ import { Toaster, toast } from "react-hot-toast";
 import BasicModal from "../../components/Models/Model";
 import Loader from "../../components/reusablesUI/Loader";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import Select from 'react-select';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -32,7 +33,17 @@ const Users = () => {
   const [entityId, setEntityId] = useState();
   const [message, setMessage] = useState();
 
-  const toggleModalHandler = useCallback(()=>{
+  const permissionOptions = [
+    {value: 'dashboard', label: 'Dashboard'},
+    {value: 'users', label: 'Users'},
+    {value: 'contact us', label: 'Contact Us'},
+    {value: 'orders', label: 'Orders'},
+    {value: 'products', label: 'Products'},
+    {value: 'blogs', label: 'Blogs'},
+    {value: 'coupon', label: 'Coupon'},
+  ];
+
+  const toggleModalHandler = useCallback(() => {
     setShowSmsModal(prev => !prev);
   }, []);
 
@@ -59,22 +70,47 @@ const Users = () => {
     }
   };
 
+  const updateAccess = async (id, permissions) => {
+    const allowedRoutes = permissions.map(p=> p.value);
+    try{
+      const response = await fetch(base_url+'user/edit-access', {
+        method: 'POST',
+        ...config,
+        body: JSON.stringify({
+          id: id,
+          allowedRoutes: allowedRoutes
+        })
+      });
+      const data = await response.json();
+      console.log(data);
+      if(!data.success){
+        throw new Error(data.message);
+      }
+
+      toast.success(data.message);
+      FetchUsers();
+    }
+    catch(err){
+      toast.error(err.message);
+    }
+  }
+
   const sendSmsToSelected = async (e) => {
     e.preventDefault();
 
-    if(!templateId && !templateId?.trim?.length > 0){
+    if (!templateId && !templateId?.trim?.length > 0) {
       toast.error('Please fill the Template ID field');
       return;
     }
-    if(!senderId && !senderId?.trim?.length > 0){
+    if (!senderId && !senderId?.trim?.length > 0) {
       toast.error('Please fill the Sender ID field');
       return;
     }
-    if(!entityId && !entityId?.trim?.length > 0){
+    if (!entityId && !entityId?.trim?.length > 0) {
       toast.error('Please fill the Entity ID field');
       return;
     }
-    if(!message && !message?.trim?.length > 0){
+    if (!message && !message?.trim?.length > 0) {
       toast.error('Please fill the message field');
       return;
     }
@@ -94,20 +130,20 @@ const Users = () => {
 
   const sendSmsToAll = async (e) => {
     e.preventDefault();
-    
-    if(!templateId && !templateId?.trim?.length > 0){
+
+    if (!templateId && !templateId?.trim?.length > 0) {
       toast.error('Please fill the Template ID field');
       return;
     }
-    if(!senderId && !senderId?.trim?.length > 0){
+    if (!senderId && !senderId?.trim?.length > 0) {
       toast.error('Please fill the Sender ID field');
       return;
     }
-    if(!entityId && !entityId?.trim?.length > 0){
+    if (!entityId && !entityId?.trim?.length > 0) {
       toast.error('Please fill the Entity ID field');
       return;
     }
-    if(!message && !message?.trim?.length > 0){
+    if (!message && !message?.trim?.length > 0) {
       toast.error('Please fill the message field');
       return;
     }
@@ -122,7 +158,7 @@ const Users = () => {
     sendSms(allUsersMobile);
   };
 
-  const columns = useMemo(()=>[
+  const columns = useMemo(() => [
     {
       header: "Select",
       accessorKey: "select",
@@ -144,7 +180,7 @@ const Users = () => {
       accessorKey: "id",
       cell: ({ row }) => {
         const id = row.id;
-        return <span>{(+id)+1}</span>;
+        return <span>{(+id) + 1}</span>;
       },
     },
     {
@@ -167,13 +203,38 @@ const Users = () => {
         return (
           <select
             value={row.original.role}
-            onChange={(e) => handleRoleChange(row.original._id, e.target.value)}
+            onChange={(e) => { console.log(row.original); handleRoleChange(row.original._id, e.target.value) }}
             className="border-2 p-2 outline-none rounded-md border-[#038CCC]"
           >
             <option value="Admin">Admin</option>
             <option value="User">User</option>
             <option value="Employee">Employee</option>
           </select>
+        );
+      },
+    },
+    {
+      header: "Access",
+      accessorKey: "access",
+      cell: ({ row }) => {
+        const [selectedPermissions, setSelectedPermissions] = useState([]);
+
+        return (
+          <div className="w-[16rem] gap-2 flex">
+          <Select
+            isDisabled={row.original.role !== 'Employee'}
+            className="rounded mt-2 disabled:cursor-not-allowed"
+            options={permissionOptions}
+            placeholder="Select Access"
+            value={selectedPermissions}
+            onChange={(d) => {
+              setSelectedPermissions(d);
+            }}
+            isSearchable={true}
+            isMulti={true}
+          />
+          <button className="bg-[#0a2440] text-white px-3 py-0 rounded" onClick={() => updateAccess(row.original._id, selectedPermissions)}>Update</button>
+          </div>
         );
       },
     },
@@ -289,7 +350,7 @@ const Users = () => {
   };
 
   const handleRoleChange = async (id, role) => {
-    
+
     try {
       const response = await fetch(`${base_url}user/edit-role/${id}`, {
         method: "PUT",
@@ -299,25 +360,26 @@ const Users = () => {
         }),
       });
       const data = await response.json();
-      
-      if(!data.error && data.status!=="fail"){
-      toast.success('Role changed successfully.')
+
+      if (!data.error && data.status !== "fail") {
+        FetchUsers();
+        toast.success('Role changed successfully.')
       }
-      else{
+      else {
         toast.error(data.message)
       }
     } catch (error) {
       toast.error(error.message);
     }
   };
-
+  const FetchUsers = async () => {
+    let response = await fetch(`${base_url}user/all-users`);
+    let data = await response.json();
+    setUsers(data);
+    setIsLoading(false);
+  };
   useEffect(() => {
-    const FetchUsers = async () => {
-      let response = await fetch(`${base_url}user/all-users`);
-      let data = await response.json();
-      setUsers(data);
-      setIsLoading(false);
-    };
+
     FetchUsers();
   }, [reload]);
 
@@ -344,19 +406,19 @@ const Users = () => {
             <form className="mt-3">
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Template ID</label>
-                <input value={templateId} onChange={(e)=>setTemplateId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
+                <input value={templateId} onChange={(e) => setTemplateId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
               </div>
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Sender ID</label>
-                <input value={senderId} onChange={(e)=>setSenderId(e.target.value)} className="border rounded text-lg px-3 py-1" type="text" />
+                <input value={senderId} onChange={(e) => setSenderId(e.target.value)} className="border rounded text-lg px-3 py-1" type="text" />
               </div>
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Entity ID</label>
-                <input value={entityId} onChange={(e)=>setEntityId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
+                <input value={entityId} onChange={(e) => setEntityId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
               </div>
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Message</label>
-                <textarea value={message} onChange={(e)=>setMessage(e.target.value)} className="border rounded text-lg px-3 py-1" />
+                <textarea value={message} onChange={(e) => setMessage(e.target.value)} className="border rounded text-lg px-3 py-1" />
               </div>
               <div className="flex justify-end gap-x-2 mb-3">
                 <button type="submit"

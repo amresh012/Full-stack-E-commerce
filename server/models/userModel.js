@@ -73,6 +73,11 @@ const userSchema = new mongoose.Schema(
       default: "User",
       roles: ["Admin", "Employee","User"],
     },
+    allowedRoutes:{
+      type: [String],
+      enum: ['dashboard', 'users', 'contact us', 'orders', 'products', 'blogs', 'coupon'],
+      default: []
+    },
     super: {
       type: Boolean,
       default: false,

@@ -1,8 +1,8 @@
 const express = require("express");
 const { getAdminData } = require("../controller/adminCtrl");
-const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
+const { authMiddleware, isAdmin, checkAccess } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-router.get("/", authMiddleware,isAdmin, getAdminData);
+router.get("/", authMiddleware,checkAccess, getAdminData);
 
 module.exports = router;

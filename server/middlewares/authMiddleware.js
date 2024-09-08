@@ -35,6 +35,21 @@ const isAdmin = asyncHandler(async (req, res, next) => {
   }
 });
 
+const checkAccess = asyncHandler(async (req, res, next) => {
+  const { email } = req.user;
+
+  const user = await User.findOne({ email });
+  // const route = req.originalUrl.split("/")[2];
+  // console.log(route);
+  // if (user.role === "admin" || (user.role === 'Employee' && user.allowedRoutes.includes(''))) {
+  if (user.role === "admin" || user.role === 'Employee') {
+    req.user = req.user;
+    next();
+  } else {
+    res.json({ error: "You are not authorized to access this route." });
+  }
+});
+
 const isSuper = asyncHandler(async (req, res, next) => {
   const { email } = req.user;
 
@@ -47,4 +62,4 @@ const isSuper = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { authMiddleware, isAdmin, isSuper };
+module.exports = { authMiddleware, isAdmin, isSuper, checkAccess };

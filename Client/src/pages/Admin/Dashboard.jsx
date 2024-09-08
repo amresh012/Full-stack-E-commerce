@@ -119,8 +119,9 @@ const Dashboard = () => {
         ...config,
       });
       const data = await response.json();
+      console.log(data)
       if (!data?.success) {
-        throw new Error("Something went wrong");
+        throw new Error(data?.error || 'Something went wrong');
       }
       setTotalNewCustomers(data.totalNewCustomers);
       setTotalCategories(data.totalCategories);

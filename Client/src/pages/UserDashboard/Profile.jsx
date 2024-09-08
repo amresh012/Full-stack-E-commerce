@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { base_url } from '../../Utils/baseUrl'
 import {config} from "../../Utils/axiosConfig"
 import {useSelector} from "react-redux"
-import Avatarupload from '../../components/UserDashComp/Avatarupload'
+import Avatarupload from '../../components/UserDashComp/Avatarupload';
+import {toast} from 'react-hot-toast';
 const Profile = () => {
  const [data , setData] = useState(
   {
