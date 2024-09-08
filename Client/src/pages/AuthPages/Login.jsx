@@ -33,7 +33,7 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
 
       if (res.status === 200) {
-        dispatch(adduser(formData));
+        dispatch(adduser(res.data));
         if (res.data.role === "admin") {
           toast.success("Admin Login Success");
           navigate("/admin");

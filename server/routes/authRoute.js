@@ -22,7 +22,9 @@ const {
   addnewAddress,
   getAddressById,
 
-  loginUserWithMobile
+  loginUserWithMobile,
+  loginWithAccessToken,
+  updateAccess
 
 } = require("../controller/userCtrl");
 const {
@@ -40,6 +42,7 @@ router.put("/reset-password/:token", resetPassword);
 router.get("/reset-password/:token", checkresetPasswordUser);
 router.put("/password", authMiddleware, updatePassword);
 router.post("/login", loginUserCtrl);
+router.post("/login-with-access-token", loginWithAccessToken);
 router.post("/login-with-mobile", loginUserWithMobile);
 router.post("/adr", authMiddleware, addnewAddress);
 router.post("/adr/:id", authMiddleware, getAddressById);
@@ -52,6 +55,7 @@ router.delete("/:id", deleteaUser);
 router.put("/order/update-order/:id", authMiddleware);
 router.put("/edit-user", authMiddleware, updatedUser);
 router.put("/edit-role/:id", authMiddleware, isAdmin,  updateRole);
+router.post("/edit-access/", authMiddleware, isAdmin,  updateAccess);
 router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);
 router.put("/unblock-user/:id",authMiddleware, isAdmin, unblockUser);
 

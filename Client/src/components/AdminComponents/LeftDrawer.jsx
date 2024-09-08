@@ -1,11 +1,14 @@
 // import React from 'react'
 import Kfs_logo from "../../assets/logo.png";
 import { linksAdmin } from '../../constant';
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { FiLogOut } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { BsChevronBarRight, BsChevronBarLeft } from "react-icons/bs";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { removeuser } from "../../features/authSlice";
+import toast from "react-hot-toast";
 
 
 const LeftDrawer = () => {
@@ -14,6 +17,16 @@ const LeftDrawer = () => {
   const [showWebsiteDropdown, setShowWebsiteDropdown] = useState(false);
   const [showBlogDropdown, setShowBlogDropdown] = useState(false);
   const [showCouponDropdown, setShowCouponDropdown] = useState(false);
+  const dispatch = useDispatch();
+  const {user} = useSelector(state => state.auth);
+  const navigate = useNavigate();
+
+  const logoutHandler = ()=>{
+    localStorage.removeItem('token');
+    dispatch(removeuser());
+    toast.success('Logged out successfully.');
+    navigate('/');
+  }
 
   return (
     <div className="relative">
@@ -54,7 +67,7 @@ const LeftDrawer = () => {
                 className="hover:bg-[#0A2440] hover:text-white duration-300 text-xl"
                 key={item.id}
               >
-                <Link
+                {user !== null && ((user?.role === 'admin' || (user.role === 'Employee' && user?.allowedRoutes?.includes(item.label.toLowerCase())))) && <Link
                   to={item.route}
                   key={item.id}
                   className={
@@ -98,10 +111,10 @@ const LeftDrawer = () => {
                       <IoIosArrowDropdown />
                     </div>
                   )}
-                </Link>
+                </Link>}
               </div>
 
-              {((item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown)) && (
+              {user !== null && ((user?.role === 'admin' || (user.role === 'Employee' && user?.allowedRoutes?.includes(item.label.toLowerCase())))) && ((item.label === 'Products' && showProductDropdown) || (item.label === 'Website' && showWebsiteDropdown) || (item.label === 'Blogs' && showBlogDropdown) || (item.label === 'Coupon' && showCouponDropdown)) && (
                 <ul className="flex-col items-center justify-start w-full">
                   {item.submenu && (
                     <ul className="flex-col items-center justify-start w-full">
@@ -127,12 +140,12 @@ const LeftDrawer = () => {
           ))}
         </ul>
 
-         <div
+         {(user !== null) && <div
           className=" flex bg-[#0A2440] p-4 w-[94%] text-xl text-white items-center  justify-center gap-2"
           >
-          <button className="uppercase">LogOut</button>
+          <button className="uppercase" onClick={logoutHandler}>LogOut</button>
           <FiLogOut/>
-         </div>
+         </div>}
       </nav>
     </div>
   );
