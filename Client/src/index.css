@@ -32,19 +32,20 @@ body{
   height: 25px;
   width: 25px;
   z-index: 1;
+  /* margin-top: -14px; */
   border: 1px solid red;
 }
 
 /* Create a custom checkbox */
 .checkmark {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -14px;
+  right: 11px;
   height: 25px;
   width: 25px;
   background-color: #eee;
   border-radius: 4px;
-  margin-top: -14px;
+  /* margin-top: -14px; */
 }
 
 /* On mouse-over, add a grey background color */
