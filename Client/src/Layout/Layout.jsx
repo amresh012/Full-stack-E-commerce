@@ -6,7 +6,7 @@ import { base_url } from '../Utils/baseUrl';
 import { adduser } from '../features/authSlice';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
-
+import ScrollToTop from "../essentials/ScrollToTop"
 const Layout = () => {
     const dispatch = useDispatch();
 
@@ -46,6 +46,7 @@ const Layout = () => {
         <div className='overflow-clip'>
             <Navbar />
             <Outlet />
+            <ScrollToTop/>
             <Footer />
         </div>
     )

@@ -4,7 +4,8 @@ const axios = require("axios");
 const User = require("../models/userModel");
 
 const createOrder = async (req, res) => {
-   const {email  , addr } = req.body
+  console.log(req.body)
+  const {addr,productinfo, email} = req.body
   const useremail = req.body.email;
   const userD = await User.find({ email: useremail });
   const user = userD[0];
@@ -27,7 +28,7 @@ const createOrder = async (req, res) => {
     const element = await Product.find({ _id: extractedIds[i] });
     const product = element[0];
     let pro = {
-      name: product.title,
+      name: product.name,
       sku: product.slug,
       units: product.quantity,
       length:product.length,
@@ -35,10 +36,11 @@ const createOrder = async (req, res) => {
       height: product.height,
       weight:product.weight,
       selling_price: product.price,
-      discount: product.Discount,
+        // discount: product.Discount,
     };
     productDetail.push(pro);
   }
+  console.log(productDetail);
   // getting user adress
   const n = user.address.length - 1
   const addid = user.address[n];
@@ -110,6 +112,8 @@ const createOrder = async (req, res) => {
 
   res.json(shiprocket);
 };
+
+
 
 module.exports = {
   createOrder,

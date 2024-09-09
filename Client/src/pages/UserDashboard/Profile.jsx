@@ -4,18 +4,18 @@ import { base_url } from '../../Utils/baseUrl'
 import {config} from "../../Utils/axiosConfig"
 import Avatarupload from '../../components/UserDashComp/Avatarupload'
 import { toast, Toaster } from 'react-hot-toast'
+import { useSelector } from 'react-redux'
 const Profile = () => {
- const [data , setData] = useState(
-  {
-    name:"",
-    email:"",
-    phone:"",
-    Gst:"",
-     Pan: "", 
-     address:[]
-
-  }
-)
+  const User = useSelector((state) => state.auth)
+ const user = User?.user;
+ const [data, setData] = useState({
+   name: "" || user?.name,
+   email: "" || user?.email,
+   mobile: "" || user?.mobile,
+   Gst: "",
+   Pan: "",
+   address: [] || user?.address,
+ });
    let id = localStorage.getItem("id")
   //  console.log(id)
 

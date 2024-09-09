@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector , useDispatch} from "react-redux";
 import { FaAddressCard, FaTrash } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
@@ -17,22 +17,22 @@ const Shipping = () => {
   const id = localStorage.getItem("id")
   // console.log(id)
 
-  const fetchAddresses = async () => {
-    try {
-      const response = await axios.post(`${base_url}user/adr/${id}`, {}, config);
-      console.log(response)
-      setAddressList(response.data);
-    } catch (error) {
-      toast.error("Failed to fetch addresses. Please try again.");
-    }
-  };
+const fetchAddresses = useCallback(async () => {
+  try {
+    const response = await axios.post(`${base_url}user/adr/${id}`, {}, config);
+    console.log(response);
+    setAddressList(response.data);
+  } catch (error) {
+    toast.error("Failed to fetch addresses. Please try again.");
+  }
+}, []);
   useEffect(() => {
     if (!user?.address?.length) {
       fetchAddresses();
     } else {
       setAddressList(user.address);
     }
-  }, [user]);
+  }, [user, fetchAddresses]);
 
   const handleDeleteAddress = async (addressId) => {
     // if(addressId === undefined) return
@@ -44,8 +44,11 @@ const Shipping = () => {
         fetchAddresses();
         toast.success("Address deleted successfully");
       }
+      else {
+        return
+      }
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       toast.error("Failed to delete address. Please try again.");
     }
   };
