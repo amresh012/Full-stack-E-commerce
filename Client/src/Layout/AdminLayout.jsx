@@ -3,11 +3,11 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import LeftDrawer from "../components/AdminComponents/LeftDrawer"
 import toast from 'react-hot-toast';
 import {base_url} from '../Utils/baseUrl';
-import { useDispatch } from 'react-redux';
 import { adduser } from '../features/authSlice';
+import { useDispatch } from 'react-redux';
 
 const AdminLayout = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate
   const dispatch = useDispatch();
 
   const checkAccess = async (token)=>{

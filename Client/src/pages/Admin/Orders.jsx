@@ -145,10 +145,10 @@ const Orders = () => {
   
       try {
         const response = await fetch(`${base_url}order`);
+        console.log(response)
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
-  
         const data = await response.json();
         setOrder(data.data);
         setFilteredData(data.data)

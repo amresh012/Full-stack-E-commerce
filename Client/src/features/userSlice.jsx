@@ -10,6 +10,7 @@ const initialState = {
 export const ProfileResetApi = createAsyncThunk(
   "userprofile",
   async (payload) => {
+    console.log(payload)
     const res = await axios.put(
       `${base_url}user/edit-user`,
       payload,

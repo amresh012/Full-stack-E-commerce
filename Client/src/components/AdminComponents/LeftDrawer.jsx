@@ -37,7 +37,7 @@ const LeftDrawer = () => {
             : "w-14 overflow-hidden"
         }
       >
-        <div className="h-24 w-full border-b-2 flex items-center justify-around py-2">
+        <div className="h-24 w-full border-b-2 flex items-center justify-around py-2" onClick={logoutHandler}>
           <Link to="/">
             <img
               src={Kfs_logo}

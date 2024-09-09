@@ -8,8 +8,8 @@ const {
 const { getAllOrders,deleteOrder ,getInvoices ,getSingleOrder} = require("../controller/orderCtrl");
 
 const router = express.Router();
-router.get("/",authMiddleware ,isAdmin, getAllOrders); 
-router.post("/getaOrder/:id",authMiddleware, getSingleOrder); 
+router.get("/", getAllOrders); 
+router.post("/getaOrder/:id", authMiddleware, getSingleOrder); 
 router.delete("/:id", authMiddleware, isAdmin, deleteOrder)
 router.get("/invoice",authMiddleware, getInvoices);
 // router.get("/admin",authMiddleware,isAdmin, getAdminProduct);

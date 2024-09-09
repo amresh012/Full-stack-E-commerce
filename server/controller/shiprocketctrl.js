@@ -4,11 +4,14 @@ const axios = require("axios");
 const User = require("../models/userModel");
 
 const createOrder = async (req, res) => {
-  console.log(req.body)
+   const {email  , addr } = req.body
   const useremail = req.body.email;
   const userD = await User.find({ email: useremail });
   const user = userD[0];
-
+ 
+  if (!user) {
+    return res.status(404).send({ message: "User not found" });
+  }
   // Extracted id from body
   const productids = req.body.productinfo.split(" ");
   const extractedIds = [];
@@ -52,15 +55,15 @@ const createOrder = async (req, res) => {
     order_id: orderid.toString(),
     order_date: new Date().toISOString().split("T")[0],
     pickup_location: "Primary",
-    billing_customer_name: user.firstname,
-    billing_last_name: user.lastname,
-    billing_address: adr.address,
-    billing_city: adr.city,
-    billing_pincode: adr.zipcode,
-    billing_state: adr.state,
+    billing_customer_name: addr.name,
+    billing_last_name: addr.name,
+    billing_address: addr.address,
+    billing_city:addr.city,
+    billing_pincode: addr.zipcode,
+    billing_state:addr.state,
     billing_country: "India",
     billing_email: useremail,
-    billing_phone: user.mobile,
+    billing_phone: addr.mobile,
     shipping_is_billing: true,
     order_items: productDetail,
     payment_method: "Prepaid",
@@ -91,7 +94,7 @@ const createOrder = async (req, res) => {
       res.status(500).send({ message:resp.data.error });
     } else {
       
-      makepdf(useremail)
+      // makepdf(useremail)
       res.json({success:true,shippting:resp.data});
     }
   } catch (error) {

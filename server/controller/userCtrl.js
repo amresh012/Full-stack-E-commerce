@@ -271,6 +271,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
   }
 });
 const addnewAddress = asyncHandler(async (req, res, next) => {
+  console.log(req.body)
+  console.log(req.user)
   const { _id } = req.user;
 
   validateMongoDbId(_id);
@@ -353,32 +355,54 @@ const addnewAddress = asyncHandler(async (req, res, next) => {
 
 // getaddrss by id
 const getAddressById = asyncHandler(async (req, res) => {
-
-  const { id } = req.params;
+  const { id } = req.params; // id represents the address ID
   const { _id: userId } = req.user;
 
-  // Check if the user is authorized to access the address
-  if (!req.user || req.user._id !== userId) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
   try {
-    // Query the database to retrieve the address by id
-    const user = await Uesr.findById(id).populate({
+    // Query the database to retrieve the user by userId and the specific address by address id
+    const user = await User.findById(userId).populate({
       path: "address",
       model: "Address",
-      select: " name address city  state zipcode mobile ",
+      // match: { _id: id }, // Match the address id from the user addresses
+      select: "name address city state zipcode mobile", // Select specific address fields
     });
 
-    if (!user) {
+    if (!user || !user.address) {
       return res.status(404).json({ error: "Address not found" });
     }
     // Return the address data
-    res.json(user);
+    res.json(user.address);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+// delete old address
+const deleteAddress = asyncHandler(async (req, res) => {
+  console.log(req.params)
+  try {
+    // Extract address ID from request parameters or body
+    const { id } = req.params; // assuming addressId is passed as a URL parameter
+
+    if (!id) {
+      return res.status(400).json({ message: "Address ID is required" });
+    }
+
+    // Find and delete the address by ID
+    const deletedAddress = await Address.findByIdAndDelete(id);
+
+    if (!deletedAddress) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    res.status(200).json({ message: "Address deleted successfully", deletedAddress });
+  } catch (error) {
+    console.error("Error deleting address:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+});
+
+
 
 // handle refresh token
 
@@ -424,28 +448,48 @@ const logout = asyncHandler(async (req, res) => {
 // Update a user
 
 const updatedUser = asyncHandler(async (req, res) => {
+  console.log(req.body);
+  console.log(req.user)
   const { _id } = req.user;
   validateMongoDbId(_id);
 
   try {
+    // Fetch the current user details
+    const currentUser = await User.findById(_id);
+
+    // Prepare update fields
+    const updateFields = {
+      name: req?.body?.name,
+      email: req?.body?.email,
+      mobile: req?.body?.mobile
+    };
+
+    // Check and update gstNo if it does not exist
+    if (!currentUser.gstNo && req?.body?.gstNo) {
+      updateFields.gstNo = req?.body?.gstNo;
+    }
+
+    // Check and update panNo if it does not exist
+    if (!currentUser.panNo && req?.body?.panNo) {
+      updateFields.panNo = req?.body?.panNo;
+    }
+
+    // Perform the update operation
     const updatedUser = await User.findByIdAndUpdate(
       _id,
-      {
-        name: req?.body?.name,
-        email: req?.body?.email,
-        mobile: req?.body?.mobile,
-        gstNo: req?.body?.gstNo,
-        panNo: req?.body.panNo
-      },
+      updateFields,
       {
         new: true,
       }
     );
+    
     res.json(updatedUser);
   } catch (error) {
+    console.log(error);
     throw new Error(error);
   }
 });
+
 const updateRole = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { role } = req.body;
@@ -499,31 +543,39 @@ const updateAccess = asyncHandler(async (req, res)=>{
 const getallUser = asyncHandler(async (req, res) => {
   try {
     const getUsers = await User.find()
-      .populate({ path: "address", model: "Address", select: " name address city  state zipcode mobile " })
-      .populate(
-        [
-          {
-            path: "order",
-            model: "Order",
-            select: "order_id paymentId amount cartItems invoiceNo paymentStatus "
-          }
-        ]
-      )
+      .populate({
+        path: "address",
+        model: "Address",
+        select: "name address city state zipcode mobile",
+      })
+      .populate({
+        path: "order",
+        model: "Order",
+      });
+
+    // Log the results to verify population
+    // console.log("Populated users with orders:", getUsers);
 
     res.json(getUsers);
   } catch (error) {
+    console.error("Error populating orders:", error);
     throw new Error(error);
   }
 });
+
 
 // Get a single user
 const getaUser = async (req, res) => {
   try {
     const _id = req.params.id; // Or you can use req.params.id if you're passing the ID in the URL
-    const user = await User.findById(_id).populate({
+    const user = await User.findById(_id)
+    .populate({
       path: "address",
       model: "Address",
       select: "name address city state zipcode mobile",
+    }).populate({
+      path: "order",
+      model: "Order",
     }); 
 
     if (!user) {
@@ -693,5 +745,6 @@ module.exports = {
   getAddressById,
   loginUserWithMobile,
   loginWithAccessToken,
-  updateAccess
+  updateAccess,
+  deleteAddress
 };

@@ -7,11 +7,14 @@ import {base_url} from "../../Utils/baseUrl"
 const id  = localStorage.getItem("id")
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
+  const id = localStorage.getItem("id")
+  console.log(id)
   useEffect(() => {
     const FetchOrder =async() => {
       try {
         const re = await fetch(`${base_url}order/getaOrder/${id}`, 
           {
+            method: "POST",
             ...config
           }
         );

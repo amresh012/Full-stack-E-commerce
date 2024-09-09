@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
@@ -13,6 +12,8 @@ import {useNavigate} from "react-router-dom"
 import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
+  const user = useSelector((state)=>state.auth.user)
+  // console.log(user)
 const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   console.log(newAdd)
@@ -43,9 +44,6 @@ const selectedAddress = useSelector((state) => state.address); // Access selecte
   );
 
   // getting auth fouserId name email mobile data from authSlice
-  const auth = useSelector((state) => state.auth);
-  const user = auth.user;
-
   // calculating total checkout amount after adding Shipping Charges from shiprocket api
   const deliverCharge = Number(
     selectedShiping?.freight_charge?.toFixed(0) || 0
@@ -107,110 +105,130 @@ const selectedAddress = useSelector((state) => state.address); // Access selecte
   };
 
   const paymentHandler = async (e) => {
-    const response = await fetch(`${base_url}payment/createOrder`, {
-      method: "POST",
-      body: JSON.stringify({
-        amount,
-        currency,
-        receipt: receiptId,
-        cartItems: carts,
-        address: address,
-        user: user,
-      }),
-      ...config,
-    });
-    const order = await response.json();
-
-    const {
-      orderId,
-      amount: order_amount,
-      cartItems,
-      address: orderaddress,
-    } = order;
-
-    // ************************************************************************************************************
-    var options = {
-      key: "rzp_test_oLA0LztRZUjDkX", // Enter the Key ID generated from the Dashboard
-      amount: order_amount,
-      currency,
-      name: "KFS Fitness", //your business name
-      description: "Test Transaction",
-      image: "https://images.deepmart.shop/upload",
-      order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      handler: async function (response) {
-        const paymentData = {
-          paymentId: response.razorpay_payment_id,
-          order_id: response.razorpay_order_id,
-          razorpay_signature: response.razorpay_signature,
-          amount: order_amount,
-          items: cartItems,
-          address: orderaddress,
-        };
-
-        try {
-          const validateRes = await fetch(`${base_url}payment/verifyPayment`, {
-            method: "POST",
-            ...config,
-            body: JSON.stringify(paymentData), // Pass the object directly
-          });
-
-          const jsonRes = await validateRes.json();
-          console.log(jsonRes);
-
-          const orderCreateResponse = await fetch(`${base_url}shiprocket`, {
-            method: "POST",
-            config,
-            body: JSON.stringify({
-              email: user?.email,
-              productinfo: carts.map((item) => item._id).join(" "),
-              amount: order_amount,
-            }),
-          });
-          const orderData = await orderCreateResponse.json();
-          if (orderData.success) {
-            const ConfirmedOrder = {
-              ...paymentData,
-              deliverCharge,
-              totalAmount,
-              totalQuantity,
-              selectedShiping,
-              orderData, // Include order details for confirmation
-            };
-            navigate(`/order-confirmed`, { state: ConfirmedOrder });
-            dispatch(resetCart());
-          }
-        } catch (error) {
-          console.log(error)
-          console.error("Error validating payment:", error);
-        }
-      },
-
-      prefill: {
-        name: user?.name, //your customer's name
-        email: user?.email,
-        contact: user?.mobile, //Provide the customer's phone number for better conversion rates
-      },
-      notes: {
-        address: user?.address,
-      },
-      theme: {
-        color: "#0a2444",
-      },
-    };
-    var rzp1 = new window.Razorpay(options);
-    rzp1.on("payment.failed", function (response) {
-      alert(response.error.code);
-      alert(response.error.description);
-      alert(response.error.source);
-      alert(response.error.step);
-      alert(response.error.reason);
-      alert(response.error.metadata.order_id);
-      alert(response.error.metadata.payment_id);
-    });
-    rzp1.open();
     e.preventDefault();
+  
+    try {
+      const response = await fetch(`${base_url}payment/createOrder`, {
+        method: "POST",
+        body: JSON.stringify({
+          amount,
+          currency,
+          receipt: receiptId,
+          cartItems: carts,
+          address: address,
+          user: user,
+        }),
+        ...config,
+      });
+  
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const order = await response.json();
+  
+        const {
+          orderId,
+          amount: order_amount,
+          cartItems,
+          address: orderaddress,
+        } = order;
+  
+        var options = {
+          key: "rzp_test_oLA0LztRZUjDkX",
+          amount: order_amount,
+          currency,
+          name: "KFS Fitness",
+          description: "Test Transaction",
+          image: "https://images.deepmart.shop/upload",
+          order_id: orderId,
+          handler: async function (response) {
+            const paymentData = {
+              paymentId: response.razorpay_payment_id,
+              order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+              amount: order_amount,
+              items: cartItems,
+              address: orderaddress,
+            };
+  
+            try {
+              const validateRes = await fetch(`${base_url}payment/verifyPayment`, {
+                method: "POST",
+                ...config,
+                body: JSON.stringify(paymentData),
+              });
+  
+              // Check the response content type
+              const validateContentType = validateRes.headers.get("content-type");
+              if (validateContentType && validateContentType.includes("application/json")) {
+                const jsonRes = await validateRes.json();
+                console.log(jsonRes);
+  
+                const orderCreateResponse = await fetch(`${base_url}shiprocket`, {
+                  method: "POST",
+                  ...config,
+                  body: JSON.stringify({
+                    addr:newAdd,
+                    email: user?.email,
+                    productinfo: carts.map((item) => item._id).join(" "),
+                    amount: order_amount,
+                  }),
+                });
+                const orderData = await orderCreateResponse.json();
+                console.log(orderData)
+                if (orderData.success) {
+                  const ConfirmedOrder = {
+                    ...paymentData,
+                    deliverCharge,
+                    totalAmount,
+                    totalQuantity,
+                    selectedShiping,
+                    orderData,
+                  };
+                  navigate(`/order-confirmed`, { state: ConfirmedOrder });
+                  dispatch(resetCart());
+                }
+              } else {
+                const text = await validateRes.text();
+                console.error("Unexpected response format from verifyPayment:", text);
+              }
+            } catch (error) {
+              console.error("Error validating payment:", error);
+            }
+          },
+  
+          prefill: {
+            name: user?.name,
+            email: user?.email,
+            contact: user?.mobile,
+          },
+          notes: {
+            address: user?.address,
+          },
+          theme: {
+            color: "#0a2444",
+          },
+        };
+        var rzp1 = new window.Razorpay(options);
+        rzp1.on("payment.failed", function (response) {
+          alert(response.error.code);
+          alert(response.error.description);
+          alert(response.error.source);
+          alert(response.error.step);
+          alert(response.error.reason);
+          alert(response.error.metadata.order_id);
+          alert(response.error.metadata.payment_id);
+        });
+        e.preventDefault()
+        rzp1.open();
+      } else {
+        const text = await response.text();
+        console.error("Unexpected response format:", text);
+      }
+    } catch (error) {
+      console.error("Error processing payment:", error);
+    }
   };
-
+  
   const handleRemoveItem = (item) => {
     dispatch(removeItem(item));
   };
@@ -306,34 +324,46 @@ const selectedAddress = useSelector((state) => state.address); // Access selecte
             <h1 className="text-2xl font-bold capitalize">
               Address Information
             </h1>
-            <div className="isbilling_isShipping flex justify-between items-center font-bold text-red-500">
-              <p className="">Shipping address is Same as Billing Address</p>
-              <input
-                type="checkbox"
-                checked={isBilling}
-                onChange={handleChecked}
-              />
-            </div>
-            <div className="flex justify-between">
-              <span>Address:</span>
-              <p className="">{newAdd?.address}</p>
-            </div>
-            <div className="flex justify-between">
-              <span>City:</span>
-              <p className="">{newAdd?.city}</p>
-            </div>
-            <div className="flex justify-between">
-              <span>State:</span>
-              <p className="">{newAdd?.state}</p>
-            </div>
-            <div className="flex justify-between">
-              <span>PinCode:</span>
-              <p className="">{newAdd?.zipcode}</p>
-            </div>
-            <div className="flex justify-between">
-              <span>Country:</span>
-              <p className="">INDIA</p>
-            </div>
+           {
+             newAdd === null ?
+             <div className="flex gap-2">
+              <p className="text-gray-500">Please select an address</p>
+              <Link to="/profile/shipping-add" className="underline">
+               <p>Click here to select address</p>
+              </Link>
+             </div>
+             :
+             <>
+             <div className="isbilling_isShipping flex justify-between items-center font-bold text-red-500">
+             <p className="">Shipping address is Same as Billing Address</p>
+             <input
+               type="checkbox"
+               checked={isBilling}
+               onChange={handleChecked}
+             />
+           </div>
+           <div className="flex justify-between">
+             <span>Address:</span>
+             <p className="">{newAdd?.address}</p>
+           </div>
+           <div className="flex justify-between">
+             <span>City:</span>
+             <p className="">{newAdd?.city}</p>
+           </div>
+           <div className="flex justify-between">
+             <span>State:</span>
+             <p className="">{newAdd?.state}</p>
+           </div>
+           <div className="flex justify-between">
+             <span>PinCode:</span>
+             <p className="">{newAdd?.zipcode}</p>
+           </div>
+           <div className="flex justify-between">
+             <span>Country:</span>
+             <p className="">INDIA</p>
+           </div>
+           </>
+           }
           </div>
           <div className=" p-4 Copoun-Code rounded-md space-y-4">
             <Copoun
@@ -389,9 +419,10 @@ const selectedAddress = useSelector((state) => state.address); // Access selecte
                 <button
                   className={`bg-[#0A2440] w-full text-white p-2 rounded-md`}
                   disabled={
+                    newAdd === null &&
                     couriercompnies?.length ===0 &&
                     couriercompnies === null &&
-                    couriercompnies=== undefined
+                    couriercompnies=== undefined 
                       ? true
                       : false
                   }

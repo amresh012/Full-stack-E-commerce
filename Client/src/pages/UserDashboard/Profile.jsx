@@ -4,10 +4,7 @@ import { base_url } from '../../Utils/baseUrl'
 import {config} from "../../Utils/axiosConfig"
 import Avatarupload from '../../components/UserDashComp/Avatarupload'
 import { toast, Toaster } from 'react-hot-toast'
-import { useDispatch } from "react-redux"
-import {adduser} from "../../features/authSlice"
 const Profile = () => {
-  const dispatch= useDispatch()
  const [data , setData] = useState(
   {
     name:"",
@@ -20,6 +17,7 @@ const Profile = () => {
   }
 )
    let id = localStorage.getItem("id")
+  //  console.log(id)
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -38,9 +36,8 @@ const Profile = () => {
              mobile: data?.mobile,
              Gst: data?.gstNo,
              Pan: data?.panNo,
-             address: data.address,
+             address: data?.address,
            });
-           dispatch(adduser(data));
          } else {
            toast.error("Error fetching user details");
          }
@@ -49,11 +46,12 @@ const Profile = () => {
        }
      };
     fetchUserDetails();
-  }, [id]);
-  console.log(data)
+  }, []);
 
 
   return (
+    <>
+    <Toaster/>
     <div className="flex h-screen gap-6 p-2 flex-col m-2 rounded-md items-center ">
       <div className="profileImage rounded-full">
         <Avatarupload />
@@ -77,10 +75,10 @@ const Profile = () => {
           <div className="flex w-full items-center gap-2 justify-around ">
             <div className="w-full space-y-2  p-2">
               <span className="font-bold text-xl">ADDRESS</span>
-              {data.address.length <= 0 ? (
+              {data?.address?.length <= 0 ? (
                 <p>Add Your Address</p>
               ) : (
-                data?.address.map((adr, i) => (
+                data?.address?.map((adr, i) => (
                   <div className="" key={i}>
                     {adr.address}, {adr.city}, {adr?.zipcode}
                   </div>
@@ -120,6 +118,7 @@ const Profile = () => {
         </div>
       </div>
     </div>
+                </>
   );
 }
 

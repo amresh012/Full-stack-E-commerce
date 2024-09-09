@@ -21,7 +21,7 @@ const {
   verifyUser,
   addnewAddress,
   getAddressById,
-
+  deleteAddress,
   loginUserWithMobile,
   loginWithAccessToken,
   updateAccess
@@ -46,14 +46,15 @@ router.post("/login-with-access-token", loginWithAccessToken);
 router.post("/login-with-mobile", loginUserWithMobile);
 router.post("/adr", authMiddleware, addnewAddress);
 router.post("/adr/:id", authMiddleware, getAddressById);
+router.delete("/adr/delete/:id", authMiddleware, deleteAddress);
 router.post("/admin-login", loginAdmin);
 router.get("/all-users", getallUser);
 router.get("/refresh", handleRefreshToken);
 router.post("/logout", logout);
-router.get("/:id", authMiddleware, getaUser);//isAdmin middleware  put if required
+router.get("/:id", authMiddleware, getaUser);
 router.delete("/:id", deleteaUser);
 router.put("/order/update-order/:id", authMiddleware);
-router.put("/edit-user", authMiddleware, updatedUser);
+router.put("/edit-user",authMiddleware, updatedUser);
 router.put("/edit-role/:id", authMiddleware, isAdmin,  updateRole);
 router.post("/edit-access/", authMiddleware, isAdmin,  updateAccess);
 router.put("/block-user/:id", authMiddleware, isAdmin, blockUser);

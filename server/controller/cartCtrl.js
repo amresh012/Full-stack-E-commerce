@@ -1,7 +1,6 @@
 const asyncHandle = require("express-async-handler");
 const User = require("../models/userModel");
 const Product = require("../models/productModel");
-const Blogs = require("../models/blogModel");
 
 const applyDiscount = (price, discountPercentage) => {
   return price - (price * discountPercentage) / 100;
@@ -82,25 +81,25 @@ const addItemToCart = asyncHandle(async (req, res) => {
       item.product.equals(productId)
     );
     let discount = 0;
-    if (user?.role) {
-      switch (user.role) {
-        case "user":
-          discount = parseInt(product.retaildiscount);
-          break;
-        case "silver":
-          discount = parseInt(product.silverdiscount);
-          break;
-        case "gold":
-          discount = parseInt(product.golddiscount);
-          break;
-        case "platinum":
-          discount = parseInt(product.platinumdiscount);
-          break;
-        default:
-          discount = parseInt(product.retaildiscount);
-          break;
-      }
-    }
+    // if (user?.role) {
+    //   switch (user.role) {
+    //     case "user":
+    //       discount = parseInt(product.retaildiscount);
+    //       break;
+    //     case "silver":
+    //       discount = parseInt(product.silverdiscount);
+    //       break;
+    //     case "gold":
+    //       discount = parseInt(product.golddiscount);
+    //       break;
+    //     case "platinum":
+    //       discount = parseInt(product.platinumdiscount);
+    //       break;
+    //     default:
+    //       discount = parseInt(product.retaildiscount);
+    //       break;
+    //   }
+    // }
     if (cartItem) {
       cartItem.count += qty;
       cartItem.total = applyDiscount(product.price * cartItem.count, discount);

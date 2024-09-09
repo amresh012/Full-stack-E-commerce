@@ -34,7 +34,7 @@ const Login = () => {
 
       if (res.status === 200) {
         dispatch(adduser(res.data));
-        if (res.data.role === "admin") {
+        if (res.data.role === "Admin") {
           toast.success("Admin Login Success");
           navigate("/admin");
         } else {

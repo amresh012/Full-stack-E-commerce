@@ -1,20 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector , useDispatch} from "react-redux";
-import { FaAddressCard } from "react-icons/fa6";
+import { FaAddressCard, FaTrash } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { base_url } from "../../Utils/baseUrl";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
 import { selectedAddress } from "../../features/addressSlice";
+import {adduser} from "../../features/authSlice"
 const Shipping = () => {
-  const { user } = useSelector((state) => state.auth); 
- console.log(user);
-  const address = user?.address
+  const { user } = useSelector((state) => state.auth);
   const [currentAddress, setCurrentAdd] = useState(null);
-  
+  const [addressList, setAddressList] = useState(user?.address || []);
+  const dispatch = useDispatch()
 
- const dispatch = useDispatch()
+  const id = localStorage.getItem("id")
+  // console.log(id)
+
+  const fetchAddresses = async () => {
+    try {
+      const response = await axios.post(`${base_url}user/adr/${id}`, {}, config);
+      console.log(response)
+      setAddressList(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch addresses. Please try again.");
+    }
+  };
+  useEffect(() => {
+    if (!user?.address?.length) {
+      fetchAddresses();
+    } else {
+      setAddressList(user.address);
+    }
+  }, [user]);
+
+  const handleDeleteAddress = async (addressId) => {
+    // if(addressId === undefined) return
+    try {
+      const response = await axios.delete(`${base_url}user/adr/delete/${addressId}`, config);
+      console.log(response)
+      if (response.status === 200) {
+        // Refresh address list
+        fetchAddresses();
+        toast.success("Address deleted successfully");
+      }
+    } catch (error) {
+      // console.log(error)
+      toast.error("Failed to delete address. Please try again.");
+    }
+  };
+
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       name: "",
@@ -31,6 +66,7 @@ const Shipping = () => {
         console.log(response)
         if(response.data.success)
         {
+          dispatch(adduser(response.data));
           toast.success(response.data.message);
         }
       } catch (error) {
@@ -44,15 +80,10 @@ const Shipping = () => {
       }
     },
   });
+  console.log(addressList)
 
-  // function isPlainObject(value) {
-  //   return Object.prototype.toString.call(value) === "[object Object]";
-  // }
-  // const palinObj = isPlainObject(selectedAddress);
-  // console.log(palinObj)
 
   const handleAddressSelect = (address) => {
-    console.log(address , typeof(address))
     setCurrentAdd(address);
     dispatch(selectedAddress(address));
 
@@ -164,13 +195,15 @@ const Shipping = () => {
           <h1 className="uppercase">Old Addreses</h1>
         </div>
         <div className="p-4">
-          <div className=" p-4 flex flex-col items-center gap-4">
-            {address === null
-              ? "No addre"
-              : address?.map((add) => (
+          <div className=" p-4 flex flex-col border-2 items-center gap-4">
+            {addressList === undefined || addressList.length <=0
+              ? <div className="">
+                <p className="text-lg font-bold">No old addresses found</p>
+              </div>
+              : addressList?.map((add) => (
                   <div
                     key={add.id}
-                    className="flex items-center gap-4 p-4 border w-full"
+                    className="flex items-start gap-4 p-4 border w-full"
                   >
                     <input
                       type="checkbox"
@@ -179,7 +212,7 @@ const Shipping = () => {
                       onChange={() => handleAddressSelect(add)}
                       id="address1"
                     />
-                    <ul className="flex  gap-4">
+                    <ul className="flex flex-col  gap-4">
                       <li className="">Addres:{add.address}</li>
                       <li className="">City:{add.city}</li>
                       <li className="">Mobile No:{add.mobile}</li>
@@ -187,6 +220,12 @@ const Shipping = () => {
                       <li className="">State:{add.state}</li>
                       <li className="">ZipCode:{add.zipcode}</li>
                     </ul>
+                    <button
+                    onClick={() => handleDeleteAddress(add._id)}
+                    className="ml-auto text-red-500"
+                  >
+                    <FaTrash />
+                  </button>
                   </div>
                 ))}
           </div>

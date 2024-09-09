@@ -28,11 +28,8 @@ const Setting = () => {
      console.log(formData)
     const res = await dispatch(ProfileResetApi(formData))
     console.log(res)
-    if (res.requestStatus === "fulfilled") {
+    if (res.type === "userprofile/fulfilled" && formData !== "") {
       toast.success("Profile Updated Successfully");
-      }
-    else {
-      toast.error("Error Updating Profile");
       }
    }
     catch (error) {
@@ -112,7 +109,8 @@ const Setting = () => {
               placeholder="enter PAN NO (optional)"
             />
           </div>
-          <div
+         <div className="flex gap-2">
+         <div
             className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
             hover:bg-[#144170]/80 text-white duration-500
             "
@@ -121,6 +119,16 @@ const Setting = () => {
               Update Profile
             </button>
           </div>
+          <div
+            className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
+            hover:bg-[#144170]/80 text-white duration-500
+            "
+          >
+            <button type="reset " className="uppercase">
+              Reset Form
+            </button>
+          </div>
+         </div>
         </form>
       </div>
     </div>

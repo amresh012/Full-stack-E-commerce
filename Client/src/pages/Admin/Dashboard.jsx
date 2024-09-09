@@ -21,6 +21,8 @@ const Dashboard = () => {
   const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState(0);
   const [totalPaymentsToday, setTotalPaymentsToday] = useState(0);
  
+
+
   const [categoriesData, setCategoriesData] = useState({
     labels: [],
     data: [],
@@ -260,12 +262,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <h1 className="text-3xl font-bold mt-20 mb-5">Recent Orders</h1>
+        <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Recent Orders</h1>
         <div className="w-full">
           <BasicTable columns={columns} data={Ordata.slice(0, 5)} />
         </div>
 
-        <h1 className="text-3xl font-bold mt-20 mb-5">Summary</h1>
+        <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Summary</h1>
         <div className="space-y-3 w-full">
           <div className="shadow-md rounded-md  w-full p-4">
             <div className="text-3xl font-light">Orders</div>
@@ -274,13 +276,13 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="shadow-md rounded-md  w-full p-4">
-            <div className="text-3xl font-light">Customers</div>
+            <div className="text-3xl font-light bg-[#0a2444] w-full p-2 text-white">Customers</div>
             <div className="mt-4">
               <LineChart label={"New Customers"} labels={customersData?.labels} data={customersData?.data} />
             </div>
           </div>
-          <div className="shadow-md rounded-md  w-full p-4">
-            <div className="text-3xl font-light">Categories</div>
+          <div className="shadow-md rounded-md  w-full p-4 bg-gray-100">
+            <div className="text-3xl font-light bg-[#0a2444] w-full p-2 text-white">Categories</div>
             <div className="mt-4 w-[50%] mx-auto">
               <DoughnutChart
                 labels={categoriesData?.labels}

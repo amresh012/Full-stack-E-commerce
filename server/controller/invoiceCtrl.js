@@ -7,9 +7,8 @@ const razorpay = new Razorpay({
   });
 const currentDate = new Date();
 const currentMonth = currentDate.getMonth() + 1;  // Adding 1 to make it human-readable
-console.log(currentMonth); 
 
-const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (15 * 24 * 60 * 60);
+const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
   
   const createInvoice = async (req, res)=>{
     try{

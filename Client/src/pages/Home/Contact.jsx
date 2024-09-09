@@ -14,7 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 const Contact = () => {
   // Form Controll
-
+  const token = localStorage.getItem("token")
   const { values, errors, handleBlur, handleSubmit, handleChange } = useFormik({
     initialValues: {
       fullname: "",
@@ -25,6 +25,11 @@ const Contact = () => {
     },
 
     onSubmit: async (values, { setSubmitting }) => {
+      if(!token)
+      {
+        toast.error("Please Login First")
+        return
+      }
       try {
         const response = await axios.post(`${base_url}contact`, values);
         if (response.data.error) {

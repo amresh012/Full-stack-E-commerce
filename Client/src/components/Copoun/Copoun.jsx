@@ -75,9 +75,8 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
     <div className=" p-4 Copoun-Code rounded-md space-y-4">
     <div className=" space-y-2">
     <h1 className="text-2xl font-bold">Copoun Code</h1>
-    <p className="some-text">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Perferendis recusandae accusamus dolor maiores.
+    <p className="some-text capitalize">
+    Get more value! Apply your coupon code for an additional discount on our premium products.
     </p>
   </div>
   <div className="copoun-input flex flex-col gap-2 ">
@@ -85,6 +84,7 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
       type="text"
       value={couponCode}
       onChange={handleCopoun}
+      onBlur={()=>setMessage("")}
       className={`h-12 rounded-full border px-4 placeholder:px-2 ${success ? "outline-green-500" : "outline-red-500"}`}
       placeholder="Enter your copoun code"
     />

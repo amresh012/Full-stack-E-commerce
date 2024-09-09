@@ -52,7 +52,7 @@ const createOrder = async (req, res) => {
 
 const verifyPayment = async (req, res) => {
   
-
+//  console.log(req.body)
   const { paymentId,order_id, razorpay_signature, amount, items, address, user } = req.body;
   const key_secret = process.env.RAZORPAY_SECRET_KEY;
 
@@ -78,7 +78,10 @@ const verifyPayment = async (req, res) => {
       });
       
       await order.save();
-      return res.status(200).send("Payment verified and order saved successfully");
+      return res.status(200).json({
+        success: true,
+        message: 'Payment verified and order saved successfully'
+      });
     } catch (err) {
       console.error("Error saving order:", err);
       return res.status(500).send("Error saving order");
