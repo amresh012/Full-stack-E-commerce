@@ -5,6 +5,9 @@ const razorpay = new Razorpay({
     key_id:process.env.RAZORPAY_KEY_ID,
     key_secret:process.env.RAZORPAY_SECRET_KEY,
   });
+const currentDate = new Date();
+const currentMonth = currentDate.getMonth() + 1;  // Adding 1 to make it human-readable
+console.log(currentMonth); 
 
   const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (15 * 24 * 60 * 60);
   const createInvoice = async (req, res)=>{

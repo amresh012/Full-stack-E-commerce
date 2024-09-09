@@ -144,7 +144,20 @@ const Blog = ({ start, end }) => {
           Blogs
         </h1>
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
-
+        <div className="">
+          <div className="searchbar w-full rounded-full border mt-12  flex">
+            <input
+              type="search"
+              className="search h-12 outline-none  rounded-l-full w-full px-4 placeholder:px-2"
+              placeholder="search for favourite blogs..."
+              value={searchKey}
+              onChange={(e) => setSearchKey(e.target.value)}
+            />
+            <button className="uppercase bg-[#0A2440] rounded-r-full text-white p-2">
+              search
+            </button>
+          </div>
+        </div>
         <div className="mt-10 flex flex-wrap gap-8 w-full lg:w-[80rem] justify-center">
           <div className="w-full lg:flex-1 lg:px-8">
             {filteredBlogs.length === 0 && (
@@ -182,7 +195,7 @@ const Blog = ({ start, end }) => {
             </div>
           </div>
           <div className="flex h-full flex-col gap-4 w-full lg:w-[30rem] items-center lg:flex-1 lg:px-8">
-            <div className="searchbar w-full rounded-full border-2   flex">
+            <div className="searchbar w-full rounded-full border-2 hidden   lg:flex">
               <input
                 type="search"
                 className="search h-12 outline-none  rounded-l-full w-full px-4 placeholder:px-2"

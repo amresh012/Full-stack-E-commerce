@@ -56,6 +56,14 @@ const ProductSchema = new mongoose.Schema(
       type:[mongoose.Schema.Types.ObjectId],
       ref: 'reviews'
     },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    NumberOfReview: {
+      type: Number,
+      default:0
+    },
     quantity: {
       type: Number,
     },
@@ -85,18 +93,5 @@ const ProductSchema = new mongoose.Schema(
   }
 );
 
-// function capitalizeFirstLetter(str) {
-//   return str.replace(/\b\w/g, (char) => char.toUpperCase());
-// }
-
-// ProductSchema.pre('save', function (next) {
-//   if (this.category) {
-//     this.category = capitalizeFirstLetter(this.category);
-//   }
-//   if (this.subcategory) {
-//     this.subcategory = capitalizeFirstLetter(this.subcategory);
-//   }
-//   next();
-// });
 
 module.exports = mongoose.model("product", ProductSchema);

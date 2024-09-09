@@ -15,11 +15,12 @@ const Confirmation = () => {
         
         setCurrent(value);
       };
-      const location = useLocation();
-      const stat= location.state || {}
+      const location = useLocation();1
+  const stat = location.state || {}
+  console.log(stat);
     //   
   return (
-   <div className=" flex items-center justify-around w-full  p-2 h-screen">
+   <div className=" flex items-start justify-around w-full  p-2 ">
      <div className="bg-[#0a2444] text-white h-full p-4 w-[90vw] rounded-md flex flex-col items-center justify-center gap-12">
        <div className="icons text-green-500 ">
         <FaCheckCircle size={100}/>
@@ -52,7 +53,7 @@ const Confirmation = () => {
   </div>
        </div>
      </div>
-     <div className="right-side bg-gray-100 p-2 rounded-md flex flex-col gap-4  h-full w-1/3">
+     <div className="right-side bg-gray-100 p-2 rounded-md flex flex-col gap-4 h-max w-1/3">
       <div className="oder-detail flex justify-between items-center border-b-2 border-black p-2">
         <h1 className='font-bold'>
             <h1 className='text-xl'>Order Detail</h1>

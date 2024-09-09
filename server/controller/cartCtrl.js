@@ -212,19 +212,9 @@ const updatecart = asyncHandle(async (req, res) => {
     if (user?.role) {
       switch (user.role) {
         case "user":
-          discount = parseInt(product.retaildiscount);
+          discount = parseInt(product.corporateDiscount);
           break;
-        case "silver":
-          discount = parseInt(product.silverdiscount);
-          break;
-        case "gold":
-          discount = parseInt(product.golddiscount);
-          break;
-        case "platinum":
-          discount = parseInt(product.platinumdiscount);
-          break;
-        default:
-          discount = parseInt(product.retaildiscount);
+          discount = parseInt(product.corporateDiscount);
           break;
       }
     }
@@ -239,53 +229,10 @@ const updatecart = asyncHandle(async (req, res) => {
 
     await user.save();
 
-    // await user.populate({
-    //   path: "cart.products.product",
-    //   select: "_id name price images",
-    // });
-
-    // const data = user.cart.products.map((item) => {
-    //   const product = item.product;
-    //   let dc;
-    //   if (user?.role) {
-    //     switch (user.role) {
-    //       case "user":
-    //         dc = parseInt(product.retaildiscount);
-    //         break;
-    //       case "silver":
-    //         dc = parseInt(product.silverdiscount);
-    //         break;
-    //       case "gold":
-    //         dc = parseInt(product.golddiscount);
-    //         break;
-    //       case "platinum":
-    //         dc = parseInt(product.platinumdiscount);
-    //         break;
-    //       default:
-    //         break;
-    //     }
-    //   }
-    //   return {
-    //     _id: product._id,
-    //     name: product.name, // Include product name
-    //     price: product.price,
-    //     url: product.images[0],
-    //     count: item.count,
-    //     total: item.total,
-    //     discount: dc,
-    //   };
-    // });
-
-    // const totalProductPrice = user.cart.products.reduce(
-    //   (total, item) => total + item.product.price * item.count,
-    //   0
-    // );
-    // res.json({
-    //   products: data,
-    //   totalCartValue: user.cart.totalValue,
-    //   totalProductPrice,
-    // });
-    
+    await user.populate({
+      path: "cart.products.product",
+      select: "_id name price images",
+    });    
     res.send("Qty Updated Sucessfully")
   } catch (error) {
     console.error(error);

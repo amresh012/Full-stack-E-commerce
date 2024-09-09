@@ -70,18 +70,27 @@ const ProductCarousel = ({addToCartHandler}) => {
         ref={ProductCarouselRef}
       >
         {products.length > 0 && products.map((product) => {
-          return <ProductCard key={product._id} addToCartHandler={addToCartHandler} product={product} />;
-        })}
-        {products.length === 0 && Array(10).fill({
-          _id: 0,
-          name: '',
-          category: '',
-          corporateDiscount: 0,
-          images: [''],
-          price: 0
-        }).map((product, ind) => {
-          return <ProductCard key={ind} product={product} />;
-        })}
+              return (
+                <ProductCard
+                  key={product._id}
+                  addToCartHandler={addToCartHandler}
+                  product={product}
+                />
+              );
+            })}
+        {products.length === 0 &&
+          Array(10)
+            .fill({
+              _id: 0,
+              name: "",
+              category: "",
+              corporateDiscount: 0,
+              images: [""],
+              price: 0,
+            })
+            .map((product, ind) => {
+              return <ProductCard key={ind} product={product} />;
+            })}
       </div>
     </div>
   );

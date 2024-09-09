@@ -361,16 +361,17 @@ const getAddressById = asyncHandler(async (req, res) => {
   if (!req.user || req.user._id !== userId) {
     return res.status(401).json({ error: "Unauthorized" });
   }
-
   try {
     // Query the database to retrieve the address by id
-    const user = await User.findById(id)
-
+    const user = await Uesr.findById(id).populate({
+      path: "address",
+      model: "Address",
+      select: " name address city  state zipcode mobile ",
+    });
 
     if (!user) {
       return res.status(404).json({ error: "Address not found" });
     }
-
     // Return the address data
     res.json(user);
   } catch (error) {
@@ -516,7 +517,24 @@ const getallUser = asyncHandler(async (req, res) => {
 });
 
 // Get a single user
+const getaUser = async (req, res) => {
+  try {
+    const _id = req.params.id; // Or you can use req.params.id if you're passing the ID in the URL
+    const user = await User.findById(_id).populate({
+      path: "address",
+      model: "Address",
+      select: "name address city state zipcode mobile",
+    }); 
 
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: "Error retrieving user", error });
+  }
+};
 
 
 // Get a single user
@@ -655,7 +673,7 @@ module.exports = {
   createUser,
   loginUserCtrl,
   getallUser,
-  // getaUser,
+  getaUser,
   deleteaUser,
   updatedUser,
   blockUser,

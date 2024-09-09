@@ -1,6 +1,5 @@
 const asyncHandle = require("express-async-handler");
 const ProductModel = require("../models/productModel");
-const ReviewModel = require("../models/reviewModel")
 const expressAsyncHandler = require("express-async-handler");
 const exceljs = require("exceljs");
 const xlsx = require("xlsx");
@@ -48,14 +47,7 @@ const getProductById = asyncHandle(async (req, res) => {
   const _id = req.params.id;
   if (_id) {
     try {
-      const product = await ProductModel.findById(_id).populate("subcategory").populate({
-        path: "reviews",
-        model: "reviews",
-        populate: {
-          path: "user",
-          model: "User",
-        },
-      });
+      const product = await ProductModel.findById(_id).populate("subcategory")
       if (product) {
         res.json(product);
       } else {
@@ -132,11 +124,7 @@ const searchProduct = asyncHandle(async (req, res) => {
 
     const products = await ProductModel.find(filter)
       .populate("subcategory")
-      .populate({
-        path: "reviews",
-        model: "reviews",
-        select:"title , rating , desc"
-      });
+     
     res.json(products);
   } catch (error) {
     console.error("Error searching products:", error);
@@ -145,11 +133,7 @@ const searchProduct = asyncHandle(async (req, res) => {
 });
 
 const getallProduct = asyncHandle(async (req, res, next) => {
-  const Product = await ProductModel.find().populate("subcategory").populate({
-    path: "reviews",
-    model: "reviews",
-    select:"title , rating , desc"
-  }).sort({'updatedAt': 'desc'})
+  const Product = await ProductModel.find().populate("subcategory").sort({'updatedAt': 'desc'})
   if (req.query) {
     next();
   } else {

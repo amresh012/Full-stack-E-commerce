@@ -6,6 +6,7 @@ import loadingSlice from "../features/loading/loadingSlice";
 import configSlice from "../features/Website/configSlice";
 import userSlice from "../features/userSlice";
 import orderSlice from "../features/orderSlice";
+import addressSlice from "../features/addressSlice.jsx"
 import { adminSlice } from "../features/admin/adminSlice";
  const store = configureStore({
   reducer: {
@@ -16,7 +17,8 @@ import { adminSlice } from "../features/admin/adminSlice";
     user: userSlice,
     userorder:orderSlice,
     site: configSlice,
-    admin:adminSlice
+     admin: adminSlice,
+    address:addressSlice
   },
 });
  export default store

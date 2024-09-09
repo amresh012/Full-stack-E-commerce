@@ -1,7 +1,6 @@
 // import React from 'react'
 import { IoIosArrowRoundForward } from "react-icons/io";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { CgGym } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import AOS from "aos";
@@ -294,7 +293,7 @@ const HomePage = () => {
           </p>
         </div>
         {/* <div className="flex flex-wrap lg:flex-nowrap gap-12 items-center justify-center "> */}
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4 p-2">
           {
             gymEcommerceSolutions.map((sol)=>(
                <div className="min-h-[25rem] w-[25rem] p-4 border-2 hover:shadow-sm bg-white hover:scale-105 duration-300 " key={sol.category}>

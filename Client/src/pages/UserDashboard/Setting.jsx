@@ -24,9 +24,10 @@ const Setting = () => {
   };
   const handleSubmit = async (e)=>{
     e.preventDefault()
-   try{
+    try {
+     console.log(formData)
     const res = await dispatch(ProfileResetApi(formData))
-    // 
+    console.log(res)
     if(res.success){
       toast.success("Profile Updated Successfully")
     }
@@ -39,75 +40,88 @@ const Setting = () => {
  
  
   return (
-    <div className='border-2  rounded-md  mx-4 b-white'>
+    <div className="border-2  rounded-md  mx-4 b-white">
       <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
-       <div className="bg-[#144170] p-2 text-white rounded-full"><IoSettingsOutline/></div>
-        <h1 className='uppercase'>Profile Settings</h1>
+        <div className="bg-[#144170] p-2 text-white rounded-full">
+          <IoSettingsOutline />
+        </div>
+        <h1 className="uppercase">Profile Settings</h1>
       </div>
       {/* feilds */}
       <div className="p-4">
-        <form onSubmit={handleSubmit}  className="space-y-4">
-        <div className="flex justify-around items-center gap-12">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex justify-around items-center gap-12">
             <div className="input-1 w-full flex-col flex">
-                <label htmlFor="">Name:</label>
-                <input 
+              <label htmlFor="">Name:</label>
+              <input
                 type="text"
                 id="name"
                 value={formData.name}
                 onChange={handleChange}
-                className='h-14 border-2 rounded-md outline-none px-2 ' 
-                placeholder='enter  name' />
+                className="h-14 border-2 rounded-md outline-none px-2 "
+                placeholder="enter  name"
+              />
             </div>
             <div className="input-1 w-full flex-col flex">
-                <label htmlFor="">Email:</label>
-                <input type="text"
+              <label htmlFor="">Email:</label>
+              <input
+                type="text"
                 id="email"
-                 value={formData.email}
-                 onChange={handleChange}
-                 className='h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2' placeholder='enter Email'
-                  />
+                value={formData.email}
+                onChange={handleChange}
+                className="h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2"
+                placeholder="enter Email"
+              />
             </div>
-        </div>
-        <div className="flex justify-around items-center gap-12">
+          </div>
+          <div className="flex justify-around items-center gap-12">
             <div className="input-1 w-full flex-col flex">
-                <label htmlFor="">Mobile Number:</label>
-                <input 
+              <label htmlFor="">Mobile Number:</label>
+              <input
                 type="text"
                 id="mobile"
                 value={formData.mobile}
                 onChange={handleChange}
-                className='h-14 border-2 rounded-md outline-none px-2 ' 
-                placeholder='enter Mobile Number' />
+                className="h-14 border-2 rounded-md outline-none px-2 "
+                placeholder="enter Mobile Number"
+              />
             </div>
             <div className="input-1 w-full flex-col flex">
-                <label htmlFor="">GST NUMBER:</label>
-                <input type="text"
+              <label htmlFor="">GST NUMBER:</label>
+              <input
+                type="text"
                 id="gstNo"
                 value={formData.gstNo}
                 onChange={handleChange}
-                 className='h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2' placeholder='enter category'
-                  />
+                className="h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2"
+                placeholder="enter gstNo (optional)"
+              />
             </div>
-        </div>
-        <div className="input-1 w-full flex-col flex">
-                <label htmlFor="">PAN NO:</label>
-                <input type="text"
-                id="panNo"
-                 value={formData.panNo}
-                 onChange={handleChange}
-                 className='h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2' placeholder='enter PAN NO'
-                  />
-            </div>
-            <div
-             className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
+          </div>
+          <div className="input-1 w-full flex-col flex">
+            <label htmlFor="">PAN NO:</label>
+            <input
+              type="text"
+              id="panNo"
+              value={formData.panNo}
+              onChange={handleChange}
+              className="h-14 border-2 rounded-md placeholder:px-2 outline-none  px-2"
+              placeholder="enter PAN NO (optional)"
+            />
+          </div>
+          <div
+            className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
             hover:bg-[#144170]/80 text-white duration-500
-            ">
-              <button type='submit' className='uppercase'>Update Profile</button>
-            </div>
+            "
+          >
+            <button type="submit" className="uppercase">
+              Update Profile
+            </button>
+          </div>
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default Setting

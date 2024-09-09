@@ -32,13 +32,13 @@ const GenerateReport = () => {
   const [addressReport, setAddressReport] = useState({});
 
   useEffect(() => {
-    const uniqueCategories = [
-      ...new Set(
-        transactions.flatMap((t) => t.products.map((p) => p.category))
-      ),
-    ];
+    // const uniqueCategories = [
+    //   ...new Set(
+    //     transactions.flatMap((t) => t.products.map((p) => p.category))
+    //   ),
+    // ];
     const uniqueAddresses = [...new Set(transactions.map((t) => t.address))];
-    setCategories(uniqueCategories);
+    // setCategories(uniqueCategories);
     setAddresses(uniqueAddresses);
 
     generateReports(transactions);
@@ -160,7 +160,7 @@ const GenerateReport = () => {
         <button
           style={{ textWrap: "noWrap" }}
           onClick={handleFilter}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold  px-4 rounded"
+          className="bg-[#0a2444] hover:bg-blue-700 text-white font-bold  px-4 rounded"
         >
           Apply Filters
         </button>

@@ -41,9 +41,10 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const response = await checkuserSignup(formData);
-      
+      console.log(response)
       if (!response.error ) {
-        dispatch(RegisterApi(formData));
+        const res = await dispatch(RegisterApi(formData));
+        localStorage.setItem("id", res.payload._id)
         toast.success("Registration successful!");
         dispatch(addSignupdata(formData));
 
@@ -60,13 +61,13 @@ const SignUp = () => {
   return (
     <>
       <Toaster />
-      <div className="flex w-full lg:mt-12 items-center justify-center overflow-clip rounded-md lg:p-0 p-2">
-        <div className="flex items-start justify-center shadow-md rounded-md h-full overflow-clip">
+      <div className="flex w-full lg:mt-12 mb-12 items-center justify-center overflow-clip lg:p-0 p-2">
+        <div className="flex items-start justify-center shadow-md  h-full overflow-clip">
           <div className="image relative hidden lg:block ">
             <img
               src="https://img.freepik.com/premium-photo/portrait-muscled-athlete-bodybuilder-workouts-alone-sport-gym-indoors_489646-18893.jpg?ga=GA1.1.1956989210.1720427934&semt=ais_hybrid"
               alt=""
-              className="rounded-l-md"
+              className=""
             />
             <div className="absolute flex items-center justify-center bg-black/40 top-0 h-full w-full text-white">
               <h1 className="flex flex-col items-center justify-center text-center">
@@ -75,7 +76,7 @@ const SignUp = () => {
               </h1>
             </div>
           </div>
-          <div className="bg-[#0A2440] text-white p-8 w-[30rem] space-y-[26px] rounded-r-md ">
+          <div className="bg-[#0A2440] text-white p-8 w-[30rem] space-y-[26px] ">
             <div className="flex flex-col items-center justify-center">
               <h1 className="text-4xl font-bold">Create account</h1>
               <p className="text-xs">or use your email to sign in</p>

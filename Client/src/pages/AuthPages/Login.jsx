@@ -83,7 +83,7 @@ const Login = () => {
   return (
     <>
       <Toaster />
-      <div className="flex lg:mt-12 items-around justify-center lg:p-0 p-2 overflow-clip">
+      <div className="flex lg:mt-12 mb-12 items-around justify-center lg:p-0 p-2 overflow-clip">
         <div className="image relative hidden lg:block">
           <img
             src="https://img.freepik.com/premium-photo/portrait-muscled-athlete-bodybuilder-workouts-alone-sport-gym-indoors_489646-18893.jpg?ga=GA1.1.1956989210.1720427934&semt=ais_hybrid"

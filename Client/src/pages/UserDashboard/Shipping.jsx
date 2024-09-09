@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector , useDispatch} from "react-redux";
 import { FaAddressCard } from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
@@ -7,9 +7,11 @@ import { base_url } from "../../Utils/baseUrl";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
 const Shipping = () => {
-  const [oldAddres , setOldAddres] = useState()
- const id = "66dad1de820d008c4f863433"
-
+  const { user } = useSelector((state) => state.auth); 
+  const address = user.address
+  console.log(address)
+const [selectedAddress, setSelectedAddress] = useState(null);
+ const dispatch = useDispatch()
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       name: "",
@@ -23,7 +25,7 @@ const Shipping = () => {
       const datatoSend = {...values }
       try {
         const response = await axios.post(`${base_url}user/adr`, datatoSend, config);
-        
+        console.log(response)
         if(response.data.success)
         {
           toast.success(response.data.message);
@@ -39,12 +41,24 @@ const Shipping = () => {
       }
     },
   });
- 
+
+  // function isPlainObject(value) {
+  //   return Object.prototype.toString.call(value) === "[object Object]";
+  // }
+  // const palinObj = isPlainObject(selectedAddress);
+  // console.log(palinObj)
+
+  const handleAddressSelect = (address) => {
+    console.log(address , typeof(address))
+    setSelectedAddress(address);
+    dispatch(setSelectedAddress(address));
+
+  };
   return (
     <>
       <Toaster />
-      <div className="border-2   rounded-md mx-4 b-white">
-        <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
+      <div className="border-2  rounded-md ">
+        <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex flex-wrap items-center gap-2">
           <div className="bg-[#144170] p-2 text-white rounded-full">
             <FaAddressCard />
           </div>
@@ -53,7 +67,7 @@ const Shipping = () => {
         {/* address form */}
         <div className="p-4">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex justify-around items-center gap-12">
+            <div className="flex justify-around items-center gap-2">
               <div className="input-1 w-full flex-col flex">
                 <label htmlFor="">Full Name:</label>
                 <input
@@ -126,42 +140,50 @@ const Shipping = () => {
               </div>
             </div>
             <div
-             className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
+              className="px-12 py-2 bg-[#144170] w-fit font-bold  cursor-pointer
             hover:bg-[#144170]/80 text-white duration-500 rounded-md
-            ">
-              <button type='submit' className='uppercase'>Add Address</button>
+            "
+            >
+              <button type="submit" className="uppercase">
+                Add Address
+              </button>
             </div>
           </form>
         </div>
       </div>
 
       {/* Old Addresses Section */}
-      <div className="border-2 mb-4 mt-12 mx-4 rounded-md">
+      <div className="border-2 mb-4 mt-12 rounded-md">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
           <div className="bg-[#144170] p-2 text-white rounded-full">
             <FaAddressCard />
           </div>
           <h1 className="uppercase">Old Addreses</h1>
         </div>
-        <div className="p-4 ">
-          <div className="border-2 p-4  rounded-md shadow-md flex items-center gap-4">
-            <input type="checkbox" name="address" id="address1" />
-            <div className="addr">
-              <div className="flex gap-2">
-                <p>Full Name: Mayank Ojha</p>
-                <p className="">Mobile No: 984573696</p>
+        <div className="p-4 border-2">
+          <div className="border-2 p-4  rounded-md shadow-md flex flex-col items-center gap-4 h-24">
+            {address === null ? "No addre" : address?.map((add) => (
+              <div
+                key={add.id}
+                className="flex items-center gap-4 p-4 border w-full"
+              >
+                <input
+                  type="checkbox"
+                  name="address"
+                  checked={selectedAddress === add}
+                  onChange={() => handleAddressSelect(add)}
+                  id="address1"
+                />
+                <ul className="flex  gap-4">
+                  <li className="">Addres:{add.address}</li>
+                  <li className="">City:{add.city}</li>
+                  <li className="">Mobile No:{add.mobile}</li>
+                  <li className="">Name:{add.name}</li>
+                  <li className="">State:{add.state}</li>
+                  <li className="">ZipCode:{add.zipcode}</li>
+                </ul>
               </div>
-              <div className="flex gap-2">
-                <span className="">Address: Neelam Chawok NIT-5</span>
-                <span className="">City:Faridabad</span>
-                <span className="">State:Haryana</span>
-                <span className="">Postal Code:121007</span>
-              </div>
-              <div className="flex gap-4">
-                <span>GST NO: 13234342443</span> 
-                <span>PAN NO:PMX0002K3</span> 
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
