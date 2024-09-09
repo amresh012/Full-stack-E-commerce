@@ -23,27 +23,27 @@ const orderStates = [
 ];
 
 
-const deleteProduct = async (id) => {
-  try {
-    const response = await fetch(`${base_url}order/${id}`, {
-      method: "DELETE",
-      ...config,
-    });
-    const data = await response.json();
-    if (data.error) {
-      toast.error(data.error);
-      return;
-    }
-    if (!data.success) {
-      toast.error(data.message);
-      return;
-    }
-    setReload((prev) => !prev);
-    toast.success(data.message);
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+// const deleteProduct = async (id) => {
+//   try {
+//     const response = await fetch(`${base_url}order/${id}`, {
+//       method: "DELETE",
+//       ...config,
+//     });
+//     const data = await response.json();
+//     if (data.error) {
+//       toast.error(data.error);
+//       return;
+//     }
+//     if (!data.success) {
+//       toast.error(data.message);
+//       return;
+//     }
+//     setReload((prev) => !prev);
+//     toast.success(data.message);
+//   } catch (error) {
+//     toast.error(error.message);
+//   }
+// };
 
 const columns = [
   {
@@ -102,22 +102,22 @@ const columns = [
   {
       header:"Order Status",
       cell:({ row }) => {
-      return( 
+      return (
         <select className="p-2 border-2" required>
-          {
-            orderStates?.map((stat)=>(
-              <option value={stat}>{stat}</option>
-            ))
-          }
+          {orderStates?.map((stat) => (
+            <option key={stat} value={stat}>
+              {stat}
+            </option>
+          ))}
         </select>
-    )
+      );
     },
   },
   {
     header: "Action",
     cell: ({row}) => {
     return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" title="delete order"  onClick={() => deleteProduct(row.original._id)}>
+        <div className="bg-red-200 p-2 rounded-md" title="delete order" >
         <FaTrash className="text-red-500" />
         </div>
        <div className="bg-blue-200 p-2 rounded-md" title="View Order Details">
@@ -265,7 +265,7 @@ const Orders = () => {
 
         <div className="w-full  ">
          {
-          isLoading  && Order.length === 0? <Loader/> : <BasicTable columns={columns} data={filteredData} />
+          isLoading  && Order.length === 0? <Loader/> : <BasicTable columns={columns} data={filteredData || []} />
          }
         </div>
       </div>

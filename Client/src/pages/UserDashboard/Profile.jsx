@@ -22,14 +22,15 @@ const Profile = () => {
    let id = localStorage.getItem("id")
 
   useEffect(() => {
-     const fetchUserDetails = async () => {
+    const fetchUserDetails = async () => {
+       if(id)
        try {
          const response = await fetch(`${base_url}user/${id}`, {
            method: "GET",
            ...config,
          });
          const data = await response.json();
-         console.log(data)
+        //  console.log(data)
          if (!data.error) {
            setData({
              name: data?.name,

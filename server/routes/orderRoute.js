@@ -5,11 +5,12 @@ const {
   isAdmin,
   isSuper,
 } = require("../middlewares/authMiddleware");
-const { getAllOrders,deleteOrder ,getInvoices} = require("../controller/orderCtrl");
+const { getAllOrders,deleteOrder ,getInvoices ,getSingleOrder} = require("../controller/orderCtrl");
 
 const router = express.Router();
-router.get("/", getAllOrders); 
-router.delete("/:id", deleteOrder)
+router.get("/",authMiddleware ,isAdmin, getAllOrders); 
+router.post("/getaOrder/:id",authMiddleware, getSingleOrder); 
+router.delete("/:id", authMiddleware, isAdmin, deleteOrder)
 router.get("/invoice",authMiddleware, getInvoices);
 // router.get("/admin",authMiddleware,isAdmin, getAdminProduct);
 // router.put("/",authMiddleware,isAdmin, editOrderStatus);

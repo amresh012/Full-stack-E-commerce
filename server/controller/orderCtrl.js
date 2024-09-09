@@ -71,7 +71,51 @@ const Invoice = require("../controller/invoiceCtrl")
 
 
   // getSinglOrder
-  const getSingleOrder = async (req, res) => {}
+  const getSingleOrder = async (req, res) => {
+    try {
+      // Extract the order ID from the request parameters
+      const { id } = req.params;
+
+      // Find the order by ID and populate related data (like products and invoice)
+      const order = await OrderModel.findById(id)
+        .populate({
+          path: "cartItems",
+          populate: {
+            path: "_id",
+            model: "product",
+            select: "name",
+          },
+        })
+        .populate({
+          path: "invoiceNo",
+          model: "invoice",
+          select: "invoiceNo",
+        });
+
+      // Check if the order exists
+      if (!order) {
+        return res.status(404).json({
+          success: false,
+          message: "Order not found",
+        });
+      }
+
+      // Send the order data as a response
+      res.status(200).json({
+        success: true,
+        data: order,
+      });
+    } catch (error) {
+      // Handle any errors during the process
+      console.error("Error fetching the order:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error fetching the order",
+        error: error.message,
+      });
+    }
+  };
+
 
   // edit order status
   const editOrderStatus = async (req, res) => {

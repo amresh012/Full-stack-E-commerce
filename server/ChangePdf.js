@@ -57,5 +57,3 @@ const path = require('path');
   });
 })();
 
-
-// C:\Users\Yatish Sharma\Desktop\NEWCLONE\MegaMenu-main\server\invoice.pdf

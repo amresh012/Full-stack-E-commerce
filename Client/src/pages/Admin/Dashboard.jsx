@@ -261,7 +261,7 @@ const Dashboard = () => {
         </div>
 
         <h1 className="text-3xl font-bold mt-20 mb-5">Recent Orders</h1>
-        <div className="">
+        <div className="w-full">
           <BasicTable columns={columns} data={Ordata.slice(0, 5)} />
         </div>
 
@@ -269,7 +269,7 @@ const Dashboard = () => {
         <div className="space-y-3 w-full">
           <div className="shadow-md rounded-md  w-full p-4">
             <div className="text-3xl font-light">Orders</div>
-            <div className="mt-4">
+            <div className="mt-4 w-full">
             <LineChart label={"Orders"} labels={ordersData?.labels} data={ordersData?.data} />
             </div>
           </div>

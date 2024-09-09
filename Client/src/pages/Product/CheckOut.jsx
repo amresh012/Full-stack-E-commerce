@@ -14,7 +14,12 @@ import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
 const selectedAddress = useSelector((state) => state.address); // Access selected address
-console.log(selectedAddress);
+  const newAdd = selectedAddress?.selectedAddress;
+  console.log(newAdd)
+  const deliverpin = newAdd?.zipcode;
+  console.log(deliverpin);
+
+
   const navigate = useNavigate();
   const [discount, setDiscount] = useState(0);
   const [discountType, setDiscountType] = useState("");
@@ -24,10 +29,9 @@ console.log(selectedAddress);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const token = localStorage.getItem("token");
   const handleChecked = () => {};
-
   // to close the model if there is no courier company
   useEffect(() => {
-    if (!couriercompnies) {
+    if (!couriercompnies && couriercompnies?.length <=0) {
       setIsModalOpen(false);
     }
   }, [couriercompnies]);
@@ -40,7 +44,7 @@ console.log(selectedAddress);
 
   // getting auth fouserId name email mobile data from authSlice
   const auth = useSelector((state) => state.auth);
-  const user = auth.signupdata;
+  const user = auth.user;
 
   // calculating total checkout amount after adding Shipping Charges from shiprocket api
   const deliverCharge = Number(
@@ -58,16 +62,12 @@ console.log(selectedAddress);
   const amount = CartTotal;
   const currency = "INR";
   const receiptId = `recipt_${Math.random() * 100}`;
-  const address = {
-    street: "123 Main St",
-    city: "Anytown",
-    state: "CA",
-  };
+  const address = newAdd;
 
   //Function for getting Shipping Partners and
   const calculateShippingCharge = async () => {
     const pickup_postcode = "121004"; // Replace with your pickup postcode
-    const delivery_postcode = "273013"; // Use the user's pincode
+    const delivery_postcode = deliverpin; // Use the user's pincode
     const weight = totalWeight || 0;
 
     const response = await fetch(
@@ -87,7 +87,7 @@ console.log(selectedAddress);
     const data = await response.json();
     // console.log(data)
     if (data.status) {
-      setCourierCompnies(data.mainset.data.available_courier_companies);
+      setCourierCompnies(data?.mainset?.data?.available_courier_companies);
       // Set the shipping charge from response
     } else {
       console.error("Error fetching shipping charges:", data.message);
@@ -135,7 +135,7 @@ console.log(selectedAddress);
       currency,
       name: "KFS Fitness", //your business name
       description: "Test Transaction",
-      image: "https://example.com/your_logo",
+      image: "https://images.deepmart.shop/upload",
       order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       handler: async function (response) {
         const paymentData = {
@@ -154,22 +154,33 @@ console.log(selectedAddress);
             body: JSON.stringify(paymentData), // Pass the object directly
           });
 
-          const ConfirmedOrder = {
-            ...paymentData,
-            deliverCharge,
-            totalAmount,
-            totalQuantity,
-            selectedShiping,
-          };
-          // Navigate to the order confirmation page
-          navigate(`/order-confirmed`, { state: ConfirmedOrder });
-
-          // Reset the cart
-          dispatch(resetCart());
-
           const jsonRes = await validateRes.json();
           console.log(jsonRes);
+
+          const orderCreateResponse = await fetch(`${base_url}shiprocket`, {
+            method: "POST",
+            config,
+            body: JSON.stringify({
+              email: user?.email,
+              productinfo: carts.map((item) => item._id).join(" "),
+              amount: order_amount,
+            }),
+          });
+          const orderData = await orderCreateResponse.json();
+          if (orderData.success) {
+            const ConfirmedOrder = {
+              ...paymentData,
+              deliverCharge,
+              totalAmount,
+              totalQuantity,
+              selectedShiping,
+              orderData, // Include order details for confirmation
+            };
+            navigate(`/order-confirmed`, { state: ConfirmedOrder });
+            dispatch(resetCart());
+          }
         } catch (error) {
+          console.log(error)
           console.error("Error validating payment:", error);
         }
       },
@@ -180,7 +191,7 @@ console.log(selectedAddress);
         contact: user?.mobile, //Provide the customer's phone number for better conversion rates
       },
       notes: {
-        address: address,
+        address: user?.address,
       },
       theme: {
         color: "#0a2444",
@@ -305,19 +316,19 @@ console.log(selectedAddress);
             </div>
             <div className="flex justify-between">
               <span>Address:</span>
-              <p className="">Your Address</p>
+              <p className="">{newAdd?.address}</p>
             </div>
             <div className="flex justify-between">
               <span>City:</span>
-              <p className="">Your City</p>
+              <p className="">{newAdd?.city}</p>
             </div>
             <div className="flex justify-between">
               <span>State:</span>
-              <p className="">Your State</p>
+              <p className="">{newAdd?.state}</p>
             </div>
             <div className="flex justify-between">
               <span>PinCode:</span>
-              <p className="">239641</p>
+              <p className="">{newAdd?.zipcode}</p>
             </div>
             <div className="flex justify-between">
               <span>Country:</span>
@@ -374,11 +385,17 @@ console.log(selectedAddress);
               </div>
             </div>
             {token ? (
-              <div
-                className="checkout-button w-full flex items-center justify-center"
-                onClick={paymentHandler}
-              >
-                <button className="bg-[#0A2440] w-full text-white p-2 rounded-md">
+              <div className="cursor-not-allowed" onClick={paymentHandler}>
+                <button
+                  className={`bg-[#0A2440] w-full text-white p-2 rounded-md`}
+                  disabled={
+                    couriercompnies?.length ===0 &&
+                    couriercompnies === null &&
+                    couriercompnies=== undefined
+                      ? true
+                      : false
+                  }
+                >
                   CheckOut
                 </button>
               </div>

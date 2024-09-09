@@ -32,12 +32,12 @@ const ShippingModal = ({ data, isOpen, setIsOpen,onShippingSelect }) => {
       <h2 className="text-2xl font-semibold mb-4">Shipping Details</h2>
 
       {/* Map over the array of shipping data */}
-      {data.length <=0 ? 
+      {data?.length <=0 ? 
       <div className="text-xl h-[20rem] w-full flex items-center  justify-center">
         <p>No shipping options available</p>
       </div>
        :
-      data.map((item, index) => (
+      data?.map((item, index) => (
         <div key={index} className="border-b-2 mb-4 pb-4">
           <div className="mb-2 bg-[#0a2444] p-2 text-white flex justify-between ">
           <h3 className="text-lg font-semibold ">Shipping Option {index + 1}</h3>

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import { base_url } from "../../Utils/baseUrl";

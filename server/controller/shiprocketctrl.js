@@ -4,6 +4,7 @@ const axios = require("axios");
 const User = require("../models/userModel");
 
 const createOrder = async (req, res) => {
+  console.log(req.body)
   const useremail = req.body.email;
   const userD = await User.find({ email: useremail });
   const user = userD[0];
@@ -49,7 +50,7 @@ const createOrder = async (req, res) => {
   const amount = req.body.amount;
   const shiprocket = {
     order_id: orderid.toString(),
-    order_date: Date.now().toLocaleString() ,
+    order_date: new Date().toISOString().split("T")[0],
     pickup_location: "Primary",
     billing_customer_name: user.firstname,
     billing_last_name: user.lastname,
@@ -78,6 +79,7 @@ const createOrder = async (req, res) => {
       Authorization: process.env.SHIP_ROCKET_TOKEN,
     },
   };
+
   try {
     const resp = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",

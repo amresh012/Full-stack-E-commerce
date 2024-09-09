@@ -6,11 +6,14 @@ import { useFormik } from "formik";
 import { base_url } from "../../Utils/baseUrl";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
+import { selectedAddress } from "../../features/addressSlice";
 const Shipping = () => {
   const { user } = useSelector((state) => state.auth); 
-  const address = user.address
-  console.log(address)
-const [selectedAddress, setSelectedAddress] = useState(null);
+ console.log(user);
+  const address = user?.address
+  const [currentAddress, setCurrentAdd] = useState(null);
+  
+
  const dispatch = useDispatch()
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -50,8 +53,8 @@ const [selectedAddress, setSelectedAddress] = useState(null);
 
   const handleAddressSelect = (address) => {
     console.log(address , typeof(address))
-    setSelectedAddress(address);
-    dispatch(setSelectedAddress(address));
+    setCurrentAdd(address);
+    dispatch(selectedAddress(address));
 
   };
   return (
@@ -153,37 +156,39 @@ const [selectedAddress, setSelectedAddress] = useState(null);
       </div>
 
       {/* Old Addresses Section */}
-      <div className="border-2 mb-4 mt-12 rounded-md">
+      <div className=" mb-4 mt-12 rounded-md">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
           <div className="bg-[#144170] p-2 text-white rounded-full">
             <FaAddressCard />
           </div>
           <h1 className="uppercase">Old Addreses</h1>
         </div>
-        <div className="p-4 border-2">
-          <div className="border-2 p-4  rounded-md shadow-md flex flex-col items-center gap-4 h-24">
-            {address === null ? "No addre" : address?.map((add) => (
-              <div
-                key={add.id}
-                className="flex items-center gap-4 p-4 border w-full"
-              >
-                <input
-                  type="checkbox"
-                  name="address"
-                  checked={selectedAddress === add}
-                  onChange={() => handleAddressSelect(add)}
-                  id="address1"
-                />
-                <ul className="flex  gap-4">
-                  <li className="">Addres:{add.address}</li>
-                  <li className="">City:{add.city}</li>
-                  <li className="">Mobile No:{add.mobile}</li>
-                  <li className="">Name:{add.name}</li>
-                  <li className="">State:{add.state}</li>
-                  <li className="">ZipCode:{add.zipcode}</li>
-                </ul>
-              </div>
-            ))}
+        <div className="p-4">
+          <div className=" p-4 flex flex-col items-center gap-4">
+            {address === null
+              ? "No addre"
+              : address?.map((add) => (
+                  <div
+                    key={add.id}
+                    className="flex items-center gap-4 p-4 border w-full"
+                  >
+                    <input
+                      type="checkbox"
+                      name="address"
+                      checked={currentAddress  === add}
+                      onChange={() => handleAddressSelect(add)}
+                      id="address1"
+                    />
+                    <ul className="flex  gap-4">
+                      <li className="">Addres:{add.address}</li>
+                      <li className="">City:{add.city}</li>
+                      <li className="">Mobile No:{add.mobile}</li>
+                      <li className="">Name:{add.name}</li>
+                      <li className="">State:{add.state}</li>
+                      <li className="">ZipCode:{add.zipcode}</li>
+                    </ul>
+                  </div>
+                ))}
           </div>
         </div>
       </div>

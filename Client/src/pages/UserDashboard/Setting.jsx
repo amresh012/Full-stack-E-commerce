@@ -28,13 +28,16 @@ const Setting = () => {
      console.log(formData)
     const res = await dispatch(ProfileResetApi(formData))
     console.log(res)
-    if(res.success){
-      toast.success("Profile Updated Successfully")
-    }
+    if (res.requestStatus === "fulfilled") {
+      toast.success("Profile Updated Successfully");
+      }
+    else {
+      toast.error("Error Updating Profile");
+      }
    }
-   catch(error){
-    
-    toast.error(error)
+    catch (error) {
+      console.log(error)
+    toast.error("Profile not Updated Please try again");
    }
   }
  

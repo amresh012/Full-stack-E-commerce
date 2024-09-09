@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoChecklist } from "react-icons/go";
 import moment from "moment"
 import { MdCurrencyRupee } from "react-icons/md";
-import { useSelector } from 'react-redux';
-
+import {config} from "../../Utils/axiosConfig"
+import {base_url} from "../../Utils/baseUrl"
+const id  = localStorage.getItem("id")
 const MyOrders = () => {
-  const {orders} = useSelector((state)=>state.userorder)
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    const FetchOrder =async() => {
+      try {
+        const re = await fetch(`${base_url}order/getaOrder/${id}`, 
+          {
+            ...config
+          }
+        );
+        console.log(re)
+        setOrders(re.data)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+  FetchOrder()
+ },[])
   
   return (
     <>
@@ -18,35 +36,10 @@ const MyOrders = () => {
         </div>
         <div className="orders-section h-[100vh] space-y-2 p-2 overflow-auto ">
           {
-           orders.map((order,id)=>(
+           orders?.map((order,id)=>(
               <>
                 <div className="w-full p-2 uppercase   border-2 rounded-md flex items-start justify-between">
-                  <div className="flex items-start justify-start">
-                  <div className="image-container p-2 w-fit">
-                    <img src="https://picsum.photos/100/100" alt="image" className='rounded-md' />
-                  </div>
-                  <div className="desc p-2">
-                    <h1 className='text-2xl font-bold'>Lorem ipsum dolor</h1>
-                    <p className="order-date">
-                      orderd date:{" "}
-                      {
-                        moment().format('llll')
-                      }
-                    </p>
-                    <p className="specifications text-zinc-500">Aspernatur | possimus ex | sunt voluptate | Ratione excepturi?</p>
-                    <div className="payment-mode flex items-center gap-2">
-                      <p className="">Payment Mode</p>
-                      <p className="status bg-blue-200 text-blue-500 w-fit  px-4 rounded-md">UPI</p>
-                    </div>
-                  </div>
-                  </div>
-                  <div className="flex flex-col items-center p-2 justify-around h-full gap-2">
-                    <p className="price text-2xl font-bold flex items-center"><MdCurrencyRupee/> 12,345.00</p>
-                    <p className="quantity ">Qnt:123 unit</p>
-                    <div className="order-again-btn bg-[#144170] p-2 text-white rounded-md">
-                    <button className="uppercase">Order-again</button>
-                  </div>
-                  </div>
+                
                 </div>
           </>
             ))

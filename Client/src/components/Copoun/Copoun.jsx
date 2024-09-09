@@ -53,7 +53,7 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
       // Handle error response from the server
       if (error.response && error.response.data) {
         console.log(error.response && error.response.data)
-        setMessage(error.response.data.message || "Unable to apply coupon");
+        setMessage(error.response.data.message);
       } else {
         setMessage("Network or server error. Please try again.");
       }
@@ -80,7 +80,7 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
       Perferendis recusandae accusamus dolor maiores.
     </p>
   </div>
-  <div className="copoun-input flex flex-col ">
+  <div className="copoun-input flex flex-col gap-2 ">
     <input
       type="text"
       value={couponCode}
