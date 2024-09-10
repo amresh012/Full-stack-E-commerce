@@ -28,7 +28,7 @@ const Layout = () => {
             }
             dispatch(adduser({...data.user, token: data.token}));
             localStorage.setItem('token', data.token);
-            toast.success(data.message);
+            // toast.success(data.message);
         }
         catch (err) {
             toast.error(err.message);

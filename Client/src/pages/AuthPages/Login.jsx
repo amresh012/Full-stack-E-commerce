@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiMail, CiPhone } from "react-icons/ci";
 import { toast, Toaster } from "react-hot-toast";
@@ -10,6 +10,9 @@ import axios from "axios";
 import { base_url } from "../../Utils/baseUrl";
 
 const Login = () => {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user)
+  localStorage.setItem("id", user?._id)
   const [loginWithPhone, setLoginWithPhone] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();

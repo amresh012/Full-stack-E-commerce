@@ -116,7 +116,7 @@ const Dashboard = () => {
 
   const fetchAdminData = async () => {
     try {
-      const response = await fetch(base_url + "admin", {
+      const response = await fetch(`${base_url}admin`, {
         method: "GET",
         ...config,
       });

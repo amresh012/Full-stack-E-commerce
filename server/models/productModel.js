@@ -9,6 +9,10 @@ const ProductSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
+    sku:{
+      type:String,
+      require:[true , "sku Code not generated unable to add producut"]
+    },
     price: {
       type: String,
       required: true,
@@ -23,11 +27,11 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
     itemCode: {
-      type: String,
+      type: Number,
       unique :true
     },
     hsnCode: {
-      type: String,
+      type: Number,
       unique :true
     },
     perpiece: {

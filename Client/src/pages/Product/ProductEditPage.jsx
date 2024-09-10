@@ -170,7 +170,7 @@ const ProductEdit = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-24 mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around mx-4 p-6">
+      <div className="  mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around  p-6">
         <div className="text-3xl font-bold bg-[#0a2440] w-full p-4 rounded-md text-center text-white">
           <Link to="/admin/product-list">Edit Product</Link>
         </div>

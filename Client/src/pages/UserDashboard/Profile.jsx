@@ -38,8 +38,6 @@ const Profile = () => {
              Pan: data?.panNo,
              address: data?.address,
            });
-         } else {
-           toast.error("Error fetching user details");
          }
        } catch (error) {
          toast.error(error.message);

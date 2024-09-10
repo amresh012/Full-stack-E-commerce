@@ -481,14 +481,12 @@ const Users = () => {
           </div>
         </div>
       )}
-      <div className=" border-2 mt-10 mx-12 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around p-6 overflow-auto">
-        <div className="w-full">
-          <h1 className="text-2xl font-bold uppercase">
-            List Of Registerd Users on KFS
-          </h1>
+      <div className="m-2 rounded-md gap-4 h-auto flex flex-col items-center justify-around  overflow-auto">
+      <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
+          <h1 className="uppercase">Users</h1>
         </div>
       </div>
-      <div className="m-12 shadow-md border-2 rounded-md p-2">
+      <div className="rounded-md p-2">
         <BasicTable
           columns={columns}
           data={users}

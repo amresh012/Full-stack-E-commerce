@@ -13,17 +13,22 @@ const Shipping = () => {
   const [currentAddress, setCurrentAdd] = useState(null);
   const [addressList, setAddressList] = useState(user?.address || []);
   const dispatch = useDispatch()
-
-  const id = localStorage.getItem("id")
-  // console.log(id)
+  
+ 
+  const id =localStorage.getItem("id  ")
 
 const fetchAddresses = useCallback(async () => {
   try {
-    const response = await axios.post(`${base_url}user/adr/${id}`, {}, config);
-    console.log(response);
-    setAddressList(response.data);
+   const response = await axios.post(`${base_url}user/adr/${id}`, {}, config)
+  //  console.log(response)
+    if(!response.data.error){
+      setAddressList(response.data);
+    }
+    else{
+      throw new Error(response.data.error)
+    }
   } catch (error) {
-    toast.error("Failed to fetch addresses. Please try again.");
+    toast.error(error.message);
   }
 }, []);
   useEffect(() => {
@@ -35,7 +40,7 @@ const fetchAddresses = useCallback(async () => {
   }, [user, fetchAddresses]);
 
   const handleDeleteAddress = async (addressId) => {
-    // if(addressId === undefined) return
+    alert("Are You Sure You Want To delete this Address")
     try {
       const response = await axios.delete(`${base_url}user/adr/delete/${addressId}`, config);
       console.log(response)
@@ -71,6 +76,7 @@ const fetchAddresses = useCallback(async () => {
         {
           dispatch(adduser(response.data));
           toast.success(response.data.message);
+          // set all field to blank
         }
       } catch (error) {
         if (error.response) {
@@ -199,14 +205,14 @@ const fetchAddresses = useCallback(async () => {
         </div>
         <div className="p-4">
           <div className=" p-4 flex flex-col border-2 items-center gap-4">
-            {addressList === undefined || addressList.length <=0
+            {addressList === undefined || addressList.length <=0 || addressList === null
               ? <div className="">
                 <p className="text-lg font-bold">No old addresses found</p>
               </div>
               : addressList?.map((add) => (
                   <div
                     key={add.id}
-                    className="flex items-start gap-4 p-4 border w-full"
+                    className="flex items-start gap-4 p-4 border-b bg-gray-100 w-full"
                   >
                     <input
                       type="checkbox"
@@ -216,16 +222,16 @@ const fetchAddresses = useCallback(async () => {
                       id="address1"
                     />
                     <ul className="flex flex-col  gap-4">
-                      <li className="">Addres:{add.address}</li>
-                      <li className="">City:{add.city}</li>
-                      <li className="">Mobile No:{add.mobile}</li>
-                      <li className="">Name:{add.name}</li>
-                      <li className="">State:{add.state}</li>
-                      <li className="">ZipCode:{add.zipcode}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Addres</span> :{add.address}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">City</span>:{add.city}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Mobile</span>:{add.mobile}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Name</span>:{add.name}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">State</span>:{add.state}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">PinCode</span>:{add.zipcode}</li>
                     </ul>
                     <button
                     onClick={() => handleDeleteAddress(add._id)}
-                    className="ml-auto text-red-500"
+                    className="ml-auto text-red-500 bg-red-200 p-2 rounded-md"
                   >
                     <FaTrash />
                   </button>

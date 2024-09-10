@@ -37,8 +37,8 @@ const LeftDrawer = () => {
             : "w-14 overflow-hidden"
         }
       >
-        <div className="h-24 w-full border-b-2 flex items-center justify-around py-2" onClick={logoutHandler}>
-          <Link to="/">
+        <div className="h-24 w-full border-b-2 flex items-center justify-around py-2">
+          <Link to="/" onClick={logoutHandler}>
             <img
               src={Kfs_logo}
               alt=""
@@ -68,7 +68,7 @@ const LeftDrawer = () => {
                 key={item.id}
               >
                 {user !== null &&
-                  (user?.role === "admin" ||
+                  (user?.role === "Admin" ||
                     (user.role === "Employee" &&
                       user?.allowedRoutes?.includes(
                         item.label.toLowerCase()
@@ -130,7 +130,7 @@ const LeftDrawer = () => {
               </div>
 
               {user !== null &&
-                (user?.role === "admin" ||
+                (user?.role === "Admin" ||
                   (user.role === "Employee" &&
                     user?.allowedRoutes?.includes(item.label.toLowerCase()))) &&
                 ((item.label === "Products" && showProductDropdown) ||

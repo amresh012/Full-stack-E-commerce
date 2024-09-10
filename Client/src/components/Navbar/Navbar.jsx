@@ -10,7 +10,6 @@ import Logo from "../reusablesUI/Logo";
 import AccountMenu from "../UserDashComp/AccountMenu";
 import { useSelector } from "react-redux";
 
-const mobileNavVisibleWidth = 600
 
 const links = [
   {

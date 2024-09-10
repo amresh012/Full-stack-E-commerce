@@ -208,16 +208,17 @@ const Contact = () => {
                 </div>
                 <div className="mt-8 space-y-2">
                   <label htmlFor="Purpose">Purpose</label>
-                  <select
+                 <select
                     id="reason"
                     onChange={handleChange}
                     className=" p-4 w-full bg-zinc-100 border-2 border-gray-300 rounded-md outline-none "
                   >
-                    <option value="Choose">Choose</option>
+                    <option value="Choose" selected>Choose</option>
                     <option value="GYM Setup">GYM Setup</option>
-                    <option value="Purpose">Purpose</option>
+                    <option value="Service">Service</option>
+                    <option value="Complaint">Complaint</option>
                   </select>
-                </div>
+                 </div>
                 <textarea
                   id="remarks"
                   onChange={handleChange}

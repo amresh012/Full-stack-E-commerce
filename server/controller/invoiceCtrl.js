@@ -47,8 +47,11 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
                     
     }
   }
+  const SendInvoiceNotification = (req, res)=>{
 
-module.exports= {createInvoice}
+  }
+
+module.exports= {createInvoice,SendInvoiceNotification}
 
 
 

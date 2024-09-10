@@ -25,7 +25,7 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
 
   return (
     <>
-      <div className="shadow-md rounded-md p-2">
+      <div className="">
         <select
           className="border-2 p-4 outline-none m-4 w-2/6"
           value={table.getState().pagination.pageSize}

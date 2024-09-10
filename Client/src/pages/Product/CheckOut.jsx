@@ -13,8 +13,8 @@ import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
   const user = useSelector((state)=>state.auth.user)
-  // console.log(user)
-const selectedAddress = useSelector((state) => state.address); // Access selected address
+  console.log(user)
+  const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   console.log(newAdd)
   const deliverpin = newAdd?.zipcode;
@@ -175,6 +175,21 @@ const selectedAddress = useSelector((state) => state.address); // Access selecte
                 });
                 const orderData = await orderCreateResponse.json();
                 console.log(orderData)
+                const clone = JSON.parse(JSON.stringify(orderData))
+                console.log(clone)
+                const {shippting} = clone
+                const {order_id:orderid}= shippting
+                const CreateShipment = await fetch(`${base_url}shiprocket/CreateShipment`,
+                  {
+                    method: "POST",
+                    ...config,
+                    body:JSON.stringify({
+                      order_id:orderid
+                    })
+                  })
+                  const shpmentData =await CreateShipment.json()
+                  console.log(shpmentData)
+                console.log(orderData)
                 if (orderData.success) {
                   const ConfirmedOrder = {
                     ...paymentData,
@@ -225,6 +240,7 @@ const selectedAddress = useSelector((state) => state.address); // Access selecte
         console.error("Unexpected response format:", text);
       }
     } catch (error) {
+      console.log(error)
       console.error("Error processing payment:", error);
     }
   };

@@ -57,7 +57,7 @@ function App() {
       <Route path="/product/:id" element={<ProductdetailPage/>}/>
       <Route path="/product-category/*" element={<Category />}/>
       <Route path="/checkout" element={<CheckOut/>}/>
-      <Route path={`/Order-confirmed`} element={<Confirmation/>}/>
+      <Route path={`/order-confirmed`} element={<Confirmation/>}/>
       <Route path="/commercial-gym" element={<CommercialGym/>}/>
       <Route path="/blog" element={<Blog/>}/>
       <Route path="/blog/:id" element={<BlogView/>}/>

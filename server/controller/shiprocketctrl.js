@@ -29,7 +29,7 @@ const createOrder = async (req, res) => {
     const product = element[0];
     let pro = {
       name: product.name,
-      sku: product.slug,
+      sku: product.sku,
       units: product.quantity,
       length:product.length,
       width: product.width,
@@ -55,7 +55,7 @@ const createOrder = async (req, res) => {
   const amount = req.body.amount;
   const shiprocket = {
     order_id: orderid.toString(),
-    order_date: new Date().toISOString().split("T")[0],
+    order_date: new Date().toISOString().split("/")[0],
     pickup_location: "Primary",
     billing_customer_name: addr.name,
     billing_last_name: addr.name,
@@ -91,32 +91,94 @@ const createOrder = async (req, res) => {
       shiprocket,
       headersConfig
     );
-  
+    console.log(resp.data)
     if (resp.data.error) {
-      res.status(500).send({ message:resp.data.error });
+     return res.status(500).send({ message:resp.data.error });
     } else {
-      
       // makepdf(useremail)
-      res.json({success:true,shippting:resp.data});
+      return res.json({success:true,shippting:resp.data});
     }
   } catch (error) {
     const shiprocketerr = error.response?.data?.errors
     if(shiprocketerr){
       console.error("Error making API request:", shiprocketerr);
-      res.status(500).send(shiprocketerr);
+     return res.status(500).send(shiprocketerr);
     }
     else{
-      res.status(500).send(error);
+     return res.status(500).send(error);
     }
   }
+};
 
-  res.json(shiprocket);
+
+const base_url = 'https://apiv2.shiprocket.in/v1/external/';
+
+
+// shipment logic
+const generateShipmentForOrder = async (order_id, courier_id = 1) => {
+  console.log(order_id)
+  try {
+    const response = await axios.post(
+      `${base_url}orders/processing/shipment/`,
+      { order_id, courier_id },
+      {
+        "Content-Type": "application/json",
+        Authorization: process.env.SHIP_ROCKET_TOKEN,
+      },
+    );
+    console.log(response)
+    if (response.data.status === 1) {
+      return {
+        success: true,
+        shipment_id: response.data.shipment_id,
+        awb_code: response.data.awb_code,
+        message: 'Shipment created successfully'
+      };
+    } else {
+      return {
+        success: false,
+        message: 'Shipment creation failed',
+        details: response.data
+      };
+    }
+  } catch (error) {
+    throw new Error('Error generating shipment: ' + error.message);
+  }
+};
+
+
+// tracking logic
+const trackOrderByAWB = async (awb_code) => {
+  try {
+    const token = await getShiprocketToken();
+    const response = await axios.get(`${base_url}courier/track/awb/${awb_code}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (response.data.tracking_data) {
+      return {
+        success: true,
+        tracking_info: response.data.tracking_data,
+        message: 'Tracking information retrieved successfully'
+      };
+    } else {
+      return {
+        success: false,
+        message: 'Tracking information not found',
+        details: response.data
+      };
+    }
+  } catch (error) {
+    throw new Error('Error tracking order: ' + error.message);
+  }
 };
 
 
 
 module.exports = {
   createOrder,
+  generateShipmentForOrder,
+  trackOrderByAWB
 };
 
 

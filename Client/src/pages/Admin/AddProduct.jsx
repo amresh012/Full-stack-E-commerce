@@ -13,6 +13,16 @@ const AddProduct = () => {
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const { Dragger } = Upload;
+   // Function to generate SKU
+   const generateSKU = (name = '', category = '', itemCode = '') => {
+    // Ensure that name and category are strings and have at least 3 characters
+    const shortName = name.substring(0, 3).toUpperCase() || 'DEF';  // Default to 'DEF' if name is empty
+    const shortCategory = category.substring(0, 3).toUpperCase() || 'CAT';  // Default to 'CAT' if category is empty
+    const code = itemCode || '000'; // Default to '000' if itemCode is not provided
+    return `${shortName}-${shortCategory}-${code}`;
+  };
+  // const skucode  = generateSKU()
+
   const props = {
     name: "file",
     multiple: true,
@@ -52,14 +62,15 @@ const AddProduct = () => {
        name: "",
        images:[],
         price: "",
+        sku:"",
         category:"",
         subcategory:"",
-        itemCode:"",
+        itemCode:0,
         height:0,
         width:0,
         length:0,
         weight:0,
-        hsnCode:"",
+        hsnCode:0,
         perpiece:"",
         measurment:"",
         quantity:"",
@@ -71,6 +82,11 @@ const AddProduct = () => {
       
         try {
           setIsAdding(true);
+
+          const sku = generateSKU(values.name, values.category, values.itemCode);
+          console.log(typeof(sku))
+          setFieldValue("sku", sku);
+
           if(isImageUploading){
             toast.error('Please wait while the images are uploading.');
             return;
@@ -79,11 +95,11 @@ const AddProduct = () => {
             toast.error('Please select an image.');
             return;
           }
-
           const name = values.name.toLowerCase()
           const category = values.category.toLowerCase();
           const subcategory = values.subcategory.toLowerCase();
-          const dataToSend = { ...values, category, subcategory, name };
+          const dataToSend = { ...values, category, subcategory, name , sku };
+          console.log(dataToSend)
           const response = await axios.post(`${base_url}product/add`, dataToSend);
           
           if(response.data.error){
@@ -105,12 +121,24 @@ const AddProduct = () => {
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-24 mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around mx-4 p-6">
+      <div className="  mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around p-6">
         <div className="text-3xl font-bold bg-[#0a2440] w-full p-4 rounded-md text-center text-white">
           <Link to="/admin/product-list">Add Products</Link>
         </div>
         {/* Product add */}
         <form onSubmit={handleSubmit} className="w-full space-y-12">
+          {/* section sku code */}
+          <div className="input-1 w-full flex-col flex">
+            <label htmlFor="">SKU (Auto-generated)</label>
+            <input
+              readOnly
+              type="text"
+              id="sku"
+              value={values.sku}
+              className="h-14 border-2 rounded-md outline-none px-2 "
+              placeholder="SKU will be generated automatically"
+            />
+          </div>
           {/* section-1 */}
           <div className="flex justify-around items-center gap-12">
             <div className="input-1 w-full flex-col flex">

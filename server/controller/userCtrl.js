@@ -273,7 +273,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 const addnewAddress = asyncHandler(async (req, res, next) => {
   console.log(req.body)
   console.log(req.user)
-  const { _id } = req.user;
+  const { _id } = req?.user;
 
   validateMongoDbId(_id);
 
@@ -355,8 +355,10 @@ const addnewAddress = asyncHandler(async (req, res, next) => {
 
 // getaddrss by id
 const getAddressById = asyncHandler(async (req, res) => {
+  console.log(req.params)
   const { id } = req.params; // id represents the address ID
   const { _id: userId } = req.user;
+  console.log(userId)
 
   try {
     // Query the database to retrieve the user by userId and the specific address by address id
@@ -370,6 +372,7 @@ const getAddressById = asyncHandler(async (req, res) => {
     if (!user || !user.address) {
       return res.status(404).json({ error: "Address not found" });
     }
+    console.log(user)
     // Return the address data
     res.json(user.address);
   } catch (error) {

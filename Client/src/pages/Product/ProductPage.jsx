@@ -9,6 +9,8 @@ import { addcarts } from "../../features/cartSlice";
 import { GrPowerReset } from "react-icons/gr";
 import { FaSearch } from "react-icons/fa";
 import toast from "react-hot-toast";
+import Category from "../Home/Category";
+import { Link } from "react-router-dom";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -111,9 +113,7 @@ const Product = () => {
   // Handle category filter change
   const handleCategoryChange = (category) => {
     setSelectedCategories((prevCategories) =>
-      prevCategories.includes(category)
-        ? prevCategories.filter((c) => c !== category)
-        : [...prevCategories, category]
+      prevCategories.includes(category)? prevCategories.filter((c) => c !== category): [...prevCategories, category]
     );
   };
 
@@ -219,6 +219,7 @@ const Product = () => {
                   className="card group w-[30%] border-2 p-4 rounded-md"
                   key={product._id}
                 >
+                  <Link to={`/product/${product._id}`}>
                   <div className="imagecontainer relative overflow-clip">
                     <Carousel
                       renderIndicator={false}
@@ -237,6 +238,7 @@ const Product = () => {
                       ))}
                     </Carousel>
                   </div>
+                  </Link>
                   <div className="product-detail">
                     <div className="stack-2 p-2 group">
                       <h1 className="text-xl font-bold group-hover:underline h-[3.5rem] overflow-clip">
