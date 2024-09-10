@@ -13,11 +13,11 @@ const Shipping = () => {
   const [currentAddress, setCurrentAdd] = useState(null);
   const [addressList, setAddressList] = useState(user?.address || []);
   const dispatch = useDispatch()
-  
+  console.log(addressList);
  
   const id =localStorage.getItem("id  ")
 
-const fetchAddresses = useCallback(async () => {
+const fetchAddresses = (async () => {
   try {
    const response = await axios.post(`${base_url}user/adr/${id}`, {}, config)
   //  console.log(response)
@@ -30,14 +30,13 @@ const fetchAddresses = useCallback(async () => {
   } catch (error) {
     toast.error(error.message);
   }
-}, []);
+});
   useEffect(() => {
+    console.log("useEffect running");
     if (!user?.address?.length) {
       fetchAddresses();
-    } else {
-      setAddressList(user.address);
     }
-  }, [user, fetchAddresses]);
+  }, [user]);
 
   const handleDeleteAddress = async (addressId) => {
     alert("Are You Sure You Want To delete this Address")

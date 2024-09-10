@@ -162,34 +162,36 @@ const CheckOut = () => {
               if (validateContentType && validateContentType.includes("application/json")) {
                 const jsonRes = await validateRes.json();
                 console.log(jsonRes);
-  
-                const orderCreateResponse = await fetch(`${base_url}shiprocket`, {
-                  method: "POST",
-                  ...config,
-                  body: JSON.stringify({
-                    addr:newAdd,
-                    email: user?.email,
-                    productinfo: carts.map((item) => item._id).join(" "),
-                    amount: order_amount,
-                  }),
-                });
+
+                const orderCreateResponse = await fetch(
+                  `${base_url}shiprocket`,
+                  {
+                    method: "POST",
+                    ...config,
+                    body: JSON.stringify({
+                      addr: newAdd,
+                      email: user?.email,
+                      productinfo: carts.map((item) => item._id).join(" "),
+                      amount: order_amount,
+                    }),
+                  }
+                );
                 const orderData = await orderCreateResponse.json();
-                console.log(orderData)
-                const clone = JSON.parse(JSON.stringify(orderData))
-                console.log(clone)
-                const {shippting} = clone
-                const {order_id:orderid}= shippting
+                console.log(orderData);
+                const clone = JSON.parse(JSON.stringify(orderData));
+                console.log(clone);
+                const { shippting } = clone;
+                const { shipment_id } = shippting;
                 const CreateShipment = await fetch(`${base_url}shiprocket/CreateShipment`,
                   {
                     method: "POST",
                     ...config,
-                    body:JSON.stringify({
-                      order_id:orderid
-                    })
+                    body:{shipment_id:[shipment_id]}
+                  
                   })
                   const shpmentData =await CreateShipment.json()
                   console.log(shpmentData)
-                console.log(orderData)
+                console.log(orderData);
                 if (orderData.success) {
                   const ConfirmedOrder = {
                     ...paymentData,

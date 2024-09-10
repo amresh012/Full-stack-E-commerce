@@ -119,12 +119,12 @@ const generateShipmentForOrder = async (order_id, courier_id = 1) => {
   console.log(order_id)
   try {
     const response = await axios.post(
-      `${base_url}orders/processing/shipment/`,
+      `${base_url}courier/generate/pickup/`,
       { order_id, courier_id },
       {
         "Content-Type": "application/json",
         Authorization: process.env.SHIP_ROCKET_TOKEN,
-      },
+      }
     );
     console.log(response)
     if (response.data.status === 1) {
@@ -140,9 +140,10 @@ const generateShipmentForOrder = async (order_id, courier_id = 1) => {
         message: 'Shipment creation failed',
         details: response.data
       };
+      // throw new Error('Error generating shipment: ' + error.message);
     }
   } catch (error) {
-    throw new Error('Error generating shipment: ' + error.message);
+    console.log(error)
   }
 };
 
