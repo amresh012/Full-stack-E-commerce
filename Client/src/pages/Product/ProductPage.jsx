@@ -192,7 +192,7 @@ const Product = () => {
           </div>
 
           <div className="flex w-full flex-col-reverse lg:flex-row items-center justify-end pr-4 gap-3">
-            <div className="flex items-center rounded-md w-fit border-2">
+            <div className="flex items-center rounded-md w-fit border">
               <div className="bg-[#0A2440] rounded-l-md text-white p-2">
                 <span className="">Sort by:</span>
               </div>
@@ -216,7 +216,7 @@ const Product = () => {
             ) : (
               currentProducts.map((product) => (
                 <div
-                  className="card group w-[30%] border-2 p-4 rounded-md"
+                  className="card group w-[30%] border-2 p-2 rounded-md"
                   key={product._id}
                 >
                   <Link to={`/product/${product._id}`}>

@@ -34,6 +34,7 @@ import { config } from "../../Utils/axiosConfig";
 import axios from "axios";
 import { addcarts } from "../../features/cartSlice";
 import { useDispatch } from "react-redux";
+import { BiArrowToRight } from "react-icons/bi";
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -91,7 +92,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mt-24 px-6">
+      <div className="mt-24">
         <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
           Recommended For You
         </h1>
@@ -296,7 +297,7 @@ const HomePage = () => {
         <div className="flex flex-wrap items-center justify-center gap-4 p-2">
           {
             gymEcommerceSolutions.map((sol)=>(
-               <div className="min-h-[25rem] w-[25rem] p-4 border-2 hover:shadow-sm bg-white hover:scale-105 duration-300 " key={sol.category}>
+               <div className="flex flex-col justify-around z-50 min-h-[25rem] w-[25rem] p-4 hover:shadow-lg hover:shadow-[#0a2444] bg-white hover:scale-105 duration-300 " key={sol.category}>
                  <h1 className="heading text-center text-2xl font-bold p-4 uppercase">{sol.category}</h1>
                  <ul>
             {sol.solutions.map((solution, index) => (
@@ -305,6 +306,10 @@ const HomePage = () => {
               </li>
             ))}
           </ul>
+          <div className="bg-[#0a2444] w-fit p-2 text-white cursor-pointer flex gap-2 items-center">
+            <p className="">Know More</p>
+            <BiArrowToRight/>
+          </div>
                </div>
             ))
           }
@@ -480,14 +485,15 @@ const HomePage = () => {
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[120px] bg-[#0a2440] mb-16"></div>
 
         <div>
-          <Marquee pauseOnClick={true} speed={30}>
+          <Marquee pauseOnClick={true} speed={50} autoFill={true}>
             {Clients.map((client) => (
-              <div key={client.id}>
+              <div key={client.id} className="cursor-pointer flex items-center flex-col group">
                 <img
                   loading="lazy"
                   src={client.imgurl}
-                  className="grayscale hover:grayscale-0 h-[10rem] w-[12rem] mx-2"
+                  className="grayscale hover:grayscale-0 h-[10rem] w-[12rem] mx-2 no-scrollbar"
                 />
+                <span className="group-hover:text-red-500">{client.location}</span>
               </div>
             ))}
           </Marquee>

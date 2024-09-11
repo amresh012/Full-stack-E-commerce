@@ -19,9 +19,9 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return <>
         <Link to="/">
-      <div className="w-full items-center flex justify-center">
-        <img src="https://img.freepik.com/premium-vector/404-error-page-found-design-with-ufo_1124-467.jpg?w=740" alt="" />
-      </div>
+        <div className="w-full items-center flex justify-center">
+          <img src="https://img.freepik.com/premium-vector/404-error-page-found-design-with-ufo_1124-467.jpg?w=740" alt="" />
+        </div>
         </Link>
       </>;
     }
