@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaCheckCircle, FaChevronRight, FaDownload } from 'react-icons/fa'
 import { TbTruckDelivery } from "react-icons/tb";
 import { BsReceiptCutoff } from "react-icons/bs";
@@ -6,56 +6,116 @@ import { MdOutlineContactPhone } from "react-icons/md";
 import Stepper from '../../components/reusablesUI/Stepper';
 import {Link, useLocation} from "react-router-dom"
 import moment from "moment"
+import axios from "axios"
 
 const Confirmation = () => {
     const [current, setCurrent] = useState(2);
-
+    const [invoice, setInvoiceId] = useState("")
+    const [InvoiceUrl , setInvoiceUrl] = useState("https://rzp.io/i/Tw8Z2nPhaQ")
     const onChange = (value) => {
         setCurrent(value);
       };
-
       const location = useLocation();1
       const stat = location.state || {}
-    //   console.log(stat);
-
-
-    //custom dot
+      console.log(stat);
     const steps = [ 'Order Confirmed','Payment', 'Shipping', 'Review', 'Complete'];
+
+    const createInvoice = async () => {
+        {
+            type ="invoice",
+            description= `Invoice for the month of ${Date.now().toLocaleString()}`,
+            partial_payment= false,
+            customer= {
+              name:stat?.address?.name,
+              contact:stat?.address?.mobile,
+              email:stat?.email,
+              billing_address:stat?.address,
+              shipping_address:stat?.address,
+            },
+            line_items= [...items] ,
+            sms_notify= 1,
+            email_notify= 1,
+            currency= "INR",
+            expire_by= fifteenDaysAhead
+          }
+    
+        try {
+            const response = await axios.post('https://api.razorpay.com/v1/invoices', invoiceData, {
+                auth: {
+                    key_id: 'rzp_test_oLA0LztRZUjDkX',
+                    key_secret: 'hdit4v4IfUPbtpWTcyJlnaTJ'
+                }
+            });
+            console.log(response)
+           const respo = res.json(response.data);
+           setInvoiceId(respo.id)
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    };
+    // getinvoicebyId
+    const GetInvoiceById =async ()=>{
+        try {
+            const response = await axios.post(`https://api.razorpay.com/v1/invoices/${invoice}`, {}, {
+                auth: {
+                    key_id: 'rzp_test_oLA0LztRZUjDkX',
+                    key_secret: 'hdit4v4IfUPbtpWTcyJlnaTJ'
+                }
+            });
+            console.log(response)
+           const res =res.json(response.data);
+           setInvoiceUrl(res?.short_url)
+           
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+  useEffect(()=>{
+    createInvoice()
+    GetInvoiceById()
+  },[])
+
   return (
-   <div className=" flex flex-col gap-4 lg:flex-row items-start justify-between bg-[#0a2444]   p-2 ">
-     <div className=" text-white h-full lg:w-2/3 p-2 rounded-md flex flex-col items-center justify-center gap-4">
+   <div className=" flex flex-col gap-4 lg:flex-row items-start justify-center p-2 ">
+     <div className=" h-full lg:w-2/3 p-2 rounded-md flex flex-col items-center justify-center gap-4">
+       <div className="stepper bg-gray-200 rounded-md  shadow-md w-full p-2 text-black flex flex-col items-center gap-12 ">
        <div className="icons text-green-500 ">
         <FaCheckCircle size={50}/>
        </div>
-       <div className="flex items-center justify-around flex-col gap-2">
+       <div className="flex items-center justify-around flex-col">
         <span className=''>THANK YOU</span>
         <p className='text-3xl font-bold text-center'>  YOU ORDER IS CONFIRMED</p>
        </div>
-       <div className="stepper bg-gray-200 rounded-md  shadow-md w-full p-4 text-black flex flex-col items-center gap-12 ">
-        <div className="text-2xl">
+        <div className="text-2xl text-center">
             <p>Order #{stat.order_id} was placed  on {moment().format('MMMM Do YYYY')} and is currently in progress</p>
         </div>
-        <div className="shippincompany-information w-full">
+        {/* <div className="shippincompany-information w-full">
         <h1 className=''><span className='text-xl'>Courier Company Name</span> :- {stat?.selectedShiping?.courier_name}</h1>
-       </div>
+       </div> */}
        <Stepper steps={steps} currentStep={current}/>
    <div className="delivery date flex lg:flex-row flex-col  gap-4">
     <p className="">Your Order will be Deliverd in {stat?.selectedShiping?.estimated_delivery_days} days</p>
     <p>Expected Delivery Date: <span className='font-bold italic'>{stat?.selectedShiping?.etd}</span> </p>
       <button className="text-[#0a2444] underline">Track Your Order</button>
   </div>
+  <div className="flex items-center flex-wrap gap-4">
+    <button className='underline'>Back to home</button>
+    <button className='underline bg-[#0a2444] p-2 text-white'>Continue Shopping</button>
+  </div>
        </div>
      </div>
      {/* order summary */}
-     <div className="right-side bg-gray-100 border shadow-md p-2 rounded-md flex lg:flex-col gap-4 flex-wrap h-max  w-fit items-start">
+     <div className="right-side bg-gray-100 border shadow-md p-2 rounded-md flex lg:flex-col gap-4 flex-wrap h-max  w-[30rem] items-start">
       <div className="oder-detail flex w-full justify-between items-center border-b-2 border-black p-2">
         <h1 className='font-bold'>
             <h1 className='text-xl'>Order Detail</h1>
             <span className='text-sm'>#{stat?.orderData?.shippting?.order_id}</span>
         </h1>
-        <div className=" flex items-center text-sm  gap-2 rounded-md bg-green-200 p-2 text-green-500">
-            <FaDownload/>
-            <button>Download Invoice</button>
+        <div className=" flex items-center text-sm  gap-2 rounded-md bg-[#0a2444] p-2 text-white active:scale-95">
+          <Link to={InvoiceUrl}>
+          <button >Get Invoice</button>
+          </Link>
         </div>
       </div>
       <div className="address flex flex-col w-full">

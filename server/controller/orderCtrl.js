@@ -40,20 +40,22 @@ const Invoice = require("../controller/invoiceCtrl")
   };
 
   const deleteOrder = async (req, res) => {
+    console.log(req.params)
     try {
       // Get the order id from the request parameters
-      const id = req.params._id;
+      const id = req.params.id;
   
       // Find and remove the order by its id
-      const order = await OrderModel.findOneAndRemove({ _id: id });
-  
+      const order = await OrderModel.deleteOne({ _id: id });
+      
+      console.log(order)
       // If the order is not found, return a 404 error
       if (!order) {
         return res.status(404).json({ error: "Order not found" });
       }
   
       // Find and remove the associated invoice
-      await InvoiceModel.findOneAndRemove({ orderId: id });
+      await InvoiceModel.deleteOne({ orderId: id });
   
       // Return a success message
       res.json({ message: "Order deleted successfully" });

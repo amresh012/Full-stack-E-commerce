@@ -77,7 +77,7 @@ const createOrder = async (req, res) => {
     height: 20,
     weight: 2.5,
   };
-   
+   console.log(shiprocket)
   const headersConfig = {
     headers: {
       "Content-Type": "application/json",
@@ -115,12 +115,12 @@ const base_url = 'https://apiv2.shiprocket.in/v1/external/';
 
 
 // shipment logic
-const generateShipmentForOrder = async (order_id, courier_id = 1) => {
-  console.log(order_id)
+const generateShipmentForOrder = async (shipment_id) => {
+  console.log(shipment_id)
   try {
     const response = await axios.post(
       `${base_url}courier/generate/pickup/`,
-      { order_id, courier_id },
+      {shipment_id:[shipment_id]},
       {
         "Content-Type": "application/json",
         Authorization: process.env.SHIP_ROCKET_TOKEN,
@@ -130,7 +130,7 @@ const generateShipmentForOrder = async (order_id, courier_id = 1) => {
     if (response.data.status === 1) {
       return {
         success: true,
-        shipment_id: response.data.shipment_id,
+        // shipment_id: response.data.shipment_id,
         awb_code: response.data.awb_code,
         message: 'Shipment created successfully'
       };

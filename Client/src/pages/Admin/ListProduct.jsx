@@ -126,6 +126,9 @@ const ListProduct = () => {
     {
       header: "Product Name",
       accessorKey: "name",
+      cell:({row})=>{
+        return <span>{row.original.name.substring(0,30)}</span>;
+      }
     },
     {
       header: "Price / unit",

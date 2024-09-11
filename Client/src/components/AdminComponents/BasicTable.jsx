@@ -27,7 +27,7 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
     <>
       <div className="">
         <select
-          className="border-2 p-4 outline-none m-4 w-2/6"
+          className="border-2 p-2 outline-none m-4 w-54"
           value={table.getState().pagination.pageSize}
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));

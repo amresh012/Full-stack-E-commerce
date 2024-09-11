@@ -18,6 +18,7 @@ const adminRoute = require("./routes/adminRoute");
 const orderRoute = require("./routes/orderRoute");
 const payRoute = require("./routes/paymentRoute");
 const couponRoute = require("./routes/couponRoute");
+// const InvoiceRoute = require("./routes/invoiceRoute")
 const imageRoute = require("./routes/imageRoute");
 const smsRoute = require("./routes/smsRoute");
 const shipRocketRoute = require("./routes/shiprocketRoute");
@@ -80,6 +81,7 @@ app.use("/api/order", orderRoute);
 app.use("/api/payment", payRoute);
 app.use("/api/product", productRoute);
 app.use("/api/coupon", couponRoute);
+// app.use("/ap/invoice",InvoiceRoute )
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/uploads", uploadimageRoute);
 app.use("/api/images", imageRoute);

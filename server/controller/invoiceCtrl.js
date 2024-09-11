@@ -16,6 +16,7 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
         {
           type ="invoice",
           description= `Invoice for the month of ${Date.now().toLocaleString()}`,
+          partial_payment= false,
           customer= {
             name:customer.name,
             contact:customer.mobile,
@@ -47,11 +48,8 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
                     
     }
   }
-  const SendInvoiceNotification = (req, res)=>{
 
-  }
-
-module.exports= {createInvoice,SendInvoiceNotification}
+module.exports= {createInvoice}
 
 
 

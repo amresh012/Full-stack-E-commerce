@@ -13,7 +13,7 @@ import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
   const user = useSelector((state)=>state.auth.user)
-  console.log(user)
+  console.log(user?.email)
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   console.log(newAdd)
@@ -182,15 +182,18 @@ const CheckOut = () => {
                 console.log(clone);
                 const { shippting } = clone;
                 const { shipment_id } = shippting;
-                const CreateShipment = await fetch(`${base_url}shiprocket/CreateShipment`,
-                  {
-                    method: "POST",
-                    ...config,
-                    body:{shipment_id:[shipment_id]}
+                console.log(shipment_id)
+                // const CreateShipment = await fetch(`${base_url}shiprocket/CreateShipment`,
+                //   {
+                //     method: "POST",
+                //     ...config,
+                //     body:JSON.stringify({
+                //       shipment_id:[shipment_id]
+                //     })
                   
-                  })
-                  const shpmentData =await CreateShipment.json()
-                  console.log(shpmentData)
+                //   })
+                //   const shpmentData =await CreateShipment.json()
+                //   console.log(shpmentData)
                 console.log(orderData);
                 if (orderData.success) {
                   const ConfirmedOrder = {
@@ -200,6 +203,7 @@ const CheckOut = () => {
                     totalQuantity,
                     selectedShiping,
                     orderData,
+                    eamil:user.email
                   };
                   navigate(`/order-confirmed`, { state: ConfirmedOrder });
                   dispatch(resetCart());

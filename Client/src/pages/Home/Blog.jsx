@@ -144,7 +144,7 @@ const Blog = ({ start, end }) => {
           Blogs
         </h1>
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
-        <div className="">
+        <div className="lg:hidden block">
           <div className="searchbar w-full rounded-full border mt-12  flex">
             <input
               type="search"

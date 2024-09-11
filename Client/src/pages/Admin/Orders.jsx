@@ -23,129 +23,132 @@ const orderStates = [
 ];
 
 
-// const deleteProduct = async (id) => {
-//   try {
-//     const response = await fetch(`${base_url}order/${id}`, {
-//       method: "DELETE",
-//       ...config,
-//     });
-//     const data = await response.json();
-//     if (data.error) {
-//       toast.error(data.error);
-//       return;
-//     }
-//     if (!data.success) {
-//       toast.error(data.message);
-//       return;
-//     }
-//     setReload((prev) => !prev);
-//     toast.success(data.message);
-//   } catch (error) {
-//     toast.error(error.message);
-//   }
-// };
-
-const columns = [
-  {
-    header: "Sr No.",
-    accessorKey: "id",
-    cell: ({ row }) => {
-      const id = row.id;
-      return <span>{+id + 1}</span>;
-    },
-  },
-  {
-    header: "OrderID",
-    accessorKey: "orderId",
-  },
-  {
-    header: "Date",
-    accessorKey: "Order_date",
-    cell:({row})=>{
-      // 
-      const date = row.original
-      return <span>{moment(date).format('DD/MM/YYYY hh:mm')}</span>;
-    }
-  },
-  {
-    header: "Name",
-    accessorKey: "orderd_by",
-  },
-  {
-    header: "Products",
-    accessorKey: "cartItems",
-    cell:({row})=>{
-      const name = row.original.cartItems[0]?._id.name
-      return <span>{name}</span>;
-    }
-  },
-  {
-    header: "Quantity",
-    accessorKey: "cartItems",
-    cell:({row})=>{
-      const quantity = row.original.cartItems[0]?.quantity
-      return <span>{quantity}</span>;
-    }
-  },
-  {
-    header: "TransactionID",
-    accessorKey: "paymentId",
-  },
-  {
-    header: "Amount",
-    accessorKey: "amount",
-  },
-  {
-    header: "Status",
-    accessorKey: "paymentStatus",
-  },
-  {
-      header:"Order Status",
-      cell:({ row }) => {
-      return (
-        <select className="p-2 border-2" required>
-          {orderStates?.map((stat) => (
-            <option key={stat} value={stat}>
-              {stat}
-            </option>
-          ))}
-        </select>
-      );
-    },
-  },
-  {
-    header: "Action",
-    cell: ({row}) => {
-    return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
-        <div className="bg-red-200 p-2 rounded-md" title="delete order" >
-        <FaTrash className="text-red-500" />
-        </div>
-       <div className="bg-blue-200 p-2 rounded-md" title="View Order Details">
-       <FaEye className="text-blue-500" />
-       </div>
-       <div className="bg-green-200 p-2 rounded-md" title="download invoice">
-       <FaDownload className="text-green-500" />
-       </div>
-      </div>)
-  },
-  },
-];
 
 const Orders = () => {
   const [search , setSearch] = useState('');
   let statusOptions = [{value: '', label: 'All'}]
-  
+  const [reload, setReload] = useState(false);
   const [Order , setOrder] = useState([])
   const [isLoading  ,setIsLoading] = useState(true)
   const [filteredData, setFilteredData] = useState([]);
-  
+  // coloumns
+  const columns = [
+    {
+      header: "Sr No.",
+      accessorKey: "id",
+      cell: ({ row }) => {
+        const id = row.id;
+        return <span>{+id + 1}</span>;
+      },
+    },
+    {
+      header: "OrderID",
+      accessorKey: "orderId",
+    },
+    {
+      header: "Date",
+      accessorKey: "Order_date",
+      cell:({row})=>{
+        // 
+        const date = row.original
+        return <span>{moment(date).format('DD/MM/YYYY')}</span>;
+      }
+    },
+    {
+      header: "Name",
+      accessorKey: "orderd_by",
+    },
+    {
+      header: "Products",
+      accessorKey: "cartItems",
+      cell:({row})=>{
+        const name = row?.original?.cartItems[0]?._id?.name.substring(0,20)
+        return <span>{name}</span>;
+      }
+    },
+    {
+      header: "Quantity",
+      accessorKey: "cartItems",
+      cell:({row})=>{
+        const quantity = row.original.cartItems[0]?.quantity
+        return <span>{quantity}</span>;
+      }
+    },
+    {
+      header: "TransactionID",
+      accessorKey: "paymentId",
+    },
+    {
+      header: "Amount",
+      accessorKey: "amount",
+    },
+    {
+      header: "Status",
+      accessorKey: "paymentStatus",
+    },
+    {
+        header:"Order Status",
+        cell:({ row }) => {
+          const orderStatus = row.original.status
+        return (
+          <>
+          {
+            orderStatus === "pending" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
+          }
+          </>
+        );
+      },
+    },
+    {
+      header: "Action",
+      cell: ({row}) => {
+      return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
+          <div className="bg-red-200 p-2 rounded-md" title="delete order" onClick={() => deleteProduct(row.original._id)}>
+          <FaTrash className="text-red-500" />
+          </div>
+         <div className="bg-blue-200 p-2 rounded-md" title="View Order Details">
+         <FaEye className="text-blue-500" />
+         </div>
+         <div className="bg-green-200 p-2 rounded-md" title="download invoice">
+         <FaDownload className="text-green-500" />
+         </div>
+        </div>)
+    },
+    },
+  ];
+
+  // delete product
+  const deleteProduct = async (id) => {
+    try {
+      const response = await fetch(`${base_url}order/${id}`, {
+        method: "DELETE",
+        ...config,
+      });
+      const data = await response.json();
+      console.log(data)
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      }
+      if (!data.success) {
+        toast.success(data.message);
+        return;
+      }
+      setReload((prev) => !prev);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+
   useEffect(() => {
     const FetchOrders = async () => {
       setIsLoading(true); // Start loader
   
       try {
         const response = await fetch(`${base_url}order`);
-        console.log(response)
+        // console.log(response)
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
@@ -168,7 +171,7 @@ const Orders = () => {
       // If you are using libraries like axios, you can cancel the request here.
       // Not necessary with fetch, unless you're managing abort controllers.
     };
-  }, [base_url]); // Added dependency in case `base_url` changes
+  }, [base_url,reload]); // Added dependency in case `base_url` changes
 
   const label = [
     {
@@ -216,9 +219,8 @@ const Orders = () => {
       </div>
       {/* table col */}
       <div className="mt-5 px-5 w-full  rounded-md  max-h-max ">
-        <div className="flex items-center justify-between px-4 py-4 border-2 bg-[#0a2440] text-white  rounded-md ">
+        <div className="flex items-center justify-between p-4 bg-[#0a2440] text-white  rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
-          <BsThreeDotsVertical />
         </div>
         <div className="flex items-center justify-around mt-4">
           {label.map((item) => (
@@ -235,15 +237,15 @@ const Orders = () => {
 
             </div>
           ))}
-          {/* <div className="flex flex-col">
+          <div className="flex flex-col">
             <label htmlFor="" className="uppercase">
               Date
             </label>
             <input
               type="date"
-              className="border-[1px] border-black/30 p-2 h-14 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+              className="border-[1px] border-black/30 p-2 h-10 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
             />
-          </div> */}
+          </div>
           <div className="flex flex-col">
             <label htmlFor="" className="uppercase">
               Search
@@ -256,14 +258,14 @@ const Orders = () => {
                 className="border-[1px] border-black/30 p-2 h-10 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
                 placeholder="id / name / email"
               />
-              <div className="absolute top-5 right-4">
+              <div className="absolute top-3 right-4">
                 <FaSearch />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="w-full  ">
+        <div className="w-full">
          {
           isLoading  && Order.length === 0? <Loader/> : <BasicTable columns={columns} data={filteredData || []} />
          }
