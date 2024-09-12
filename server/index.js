@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const authRouter = require("./routes/authRoute");
 const contactusRoute = require("./routes/contactRoute");
+const QuotationRoute = require("./routes/quotationRoute");
 const bulkRoute = require("./routes/bulkRoute");
 const blogRoute = require("./routes/blogRoute");
 const productRoute = require("./routes/productRoute");
@@ -18,7 +19,7 @@ const adminRoute = require("./routes/adminRoute");
 const orderRoute = require("./routes/orderRoute");
 const payRoute = require("./routes/paymentRoute");
 const couponRoute = require("./routes/couponRoute");
-// const InvoiceRoute = require("./routes/invoiceRoute")
+const InvoiceRoute = require("./routes/invoiceRoute")
 const imageRoute = require("./routes/imageRoute");
 const smsRoute = require("./routes/smsRoute");
 const shipRocketRoute = require("./routes/shiprocketRoute");
@@ -73,6 +74,7 @@ app.use("/api/user", authRouter);
 app.use("/api/cart", cartRoute);
 app.use("/api/otp", otpRoute);
 app.use("/api/contact", contactusRoute);
+app.use("/api/quot", QuotationRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/bulk", bulkRoute);
 app.use("/api/admin", adminRoute);
@@ -81,7 +83,7 @@ app.use("/api/order", orderRoute);
 app.use("/api/payment", payRoute);
 app.use("/api/product", productRoute);
 app.use("/api/coupon", couponRoute);
-// app.use("/ap/invoice",InvoiceRoute )
+app.use("/ap/invoice",InvoiceRoute )
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/uploads", uploadimageRoute);
 app.use("/api/images", imageRoute);

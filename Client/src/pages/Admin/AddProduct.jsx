@@ -121,8 +121,8 @@ const AddProduct = () => {
   return (
     <>
       <Toaster />
-      <div className="  mb-4 rounded-md shadow-md gap-12 h-auto flex flex-col items-center justify-around p-6">
-        <div className="text-3xl font-bold bg-[#0a2440] w-full p-4 rounded-md text-center text-white">
+      <div className="  mb-4 rounded-md gap-12 h-auto flex flex-col items-center justify-around p-6">
+        <div className="text-3xl font-bold bg-[#0a2440] w-full rounded-md text-center text-white">
           <Link to="/admin/product-list">Add Products</Link>
         </div>
         {/* Product add */}

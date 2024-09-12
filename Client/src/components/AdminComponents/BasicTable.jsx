@@ -7,9 +7,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
+import { FaExclamationCircle } from "react-icons/fa";
 
 const BasicTable = ({ columns, data, toggleModalHandler }) => {
   const [sorting, setSorting] = useState([]);
+  console.log(data)
 
   const table = useReactTable({
     data: data,
@@ -25,6 +27,13 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
 
   return (
     <>
+    {
+      data.length ===0 ? 
+      <div className="h-[50vh] gap-2 w-full flex flex-col items-center justify-center bg-gray-100 mt-4 text-2xl font-bold">
+        <span className="text-orange-400"><FaExclamationCircle size={50}/></span>
+        <p>No Records Found</p>
+      </div>
+      :
       <div className="">
         <select
           className="border-2 p-2 outline-none m-4 w-54"
@@ -168,7 +177,8 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
           </button>
         </div>
       </div>
-    </>
+    }
+          </>
   );
 };
 

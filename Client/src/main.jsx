@@ -11,7 +11,6 @@ import {
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import ScrollToTop from './essentials/ScrollToTop.jsx'
-import ErrorBoundary from './ErrorBoundary.jsx'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,9 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={Store}>
   <QueryClientProvider client={queryClient}>
    <BrowserRouter>
-   <ErrorBoundary>
     <App />
-  </ErrorBoundary>
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ScrollToTop/>
     </BrowserRouter>

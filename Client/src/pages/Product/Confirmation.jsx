@@ -21,31 +21,9 @@ const Confirmation = () => {
     const steps = [ 'Order Confirmed','Payment', 'Shipping', 'Review', 'Complete'];
 
     const createInvoice = async () => {
-        {
-            type ="invoice",
-            description= `Invoice for the month of ${Date.now().toLocaleString()}`,
-            partial_payment= false,
-            customer= {
-              name:stat?.address?.name,
-              contact:stat?.address?.mobile,
-              email:stat?.email,
-              billing_address:stat?.address,
-              shipping_address:stat?.address,
-            },
-            line_items= [...items] ,
-            sms_notify= 1,
-            email_notify= 1,
-            currency= "INR",
-            expire_by= fifteenDaysAhead
-          }
-    
+      const DataToSend = {}
         try {
-            const response = await axios.post('https://api.razorpay.com/v1/invoices', invoiceData, {
-                auth: {
-                    key_id: 'rzp_test_oLA0LztRZUjDkX',
-                    key_secret: 'hdit4v4IfUPbtpWTcyJlnaTJ'
-                }
-            });
+            const response = await axios.post(``,)
             console.log(response)
            const respo = res.json(response.data);
            setInvoiceId(respo.id)

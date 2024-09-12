@@ -23,9 +23,9 @@ const Setting = () => {
     });
   };
   const handleSubmit = async (e)=>{
+    
     e.preventDefault()
     try {
-     console.log(formData)
     const res = await dispatch(ProfileResetApi(formData))
     console.log(res)
     if (res.type === "userprofile/fulfilled" && formData !== "") {

@@ -7,7 +7,6 @@ import {
   LineChart,
   DoughnutChart,
 } from "../../components/AdminComponents/CChart";
-import BasicTable from "../../components/AdminComponents/BasicTable";
 import { base_url } from "../../Utils/baseUrl";
 import { toast, Toaster } from "react-hot-toast";
 import { config } from "../../Utils/axiosConfig";
@@ -19,6 +18,7 @@ const Dashboard = () => {
   const [totalCategories, setTotalCategories] = useState(0);
   const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState(0);
   const [totalPaymentsToday, setTotalPaymentsToday] = useState(0);
+  const [totalVisitsToday, setTotalVisitsToday] = useState(0);
  
 
 
@@ -291,7 +291,6 @@ const Dashboard = () => {
 
         <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Recent Orders</h1>
         <div className="w-full">
-          <BasicTable columns={columns} data={Ordata.slice(0, 5)} />
         </div>
 
         <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Summary</h1>

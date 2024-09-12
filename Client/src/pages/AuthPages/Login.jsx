@@ -138,7 +138,7 @@ const Login = () => {
                     Password
                   </label>
                   <div className="relative flex">
-                    <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white text-white">
+                    <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white">
                       <IoLockClosedOutline />
                     </div>
                     <input
@@ -169,7 +169,7 @@ const Login = () => {
                     Phone no.
                   </label>
                   <div className="relative flex max-h-fit">
-                    <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white text-white">
+                    <div className="flex items-center justify-center text-xl w-12  bg-[#144170] text-white">
                       <CiPhone />
                     </div>
                     <input

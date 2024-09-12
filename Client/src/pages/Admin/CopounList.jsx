@@ -12,15 +12,6 @@ const CopounList = () => {
   const [copoun , setCopoun] = useState([])
   const [reload, setReload] = useState(false);
   // fetch copoun
-  useEffect(() => {
-    const FetchCopoun = async () => {
-      let response = await fetch(`${base_url}coupon`);
-      let data = await response.json();
-      setCopoun(data);
-    };
-    FetchCopoun();
-    
-  }, [])
   
 
   //delete copoun
@@ -47,19 +38,17 @@ const CopounList = () => {
     }
   };
 
- [
-  {
-    _id: '66d29e57bb369c37ab897270',
-    code: 'KFS7XC0',
-    discountType: 'percentage',
-    discountValue: 12,
-    expiryDate: '2024-09-01T04:38:47.824Z',
-    usageLimit: 1,
-    usageCount: 0,
-    isActive: true,
-    __v: 0
-  }
-]
+  useEffect(() => {
+    const FetchCopoun = async () => {
+      let response = await fetch(`${base_url}coupon`);
+      let data = await response.json();
+      setCopoun(data);
+    };
+    FetchCopoun();
+    
+  }, [reload])
+
+  
   const columns = [
     {
       header: "Sr.No.",

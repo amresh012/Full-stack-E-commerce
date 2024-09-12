@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import Category from "../Home/Category";
 import { Link } from "react-router-dom";
 
-const Product = () => {
+const Product = ({buttonProp , filtervisible , onClickhandler}) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -20,6 +20,7 @@ const Product = () => {
   const [selectedOption, setSelectedOption] = useState("Low to High");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [visible , setVisible] = useState(filtervisible)
 
   // number of products per page
   const productsPerPage = 9;
@@ -135,47 +136,49 @@ const Product = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
-
+  
   return (
     <>
-      <div className="main-wrapper flex items-start justify-start">
+      <div className={"main-wrapper  flex items-start justify-start"}>
         <div className="h-24"></div>
-        <div className="fillter_wrapper shadow m-2 hidden p-2 min-w-[18rem] space-y-6 lg:flex justify-around flex-col relative">
-          <div className="h-12 w-full flex items-center justify-center text-3xl">
-            <h1 className="w-full uppercase p-2">Filter</h1>
-            <Chip
-              label="Reset"
-              sx={{ bgcolor: "#0A2440", color: "#fff" }}
-              icon={<GrPowerReset size={18} />}
-              onClick={() => setSelectedCategories([])}
-            />
-          </div>
-          <div className="p-2 space-y-2">
-            <h1 className="font-bold">Category</h1>
-            <div className="flex flex-col gap-2 no-scrollbar cursor-pointer">
-              {gym_equipment.map((item, index) => (
-                <div
-                  className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md"
-                  key={index}
-                >
-                  <input
-                    type="checkbox"
-                    className="cursor-pointer"
-                    onChange={() => handleCategoryChange(item)}
-                    checked={selectedCategories.includes(item)}
-                  />
-                  <p className="lowercase">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+       { visible &&
+         <div className="fillter_wrapper shadow m-2 hidden p-2 min-w-[18rem] space-y-6 lg:flex justify-around flex-col relative">
+         <div className="h-12 w-full flex items-center justify-center text-3xl">
+           <h1 className="w-full uppercase p-2">Filter</h1>
+           <Chip
+             label="Reset"
+             sx={{ bgcolor: "#0A2440", color: "#fff" }}
+             icon={<GrPowerReset size={18} />}
+             onClick={() => setSelectedCategories([])}
+           />
+         </div>
+         <div className="p-2 space-y-2">
+           <h1 className="font-bold">Category</h1>
+           <div className="flex flex-col gap-2 no-scrollbar cursor-pointer">
+             {gym_equipment.map((item, index) => (
+               <div
+                 className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md"
+                 key={index}
+               >
+                 <input
+                   type="checkbox"
+                   className="cursor-pointer"
+                   onChange={() => handleCategoryChange(item)}
+                   checked={selectedCategories.includes(item)}
+                 />
+                 <p className="lowercase">{item}</p>
+               </div>
+             ))}
+           </div>
+         </div>
+       </div>
+       }
 
         <div className="product_list_all flex w-full flex-col justify-between">
           <div className="mt-4 flex lg:flex-row flex-col justify-between items-center p-4">
-            <p className="lg:text-2xl text-4xl p-2 text-center">
+          { visible &&  <p className="lg:text-2xl text-4xl p-2 text-center">
               Products ({sortedProducts.length})
-            </p>
+            </p>}
             {/* Search Bar */}
             <div className="searchbar lg:w-2/6 w-full h-full rounded-md flex items-center border ">
               <input
@@ -210,13 +213,13 @@ const Product = () => {
           </div>
 
           {/* Product List */}
-          <div className="product-list_container p-2 flex flex-wrap gap-2 w-full items-center justify-center lg:justify-start">
+          <div className="product-list_container p-2 flex flex-wrap gap-2 w-full items-center justify-center lg:justify-center">
             {isLoading ? (
               <Loader />
             ) : (
               currentProducts.map((product) => (
                 <div
-                  className="card group w-[30%] border-2 p-2 rounded-md"
+                  className="card group w-full lg:w-[22rem]  border-2 p-2 rounded-md"
                   key={product._id}
                 >
                   <Link to={`/product/${product._id}`}>
@@ -247,7 +250,7 @@ const Product = () => {
                       <div className="flex items-center gap-2 text-sm">
                         <Rating
                           name="size-small"
-                          value={product.rating}
+                          value={product.rating || 3.5}
                           readOnly
                           precision={0.5}
                           size="small"
@@ -255,19 +258,24 @@ const Product = () => {
                         <span>({product.numReviews} Reviews)</span>
                       </div>
                     </div>
-                    <h1 className="text-lg font-bold p-2">
+                    <h1 className="flex items-center gap-2">
+                      <span className="text-red-500 text-sm line-through">
+                      ₹{
+                        product?.corporateDiscount && product?.corporateDiscount !== 0 &&
+                        (product.price - product.price * (product.corporateDiscount / 100)).toFixed(2)
+                      }
+                      </span>
+                      <span className="text-lg font-bold p-2">
                       ₹ {product.price}{" "}
-                      <span className="text-sm font-normal text-gray-500 line-through">
-                        ₹ {product.mrp}
                       </span>
                     </h1>
                   </div>
                   <div className="button-group space-y-2 mt-2">
                     <button
                       className="bg-[#0A2440] text-white w-full py-1 px-2 rounded-md"
-                      onClick={() => handleAdd(product)}
+                      onClick={() => !onClickhandler ? handleAdd(product): onClickhandler(product._id)}
                     >
-                      Add to Cart
+                      {buttonProp || "Add to Cart"}
                     </button>
                   </div>
                 </div>

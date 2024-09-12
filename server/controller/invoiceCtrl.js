@@ -1,21 +1,22 @@
 const invoiceModel = require("../models/invoiceModel");
 const Razorpay =require("razorpay");
-
 const razorpay = new Razorpay({
     key_id:process.env.RAZORPAY_KEY_ID,
     key_secret:process.env.RAZORPAY_SECRET_KEY,
   });
-const currentDate = new Date();
-const currentMonth = currentDate.getMonth() + 1;  // Adding 1 to make it human-readable
-
+  // Adding 1 to make it human-readable
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = date.getMonth()+1;
 const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
   
   const createInvoice = async (req, res)=>{
+    console.log(req.body)
+    const {customer, line_items} = req.body
     try{
-        const {customer, line_items} = req.body
         {
           type ="invoice",
-          description= `Invoice for the month of ${Date.now().toLocaleString()}`,
+          description= `Invoice for the month of ${month}+${year}`,
           partial_payment= false,
           customer= {
             name:customer.name,
@@ -31,8 +32,8 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
           expire_by= fifteenDaysAhead
         }
                 const response = await razorpay.invoices.create(options)
-                
-                res.json(response)
+               const respo =  res.json(response)
+                console.log(respo)
                 // save invoice data in database in invoice model
                 const invoice = new invoiceModel({
                   orderId: order_id,
@@ -44,9 +45,7 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
                   paymentStatus: "Success"
     })
                 invoice.save()
-                }catch(error){
-                    
-    }
+                }catch(error){               }
   }
 
 module.exports= {createInvoice}

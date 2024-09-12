@@ -10,6 +10,7 @@ import { selectedAddress } from "../../features/addressSlice";
 import {adduser} from "../../features/authSlice"
 const Shipping = () => {
   const { user } = useSelector((state) => state.auth);
+  const [reload, setReload] = useState(true)
   const [currentAddress, setCurrentAdd] = useState(null);
   const [addressList, setAddressList] = useState(user?.address || []);
   const dispatch = useDispatch()
@@ -32,11 +33,12 @@ const fetchAddresses = (async () => {
   }
 });
   useEffect(() => {
+    setReload(false)
     console.log("useEffect running");
     if (!user?.address?.length) {
       fetchAddresses();
     }
-  }, [user]);
+  }, [user,reload]);
 
   const handleDeleteAddress = async (addressId) => {
     alert("Are You Sure You Want To delete this Address")
@@ -99,7 +101,7 @@ const fetchAddresses = (async () => {
   return (
     <>
       <Toaster />
-      <div className="border-2  rounded-md ">
+      <div className="rounded-md">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex flex-wrap items-center gap-2">
           <div className="bg-[#144170] p-2 text-white rounded-full">
             <FaAddressCard />

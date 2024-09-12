@@ -95,7 +95,7 @@ export default function AccountMenu() {
           </MenuItem>
         </Link>
         <Divider />
-        <Link to="/profile">
+        <Link to="/profile/setting">
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Settings fontSize="small" />

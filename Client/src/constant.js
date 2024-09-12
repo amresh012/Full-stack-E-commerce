@@ -3,8 +3,9 @@ import { FaUsers } from "react-icons/fa";
 import { BiSolidDiscount } from "react-icons/bi";
 import { GoChecklist } from "react-icons/go";
 import { AiOutlineProduct } from "react-icons/ai";
-import { CgWebsite } from "react-icons/cg";
 import { FaBlog } from "react-icons/fa";
+import { FaFileContract } from "react-icons/fa";
+
 
 
 // our solutions
@@ -326,8 +327,6 @@ export const Clients = [
   },
 ];
 
-// entries array
-export const entries = [5, 10, 20, 50, 100];
 // blog
 
 export const blog = [
@@ -640,19 +639,19 @@ export const linksAdmin = [
     icon: FaUsers,
   },
   {
-    id: 0,
+    id: 2,
     label: "Orders",
     route: "/admin/orders",
     icon: GoChecklist,
   },
   {
-    id: 0,
+    id: 3,
     label: "Contact US",
     route: "/admin/contactus",
     icon: FaUsers,
   },
   {
-    id: 0,
+    id: 4,
     label: "Products",
     icon: AiOutlineProduct,
     submenu: true,
@@ -691,7 +690,16 @@ export const linksAdmin = [
   //     },
   //   ],
   // },
+     {
+      id:5,
+    label: "Quotations",
+    icon: FaFileContract,
+    route: "/admin/quotation",
+    submenu: false
+
+     },
   {
+    id:6,
     label: "Blogs",
     icon: FaBlog,
     submenu: true,
@@ -709,6 +717,7 @@ export const linksAdmin = [
     ],
   },
   {
+    id:7,
     label: "Coupon",
     icon: BiSolidDiscount,
     submenu: true,

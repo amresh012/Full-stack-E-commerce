@@ -304,7 +304,7 @@ const ListProduct = () => {
           </div>
         </div>
       )}
-      <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+      <div className="p-2 flex items-center justify-normal ">
         <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Product List</h1>
         </div>

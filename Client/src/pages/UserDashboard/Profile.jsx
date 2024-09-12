@@ -45,7 +45,7 @@ const Profile = () => {
      };
     fetchUserDetails();
   }, []);
-
+console.log(data)
 
   return (
     <>

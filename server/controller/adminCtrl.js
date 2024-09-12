@@ -70,10 +70,6 @@ const getAdminData = asyncHandle(async (req, res) => {
     const totalPaymentsToday = 0;
     const totalPaymentsAllTime = 0;
     
-    // 
-    // 
-    // 
-    // 
     
     const recentOrders = await orderModel.find().sort({ createdAt: -1 }).limit(5);
     
@@ -112,11 +108,6 @@ const getAdminData = asyncHandle(async (req, res) => {
         }
       }
     ]);
-
-    // 
-    // 
-    // 
-    // 
    
     res.status(200).json({
       success: true,
@@ -136,62 +127,5 @@ const getAdminData = asyncHandle(async (req, res) => {
     res.status(400).send(error);
   }
 });
-
-
-// const getAdminData = asyncHandle(async (req, res) => {
-//   try {
-//     const users = await User.find();
-//     const products = await Products.find();
-//     const contacts = (await Contact.find()).reverse();
-//     const bulks = (await Bulk.find()).reverse();
-//     const invoices = (await Invoices.find()).reverse();
-//     const codes = (await CouponCodes.find()).reverse();
-//     const orders = await Order.find().populate([
-//       {
-//         path: "products.product",
-//         model: "product",
-//       },
-//     ]);
-//     const orderArr = (
-//       await Promise.all(
-//         orders?.map(async (order) => {
-//           const user = await User.findById(order.orderby);
-//           const address = user?.address?.find(
-//             (adr) => JSON.stringify(adr._id) == JSON.stringify(order.address)
-//           );
-
-//           return {
-//             invoiceno: order.invoiceNo,
-//             products: order.products.map((productDetail) => ({
-//               name: productDetail?.product?.name,
-//               count: productDetail?.count,
-//               total: productDetail?.total,
-//             })),
-//             total: order.total,
-//             orderBy: address?.name,
-//             mobile: address?.mobile,
-//             address: address
-//               ? `${address?.adr}-${address?.city}-${address?.state}-${address?.pincode}`
-//               : null,
-//             status: order.status,
-//           };
-//         })
-//       )
-//     ).reverse();
-
-//     res.json({
-//       users: users.reverse(),
-//       products,
-//       contacts,
-//       bulks,
-//       orders: orderArr,
-//       invoices,
-//       codes,
-//     });
-//   } catch (error) {
-//     
-//     res.status(400).send(error);
-//   }
-// });
 
 module.exports = { getAdminData };

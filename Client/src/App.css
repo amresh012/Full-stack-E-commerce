@@ -12,6 +12,13 @@
     background-position: center;
     background-blend-mode: multiply;
   }
+  .comercial-page{
+    background-image: url("https://img.freepik.com/free-photo/gym-with-treadmills-light-wall_1340-37799.jpg?ga=GA1.1.1024893082.1726052243&semt=ais_hybrid");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+  }
 
   .about-header{
     background-image: url("./assets/about.jpg");

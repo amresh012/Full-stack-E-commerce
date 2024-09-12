@@ -10,7 +10,7 @@ const Invoice = () => {
         <h1 className="uppercase">My Invoices</h1>
       </div>
       <div className="h-[90vh] space-y-4 p-4 mt-2  overflow-auto ">
-
+        
       </div>
     </div>
   );

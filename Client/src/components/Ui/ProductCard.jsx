@@ -44,7 +44,7 @@ const ProductCard = ({ product, addToCartHandler }) => {
           <FaStar />
           <FaStar />
           <FaStarHalf />
-          <span className="ml-1 text-black text-lg">(120)</span>
+          <span className="ml-1 text-black text-lg">reviews(120)</span>
         </div>
         <p className="flex justify-between items-center">
           <div className="flex flex-col gap-y-0">
@@ -54,7 +54,7 @@ const ProductCard = ({ product, addToCartHandler }) => {
                   corporateDiscount > 0 ? "line-through" : ""
                 }`,
                 color: `${corporateDiscount > 0 ? "#ff5050" : "#0a2440"}`,
-                fontSize: `${corporateDiscount > 0 ? "15px" : "20px"}`,
+                fontSize: `${corporateDiscount> 0 ? "15px" : "20px"}`,
               }}
               className="font-bold mt-2"
             >
@@ -72,7 +72,7 @@ const ProductCard = ({ product, addToCartHandler }) => {
           >
             Add To Cart
           </button>
-        </p>
+        </p>  
       </div>
     </div>
   );

@@ -44,7 +44,9 @@ const addProduct = asyncHandle(async (req, res) => {
 });
 // get product by id
 const getProductById = asyncHandle(async (req, res) => {
-  const _id = req.params.id;
+  // const _id = req.params.id;
+  const _id = req.params.id || req.body.id;
+
   if (_id) {
     try {
       const product = await ProductModel.findById(_id).populate("subcategory")

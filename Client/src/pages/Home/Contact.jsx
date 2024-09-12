@@ -225,7 +225,7 @@ const Contact = () => {
                   placeholder="write your query here..."
                   className="mt-8 w-full outline-none  px-2 py-2 border-2 rounded-md resize-none no-scrollbar"
                 ></textarea>
-                <div className="space-y-4 mt-8">
+                {/* <div className="space-y-4 mt-8">
                   <h1 className="pl-8 text-xl">Address</h1>
                   <div className="flex gap-12 items-center justify-around">
                     <div className="flex items-start gap-2 flex-col">
@@ -245,7 +245,7 @@ const Contact = () => {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="flex mt-8 items-center justify-center active:scale-95 duration-300 gap-2 text-xl bg-[#0a2440] lg:w-fit p-4  text-white lg:mx-10 my-4">
                   <button type="submit">Submit Now</button>
                   <FaTelegram />
