@@ -12,6 +12,7 @@ const bulkRoute = require("./routes/bulkRoute");
 const blogRoute = require("./routes/blogRoute");
 const productRoute = require("./routes/productRoute");
 const cartRoute = require("./routes/cartRoute");
+const reviewRoute = require("./routes/reviewRoute");
 const otpRoute = require("./routes/otproute");
 const uploadimageRoute = require("./routes/uploadRoute");
 const websiteRoute = require("./routes/websiteRoute");
@@ -82,6 +83,7 @@ app.use("/api/config", websiteRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/payment", payRoute);
 app.use("/api/product", productRoute);
+app.use("/api/review", reviewRoute);
 app.use("/api/coupon", couponRoute);
 app.use("/ap/invoice",InvoiceRoute )
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));

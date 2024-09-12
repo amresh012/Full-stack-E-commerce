@@ -311,7 +311,9 @@ const addnewAddress = asyncHandler(async (req, res, next) => {
         message: "Address saved successfully",
         user: updatedUser,
       };
-      return res.json(response);
+      // return res.json(response);
+      const re=  res.json(response);
+      console.log(re);
     }
 
     // If address does not exist, create and save new address
@@ -576,10 +578,7 @@ const getaUser = async (req, res) => {
       path: "address",
       model: "Address",
       select: "name address city state zipcode mobile",
-    }).populate({
-      path: "order",
-      model: "Order",
-    }); 
+    }).populate('order').exec(); 
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

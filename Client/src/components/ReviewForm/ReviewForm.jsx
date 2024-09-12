@@ -6,6 +6,7 @@ import {config} from "../../Utils/axiosConfig"
 import axios from "axios"
 import {base_url}from "../../Utils/baseUrl"
 import { useParams } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast'
 const ReviewForm = () => {
     const {id} = useParams()
    const {values , handleChange ,setFieldValue, handleSubmit} = useFormik({
@@ -33,6 +34,8 @@ const ReviewForm = () => {
    }) 
 
   return (
+    <>
+      <Toaster/>
     <div className='lg:p-12'>
       <form onSubmit={handleSubmit} className='h-auto lg:p-12 p-4 space-y-8 border-2'>
         <div className="Rating flex gap-2  py-4 flex-col text-3xl font-bold">
@@ -74,6 +77,7 @@ const ReviewForm = () => {
         </div>
       </form>
     </div>
+    </>
   )
 }
 

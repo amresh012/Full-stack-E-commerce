@@ -54,8 +54,9 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
     const { carts ,totalAmount,totalQuantity } = cartItems;
     const dispatch = useDispatch();
     
-    const handleCartReset = () => {
+    const handleCartReset = (anchor) => {
       dispatch(resetCart());
+      toggleDrawer(anchor, false);
     };
      
     const handleRemoveItem= (item)=>{

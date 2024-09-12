@@ -1,42 +1,52 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema({
-  orderId: {
-    type: String,
-    required: true,
-  },
-  paymentId: {
-    type: String,
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-  },
-  cartItems: [{
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-    quantity: { type: Number, required: true },
-    price: { type: Number, required: true }
-  }],
-  invoiceNo:{type:mongoose.Schema.Types.ObjectId, ref:"invoice"},
-  address: {
-    type: {
-      street: String,
-      city: String,
-      state: String,
-      postalCode: String,
-      country: String,
+const orderSchema = new mongoose.Schema(
+  {
+    orderId: {
+      type: String,
+      required: true,
     },
-    required: true,
+    paymentId: {
+      type: String,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    cartItems: [
+      {
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        quantity: { type: Number, required: true },
+        price: { type: Number, required: true },
+      },
+    ],
+    invoiceNo: { type: mongoose.Schema.Types.ObjectId, ref: "invoice" },
+    address: {
+      type: {
+        street: String,
+        city: String,
+        state: String,
+        postalCode: String,
+        country: String,
+      },
+      required: true,
+    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    paymentStatus: {
+      type: String,
+      required: true,
+      default: "Failed",
+      status: ["Success", "Failed"],
+    },
+    status: {
+      type: String,
+      enum: ["Pending", "Shipped", "Delivered"],
+      default: "Pending",
+    },
   },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  paymentStatus: {
-    type: String,
-    required: true,
-    default:"Failed",
-    status: ["Success", "Failed"],
-  },
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 const orderModel = mongoose.model('Order', orderSchema);
 

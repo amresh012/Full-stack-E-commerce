@@ -71,12 +71,21 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "User",
-      roles: ["Admin", "Employee","User"],
+      roles: ["Admin", "Employee", "User"],
     },
-    allowedRoutes:{
+    allowedRoutes: {
       type: [String],
-      enum: ['dashboard', 'users', 'contact us', 'orders', 'products', 'blogs', 'coupon',"quotation"],
-      default: []
+      enum: [
+        "dashboard",
+        "users",
+        "contact us",
+        "orders",
+        "products",
+        "blogs",
+        "coupon",
+        "quotation",
+      ],
+      default: [],
     },
     super: {
       type: Boolean,

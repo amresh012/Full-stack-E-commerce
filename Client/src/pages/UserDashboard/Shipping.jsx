@@ -14,14 +14,15 @@ const Shipping = () => {
   const [currentAddress, setCurrentAdd] = useState(null);
   const [addressList, setAddressList] = useState(user?.address || []);
   const dispatch = useDispatch()
-  console.log(addressList);
+  // console.log(addressList);
+  console.log(config)
  
-  const id =localStorage.getItem("id  ")
+  const id = localStorage.getItem("id")
 
 const fetchAddresses = (async () => {
   try {
    const response = await axios.post(`${base_url}user/adr/${id}`, {}, config)
-  //  console.log(response)
+   console.log(response)
     if(!response.data.error){
       setAddressList(response.data);
     }
@@ -34,7 +35,6 @@ const fetchAddresses = (async () => {
 });
   useEffect(() => {
     setReload(false)
-    console.log("useEffect running");
     if (!user?.address?.length) {
       fetchAddresses();
     }
@@ -69,9 +69,9 @@ const fetchAddresses = (async () => {
       zipcode: "",
     },
     onSubmit: async (values, { setSubmitting }) => {
-      const datatoSend = {...values }
+      const datatoSend = { ...values }
       try {
-        const response = await axios.post(`${base_url}user/adr`, datatoSend, config);
+        const response = await axios.post(`${base_url}user/adr`, datatoSend,config);
         console.log(response)
         if(response.data.success)
         {

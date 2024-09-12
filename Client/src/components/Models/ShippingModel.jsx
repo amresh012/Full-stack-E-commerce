@@ -1,10 +1,16 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 
 // Modal component
 const ShippingModal = ({ data, isOpen, setIsOpen,onShippingSelect }) => {
     // 
-    const [selectedShipping, setSelectedShipping] = useState(null);
+  const [selectedShipping, setSelectedShipping] = useState(null);
+  
   useEffect(() => {
+    if (data.length <= 0 || data === null || data === undefined) {
+      setIsOpen(false);
+      return
+    }
     if (isOpen) {
       document.body.classList.add("overflow-hidden");
     } else {

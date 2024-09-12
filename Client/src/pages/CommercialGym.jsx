@@ -93,7 +93,7 @@ const CommercialGym = () => {
             <div className="w-full p-2">
               <div className="flex">
                 <div className="image w-[10rem] h-[8rem] bg-red-500">
-                  <img src={prod?.images[0]} alt="product" className="h-full w-full object-cover"/>
+                  <img src={prod?.images} alt="product" className="h-full w-full object-cover"/>
                 </div>
                 <div className="w-[30rem] bg-gray-100 space-y-2 p-2">
                   <h1 className="uppercase text-xl font-bold">{prod?.name?.slice(0, 20)}...</h1>

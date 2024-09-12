@@ -23,6 +23,7 @@ const LeftDrawer = () => {
 
   const logoutHandler = ()=>{
     localStorage.removeItem('token');
+    localStorage.removeItem("id")
     dispatch(removeuser());
     toast.success('Logged out successfully.');
     navigate('/');

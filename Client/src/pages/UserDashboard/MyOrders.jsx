@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { GoChecklist } from "react-icons/go";
-import moment from "moment"
-import { MdCurrencyRupee } from "react-icons/md";
+// import moment from "moment"
+// import { MdCurrencyRupee } from "react-icons/md";
 import {config} from "../../Utils/axiosConfig"
 import {base_url} from "../../Utils/baseUrl"
+import toast from 'react-hot-toast';
 const id  = localStorage.getItem("id")
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const id = localStorage.getItem("id")
   console.log(id)
+
+  
   useEffect(() => {
-    const FetchOrder =async() => {
-      try {
-        const re = await fetch(`${base_url}order/getaOrder/${id}`, 
-          {
-            method: "POST",
-            ...config
+    const fetchUserDetails = async () => {
+      if (id)
+        try {
+          const response = await fetch(`${base_url}user/${id}`, {
+            method: "GET",
+            ...config,
+          });
+          const data = await response.json();
+          //  console.log(data)
+          if (!data.error) {
+            setOrders({data});
           }
-        );
-        console.log(re)
-        setOrders(re.data)
-      }
-      catch (error) {
-        console.log(error)
-      }
-    }
-  FetchOrder()
- },[])
+        } catch (error) {
+          toast.error(error.message);
+        }
+    };
+    fetchUserDetails();
+  }, []);
+  console.log(orders);
   
   return (
     <>
@@ -38,15 +43,6 @@ const MyOrders = () => {
           <h1 className="uppercase">My Orders</h1>
         </div>
         <div className="orders-section h-[100vh] space-y-2 p-2 overflow-auto ">
-          {
-           orders?.map((order,id)=>(
-              <>
-                <div className="w-full p-2 uppercase   border-2 rounded-md flex items-start justify-between">
-                
-                </div>
-          </>
-            ))
-          }
         </div>
      </div>
     </>

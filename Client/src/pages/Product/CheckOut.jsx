@@ -13,23 +13,18 @@ import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
   const user = useSelector((state)=>state.auth.user)
-  console.log(user?.email)
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
-  console.log(newAdd)
   const deliverpin = newAdd?.zipcode;
-  console.log(deliverpin);
 
 
   const navigate = useNavigate();
   const [discount, setDiscount] = useState(0);
   const [discountType, setDiscountType] = useState("");
-  const [isBilling, setIsBilling] = useState(true);
   const [couriercompnies, setCourierCompnies] = useState([]);
   const [selectedShiping, setSelectedShipping] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const token = localStorage.getItem("token");
-  const handleChecked = () => {};
   // to close the model if there is no courier company
   useEffect(() => {
     if (!couriercompnies && couriercompnies?.length <=0) {
@@ -346,46 +341,43 @@ const CheckOut = () => {
             <h1 className="text-2xl font-bold capitalize">
               Address Information
             </h1>
-           {
-             newAdd === null ?
-             <div className="flex gap-2">
-              <p className="text-gray-500">Please select an address</p>
-              <Link to="/profile/shipping-add" className="underline">
-               <p>Click here to select address</p>
-              </Link>
-             </div>
-             :
-             <>
-             <div className="isbilling_isShipping flex justify-between items-center font-bold text-red-500">
-             <p className="">Shipping address is Same as Billing Address</p>
-             <input
-               type="checkbox"
-               checked={isBilling}
-               onChange={handleChecked}
-             />
-           </div>
-           <div className="flex justify-between">
-             <span>Address:</span>
-             <p className="">{newAdd?.address}</p>
-           </div>
-           <div className="flex justify-between">
-             <span>City:</span>
-             <p className="">{newAdd?.city}</p>
-           </div>
-           <div className="flex justify-between">
-             <span>State:</span>
-             <p className="">{newAdd?.state}</p>
-           </div>
-           <div className="flex justify-between">
-             <span>PinCode:</span>
-             <p className="">{newAdd?.zipcode}</p>
-           </div>
-           <div className="flex justify-between">
-             <span>Country:</span>
-             <p className="">INDIA</p>
-           </div>
-           </>
-           }
+            {newAdd === null ? (
+              <div className="flex gap-2">
+                <p className="text-gray-500">Please select an address</p>
+                {token ? (
+                  <Link to="/profile/shipping-add" className="underline">
+                    <p>Click here to select address</p>
+                  </Link>
+                ) : (
+                  <Link to="/login" className="underline">
+                    <p>Login To Get Address</p>
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-between">
+                  <span>Address:</span>
+                  <p className="">{newAdd?.address}</p>
+                </div>
+                <div className="flex justify-between">
+                  <span>City:</span>
+                  <p className="">{newAdd?.city}</p>
+                </div>
+                <div className="flex justify-between">
+                  <span>State:</span>
+                  <p className="">{newAdd?.state}</p>
+                </div>
+                <div className="flex justify-between">
+                  <span>PinCode:</span>
+                  <p className="">{newAdd?.zipcode}</p>
+                </div>
+                <div className="flex justify-between">
+                  <span>Country:</span>
+                  <p className="">INDIA</p>
+                </div>
+              </>
+            )}
           </div>
           <div className=" p-4 Copoun-Code rounded-md space-y-4">
             <Copoun
@@ -441,10 +433,10 @@ const CheckOut = () => {
                 <button
                   className={`bg-[#0A2440] w-full text-white p-2 rounded-md`}
                   disabled={
-                    newAdd === null &&
-                    couriercompnies?.length ===0 &&
+                    newAdd === null ||
+                    couriercompnies?.length === 0 &&
                     couriercompnies === null &&
-                    couriercompnies=== undefined 
+                    couriercompnies === undefined
                       ? true
                       : false
                   }
