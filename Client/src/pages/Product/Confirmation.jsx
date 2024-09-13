@@ -15,12 +15,13 @@ const Confirmation = () => {
     const [current, setCurrent] = useState(2);
     const [invoice, setInvoiceId] = useState("")
     const [InvoiceUrl , setInvoiceUrl] = useState("")
+    console.log(InvoiceUrl)
     const onChange = (value) => {
         setCurrent(value);
       };
       const location = useLocation();1
       const stat = location.state || {}
-      console.log(stat);
+      // console.log(stat);
     const steps = [ 'Order Confirmed','Payment', 'Shipping', 'Review', 'Complete'];
     // invoiceData
     const {address ,items,email} = stat
@@ -29,8 +30,10 @@ const Confirmation = () => {
       const datatosend = {address, items ,email,stat}
       const CreateInvoice =  async()=>{
         const invoice = await axios.post(`${base_url}invoice/create`, {datatosend},config);
-        invoice.json()
-  
+        console.log(invoice)
+        if(invoice.data){
+          setInvoiceUrl(invoice.data.short_url)
+        }
       }
       CreateInvoice()
     },[])
