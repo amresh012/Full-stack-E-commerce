@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {base_url} from "../../Utils/baseUrl"
 import { config } from '../../Utils/axiosConfig';
+import toast from 'react-hot-toast';
 
 const Coupon = ({ setDiscount, setDiscountType }) => {
   const [couponCode, setCouponCode] = useState('');
@@ -19,6 +20,7 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
         setDiscountType(response.data.coupon.discountType);
         setSuccess(true)
         setMessage('Valid Copoun');
+        toast.success("Copoun Applied Successfully")
     }
     } catch (error) {
       setMessage('Invalid or expired coupon');

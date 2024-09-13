@@ -32,7 +32,7 @@ const orderSchema = new mongoose.Schema(
       },
       required: true,
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    users: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     paymentStatus: {
       type: String,
       required: true,

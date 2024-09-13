@@ -17,7 +17,6 @@ const Profile = () => {
    address: [] || user?.address,
  });
    let id = localStorage.getItem("id")
-  //  console.log(id)
 
   useEffect(() => {
     const fetchUserDetails = async () => {

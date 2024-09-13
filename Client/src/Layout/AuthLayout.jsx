@@ -5,7 +5,7 @@ const AuthLayout = () => {
   
   return (
     <div>
-        <Navabr/>
+      <Navabr/>
       <Outlet/>
     </div>
   )

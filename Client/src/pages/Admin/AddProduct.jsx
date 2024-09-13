@@ -21,7 +21,6 @@ const AddProduct = () => {
     const code = itemCode || '000'; // Default to '000' if itemCode is not provided
     return `${shortName}-${shortCategory}-${code}`;
   };
-  // const skucode  = generateSKU()
 
   const props = {
     name: "file",

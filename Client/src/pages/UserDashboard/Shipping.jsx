@@ -14,31 +14,34 @@ const Shipping = () => {
   const [currentAddress, setCurrentAdd] = useState(null);
   const [addressList, setAddressList] = useState(user?.address || []);
   const dispatch = useDispatch()
-  // console.log(addressList);
-  console.log(config)
  
   const id = localStorage.getItem("id")
+  console.log(id)
 
-const fetchAddresses = (async () => {
-  try {
-   const response = await axios.post(`${base_url}user/adr/${id}`, {}, config)
-   console.log(response)
-    if(!response.data.error){
-      setAddressList(response.data);
+  const fetchAddresses = async () => {
+    try {
+      const response = await axios.post(`${base_url}user/adr/${id}`, {}, config);
+     console.log(response)
+      if (response.data) {
+        setAddressList(response.data);
+      } else {
+        throw new Error(response.data.error || 'Failed to fetch addresses.');
+      }
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+      toast.error(`Error: ${error.message}`);
     }
-    else{
-      throw new Error(response.data.error)
-    }
-  } catch (error) {
-    toast.error(error.message);
-  }
-});
+  };
+
   useEffect(() => {
-    setReload(false)
-    if (!user?.address?.length) {
-      fetchAddresses();
-    }
-  }, [user,reload]);
+    const fetchData = async () => {
+      await fetchAddresses(); // Wrap async call in a separate function
+      setReload(false); // Reset reload flag after fetching data
+    };
+
+    fetchData(); // Fetch data when component mounts or reload changes
+  }, [reload]);
+
 
   const handleDeleteAddress = async (addressId) => {
     alert("Are You Sure You Want To delete this Address")
@@ -54,7 +57,7 @@ const fetchAddresses = (async () => {
         return
       }
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       toast.error("Failed to delete address. Please try again.");
     }
   };
@@ -70,6 +73,7 @@ const fetchAddresses = (async () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       const datatoSend = { ...values }
+      console.log(datatoSend)
       try {
         const response = await axios.post(`${base_url}user/adr`, datatoSend,config);
         console.log(response)
@@ -77,7 +81,6 @@ const fetchAddresses = (async () => {
         {
           dispatch(adduser(response.data));
           toast.success(response.data.message);
-          // set all field to blank
         }
       } catch (error) {
         if (error.response) {

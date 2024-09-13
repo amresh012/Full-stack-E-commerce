@@ -7,6 +7,9 @@ const {
  
   const router = express.Router();
   router.post("/create", authMiddleware, createInvoice)
-  // router.get("/getbyid", FetchInvoiceById)
+  router.get("/getbyid", function(){
+    console.log("csdvsdfv")
+    return
+  })
 
   module.exports = router;

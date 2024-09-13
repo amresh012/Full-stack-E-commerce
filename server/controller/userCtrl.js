@@ -360,14 +360,13 @@ const getAddressById = asyncHandler(async (req, res) => {
   console.log(req.params)
   const { id } = req.params; // id represents the address ID
   const { _id: userId } = req.user;
-  console.log(userId)
+  console.log("getaddressby id ", userId)
 
   try {
     // Query the database to retrieve the user by userId and the specific address by address id
     const user = await User.findById(userId).populate({
       path: "address",
       model: "Address",
-      // match: { _id: id }, // Match the address id from the user addresses
       select: "name address city state zipcode mobile", // Select specific address fields
     });
 
@@ -554,8 +553,17 @@ const getallUser = asyncHandler(async (req, res) => {
         select: "name address city state zipcode mobile",
       })
       .populate({
+        path: "cart",
+        populate: [
+          { path: "products",
+            model: "product",
+            select: "name"
+           },
+        ]
+      }).populate({
         path: "order",
         model: "Order",
+        select:"orderId amount cartItems"
       });
 
     // Log the results to verify population
@@ -578,7 +586,11 @@ const getaUser = async (req, res) => {
       path: "address",
       model: "Address",
       select: "name address city state zipcode mobile",
-    }).populate('order').exec(); 
+    }).populate({
+      path: "order",
+      model:"Order",
+      select:"orderId amount cartItems"
+    }); 
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

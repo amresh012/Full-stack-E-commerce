@@ -52,7 +52,7 @@ const createOrder = async (req, res) => {
 
 const verifyPayment = async (req, res) => {
   
-//  console.log(req.body)
+ console.log(req.body)
   const { paymentId,order_id, razorpay_signature, amount, items, address, user } = req.body;
   const key_secret = process.env.RAZORPAY_SECRET_KEY;
 
@@ -74,6 +74,7 @@ const verifyPayment = async (req, res) => {
         amount: amount, // Convert amount to rupees
         cartItems:items,
         address,
+        users:user._id,
         paymentStatus: "Success"
       });
       

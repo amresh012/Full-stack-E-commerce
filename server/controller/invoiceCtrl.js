@@ -11,41 +11,61 @@ const razorpay = new Razorpay({
 const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
   
   const createInvoice = async (req, res)=>{
-    console.log(req.body)
-    const {customer, line_items} = req.body
+    const {datatosend}= req.body
+    const {address, items , email,stat} = datatosend
+    const {_id:id, price , images,...newitem} = items
+    newitem.item_id=null
+    newitem.amount = newitem.price;
+    delete newitem.price;
+    delete newitem.totalPrice
+    console.log('items--------------------------', [newitem],"items original-----------", items)
+    const {_id ,mobile, ...obj} = address
+    obj.line1=obj.address
+    obj.line2=obj.city+","+obj.zipcode
+    obj.country = "India"
+    delete obj.address
     try{
-        {
-          type ="invoice",
-          description= `Invoice for the month of ${month}+${year}`,
-          partial_payment= false,
-          customer= {
-            name:customer.name,
-            contact:customer.mobile,
-            email:customer.email,
-            billing_address: customer.billing_address,
-            shipping_address:customer.shipping_address
+       const options = {
+          type :"invoice",
+          description: `Invoice for the month of ${month} ${year}`,
+          partial_payment: false,
+          customer: {
+            name:address.name,
+            contact:address.mobile,
+            email:email,
+            billing_address: obj,
+            shipping_address: obj
           },
-          line_items= line_items ,
-          sms_notify= 1,
-          email_notify= 1,
-          currency= "INR",
-          expire_by= fifteenDaysAhead
+          line_items: [{
+              name: "Master Cloud Computing in 30 Days",
+              description: "Book by Ravena Ravenclaw",
+              amount: 399 *100,
+              currency: "INR",
+              quantity: 1
+          }],
+          sms_notify: 1,
+          email_notify: 1,
+          currency: "INR",
+          expire_by: fifteenDaysAhead
         }
                 const response = await razorpay.invoices.create(options)
-               const respo =  res.json(response)
-                console.log(respo)
+                res.status(200).send(response)
+                console.log(response)
+                // console.log("createinvoice response==================",respo)
                 // save invoice data in database in invoice model
-                const invoice = new invoiceModel({
-                  orderId: order_id,
-                  paymentId:paymentId,
-                  amount: amount, // Convert amount to rupees
-                  cartItems:items,
-                  address,
-                  user,
-                  paymentStatus: "Success"
-    })
-                invoice.save()
-                }catch(error){               }
+    //             const invoice = new invoiceModel({
+    //               orderId: stat.order_id,
+    //               paymentId:stat.paymentId,
+    //               amount:stat.amount, // Convert amount to rupees
+    //               cartItems:stat.items,
+    //               address,
+    //               user:stat.user._id,
+    // })
+    //             invoice.save()
+                }
+                catch(error){
+                 console.log(error)
+                }
   }
 
 module.exports= {createInvoice}

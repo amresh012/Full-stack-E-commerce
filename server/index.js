@@ -85,7 +85,7 @@ app.use("/api/payment", payRoute);
 app.use("/api/product", productRoute);
 app.use("/api/review", reviewRoute);
 app.use("/api/coupon", couponRoute);
-app.use("/ap/invoice",InvoiceRoute )
+app.use("/api/invoice",InvoiceRoute )
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/uploads", uploadimageRoute);
 app.use("/api/images", imageRoute);

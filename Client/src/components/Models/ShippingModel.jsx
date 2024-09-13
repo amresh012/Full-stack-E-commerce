@@ -7,10 +7,6 @@ const ShippingModal = ({ data, isOpen, setIsOpen,onShippingSelect }) => {
   const [selectedShipping, setSelectedShipping] = useState(null);
   
   useEffect(() => {
-    if (data.length <= 0 || data === null || data === undefined) {
-      setIsOpen(false);
-      return
-    }
     if (isOpen) {
       document.body.classList.add("overflow-hidden");
     } else {

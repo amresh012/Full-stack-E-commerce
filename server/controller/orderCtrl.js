@@ -20,7 +20,13 @@ const Invoice = require("../controller/invoiceCtrl")
            },
         ]
       }
-      ).populate({path:"user", model:"User"})
+      ).populate(
+        {
+          path: "users",
+          model:"User",
+          select: "name email"
+        }
+      )
       // Send the orders as the response
       res.status(200).json({
         success: true,

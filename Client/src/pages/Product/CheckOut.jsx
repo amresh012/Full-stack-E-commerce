@@ -13,6 +13,7 @@ import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
   const user = useSelector((state)=>state.auth.user)
+  console.log(user)
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   const deliverpin = newAdd?.zipcode;
@@ -143,6 +144,7 @@ const CheckOut = () => {
               amount: order_amount,
               items: cartItems,
               address: orderaddress,
+              user:user
             };
   
             try {
@@ -198,7 +200,7 @@ const CheckOut = () => {
                     totalQuantity,
                     selectedShiping,
                     orderData,
-                    eamil:user.email
+                    email:user.email
                   };
                   navigate(`/order-confirmed`, { state: ConfirmedOrder });
                   dispatch(resetCart());

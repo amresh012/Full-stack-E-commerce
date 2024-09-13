@@ -7,11 +7,14 @@ import Stepper from '../../components/reusablesUI/Stepper';
 import {Link, useLocation} from "react-router-dom"
 import moment from "moment"
 import axios from "axios"
+import { config } from '../../Utils/axiosConfig';
+import { base_url } from '../../Utils/baseUrl';
+import {toast , Toaster} from "react-hot-toast"
 
 const Confirmation = () => {
     const [current, setCurrent] = useState(2);
     const [invoice, setInvoiceId] = useState("")
-    const [InvoiceUrl , setInvoiceUrl] = useState("https://rzp.io/i/Tw8Z2nPhaQ")
+    const [InvoiceUrl , setInvoiceUrl] = useState("")
     const onChange = (value) => {
         setCurrent(value);
       };
@@ -19,42 +22,29 @@ const Confirmation = () => {
       const stat = location.state || {}
       console.log(stat);
     const steps = [ 'Order Confirmed','Payment', 'Shipping', 'Review', 'Complete'];
-
-    const createInvoice = async () => {
-      const DataToSend = {}
-        try {
-            const response = await axios.post(``,)
-            console.log(response)
-           const respo = res.json(response.data);
-           setInvoiceId(respo.id)
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    };
-    // getinvoicebyId
-    const GetInvoiceById =async ()=>{
-        try {
-            const response = await axios.post(`https://api.razorpay.com/v1/invoices/${invoice}`, {}, {
-                auth: {
-                    key_id: 'rzp_test_oLA0LztRZUjDkX',
-                    key_secret: 'hdit4v4IfUPbtpWTcyJlnaTJ'
-                }
-            });
-            console.log(response)
-           const res =res.json(response.data);
-           setInvoiceUrl(res?.short_url)
-           
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+    // invoiceData
+    const {address ,items,email} = stat
+    // createInvoic
+    useEffect(()=>{
+      const datatosend = {address, items ,email,stat}
+      const CreateInvoice =  async()=>{
+        const invoice = await axios.post(`${base_url}invoice/create`, {datatosend},config);
+        invoice.json()
+  
+      }
+      CreateInvoice()
+    },[])
+    
+    const handleInvoice =()=>{
+      if(InvoiceUrl==""){
+         toast.error("Invoice not generated")
+      }
+      else{
+        toast.success("Invoice is Ready")
+      }
     }
-
-  useEffect(()=>{
-    createInvoice()
-    GetInvoiceById()
-  },[])
-
   return (
+    <>
    <div className=" flex flex-col gap-4 lg:flex-row items-start justify-center p-2 ">
      <div className=" h-full lg:w-2/3 p-2 rounded-md flex flex-col items-center justify-center gap-4">
        <div className="stepper bg-gray-200 rounded-md  shadow-md w-full p-2 text-black flex flex-col items-center gap-12 ">
@@ -78,8 +68,12 @@ const Confirmation = () => {
       <button className="text-[#0a2444] underline">Track Your Order</button>
   </div>
   <div className="flex items-center flex-wrap gap-4">
+    <Link to="/">
     <button className='underline'>Back to home</button>
+    </Link>
+    <Link to="/product">
     <button className='underline bg-[#0a2444] p-2 text-white'>Continue Shopping</button>
+    </Link>
   </div>
        </div>
      </div>
@@ -90,7 +84,7 @@ const Confirmation = () => {
             <h1 className='text-xl'>Order Detail</h1>
             <span className='text-sm'>#{stat?.orderData?.shippting?.order_id}</span>
         </h1>
-        <div className=" flex items-center text-sm  gap-2 rounded-md bg-[#0a2444] p-2 text-white active:scale-95">
+        <div onClick={handleInvoice} className=" flex items-center text-sm  gap-2 rounded-md bg-[#0a2444] p-2 text-white active:scale-95">
           <Link to={InvoiceUrl}>
           <button >Get Invoice</button>
           </Link>
@@ -108,9 +102,9 @@ const Confirmation = () => {
         </div>
          <div className="p-2">
          <p className="flex flex-col gap-2">
-            <span>Street:{stat?.address?.street}</span>
             <span>City:{stat?.address?.city}</span>
             <span>State:{stat?.address?.state}</span>
+            <span>zipcode:{stat?.address?.zipcode}</span>
             </p>
          </div>
          {/* billing address */}
@@ -122,9 +116,9 @@ const Confirmation = () => {
         </div>
          <div className="p-2">
             <p className="flex flex-col gap-2">
-            <span>Street:{stat?.address?.street}</span>
             <span>City:{stat?.address?.city}</span>
             <span>State:{stat?.address?.state}</span>
+            <span>zipcode:{stat?.address?.zipcode}</span>
             </p>
          </div>
          {/* contact-details */}
@@ -162,6 +156,7 @@ const Confirmation = () => {
       </div>
      </div>
    </div>
+    </>
   )
 }
 

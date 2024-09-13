@@ -11,8 +11,7 @@ import { base_url } from "../../Utils/baseUrl";
 
 const Login = () => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user)
-  localStorage.setItem("id", user?._id)
+  
   const [loginWithPhone, setLoginWithPhone] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
