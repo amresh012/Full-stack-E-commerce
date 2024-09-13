@@ -13,12 +13,6 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
   const createInvoice = async (req, res)=>{
     const {datatosend}= req.body
     const {address, items , email,stat} = datatosend
-    const {_id:id, price , images,...newitem} = items
-    newitem.item_id=null
-    newitem.amount = newitem.price;
-    delete newitem.price;
-    delete newitem.totalPrice
-    console.log('items--------------------------', [newitem],"items original-----------", items)
     const {_id ,mobile, ...obj} = address
     obj.line1=obj.address
     obj.line2=obj.city+","+obj.zipcode
