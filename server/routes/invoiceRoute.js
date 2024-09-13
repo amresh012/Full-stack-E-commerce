@@ -3,13 +3,10 @@ const {
     authMiddleware,
     isAdmin,
   } = require("../middlewares/authMiddleware");
-  const {createInvoice, FetchInvoiceById} = require("../controller/invoiceCtrl")
+  const {createInvoice, fetchbyid} = require("../controller/invoiceCtrl")
  
   const router = express.Router();
   router.post("/create", authMiddleware, createInvoice)
-  router.get("/getbyid", function(){
-    console.log("csdvsdfv")
-    return
-  })
+  router.get("/getbyid",fetchbyid)
 
   module.exports = router;

@@ -33,9 +33,15 @@ const Confirmation = () => {
         console.log(invoice)
         if(invoice.data){
           setInvoiceUrl(invoice.data.short_url)
+          setInvoiceId(invoice.data.id)
         }
       }
+      const fetchinvoice = async()=>{
+        const invoicebyid = await axios.get(`${base_url}invoice/getbyid/${invoice}`)
+        console.log(invoicebyid)
+      }
       CreateInvoice()
+      fetchinvoice()
     },[])
     
     const handleInvoice =()=>{

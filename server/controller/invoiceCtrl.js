@@ -61,11 +61,22 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
                  console.log(error)
                 }
   }
-
+   const fetchbyid = async(req, res)=>{
+     const invoiceid = req.params
+    try{
+      const response = await razorpay.invoices.fetch(invoiceid)
+      console.log("fetchbyid response==============",response)
+      res.status(200).send(response)
+    }
+    catch(error)
+    {
+      console.log(error)
+    }
+   }
 
   
 
-module.exports= {createInvoice}
+module.exports= {createInvoice,fetchbyid}
 
 
 
