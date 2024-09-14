@@ -115,12 +115,11 @@ const base_url = 'https://apiv2.shiprocket.in/v1/external/';
 
 
 // shipment logic
-const generateShipmentForOrder = async (shipment_id) => {
-  console.log(shipment_id)
+const generateShipmentForOrder = async (req, res) => {
+  const {shipment_id,courier_id, status} = req.body
+  console.log(req.body)
   try {
-    const response = await axios.post(
-      `${base_url}courier/generate/pickup/`,
-      {shipment_id:[shipment_id]},
+    const response = await axios.post(`${base_url}courier/assign/awb`,{shipment_id,courier_id, status},
       {
         "Content-Type": "application/json",
         Authorization: process.env.SHIP_ROCKET_TOKEN,
@@ -149,7 +148,8 @@ const generateShipmentForOrder = async (shipment_id) => {
 
 
 // tracking logic
-const trackOrderByAWB = async (awb_code) => {
+const trackOrderByAWB = async (req,res) => {
+  console.log(req)
   try {
     const token = await getShiprocketToken();
     const response = await axios.get(`${base_url}courier/track/awb/${awb_code}`, {

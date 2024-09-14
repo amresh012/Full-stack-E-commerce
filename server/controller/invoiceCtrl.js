@@ -8,12 +8,24 @@ const razorpay = new Razorpay({
   const date = new Date()
   const year = date.getFullYear()
   const month = date.getMonth()+1;
-const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
+const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (15 * 24 * 60 * 60);
   
   const createInvoice = async (req, res)=>{
     const {datatosend}= req.body
     const {address, items , email,stat} = datatosend
+    console.log("address==================", address)
     const {_id ,mobile, ...obj} = address
+    const newitems = items.map((item)=>(
+      {
+        item_id:null,
+        name:item?.name,
+        description:"",
+        amount: item?.totalPrice*100,
+        currency: "INR",
+        quantity: item?.quantity
+      }
+    ))
+    console.log("new constructed item",newitems)
     obj.line1=obj.address
     obj.line2=obj.city+","+obj.zipcode
     obj.country = "India"
@@ -30,13 +42,7 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
             billing_address: obj,
             shipping_address: obj
           },
-          line_items: [{
-              name: "Master Cloud Computing in 30 Days",
-              description: "Book by Ravena Ravenclaw",
-              amount: 399 *100,
-              currency: "INR",
-              quantity: 1
-          }],
+          line_items: [...newitems],
           sms_notify: 1,
           email_notify: 1,
           currency: "INR",
@@ -44,39 +50,51 @@ const fifteenDaysAhead = Math.floor(Date.now() / 1000) + (1 * 24 * 60 * 60);
         }
                 const response = await razorpay.invoices.create(options)
                 res.status(200).send(response)
-                console.log(response)
+                // console.log(response)
                 // console.log("createinvoice response==================",respo)
                 // save invoice data in database in invoice model
-    //             const invoice = new invoiceModel({
-    //               orderId: stat.order_id,
-    //               paymentId:stat.paymentId,
-    //               amount:stat.amount, // Convert amount to rupees
-    //               cartItems:stat.items,
-    //               address,
-    //               user:stat.user._id,
-    // })
-    //             invoice.save()
                 }
                 catch(error){
                  console.log(error)
                 }
   }
-   const fetchbyid = async(req, res)=>{
-     const invoiceid = req.params
-    try{
-      const response = await razorpay.invoices.fetch(invoiceid)
-      console.log("fetchbyid response==============",response)
-      res.status(200).send(response)
+  const getInvoiceById = async (req, res) => {
+    console.log("req params ========================",req.params)
+    const invoiceId = req.params.id;  // Get the invoice ID from URL parameters
+  
+    try {
+      // Fetch the invoice using Razorpay instance method
+      const invoice = await razorpay.invoices.fetch(invoiceId);
+  
+      // Return the invoice data
+      res.status(200).json({
+        success: true,
+        invoice
+      });
+      // const invoice = new invoiceModel({
+        //               orderId: stat.order_id,
+        //               paymentId:stat.paymentId,
+        //               amount:stat.amount, // Convert amount to rupees
+        //               cartItems:stat.items,
+        //               address,
+        //               user:stat.user._id,
+        // })
+        //             invoice.save()
+    } catch (error) {
+      console.error('Error fetching invoice:', error);
+  
+      // Handle errors based on Razorpay's response or instance method error
+      res.status(500).json({
+        success: false,
+        message: 'Unable to fetch the invoice',
+        error: error.error ? error.error.description : error.message
+      });
     }
-    catch(error)
-    {
-      console.log(error)
-    }
-   }
+  };
 
   
 
-module.exports= {createInvoice,fetchbyid}
+module.exports= {createInvoice,getInvoiceById}
 
 
 

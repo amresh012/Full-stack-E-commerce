@@ -30,11 +30,11 @@ const LeftDrawer = () => {
   }
 
   return (
-    <div className="">
+    <div className="h-screen overflow-y-scroll">
       <nav
         className={
           expanded
-            ? "flex flex-col items-center justify-between border-r-2 w-[20rem] h-[100vh] overflow-auto"
+            ? "flex flex-col items-center justify-between border-r-2 w-[20rem]"
             : "w-14 overflow-hidden"
         }
       >
@@ -164,7 +164,7 @@ const LeftDrawer = () => {
         </ul>
 
         {user !== null && (
-          <div className=" flex  bottom-0 w-full bg-[#0A2440] p-4 text-xl text-white items-center justify-center gap-2">
+          <div className=" flex mt-12  w-full bg-[#0A2440] p-4 text-xl text-white items-center justify-center gap-2">
             <button className={expanded ? "uppercase":"hidden"} onClick={logoutHandler}>
               LogOut
             </button>

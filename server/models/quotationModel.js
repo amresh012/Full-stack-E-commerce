@@ -18,19 +18,18 @@ const QuotationSchema = new mongoose.Schema(
     mobile: {
       type: String,
       required: true,
-      unique:true,
-      validate: {
-        validator: function (value) {
-          return /^[6-9]\d{9}$/.test(value);
-        },
-        message: (props) =>
-          `${props.value} is not a valid Indian mobile number.`,
-      },
+      // validate: {
+      //   validator: function (value) {
+      //     return /^[6-9]\d{9}$/.test(value);
+      //   },
+      //   message: (props) =>
+      //     `${props.value} is not a valid Indian mobile number.`,
+      // },
     },
-    // product:{
-    //     type:[{ type: mongoose.Schema.Types.ObjectId, ref: "product" }],
-    //     required:true
-    // },
+    product:{
+        type:String,
+        required:true
+    },
     desc:{
       type: String,
       required: true,
@@ -38,7 +37,11 @@ const QuotationSchema = new mongoose.Schema(
     city:{
         type:String,
         required:[true, "City is Required Please fill a city name"]
-    }
+    },
+    // remarks:{
+    //    type:String,
+    //    required:true
+    // }
   },
   {
     timestamps: true,

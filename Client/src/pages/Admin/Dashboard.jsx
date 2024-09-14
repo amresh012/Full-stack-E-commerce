@@ -10,6 +10,9 @@ import {
 import { base_url } from "../../Utils/baseUrl";
 import { toast, Toaster } from "react-hot-toast";
 import { config } from "../../Utils/axiosConfig";
+import BasicTable from "../../components/AdminComponents/BasicTable";
+import moment from "moment"
+
 
 const Dashboard = () => {
   const [totalOrders, setTotalOrders] = useState(0);
@@ -19,6 +22,7 @@ const Dashboard = () => {
   const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState(0);
   const [totalPaymentsToday, setTotalPaymentsToday] = useState(0);
   const [totalVisitsToday, setTotalVisitsToday] = useState(0);
+  const [recentorders , setRecentOrders] = useState([])
  
 
 
@@ -57,18 +61,10 @@ const Dashboard = () => {
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
-      case "return":
+      case "failed":
         return "bg-red-200 p-2 text-red-500 rounded-md w-full  uppercase"; // Red color for "Return"
-      case "cod":
-        return "text-yellow-500 bg-yellow-200 p-2 w-full rounded-md uppercase"; // Yellow color for "COD"
-      case "not processed":
-        return "text-gray-500 bg-gray-200 p-2 rounded-md w-full uppercase"; // Gray color for "Not Processed"
-      case "shipped":
-        return "text-blue-500  bg-blue-200 p-2 w-full rounded-md uppercase"; // Blue color for "Shipped"
-      case "out of delivery":
-        return "text-purple-500  bg-purple-200 p-2 w-full rounded-md uppercase"; // Purple color for "Out Of Delivery"
-      case "cancelled":
-        return "text-black  bg-black/20 p-2 rounded-md w-full uppercase"; // Black color for "Cancelled"
+      case "success":
+        return "text-green-500 bg-green-200 p-2 w-full rounded-md uppercase"; // Yellow color for "COD"
       default:
         return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
     }
@@ -84,30 +80,43 @@ const Dashboard = () => {
       },
     },
     {
-      header: "Invoice No.",
-      accessorKey: "Invoice",
+      header: "OrderId.",
+      accessorKey: "orderId",
     },
     {
-      header: "Orderd By",
+      header: "Name",
       accessorKey: "orderd_by",
+      cell:({row})=>{
+        const name = row.original.users.name
+        return <span>{name}</span>;
+      }
     },
     {
       header: "Contact Details",
       accessorKey: "mobile",
+      cell:({row})=>{
+        const name = row.original.users.mobile
+        return <span>{name}</span>;
+      }
     },
     {
       header: "Amount in Rs",
-      accessorKey: "Amount",
+      accessorKey: "amount",
     },
     {
       header: "Order Date",
       accessorKey: "Order_date",
+      cell:({row})=>{
+        // 
+        const date = row.createdAt
+        return <span>{moment(date).format('DD/MM/YYYY')}</span>;
+      }
     },
     {
       header: "Status",
       accessorKey: "sataus",
       cell: ({ row }) => {
-        const status = row.original.sataus;
+        const status = row.original.paymentStatus;
         return <span className={getStatusColor(status)}>{status}</span>;
       },
     },
@@ -124,6 +133,7 @@ const Dashboard = () => {
       if (!data?.success) {
         throw new Error(data?.error || 'Something went wrong');
       }
+      setRecentOrders(data.recentOrders)
       setTotalNewCustomers(data.totalNewCustomers);
       setTotalCategories(data.totalCategories);
       setTotalOrders(data.totalOrders);
@@ -291,6 +301,7 @@ const Dashboard = () => {
 
         <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Recent Orders</h1>
         <div className="w-full">
+          <BasicTable columns={columns} data={recentorders || []}/>
         </div>
 
         <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Summary</h1>

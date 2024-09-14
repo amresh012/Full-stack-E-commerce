@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CChart } from "@coreui/react-chartjs";
 
 export const LineChart = ({label, labels, data}) => {
+ const [ChartColors , setChartColors] = useState([])
+ console.log(ChartColors)
+  useEffect(()=>{
+    function generateRandomHexColorsArray(numColors) {
+      const colorsArray = [];
+    
+      for (let i = 0; i < numColors; i++) {
+        // Generate random color
+        let randomColor = Math.floor(Math.random() * 16777215).toString(16);
+        
+        // Ensure it is 6 characters by padding with 0s if needed
+        let hexColor = "#" + randomColor.padStart(6, '0');
+        
+        colorsArray.push(hexColor);
+      }
+      return colorsArray;
+    }
+    setChartColors( generateRandomHexColorsArray(50))
+  },[])
+
   return (
     <CChart
       type="line"
@@ -57,7 +77,7 @@ export const LineChart = ({label, labels, data}) => {
   );
 };
 
-export const DoughnutChart = ({labels, data}) => {
+export const DoughnutChart = ({labels, data, ChartColors}) => {
   return (
     <CChart
       type="doughnut"
@@ -65,10 +85,16 @@ export const DoughnutChart = ({labels, data}) => {
         labels: labels,
         datasets: [
           {
-            backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16", "#ea73ff", "#ff7600", "#8263ff", "#e0e329"],
+            backgroundColor:ChartColors,
             data: data,
           },
         ],
+        // datasets: [
+        //   {
+        //     backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16", "#ea73ff", "#ff7600", "#8263ff", "#e0e329"],
+        //     data: data,
+        //   },
+        // ],
       }}
       options={{
         plugins: {

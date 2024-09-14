@@ -41,6 +41,7 @@ const Users = () => {
     {value: 'products', label: 'Products'},
     {value: 'blogs', label: 'Blogs'},
     {value: 'coupon', label: 'Coupon'},
+    {value: 'Quotation', label: 'Quotation'},
   ];
 
   const toggleModalHandler = useCallback(() => {

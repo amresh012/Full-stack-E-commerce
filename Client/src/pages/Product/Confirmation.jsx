@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaCheckCircle, FaChevronRight, FaDownload } from 'react-icons/fa'
+import { FaCheckCircle, FaChevronRight } from 'react-icons/fa'
 import { TbTruckDelivery } from "react-icons/tb";
 import { BsReceiptCutoff } from "react-icons/bs";
 import { MdOutlineContactPhone } from "react-icons/md";
@@ -15,37 +15,64 @@ const Confirmation = () => {
     const [current, setCurrent] = useState(2);
     const [invoice, setInvoiceId] = useState("")
     const [InvoiceUrl , setInvoiceUrl] = useState("")
-    console.log(InvoiceUrl)
+    const [trackigurl , setTrackingurl] = useState("")
+    console.log(invoice)
+   console.log(InvoiceUrl)
+    // current staus of order
     const onChange = (value) => {
         setCurrent(value);
       };
+
+      // state data
       const location = useLocation();1
       const stat = location.state || {}
-      // console.log(stat);
+      console.log(stat)
     const steps = [ 'Order Confirmed','Payment', 'Shipping', 'Review', 'Complete'];
-    // invoiceData
-    const {address ,items,email} = stat
-    // createInvoic
-    useEffect(()=>{
-      const datatosend = {address, items ,email,stat}
-      const CreateInvoice =  async()=>{
-        const invoice = await axios.post(`${base_url}invoice/create`, {datatosend},config);
-        console.log(invoice)
-        if(invoice.data){
-          setInvoiceUrl(invoice.data.short_url)
-          setInvoiceId(invoice.data.id)
-        }
-      }
-      const fetchinvoice = async()=>{
-        const invoicebyid = await axios.get(`${base_url}invoice/getbyid/${invoice}`)
-        console.log(invoicebyid)
-      }
-      CreateInvoice()
-      fetchinvoice()
-    },[])
+
     
+    // invoiceData
+    
+    
+    
+    // createInvoic
+    const {address ,items,email} = stat
+    useEffect(() => {
+      const handleInvoiceCreation = async () => {
+        try {
+          // Step 1: Create Invoice
+          const datatosend = { address, items, email, stat };
+          const createInvoiceResponse = await axios.post(`${base_url}invoice/create`,{ datatosend}, config);
+          
+          if (createInvoiceResponse.data) {
+            const invoiceId = createInvoiceResponse.data.id;
+            setInvoiceId(invoiceId);
+            toast.success('Invoice created successfully!');
+  
+            // Step 2: Fetch Invoice by ID (only after creation is successful)
+            const fetchInvoiceResponse = await axios.get(`${base_url}invoice/getbyid/${invoice}`);
+            console.log(fetchInvoiceResponse);  // Log the fetched invoice data
+  
+            // Step 3: Set the invoice URL
+            setInvoiceUrl(fetchInvoiceResponse.data.short_url);
+            toast.success('Invoice fetched successfully!');
+          } else {
+            throw new Error('Failed to create invoice');
+          }
+        } catch (error) {
+          console.error('Error handling invoice:', error);
+          toast.error(error.message || 'Error occurred while handling the invoice');
+        }
+      };
+  
+      handleInvoiceCreation();
+    }, [address, items, email, stat, base_url, config]);
+   
     const handleInvoice =()=>{
       if(InvoiceUrl==""){
+        if(trackigurl === "")
+        {
+          toast("tracking will be Updated as soon as we get the product by vendor")
+        }
          toast.error("Invoice not generated")
       }
       else{
@@ -94,7 +121,7 @@ const Confirmation = () => {
             <span className='text-sm'>#{stat?.orderData?.shippting?.order_id}</span>
         </h1>
         <div onClick={handleInvoice} className=" flex items-center text-sm  gap-2 rounded-md bg-[#0a2444] p-2 text-white active:scale-95">
-          <Link to={InvoiceUrl}>
+          <Link to={InvoiceUrl || " "}>
           <button >Get Invoice</button>
           </Link>
         </div>

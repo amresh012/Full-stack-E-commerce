@@ -71,7 +71,7 @@ const getAdminData = asyncHandle(async (req, res) => {
     const totalPaymentsAllTime = 0;
     
     
-    const recentOrders = await orderModel.find().sort({ createdAt: -1 }).limit(5);
+    const recentOrders = await orderModel.find().populate("users").sort({ createdAt: -1 }).limit(5);
     
     const ordersSummary = [];
     

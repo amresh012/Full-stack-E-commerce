@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import { base_url } from '../../Utils/baseUrl';
 import { List } from '@mui/material';
@@ -17,9 +17,13 @@ const Quotation = () => {
     const [data, setData] = useState([]);
     const [isLoading  ,setIsLoading] = useState(true);
   const [reload, setReload] = useState(false);
-//   console.log(data)
 
-  const columns = [
+
+
+
+
+
+  const columns =  [
     {
       header: "Sr.No.",
       accessorKey: "_id",
@@ -43,7 +47,55 @@ const Quotation = () => {
     {
       header: "Product ",
       accessorKey: "product",
+      cell:({row})=>{
+        return (
+         <span>{row?.original?.product.substring(0,20)}</span>
+        )
+      }
     },
+    {
+      header: "Remarks",
+      accessorKey: "",
+      cell: ({ row }) => {
+         const [remarks, setRemarks] = useState({}); 
+         const [editMode, setEditMode] = useState({});
+          const rowId = row.original._id;
+          const name = row.original.name
+          const isEditing = editMode[rowId]; // Check if in edit mode for this row
+
+          return (
+              <div className='flex items-center'>
+                  {isEditing ? (
+                      <>
+                          <input
+                              type="text"
+                              value={remarks[rowId] || ''} // Set the value from the remarks state
+                              onChange={(e) => handleRemarkChange(rowId, e.target.value)} // Update the remark on change
+                              className='h-10 border placeholder:px-2 px-2'
+                              placeholder='Enter remarks'
+                          />
+                          <button
+                              onClick={() => handleRemarkUpdate(rowId,name)} // Call update function
+                              className='text-white uppercase p-2 bg-[#0a2444] ml-2'
+                          >
+                              Save
+                          </button>
+                      </>
+                  ) : (
+                      <div className='flex items-center min-w-[16rem] justify-between'>
+                          <span className=''>{remarks[rowId] || 'No remarks'}</span>
+                          <button
+                              onClick={() => handleEdit(rowId)} // Enable edit mode
+                              className='text-white uppercase p-2 bg-[#0a2444] ml-2'
+                          >
+                              Edit
+                          </button>
+                      </div>
+                  )}
+              </div>
+          );
+      }
+  },
     {
       header: "Query ",
       accessorKey: "desc",
@@ -62,10 +114,34 @@ const Quotation = () => {
     },
   ];
 
+  const handleRemarkChange = (id, value) => {
+    setRemarks((prevRemarks) => ({
+        ...prevRemarks,
+        [id]: value, 
+    }));
+};
+const handleRemarkUpdate = (id,name) => {
+  setEditMode((prev) => ({ ...prev, [id]: false })); 
+  const updatedRemark = remarks[id];
+  if (updatedRemark) {
+      toast.success(`Remark updated for${name}`);
+  } else {
+      toast.error("Please enter a remark before updating.");
+  }
+};
+
+//  edit mode
+const handleEdit = (id) => {
+  setEditMode((prev) => ({
+      ...prev,
+      [id]: true, 
+  }));
+};
+
 // deleteQuote
   const deleteQuote = async (id) => {
     try {
-        alert("Hello")
+      alert("Are You Sure You Want to Delete this Quotation")
       const response = await fetch(`${base_url}quot/${id}`, {
         method: "DELETE",
         ...config,

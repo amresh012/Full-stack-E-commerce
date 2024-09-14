@@ -50,13 +50,17 @@ const Orders = () => {
       accessorKey: "Order_date",
       cell:({row})=>{
         // 
-        const date = row.original
-        return <span>{moment(date).format('DD/MM/YYYY')}</span>;
+        const date = row.createdAt
+        return <span>{moment(date).format('DD/MM/YYYY hh:mm')}</span>;
       }
     },
     {
       header: "Name",
       accessorKey: "orderd_by",
+      cell:({row})=>{
+        const name = row.original.users.name
+        return <span>{name}</span>;
+      }
     },
     {
       header: "Products",

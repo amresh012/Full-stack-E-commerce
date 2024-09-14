@@ -13,7 +13,7 @@ import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
   const user = useSelector((state)=>state.auth.user)
-  console.log(user)
+  // console.log(user)
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   const deliverpin = newAdd?.zipcode;
@@ -61,7 +61,7 @@ const CheckOut = () => {
   //Function for getting Shipping Partners and
   const calculateShippingCharge = async () => {
     const pickup_postcode = "121004"; // Replace with your pickup postcode
-    const delivery_postcode = deliverpin; // Use the user's pincode
+    const delivery_postcode = deliverpin || ""; // Use the user's pincode
     const weight = totalWeight || 0;
 
     const response = await fetch(
@@ -79,12 +79,10 @@ const CheckOut = () => {
     );
 
     const data = await response.json();
-    // console.log(data)
-    if (data.status) {
+    if (data?.status) {
       setCourierCompnies(data?.mainset?.data?.available_courier_companies);
-      // Set the shipping charge from response
     } else {
-      console.error("Error fetching shipping charges:", data.message);
+      console.error("Error fetching shipping charges:", data?.message);
     }
   };
 
@@ -97,7 +95,12 @@ const CheckOut = () => {
   // Calculate Shipping Charges on Orders
 
   const handleShippingSelect = (shippingData) => {
-    setSelectedShipping(shippingData); // Store the selected shipping option in the state
+    if(shippingData){
+      setSelectedShipping(shippingData)
+    }
+    else{
+      toast.error("No Courier Company Selected")
+    } // Store the selected shipping option in the state
   };
 
   const paymentHandler = async (e) => {
@@ -134,7 +137,7 @@ const CheckOut = () => {
           currency,
           name: "KFS Fitness",
           description: "Test Transaction",
-          image: "https://images.deepmart.shop/upload",
+          image: "https://images.deepmart.shop",
           order_id: orderId,
           handler: async function (response) {
             const paymentData = {
@@ -178,19 +181,21 @@ const CheckOut = () => {
                 const clone = JSON.parse(JSON.stringify(orderData));
                 console.log(clone);
                 const { shippting } = clone;
-                const { shipment_id } = shippting;
+                const { shipment_id , courier_id, status } = shippting;
                 console.log(shipment_id)
-                // const CreateShipment = await fetch(`${base_url}shiprocket/CreateShipment`,
-                //   {
-                //     method: "POST",
-                //     ...config,
-                //     body:JSON.stringify({
-                //       shipment_id:[shipment_id]
-                //     })
+                const CreateShipment = await fetch(`${base_url}shiprocket/CreateShipment`,
+                  {
+                    method: "POST",
+                    ...config,
+                    body:JSON.stringify({
+                      shipment_id:shipment_id,
+                      courier_id:courier_id || 10,
+                      status:status
+                    })
                   
-                //   })
-                //   const shpmentData =await CreateShipment.json()
-                //   console.log(shpmentData)
+                  })
+                  const shpmentData =await CreateShipment.json()
+                  console.log(shpmentData)
                 console.log(orderData);
                 if (orderData.success) {
                   const ConfirmedOrder = {

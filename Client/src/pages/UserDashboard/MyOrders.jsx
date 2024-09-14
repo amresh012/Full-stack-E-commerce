@@ -5,6 +5,7 @@ import { GoChecklist } from "react-icons/go";
 import {config} from "../../Utils/axiosConfig"
 import {base_url} from "../../Utils/baseUrl"
 import toast from 'react-hot-toast';
+import { FaExclamationCircle } from 'react-icons/fa';
 const id  = localStorage.getItem("id")
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -43,6 +44,10 @@ const MyOrders = () => {
           <h1 className="uppercase">My Orders</h1>
         </div>
         <div className="orders-section h-[100vh] space-y-2 p-2 overflow-auto ">
+        <div className="h-[50vh] gap-2 w-full flex flex-col items-center justify-center bg-gray-100 mt-4 text-2xl font-bold">
+        <span className="text-orange-400"><FaExclamationCircle size={50}/></span>
+        <p>No Records Found</p>
+      </div>
         </div>
      </div>
     </>

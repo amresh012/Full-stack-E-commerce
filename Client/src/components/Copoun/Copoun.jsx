@@ -14,13 +14,12 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
   const validateCoupon = async () => {
     try {
       const response = await axios.post(`${base_url}coupon/validate`, { code: couponCode });
-      // console.log(response)
       if (response.data.coupon) {
         setDiscount(response.data.coupon.discountValue);
         setDiscountType(response.data.coupon.discountType);
         setSuccess(true)
         setMessage('Valid Copoun');
-        toast.success("Copoun Applied Successfully")
+        setMessage("Copoun Applied Successfully")
     }
     } catch (error) {
       setMessage('Invalid or expired coupon');
@@ -69,7 +68,9 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
   };
 
   useEffect(()=>{
-      validateCoupon();
+      if(couponCode){
+        validateCoupon()
+      };
   },[couponCode])
   
 

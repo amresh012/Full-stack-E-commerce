@@ -10,13 +10,13 @@ const CommercialGym = () => {
   const [QuoteProduct , setQuoteProduct] = useState();
   const [prod , setProd] = useState(null);
   const modalRef = useRef(null); // Use ref to reference modal
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     city: "",
     mobile: "",
-    desc: ""
+    desc: "",
+    product:prod?.name
   });
 
   const handleChange = (e) => {
@@ -25,9 +25,11 @@ const CommercialGym = () => {
       [e.target.id]: e.target.value,
     });
   };
-
+  console.log(formData)
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    
     try {
       const response = await axios.post(`${base_url}quot`, formData);
       if (response.data.error) {
@@ -57,6 +59,10 @@ const CommercialGym = () => {
         const response = await fetch(`${base_url}product/${QuoteProduct}`);
         const data = await response.json();
         setProd(data);
+        setFormData((prevData) => ({
+          ...prevData,
+          product: data.name // Update with product name
+        }));
       } catch (error) {
         console.error(error);
       }
