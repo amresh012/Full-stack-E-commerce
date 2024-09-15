@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import { base_url } from '../../Utils/baseUrl';
 import { List } from '@mui/material';
@@ -17,6 +17,8 @@ const Quotation = () => {
     const [data, setData] = useState([]);
     const [isLoading  ,setIsLoading] = useState(true);
   const [reload, setReload] = useState(false);
+  const [remarks, setRemarks] = useState({});
+  const [editMode, setEditMode] = useState({});
 
 
 
@@ -57,8 +59,6 @@ const Quotation = () => {
       header: "Remarks",
       accessorKey: "",
       cell: ({ row }) => {
-         const [remarks, setRemarks] = useState({}); 
-         const [editMode, setEditMode] = useState({});
           const rowId = row.original._id;
           const name = row.original.name
           const isEditing = editMode[rowId]; // Check if in edit mode for this row
@@ -107,9 +107,9 @@ const Quotation = () => {
          <div onClick={()=>deleteQuote(row.original._id)} className="bg-red-200 p-2 rounded-md hover:shadow-md">
           <FaTrash className='text-red-500'/>
          </div>
-         <div onClick={()=>fetchQueryDetails(row.original._id)} className="bg-blue-200 p-2 rounded-md hover:shadow-md">
+         {/* <div onClick={()=>fetchQueryDetails(row.original._id)} className="bg-blue-200 p-2 rounded-md hover:shadow-md">
           <FaEye className='text-blue-500'/>
-         </div>
+         </div> */}
         </List>
     },
   ];

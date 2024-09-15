@@ -49,7 +49,13 @@ const getProductById = asyncHandle(async (req, res) => {
 
   if (_id) {
     try {
-      const product = await ProductModel.findById(_id).populate("subcategory")
+      const product = await ProductModel.findById(_id)
+        .populate("subcategory")
+        .populate({
+          path: "reviews",
+          model: "review",
+          select:"title rating desc"
+        });
       if (product) {
         res.json(product);
       } else {

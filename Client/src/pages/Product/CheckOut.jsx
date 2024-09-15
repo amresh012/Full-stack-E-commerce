@@ -178,24 +178,25 @@ const CheckOut = () => {
                 );
                 const orderData = await orderCreateResponse.json();
                 console.log(orderData);
-                const clone = JSON.parse(JSON.stringify(orderData));
-                console.log(clone);
-                const { shippting } = clone;
-                const { shipment_id , courier_id, status } = shippting;
-                console.log(shipment_id)
-                const CreateShipment = await fetch(`${base_url}shiprocket/CreateShipment`,
-                  {
-                    method: "POST",
-                    ...config,
-                    body:JSON.stringify({
-                      shipment_id:shipment_id,
-                      courier_id:courier_id || 10,
-                      status:status
-                    })
-                  
-                  })
-                  const shpmentData =await CreateShipment.json()
-                  console.log(shpmentData)
+                // const clone = JSON.parse(JSON.stringify(orderData));
+                // console.log(clone);
+                // const { shippting } = clone;
+                // const { shipment_id, courier_id, status } = shippting;
+                // console.log(shipment_id);
+                // const CreateShipment = await fetch(
+                //   `${base_url}shiprocket/CreateShipment`,
+                //   {
+                //     method: "POST",
+                //     ...config,
+                //     body: JSON.stringify({
+                //       shipment_id: shipment_id,
+                //       courier_id: courier_id || 10,
+                //       status: status,
+                //     }),
+                //   }
+                // );
+                //   const shpmentData =await CreateShipment.json()
+                  // console.log(shpmentData)
                 console.log(orderData);
                 if (orderData.success) {
                   const ConfirmedOrder = {
@@ -232,15 +233,7 @@ const CheckOut = () => {
           },
         };
         var rzp1 = new window.Razorpay(options);
-        rzp1.on("payment.failed", function (response) {
-          alert(response.error.code);
-          alert(response.error.description);
-          alert(response.error.source);
-          alert(response.error.step);
-          alert(response.error.reason);
-          alert(response.error.metadata.order_id);
-          alert(response.error.metadata.payment_id);
-        });
+        rzp1.on("payment.failed");
         e.preventDefault()
         rzp1.open();
       } else {

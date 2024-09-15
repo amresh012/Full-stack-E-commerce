@@ -6,7 +6,7 @@ const imageModel = new mongoose.Schema({
         required: true,
     },
     url: {
-        type: String,
+        type: Array,
         required: true,
     },
 

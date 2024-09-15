@@ -6,11 +6,15 @@ import {config} from "../../Utils/axiosConfig"
 import {base_url} from "../../Utils/baseUrl"
 import toast from 'react-hot-toast';
 import { FaExclamationCircle } from 'react-icons/fa';
-const id  = localStorage.getItem("id")
+import {useSelector} from "react-redux"
+const id = localStorage.getItem("id")
+console.log(id)
 const MyOrders = () => {
+  const user = useSelector((state) => state.auth.user)
+  // console.log("uesr from my order------------", user)
   const [orders, setOrders] = useState([]);
-  const id = localStorage.getItem("id")
-  console.log(id)
+  const id = localStorage.getItem("id") || user?._id
+  // console.log(id)
 
   
   useEffect(() => {
@@ -22,7 +26,7 @@ const MyOrders = () => {
             ...config,
           });
           const data = await response.json();
-          //  console.log(data)
+           console.log(data)
           if (!data.error) {
             setOrders({data});
           }

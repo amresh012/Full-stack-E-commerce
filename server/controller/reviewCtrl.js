@@ -1,30 +1,32 @@
 const Review = require("../models/reviewModel"); // Import the Review model
-
+const Product = require("../models/productModel")
+console.log(Review);
 // Add a new review
 exports.addReview = async (req, res) => {
-  const { userId, productId, reviewText, rating } = req.body;
-
-  try {
-    const newReview = new Review({
-      user: userId,
-      product: productId,
-      review: reviewText,
-      rating: rating,
-    });
-
-    await newReview.save();
-    return res.status(201).json({
-      message: "Review added successfully!",
-      review: newReview,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: "Failed to add review",
-      error: error.message,
-    });
+  const { title, rating, review ,user} = req.body
+  const { productId } = req.params
+  
+  const product = await Product.findById(productId)
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" })
   }
-};
-
+  const reviews = {
+    user: user,
+    title: title,
+    rating: rating,
+    review: review
+  };
+  const isReviewd = product.reviews.find(
+    (review) => review.user.toString() === user.toString()
+  )
+  if (isReviewd) {
+    return res.status(400).json({ message: "You have already reviewed this product" })
+  }
+  product.reviews.push(reviews);
+  product.num
+  await product.save();
+  res.status(201).json({ message: "Review added successfully" });
+}
 // Get all reviews for a specific product
 exports.getAllReviewsForProduct = async (req, res) => {
   const { productId } = req.params;

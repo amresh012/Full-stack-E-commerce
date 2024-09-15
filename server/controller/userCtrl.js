@@ -553,17 +553,9 @@ const getallUser = asyncHandler(async (req, res) => {
         select: "name address city state zipcode mobile",
       })
       .populate({
-        path: "cart",
-        populate: [
-          { path: "products",
-            model: "product",
-            select: "name"
-           },
-        ]
-      }).populate({
         path: "order",
         model: "Order",
-        select:"orderId amount cartItems"
+        select: "orderId amount cartItems",
       });
 
     // Log the results to verify population

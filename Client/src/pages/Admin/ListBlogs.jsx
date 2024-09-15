@@ -215,12 +215,12 @@ const ListBlogs = () => {
           </div>
         </div>
       )}
-      <div className=" border-2 mt-10 mx-12 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around p-6 overflow-auto">
-        <div className="w-full">
-          <h1 className="text-2xl font-bold uppercase">List Of Blogs on KFS</h1>
+      <div className=" mt-7  bg-[#0a2444] mx-12 rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around p-6 overflow-auto">
+        <div className="w-full text-white">
+          <h1 className="text-2xl font-bold uppercase">List Of Blogs</h1>
         </div>
       </div>
-      <div className="m-12 shadow-md border-2 rounded-md p-2">
+      <div className="m-12">
         <BasicTable columns={columns} data={blogs} />
       </div>
     </div>

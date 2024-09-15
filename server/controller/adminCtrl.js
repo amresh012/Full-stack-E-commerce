@@ -67,11 +67,45 @@ const getAdminData = asyncHandle(async (req, res) => {
 
     const totalCategories = await productModel.distinct("category");
     
-    const totalPaymentsToday = 0;
-    const totalPaymentsAllTime = 0;
+    // total payment per day
+     const totalPaymentsToday = await orderModel.aggregate([
+       {
+         $match: {
+           createdAt: {
+             $gte: new Date(new Date().setHours(0, 0, 0, 0)), // Start of the current day
+             $lt: new Date(new Date().setHours(23, 59, 59, 999)), // End of the current day
+           },
+         },
+       },
+       {
+         $group: {
+           _id: null, // Grouping all orders from the current day
+           currentDayPayments: { $sum: "$amount" }, // Summing the `amount` field for today's orders
+         },
+       },
+     ]);
+    // total payment all time
+      const totalPaymentsAllTime = await orderModel.aggregate([
+        {
+          $group: {
+            _id: null, // We want the total sum across all documents
+            totalPayments: { $sum: "$amount" }, // Summing the `amount` field
+          },
+        },
+      ]);
+    
+     const paymentsTodayValue =
+       totalPaymentsToday.length > 0
+         ? totalPaymentsToday[0].currentDayPayments
+         : 0;
+     const paymentsAllTimeValue =
+       totalPaymentsAllTime.length > 0
+         ? totalPaymentsAllTime[0].totalPayments
+         : 0;
+
     
     
-    const recentOrders = await orderModel.find().populate("users").sort({ createdAt: -1 }).limit(5);
+    const recentOrders = await orderModel.find().populate("users").sort({ createdAt: -1 }).limit(9);
     
     const ordersSummary = [];
     
@@ -82,12 +116,6 @@ const getAdminData = asyncHandle(async (req, res) => {
           year: { $year: "$createdAt" },
         },
       },
-      // {
-      //   $match: {
-      //     month: date.getMonth() + 1,
-      //     year: date.getFullYear()
-      //   },
-      // },
       {
         $group: {
           _id: '$month',
@@ -111,17 +139,18 @@ const getAdminData = asyncHandle(async (req, res) => {
    
     res.status(200).json({
       success: true,
-      totalNewCustomers: totalNewCustomers.length > 0 ? totalNewCustomers[0].count : 0,
+      totalNewCustomers:
+        totalNewCustomers.length > 0 ? totalNewCustomers[0].count : 0,
       totalOrders: totalOrders.length > 0 ? totalOrders[0].count : 0,
       totalProducts,
       totalCategories: totalCategories.length,
-      totalPaymentsToday,
-      totalPaymentsAllTime,
+      totalPaymentsToday: paymentsTodayValue, // Send numeric value
+      totalPaymentsAllTime: paymentsAllTimeValue,
       recentOrders,
       ordersSummary,
       customersSummary,
-      categoriesSummary
-    })
+      categoriesSummary,
+    });
   } catch (error) {
     
     res.status(400).send(error);

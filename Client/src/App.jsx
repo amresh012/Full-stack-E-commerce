@@ -1,7 +1,7 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import './App.css'
 import AuthLayout from './Layout/AuthLayout'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Layout from './Layout/Layout'
 import Login from './pages/AuthPages/Login'
 import SignUp from './pages/AuthPages/SignUp'
@@ -47,74 +47,92 @@ import Confirmation from './pages/Product/Confirmation'
 import Quotation from './pages/Admin/Quotation'
 function App() {
 
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Trigger the loader when route changes
+    setLoading(true);
+
+    // Simulate an API or data fetching delay
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 8000); // You can adjust this timeout as per your requirement
+
+    return () => clearTimeout(timer); // Clear timeout on component unmount
+  }, [location]);
+
   return (
-   <Suspense fallback={<Loader/>}>
-    <Routes>
-      <Route element ={<Layout/>}>
-      <Route path='/' element={<HomePage/>}/>
-      <Route path='/about' element={<About/>}/>
-      <Route path="/contact" element={<Contact/>}/>
-      <Route path="/product" element={<ProductPage filtervisible={true}/>}/>
-      <Route path="/product/:id" element={<ProductdetailPage/>}/>
-      <Route path="/product-category/*" element={<Category />}/>
-      <Route path="/checkout" element={<CheckOut/>}/>
-      <Route path={`/order-confirmed`} element={<Confirmation/>}/>
-      <Route path="/commercial-gym" element={<CommercialGym/>}/>
-      <Route path="/blog" element={<Blog/>}/>
-      <Route path="/blog/:id" element={<BlogView/>}/>
-      <Route path="/policies/*" element={<Policies/>}>
-      <Route path='privacy-policy' element = {<Privacy/>}/>
-      <Route path='refund-policy' element = {<RefundPolicy/>}/>
-      <Route path='payment-policy' element = {<PaymentsPolicy/>}/>
-      <Route path='terms&conditions' element = {<TermsAndConditions/>}/>
-      <Route path='shipping-policy' element = {<ShippingPolicy/>}/>
-      <Route path='return-policy' element = {<ReturnPolicy/>}/>
-      </Route>
-      </Route>
+    <Suspense fallback={<Loader />}>
+      {loading && <Loader />}
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/product"
+            element={<ProductPage filtervisible={true} />}
+          />
+          <Route path="/product/:id" element={<ProductdetailPage />} />
+          <Route path="/product-category/*" element={<Category />} />
+          <Route path="/checkout" element={<CheckOut />} />
+          <Route path={`/order-confirmed`} element={<Confirmation />} />
+          <Route path="/commercial-gym" element={<CommercialGym />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogView />} />
+          <Route path="/policies/*" element={<Policies />}>
+            <Route path="privacy-policy" element={<Privacy />} />
+            <Route path="refund-policy" element={<RefundPolicy />} />
+            <Route path="payment-policy" element={<PaymentsPolicy />} />
+            <Route path="terms&conditions" element={<TermsAndConditions />} />
+            <Route path="shipping-policy" element={<ShippingPolicy />} />
+            <Route path="return-policy" element={<ReturnPolicy />} />
+          </Route>
+        </Route>
 
-      {/* Auth Routes */}
-      <Route path="/*" element={<AuthLayout/>}>
-        <Route path="login" element={<Login/>}/>
-        <Route path="Signup" element={<SignUp/>}/>
-        <Route path='forgot-password' element={<ForgotPassword/>}/>
-        <Route path='reset-password' element ={<ResetPassword/>}/>
-        <Route path='otp' element={<Otp/>}/>
-      </Route>
-      
-       {/* UserDashboard Routes */}
-         <Route path="/profile" element={<UserProfile/>}>
-         <Route index element={<Profile/>}/>
-         <Route path="setting" element={<Setting/>}/>
-         <Route path="shipping-add" element={<Shipping/>}/>
-         <Route path="my-invoice" element={<Invoice/>}/>
-         <Route path="my-orders" element={<MyOrders/>}/>
-         <Route path="report" element={<Report/>}/>
-         </Route>
-     
+        {/* Auth Routes */}
+        <Route path="/*" element={<AuthLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="Signup" element={<SignUp />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="otp" element={<Otp />} />
+        </Route>
 
-      {/* Admin Routes */}
+        {/* UserDashboard Routes */}
+        <Route path="/profile" element={<UserProfile />}>
+          <Route index element={<Profile />} />
+          <Route path="setting" element={<Setting />} />
+          <Route path="shipping-add" element={<Shipping />} />
+          <Route path="my-invoice" element={<Invoice />} />
+          <Route path="my-orders" element={<MyOrders />} />
+          <Route path="report" element={<Report />} />
+        </Route>
 
-      <Route path="/admin/*" element={<AdminLayout/>}>
-      <Route index element={<Dashboard/>}/>
-      <Route path="users" element={<Users/>}/>
-      <Route path="products" element={<AddProduct/>}/>
-      <Route path="product-edit/:id" element={<ProductEdit/>}/>
-      <Route path="bulk-product" element={<AddBulkProduct/>}/>
-      <Route path="bulk-images" element={<BulkImage/>}/>
-      <Route path="website" element={<WebsitePage/>}/>
-      <Route path="product-list" element={<ListProduct/>}/>
-      <Route path="contactus" element={<Contactus/>}/>
-      <Route path="orders" element={<Orders/>}/>
-      <Route path="coupon" element={<Copoun/>}/>
-      <Route path="coupon-list" element={<CopounList/>}/>
-      <Route path="blog" element={<AdminBlog/>}/>
-      <Route path="blog-list" element={<ListBlogs/>}/>
-      <Route path="blog-edit/:id" element={<EditBlog/>}/>
-      <Route path="quotation" element={<Quotation/>}/>
-      </Route>
-    </Routes>
-   </Suspense>     
-  )
+        {/* Admin Routes */}
+
+        <Route path="/admin/*" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="products" element={<AddProduct />} />
+          <Route path="product-edit/:id" element={<ProductEdit />} />
+          <Route path="bulk-product" element={<AddBulkProduct />} />
+          <Route path="bulk-images" element={<BulkImage />} />
+          <Route path="website" element={<WebsitePage />} />
+          <Route path="product-list" element={<ListProduct />} />
+          <Route path="contactus" element={<Contactus />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="coupon" element={<Copoun />} />
+          <Route path="coupon-list" element={<CopounList />} />
+          <Route path="blog" element={<AdminBlog />} />
+          <Route path="blog-list" element={<ListBlogs />} />
+          <Route path="blog-edit/:id" element={<EditBlog />} />
+          <Route path="quotation" element={<Quotation />} />
+        </Route>
+      </Routes>
+    </Suspense>
+  );
 }
 
 export default App

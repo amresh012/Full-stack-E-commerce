@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, Chip, Rating } from "@mui/material";
-import { FaCheckCircle, FaGlobe, FaLock, FaPen, FaPenAlt } from "react-icons/fa";
+import { FaCheckCircle, FaGlobe, FaLock, FaPen } from "react-icons/fa";
 import ReviewForm from "../../components/ReviewForm/ReviewForm";
 import Ratingdata from "../../MOCK_DATA (6).json";
 import { toast, Toaster } from "react-hot-toast";
@@ -18,10 +18,12 @@ const ProductdetailPage = () => {
   const [reviewvisible, setReviewVisible] = useState(false);
   const [endrating, setEndRating] = useState(4);
   const dispatch = useDispatch();
-  const {carts} = useSelector(state => state.cart);
+  const { carts } = useSelector(state => state.cart);
+  const  user  = useSelector((state) => state.auth.user);
+  const userId = user?._id
 
   const token = localStorage.getItem("token")
-  
+  console.log(product);
   // fetch product by id
   useEffect(() => {
     const fetchProducts = async () => {
@@ -90,7 +92,7 @@ const ProductdetailPage = () => {
               showArrows={false}
               dynamicHeight={true}
             >
-              {product?.images.map((item, index) => (
+              {product?.images?.map((item, index) => (
                 <img src={item} alt="" key={index} className=" object-cover" />
               ))}
             </Carousel>
@@ -98,7 +100,8 @@ const ProductdetailPage = () => {
           {/* image-container-end */}
           <div className="details-container flex flex-col ">
             <h1 className="font-bold space-x-12 bg-gray-200 w-fit p-2 rounded-md mb-4">
-              {capitalizeFirstLetter(product?.category)} / <span>{capitalizeFirstLetter(product?.subcategory)}</span>
+              {capitalizeFirstLetter(product?.category)} /{" "}
+              <span>{capitalizeFirstLetter(product?.subcategory)}</span>
             </h1>
             <Rating
               name="half-rating"
@@ -109,29 +112,47 @@ const ProductdetailPage = () => {
             <p className="product-name text-2xl">{product?.name}</p>
             {product?.variant && <span>{product?.variant}</span>}
             <div className="price">
-            {product?.corporateDiscount && product?.corporateDiscount !== '0' && <div className="discount">
-                <Chip
-                  sx={{ margin: "10px 0" }}
-                  color="success"
-                  size="small"
-                  label={product.corporateDiscount + "% off"}
-                />
-              </div>}
-              {!product?.corporateDiscount || product?.corporateDiscount === '0' && (
-                <span className="text-2xl font-bold">Rs {(+product?.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</span>
-              )}
-              {product?.corporateDiscount && product?.corporateDiscount !== '0' && (
-                <span className="text-2xl font-bold line-through text-red-500">
-                  Rs {(+product?.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
-                </span>
-              )}
-              {product?.corporateDiscount && product?.corporateDiscount !== '0' && (
-                <span className="ml-2 text-2xl font-bold">
-                  Rs{" "}
-                  {(product.price -
-                    product.price * (product.corporateDiscount / 100)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
-                </span>
-              )}
+              {product?.corporateDiscount &&
+                product?.corporateDiscount !== "0" && (
+                  <div className="discount">
+                    <Chip
+                      sx={{ margin: "10px 0" }}
+                      color="success"
+                      size="small"
+                      label={product.corporateDiscount + "% off"}
+                    />
+                  </div>
+                )}
+              {!product?.corporateDiscount ||
+                (product?.corporateDiscount === "0" && (
+                  <span className="text-2xl font-bold">
+                    Rs{" "}
+                    {(+product?.price)
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  </span>
+                ))}
+              {product?.corporateDiscount &&
+                product?.corporateDiscount !== "0" && (
+                  <span className="text-2xl font-bold line-through text-red-500">
+                    Rs{" "}
+                    {(+product?.price)
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  </span>
+                )}
+              {product?.corporateDiscount &&
+                product?.corporateDiscount !== "0" && (
+                  <span className="ml-2 text-2xl font-bold">
+                    Rs{" "}
+                    {(
+                      product.price -
+                      product.price * (product.corporateDiscount / 100)
+                    )
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  </span>
+                )}
             </div>
             {/* <div className="dimensions flex flex-col gap-2">
         <h1 className='font-bold text-xl'>Net-Weights</h1>
@@ -176,12 +197,20 @@ const ProductdetailPage = () => {
               </div>
             </div>
             <div className="diemnsions p-4">
-               <h1  className="text-2xl">Dimensions:</h1>
-               <p className="text-gray-500 font-bold italic">length: {product?.length}cm</p>
-               <p className="text-gray-500 font-bold italic">height: {product?.height}cm</p>
-               <p className="text-gray-500 font-bold italic">weight: {product?.weight}kg</p>
-               <p className="text-gray-500 font-bold italic">width: {product?.width}cm</p>
-{/* 
+              <h1 className="text-2xl">Dimensions:</h1>
+              <p className="text-gray-500 font-bold italic">
+                length: {product?.length}cm
+              </p>
+              <p className="text-gray-500 font-bold italic">
+                height: {product?.height}cm
+              </p>
+              <p className="text-gray-500 font-bold italic">
+                weight: {product?.weight}kg
+              </p>
+              <p className="text-gray-500 font-bold italic">
+                width: {product?.width}cm
+              </p>
+              {/* 
                height: 200,
     length: 100,
     width: 150,
@@ -261,20 +290,23 @@ const ProductdetailPage = () => {
               onClick={handleReviewView}
             >
               <button>Write a Review</button>
-              <FaPen/>
+              <FaPen />
             </div>
           </div>
         </div>
         {reviewvisible && (
           <div className="">
-            <ReviewForm />
+            <ReviewForm productId={id} userId={userId} />
           </div>
         )}
         <div className="rating-container flex flex-wrap  ">
           <div className="reviews flex  flex-wrap  justify-center">
             {Ratingdata.slice(0, endrating).map((review) => {
               return (
-                <div className="each-review lg:w-1/2 w-full gap-2 lg:p-12 p-4 ">
+                <div
+                  className="each-review lg:w-1/2 w-full gap-2 lg:p-12 p-4 "
+                  key={review.username}
+                >
                   <div className="header flex justify-between   items-start">
                     <div className="left-side-header flex items-start justify-start gap-2">
                       <Avatar

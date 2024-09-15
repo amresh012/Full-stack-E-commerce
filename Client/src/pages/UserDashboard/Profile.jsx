@@ -7,7 +7,7 @@ import { toast, Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 const Profile = () => {
   const User = useSelector((state) => state.auth)
-  console.log(User)
+  // console.log(User)
  const user = User?.user;
  const [data, setData] = useState({
    name: "" || user?.name,
@@ -17,11 +17,11 @@ const Profile = () => {
    Pan: "",
    address: [] || user?.address,
  });
-   let id = localStorage.getItem("id")
+  let id = localStorage.getItem("id") || user._id
+  // console.log(id)
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-       if(id)
        try {
          const response = await fetch(`${base_url}user/${id}`, {
            method: "GET",

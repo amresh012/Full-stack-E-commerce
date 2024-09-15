@@ -1,4 +1,29 @@
 const mongoose = require("mongoose");
+
+
+const reviewSchema = mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User", //relation betwen the review and the user
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+
+
+
+
+
+
+
 const ProductSchema = new mongoose.Schema(
   {
     name: {
@@ -9,14 +34,13 @@ const ProductSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
-    sku:{
-      type:String,
-      require:[true , "sku Code not generated unable to add producut"]
+    sku: {
+      type: String,
+      require: [true, "sku Code not generated unable to add producut"],
     },
     price: {
       type: String,
       required: true,
-
     },
     category: {
       type: String,
@@ -28,45 +52,44 @@ const ProductSchema = new mongoose.Schema(
     },
     itemCode: {
       type: Number,
-      unique :true
+      unique: true,
     },
     hsnCode: {
       type: Number,
-      unique :true
+      unique: true,
     },
     perpiece: {
       type: String,
     },
     measurment: {
       type: String,
-    }, 
-    length:{
-      type:Number,
-      required:true
     },
-    width:{
-      type:Number,
-      required:true
+    length: {
+      type: Number,
+      required: true,
     },
-    height :{
-      type:Number,
-      required:true
+    width: {
+      type: Number,
+      required: true,
     },
-    weight :{
-      type:Number,
-      required:true
+    height: {
+      type: Number,
+      required: true,
     },
-    reviews:{
-      type:[mongoose.Schema.Types.ObjectId],
-      ref: 'reviews'
+    weight: {
+      type: Number,
+      required: true,
     },
+    reviews: [reviewSchema],
     rating: {
       type: Number,
+      required: true,
       default: 0,
     },
     numReviews: {
       type: Number,
-      default:0
+      required: true,
+      default: 0,
     },
     quantity: {
       type: Number,

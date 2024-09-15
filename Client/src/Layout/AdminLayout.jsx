@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import {base_url} from '../Utils/baseUrl';
 import { adduser } from '../features/authSlice';
 import { useDispatch } from 'react-redux';
+import MobileSideBar from '../components/AdminComponents/Mobilesidebar';
 
 const AdminLayout = () => {
   const navigate = useNavigate
@@ -49,17 +50,21 @@ const AdminLayout = () => {
       navigate('/')
     }
   }, [])
-
   return (
-    <div className='flex h-[100vh] overflow-hidden'>
-   <div className="">
-   <LeftDrawer/>
-   </div>
-    <div className="w-full h-[100vh] overflow-auto">
-      <Outlet/>
+    <div className="flex h-[100vh] overflow-hidden">
+      <div className="">
+        <div className="hidden lg:block">
+          <LeftDrawer />
+        </div>
+        <div className="block lg:hidden">
+          <MobileSideBar />
+        </div>
+      </div>
+      <div className="w-full h-[100vh] overflow-auto">
+        <Outlet />
+      </div>
     </div>
-    </div>
-  )
+  );
 }
 
 export default AdminLayout

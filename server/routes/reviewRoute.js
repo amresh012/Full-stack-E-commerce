@@ -4,7 +4,7 @@ const reviewController = require("../controller/reviewCtrl"); // Import the cont
 const router = express.Router();
 
 // Route to add a new review
-router.post("/products/:productId/reviews", reviewController.addReview);
+router.post("/:productId", reviewController.addReview);
 
 // Route to get all reviews for a product
 router.get(

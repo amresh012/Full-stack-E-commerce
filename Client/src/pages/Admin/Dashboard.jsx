@@ -19,9 +19,9 @@ const Dashboard = () => {
   const [totalNewCustomers, setTotalNewCustomers] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalCategories, setTotalCategories] = useState(0);
-  const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState(0);
-  const [totalPaymentsToday, setTotalPaymentsToday] = useState(0);
-  const [totalVisitsToday, setTotalVisitsToday] = useState(0);
+  const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState([]);
+  const [totalPaymentsToday, setTotalPaymentsToday] = useState([]);
+  const [totalVisitsToday, setTotalVisitsToday] = useState([]);
   const [recentorders , setRecentOrders] = useState([])
  
 
@@ -76,41 +76,31 @@ const Dashboard = () => {
       accessorKey: "id",
       cell: ({ row }) => {
         const id = row.id;
-        return <span>{id}</span>;
+        return <span>{+id + 1}</span>;
       },
     },
     {
-      header: "OrderId.",
+      header: "OrderID",
       accessorKey: "orderId",
     },
     {
       header: "Name",
       accessorKey: "orderd_by",
-      cell:({row})=>{
-        const name = row.original.users.name
+      cell: ({ row }) => {
+        const name = row.original.users.name;
         return <span>{name}</span>;
-      }
+      },
     },
     {
-      header: "Contact Details",
-      accessorKey: "mobile",
-      cell:({row})=>{
-        const name = row.original.users.mobile
-        return <span>{name}</span>;
-      }
-    },
-    {
-      header: "Amount in Rs",
-      accessorKey: "amount",
-    },
-    {
-      header: "Order Date",
+      header: "Date",
       accessorKey: "Order_date",
-      cell:({row})=>{
-        // 
-        const date = row.createdAt
-        return <span>{moment(date).format('DD/MM/YYYY')}</span>;
-      }
+      cell: ({ row }) => {
+        //
+        console.log(row);
+        const date = row.original.createdAt;
+        // return <span>{date}</span>;
+        return <span>{moment(date).format("DD/MM/YYYY hh:mm")}</span>;
+      },
     },
     {
       header: "Status",
@@ -178,11 +168,13 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="">
+    <div className="overflow-clip">
       <Toaster />
       <div className="header p-4 flex  flex-col items-start">
-        <span className="text-[4vmax]">{getGreeting()}! </span>
-        <h1 className="uppercase">Welcome to Admin DashBoard</h1>
+        <div className="bg-[#0a2444] w-full p-2 text-white">
+          <span className="text-[4vmax]">{getGreeting()}! </span>
+          <h1 className="uppercase">Welcome to Admin DashBoard</h1>
+        </div>
 
         <div className="flex justify-start w-[fit-content]">
           <div className="mt-5 flex flex-wrap items-center justify-start gap-2">
@@ -268,7 +260,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md min-w-[17rem] p-2 h-auto">
+            {/* <div className="flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md min-w-[17rem] p-2 h-auto">
               <div className="flex items-center mb-2">
                 <div className="text-5xl text-[#0a2440]">
                   <MdOutlinePayment />
@@ -282,44 +274,60 @@ const Dashboard = () => {
                       Today
                     </p>
                     <p className="text-xl font-bold mt-1 text-[#ff6262]">
-                      Rs {totalPaymentsAllTime}
+                      Rs {totalVisitsToday}
                     </p>
                   </div>
-                  {/* <div>
+                  <div>
                     <p className="text-base -mt-1 text-gray-400 font-bold">
                       Today
                     </p>
                     <p className="text-xl font-bold mt-1 text-[#ff6262]">
                       Rs {totalPaymentsToday}
                     </p>
-                  </div> */}
+                  </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
-        <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Recent Orders</h1>
+        <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">
+          Recent Orders
+        </h1>
         <div className="w-full">
-          <BasicTable columns={columns} data={recentorders || []}/>
+          <BasicTable columns={columns} data={recentorders || []} />
         </div>
 
-        <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">Summary</h1>
+        <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">
+          Summary
+        </h1>
         <div className="space-y-3 w-full">
           <div className="shadow-md rounded-md  w-full p-4">
             <div className="text-3xl font-light">Orders</div>
             <div className="mt-4 w-full">
-            <LineChart label={"Orders"} labels={ordersData?.labels} data={ordersData?.data} />
+              <LineChart
+                label={"Orders"}
+                labels={ordersData?.labels}
+                data={ordersData?.data}
+              />
             </div>
           </div>
           <div className="shadow-md rounded-md  w-full p-4">
-            <div className="text-3xl font-light bg-[#0a2444] w-full p-2 text-white">Customers</div>
+            <div className="text-3xl font-light bg-[#0a2444] w-full p-2 text-white">
+              Customers
+            </div>
             <div className="mt-4">
-              <LineChart label={"New Customers"} labels={customersData?.labels} data={customersData?.data} />
+              <LineChart
+                label={"New Customers"}
+                labels={customersData?.labels}
+                data={customersData?.data}
+              />
             </div>
           </div>
           <div className="shadow-md rounded-md  w-full p-4 bg-gray-100">
-            <div className="text-3xl font-light bg-[#0a2444] w-full p-2 text-white">Categories</div>
+            <div className="text-3xl font-light bg-[#0a2444] w-full p-2 text-white">
+              Categories
+            </div>
             <div className="mt-4 w-[50%] mx-auto">
               <DoughnutChart
                 labels={categoriesData?.labels}
@@ -329,7 +337,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

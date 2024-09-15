@@ -3,15 +3,15 @@ const imgModel = require("../models/imagesModel");
 const { mongooseError } = require("../middlewares/errorHandler");
 
 const addimage = asyncHandle(async (req, res) => {
-    const siteConfig = req.body;
+    const {name, url } = req.body;
     try {
-        await imgModel.create(siteConfig);
+        await imgModel.create(req.body);
         res.send({
             message: "image Added sucessfully",
             success: true,
         });
     } catch (error) {
-        mongooseError(error, res);
+        console.log(error);
     }
 
 });

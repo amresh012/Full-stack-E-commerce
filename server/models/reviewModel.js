@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema(
-  {
+  {title:
+    {
+    type: String,
+      required:[true,"review title is required"]
+    },
     product: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product", // Reference to the Product model
@@ -27,16 +31,16 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       maxlength: 1000, // Limit the review text to 1000 characters
     },
-    likes: {
-      type: Number,
-      default: 0,
-    },
-    helpfulVotes: [
-      {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        vote: { type: Boolean }, // true if helpful, false if not
-      },
-    ],
+    // likes: {
+    //   type: Number,
+    //   default: 0,
+    // },
+    // helpfulVotes: [
+    //   {
+    //     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    //     vote: { type: Boolean }, // true if helpful, false if not
+    //   },
+    // ],
     reviewDate: {
       type: Date,
       default: Date.now,
@@ -58,4 +62,4 @@ reviewSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("Review", reviewSchema);
+module.exports = mongoose.model("review", reviewSchema);

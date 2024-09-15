@@ -68,7 +68,7 @@ const AddCoupon = () => {
       {({ errors, touched }) => {
         return (
           <Form className="flex flex-col w-full ">
-            <div className='border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4'>
+            <div className=' flex items-center justify-normal  rounded-md p-4'>
            <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="uppercase">Create Copoun</h1>
            </div>
