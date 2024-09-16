@@ -110,13 +110,10 @@ const Orders = () => {
     {
       header: "Action",
       cell: ({row}) => {
-      return ( <div className="flex w-full justify-around gap-2 cursor-pointer ">
+      return ( <div className="flex w-full justify-around  cursor-pointer ">
           <div className="bg-red-200 p-2 rounded-md" title="delete order" onClick={() => deleteProduct(row.original._id)}>
           <FaTrash className="text-red-500" />
           </div>
-         <div className="bg-blue-200 p-2 rounded-md" title="View Order Details">
-         <FaEye className="text-blue-500" />
-         </div>
          <div className="bg-green-200 p-2 rounded-md" title="download invoice">
          <FaDownload className="text-green-500" />
          </div>
@@ -257,63 +254,64 @@ const Orders = () => {
         <div className="flex items-center justify-between p-4 bg-[#0a2440] text-white  rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
         </div>
-        <div className="flex flex-wrap items-center justify-around mt-4">
-          {label.map((item) => (
-            <div className="" key={item.id}>
-              <label htmlFor="" className="uppercase">
-                {item.label}
-              </label>
+        <div className="flex flex-wrap items-center justify-around mt-4 gap-4">
+  {label.map((item) => (
+    <div className="w-full sm:w-auto" key={item.id}>
+      <label htmlFor="" className="uppercase block mb-1">
+        {item.label}
+      </label>
 
-              <Select
-                onChange={(d) => sortByStatus(d.value)}
-                className="w-[200px]"
-                options={statusOptions}
-              />
-            </div>
-          ))}
-          <div className="flex gap-2 items-center">
-            <div className="flex flex-col">
-              <label htmlFor="" className="uppercase">
-                Start Date
-              </label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={handleStartDateChange}
-                className="border-[1px] border-black/30 p-2 h-10 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="" className="uppercase">
-                End Date
-              </label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={handleEndDateChange}
-                className="border-[1px] border-black/30 p-2 h-10 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="" className="uppercase">
-              Search
-            </label>
-            <div className="relative">
-              <input
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="border-[1px] border-black/30 p-2 h-10 w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2 relative"
-                placeholder="id / name / email"
-              />
-              <div className="absolute top-3 right-4">
-                <FaSearch />
-              </div>
-            </div>
-          </div>
-        </div>
+      <Select
+        onChange={(d) => sortByStatus(d.value)}
+        className="w-full sm:w-[200px]"
+        options={statusOptions}
+      />
+    </div>
+  ))}
 
+  <div className="flex flex-wrap gap-4 items-center w-full sm:w-auto">
+    <div className="flex flex-col w-full sm:w-auto">
+      <label htmlFor="" className="uppercase block mb-1">
+        Start Date
+      </label>
+      <input
+        type="date"
+        value={startDate}
+        onChange={handleStartDateChange}
+        className="border-[1px] border-black/30 p-2 h-10 w-full sm:w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+      />
+    </div>
+    <div className="flex flex-col w-full sm:w-auto">
+      <label htmlFor="" className="uppercase block mb-1">
+        End Date
+      </label>
+      <input
+        type="date"
+        value={endDate}
+        onChange={handleEndDateChange}
+        className="border-[1px] border-black/30 p-2 h-10 w-full sm:w-[20rem] rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+      />
+    </div>
+  </div>
+
+  <div className="flex flex-col w-full sm:w-auto">
+    <label htmlFor="" className="uppercase block mb-1">
+      Search
+    </label>
+    <div className="relative w-full sm:w-[20rem]">
+      <input
+        type="search"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="border-[1px] border-black/30 p-2 h-10 w-full rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+        placeholder="id / name / email"
+      />
+      <div className="absolute top-3 right-4">
+        <FaSearch />
+      </div>
+    </div>
+  </div>
+</div>
         <div className="w-full">
           {isLoading && Order.length === 0 ? (
             <Loader />

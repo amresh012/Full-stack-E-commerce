@@ -50,6 +50,7 @@ const Category = () => {
 
   const handleAdd = (product) => {
     dispatch(addcarts(product));
+    toast.success("Product Addes To Cart Successfully")
   };
 
   // debounceing

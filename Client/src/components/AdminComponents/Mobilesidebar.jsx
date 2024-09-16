@@ -58,7 +58,7 @@ const MobileSideBar = () => {
         open={open}
         key={placement}
       >
-        <div className="h-screen overflow-y-scroll">
+        <div className="h-screen">
           <nav className="flex flex-col items-center justify-between w-[20rem]">
             <div className="h-24 w-full border-b-2 flex items-center justify-center py-2">
               <Link to="/" onClick={logoutHandler}>

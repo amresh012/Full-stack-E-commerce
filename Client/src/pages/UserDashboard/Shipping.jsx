@@ -16,12 +16,10 @@ const Shipping = () => {
   const dispatch = useDispatch()
  
   const id = localStorage.getItem("id")
-  console.log(id)
 
   const fetchAddresses = async () => {
     try {
       const response = await axios.post(`${base_url}user/adr/${id}`, {}, config);
-     console.log(response)
       if (response.data) {
         setAddressList(response.data);
       } else {
@@ -35,11 +33,11 @@ const Shipping = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchAddresses(); // Wrap async call in a separate function
-      setReload(false); // Reset reload flag after fetching data
+      await fetchAddresses(); 
+      // setReload((prev)=>!prev)
     };
-
-    fetchData(); // Fetch data when component mounts or reload changes
+    
+    fetchData(); 
   }, [reload]);
 
 
@@ -73,7 +71,6 @@ const Shipping = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       const datatoSend = { ...values }
-      console.log(datatoSend)
       try {
         const response = await axios.post(`${base_url}user/adr`, datatoSend,config);
         console.log(response)
@@ -93,7 +90,6 @@ const Shipping = () => {
       }
     },
   });
-  console.log(addressList)
 
 
   const handleAddressSelect = (address) => {
@@ -226,12 +222,12 @@ const Shipping = () => {
                       id="address1"
                     />
                     <ul className="flex flex-col  gap-4">
-                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Addres</span> :{add.address}</li>
-                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">City</span>:{add.city}</li>
-                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Mobile</span>:{add.mobile}</li>
-                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Name</span>:{add.name}</li>
-                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">State</span>:{add.state}</li>
-                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">PinCode</span>:{add.zipcode}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Addres</span> :{add.address || "Loading..."}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">City</span>:{add.city || "Loading..." }</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Mobile</span>:{add.mobile|| "Loading..."}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">Name</span>:{add.name|| "Loading..."}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">State</span>:{add.state|| "Loading..."}</li>
+                      <li className="italic"><span className="font-bold pr-2 font-serif uppercase">PinCode</span>:{add.zipcode|| "Loading..."}</li>
                     </ul>
                     <button
                     onClick={() => handleDeleteAddress(add._id)}

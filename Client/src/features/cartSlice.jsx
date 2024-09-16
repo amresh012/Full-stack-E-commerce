@@ -82,8 +82,6 @@ export const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-
-
       .addCase(applyCouponcode.fulfilled, (state) => {
         state.loading = false;
       })

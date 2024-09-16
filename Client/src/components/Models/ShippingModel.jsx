@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 // Modal component
 const ShippingModal = ({ data, isOpen, setIsOpen,onShippingSelect }) => {
-    if(data === null || data === undefined) return;
+    if(data?.length === 0 || data === null || data === undefined) return;
 
   const [selectedShipping, setSelectedShipping] = useState(null);
   useEffect(() => {

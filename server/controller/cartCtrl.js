@@ -12,7 +12,7 @@ const getcart = asyncHandle(async (req, res) => {
     const user = await User.findOne({ _id }).populate({
       path: "cart.products.product",
       select:
-        "_id name price images retaildiscount silverdiscount golddiscount platinumdiscount",
+        "_id name price images corporatediscount",
     });
 
     if (!user) {
@@ -21,25 +21,25 @@ const getcart = asyncHandle(async (req, res) => {
     const data = user.cart.products.map((item) => {
       const product = item.product;
       let discount = 0; // Default discount
-      if (user?.role) {
-        switch (user.role) {
-          case "user":
-            discount = parseInt(product.retaildiscount);
-            break;
-          case "silver":
-            discount = parseInt(product.silverdiscount);
-            break;
-          case "gold":
-            discount = parseInt(product.golddiscount);
-            break;
-          case "platinum":
-            discount = parseInt(product.platinumdiscount);
-            break;
-          default:
-            discount = parseInt(product.retaildiscount);
-            break;
-        }
-      }
+      // if (user?.role) {
+      //   switch (user.role) {
+      //     case "user":
+      //       discount = parseInt(product.retaildiscount);
+      //       break;
+      //     case "silver":
+      //       discount = parseInt(product.silverdiscount);
+      //       break;
+      //     case "gold":
+      //       discount = parseInt(product.golddiscount);
+      //       break;
+      //     case "platinum":
+      //       discount = parseInt(product.platinumdiscount);
+      //       break;
+      //     default:
+      //       discount = parseInt(product.retaildiscount);
+      //       break;
+      //   }
+      // }
       return {
         name: product.name, // Include product name
         price: product.price,
@@ -81,25 +81,6 @@ const addItemToCart = asyncHandle(async (req, res) => {
       item.product.equals(productId)
     );
     let discount = 0;
-    // if (user?.role) {
-    //   switch (user.role) {
-    //     case "user":
-    //       discount = parseInt(product.retaildiscount);
-    //       break;
-    //     case "silver":
-    //       discount = parseInt(product.silverdiscount);
-    //       break;
-    //     case "gold":
-    //       discount = parseInt(product.golddiscount);
-    //       break;
-    //     case "platinum":
-    //       discount = parseInt(product.platinumdiscount);
-    //       break;
-    //     default:
-    //       discount = parseInt(product.retaildiscount);
-    //       break;
-    //   }
-    // }
     if (cartItem) {
       cartItem.count += qty;
       cartItem.total = applyDiscount(product.price * cartItem.count, discount);

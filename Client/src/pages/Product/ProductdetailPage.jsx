@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Avatar, Chip, Rating } from "@mui/material";
-import { FaCheckCircle, FaGlobe, FaLock, FaPen } from "react-icons/fa";
+import { FaCheckCircle, FaGlobe, FaLock, FaPen, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 import ReviewForm from "../../components/ReviewForm/ReviewForm";
 import Ratingdata from "../../MOCK_DATA (6).json";
 import { toast, Toaster } from "react-hot-toast";
@@ -10,6 +10,8 @@ import { Carousel } from "react-responsive-carousel";
 import { base_url } from "../../Utils/baseUrl";
 import { addcarts, removeItem } from "../../features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { config } from "../../Utils/axiosConfig";
 
 const ProductdetailPage = () => {
   const { id } = useParams();
@@ -17,6 +19,8 @@ const ProductdetailPage = () => {
   const [quantity, setQuantity] = useState(0);
   const [reviewvisible, setReviewVisible] = useState(false);
   const [endrating, setEndRating] = useState(4);
+  const [like , setLike] = useState(0)
+  const [dislike , setDislike] = useState(0)
   const dispatch = useDispatch();
   const { carts } = useSelector(state => state.cart);
   const  user  = useSelector((state) => state.auth.user);
@@ -39,14 +43,26 @@ const ProductdetailPage = () => {
     fetchProducts();
   }, [id]);
 
+  // add tocart 
+  const handleAddToCart = async() => {
+     const response = await axios.post(`${base_url}cart`,{},config)
+  }
+
   useEffect(()=>{
     getQuantity();
   }, [carts])
 
+  // handlelikes
+  const handleLikes = async () => {
+    setLike(like+1)
+  }
+  const handliDislikes = async () => {
+    setDislike(dislike+1)
+  }
   // add product to cart
-  const handleAdd = () => {
-      dispatch(addcarts(product));
-  };
+  // const handleAdd = () => {
+  //     dispatch(addcarts(product));
+  // };
   //load reviews
   const handleLoadReviews = () => {
     token
@@ -199,9 +215,9 @@ const ProductdetailPage = () => {
             </div>
             <div
               className="action-buttons flex flex-col gap-4 my-6"
-              onClick={handleAdd}
+              onClick={()=>handleAddToCart()}
             >
-              <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white active:scale-95  active:scale-95 duration-300 bg-[#0a2444]">
+              <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
                 Add to Cart
               </button>
             </div>
@@ -334,6 +350,10 @@ const ProductdetailPage = () => {
                   <div className="body">
                     <h1 className="font-bold text-xl">{review.review_title}</h1>
                     <p>{review.review_desc}</p>
+                  </div>
+                  <div className="flex gap-2 cursor-pointer items-center p-2 w-fit justify-center">
+                   <p onClick={handleLikes} className="flex gap-2  rounded-md p-2 bg-gray-100"><span className="" >Like{" "}{like}</span><FaThumbsUp/></p>
+                   <p onClick={handliDislikes} className="flex gap-2 items-center p-2  rounded-md bg-gray-100"><span className="">Dislike{" "}{dislike}</span><FaThumbsDown/></p>
                   </div>
                 </div>
               );

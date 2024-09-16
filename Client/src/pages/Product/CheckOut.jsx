@@ -13,7 +13,6 @@ import ShippingModal from "../../components/Models/ShippingModel";
 
 const CheckOut = () => {
   const user = useSelector((state)=>state.auth.user)
-  // console.log(user)
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   const deliverpin = newAdd?.zipcode;
@@ -45,6 +44,8 @@ const CheckOut = () => {
     selectedShiping?.freight_charge?.toFixed(0) || 0
   );
   let CartTotal = totalAmount + deliverCharge;
+
+
   // calculate discount
   if (discountType === "percentage") {
     CartTotal = CartTotal - CartTotal * (discount / 100);
@@ -210,6 +211,7 @@ const CheckOut = () => {
                   };
                   navigate(`/order-confirmed`, { state: ConfirmedOrder });
                   dispatch(resetCart());
+                  
                 }
               } else {
                 const text = await validateRes.text();
@@ -292,7 +294,7 @@ const CheckOut = () => {
                   >
                     <span
                       className="bg-[#0a2444] text-white  cursor-pointer rounded-full absolute right-3 font-bold"
-                      onClick={() => handleRemoveItem(item)}
+                      onClick={() =>handleRemoveItem(item)}
                     >
                       <IoIosCloseCircleOutline size={22} />
                     </span>

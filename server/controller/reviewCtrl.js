@@ -1,6 +1,5 @@
 const Review = require("../models/reviewModel"); // Import the Review model
 const Product = require("../models/productModel")
-console.log(Review);
 // Add a new review
 exports.addReview = async (req, res) => {
   const { title, rating, review ,user} = req.body

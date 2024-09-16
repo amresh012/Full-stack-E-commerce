@@ -145,14 +145,6 @@ const getSingleOrder = async (req, res) => {
 
 module.exports= {getInvoices, editOrderStatus , deleteOrder, getSingleOrder ,getAllOrders}
 
-
-
-
-
-
-
-
-
 // const { decode } = require("jsonwebtoken");
 // const Order = require("../models/orderModel");
 // const Product = require("../models/productModel");

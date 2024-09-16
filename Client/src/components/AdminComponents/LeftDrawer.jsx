@@ -30,11 +30,11 @@ const LeftDrawer = () => {
   }
 
   return (
-    <div className="h-screen overflow-y-scroll">
+    <div className="h-screen overflow-y-scroll ">
       <nav
         className={
           expanded
-            ? "flex flex-col items-center justify-between border-r-2 w-[20rem]"
+            ? "flex flex-col items-center justify-between  w-[20rem]"
             : "w-14 overflow-hidden"
         }
       >

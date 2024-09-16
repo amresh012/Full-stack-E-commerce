@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { base_url } from "../../Utils/baseUrl";
-import { Editor } from "@tinymce/tinymce-react";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import axios from "axios";

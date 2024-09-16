@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaInstagram,
   FaTwitter,
@@ -8,11 +8,11 @@ import {
   FaTelegram,
 } from "react-icons/fa";
 import { useFormik } from "formik";
-import { base_url } from "../../Utils/baseUrl";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 const Contact = () => {
-  // Form Controll
+  const [suppotdata , setSupportData] =  useState([])
+
   const token = localStorage.getItem("token")
   const { values, errors, handleBlur, handleSubmit, handleChange } = useFormik({
     initialValues: {
@@ -44,7 +44,9 @@ const Contact = () => {
     },
   });
 
-  const socialMedia = [
+
+
+    const socialMedia = [
     {
       id: 0,
       name: "Instageam",

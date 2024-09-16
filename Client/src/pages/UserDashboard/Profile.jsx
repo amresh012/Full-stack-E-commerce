@@ -7,7 +7,6 @@ import { toast, Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 const Profile = () => {
   const User = useSelector((state) => state.auth.user)
-  console.log(User)
  const user = User?.user;
  const [data, setData] = useState({
    name: "" || user?.name,
@@ -18,7 +17,6 @@ const Profile = () => {
    address: [] || user?.address,
  });
   let id = localStorage.getItem("id") || user?._id
-  console.log(id)
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -45,7 +43,6 @@ const Profile = () => {
      };
     fetchUserDetails();
   }, []);
-console.log(data)
 
   return (
     <>
@@ -62,11 +59,11 @@ console.log(data)
           <div className="flex w-full items-center gap-2 justify-around ">
             <div className="w-full space-y-2  p-2">
               <span className="font-bold text-xl">NAME</span>
-              <p className="border-b-2">{data?.name}</p>
+              <p className="border-b-2">{data?.name || "Loading..."}</p>
             </div>
             <div className="w-full  space-y-2 p-2">
               <span className="font-bold text-xl">PHONE NUMBER</span>
-              <p className="border-b-2">{data?.mobile}</p>
+              <p className="border-b-2">{data?.mobile || "Loading..."}</p>
             </div>
           </div>
           {/*  */}
@@ -85,18 +82,18 @@ console.log(data)
             </div>
             <div className="w-full  space-y-2 p-2">
               <span className="font-bold text-xl">EMAIL</span>
-              <p className="border-b-2">{data?.email}</p>
+              <p className="border-b-2">{data?.email || "Loading..."}</p>
             </div>
           </div>
           {/*  */}
           <div className="flex w-full items-center gap-2 justify-around ">
             <div className="w-full space-y-2  p-2">
               <span className="font-bold text-xl">GST NUMBER</span>
-              <p className="border-b-2">{data?.Gst}</p>
+              <p className="border-b-2">{data?.Gst || "Loading..."}</p>
             </div>
             <div className="w-full  space-y-2 p-2">
               <span className="font-bold text-xl">PAN NUMBER</span>
-              <p className="border-b-2">{data?.Pan}</p>
+              <p className="border-b-2">{data?.Pan || "Loading..."}</p>
             </div>
           </div>
         </div>

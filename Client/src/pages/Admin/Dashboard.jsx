@@ -13,6 +13,13 @@ import { config } from "../../Utils/axiosConfig";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import moment from "moment"
 
+const Loader = ()=>{
+  return (
+    <>
+    <div className="h-8 border-dashed w-8 animate-spin border-4 rounded-full border-[#0a2444]"></div>
+    </>
+  )
+}
 
 const Dashboard = () => {
   const [totalOrders, setTotalOrders] = useState(0);
@@ -24,6 +31,8 @@ const Dashboard = () => {
   const [totalVisitsToday, setTotalVisitsToday] = useState([]);
   const [recentorders , setRecentOrders] = useState([])
  
+  console.log(totalPaymentsAllTime)
+  console.log(totalPaymentsAllTime)
 
 
   const [categoriesData, setCategoriesData] = useState({
@@ -95,10 +104,7 @@ const Dashboard = () => {
       header: "Date",
       accessorKey: "Order_date",
       cell: ({ row }) => {
-        //
-        console.log(row);
         const date = row.original.createdAt;
-        // return <span>{date}</span>;
         return <span>{moment(date).format("DD/MM/YYYY hh:mm")}</span>;
       },
     },
@@ -119,7 +125,7 @@ const Dashboard = () => {
         ...config,
       });
       const data = await response.json();
-      console.log(data)
+      // console.log(data)
       if (!data?.success) {
         throw new Error(data?.error || 'Something went wrong');
       }
@@ -175,121 +181,119 @@ const Dashboard = () => {
           <span className="text-[4vmax]">{getGreeting()}! </span>
           <h1 className="uppercase">Welcome to Admin DashBoard</h1>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+  <div className="mt-5 flex items-center justify-start gap-2">
+    <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md w-full h-auto p-2">
+      <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
+        <FaUsers />
+      </div>
+      <div className="flex-1">
+        <p className="text-2xl font-bold">New Customers</p>
+        <p className="text-base -mt-1 text-gray-400 font-bold">This Month</p>
+        <p className="text-4xl font-bold mt-1 text-[#619edd]">
+          {totalNewCustomers === 0 ? <Loader /> : totalNewCustomers}
+        </p>
+      </div>
+    </div>
+  </div>
 
-        <div className="flex justify-start w-[fit-content]">
-          <div className="mt-5 flex flex-wrap items-center justify-start gap-2">
-            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[20rem] h-auto p-2">
-              <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
-                <FaUsers />
-              </div>
-              <div className="flex-1">
-                <p className="text-2xl font-bold">New Customers</p>
-                <p className="text-base -mt-1 text-gray-400 font-bold">
-                  This Month
-                </p>
-                <p className="text-4xl font-bold mt-1 text-[#619edd]">
-                  {totalNewCustomers}
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[18rem] h-auto p-2">
-              <div className="text-7xl text-[#0a2440] flex justify-center w-[6rem]">
-                <FaShoppingCart />
-              </div>
-              <div className="flex-1">
-                <p className="text-2xl font-bold">Total Orders</p>
-                <p className="text-base -mt-1 text-gray-400 font-bold">Today</p>
-                <p className="text-4xl font-bold mt-1 text-[#ce7cff]">
-                  {totalOrders}
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[20rem] h-auto p-2">
-              <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
-                <AiFillProduct />
-              </div>
-              <di className="flex-1">
-                <p className="text-2xl font-bold">Total Products</p>
-                <p className="text-base -mt-1 text-gray-400 font-bold">
-                  All Time
-                </p>
-                <p className="text-4xl font-bold mt-1 text-[#ff7c7c]">
-                  {totalProducts}
-                </p>
-              </di>
-            </div>
-            <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md min-w-[21rem] h-auto p-2">
-              <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
-                <BiSolidCategory />
-              </div>
-              <div className="flex-1">
-                <p className="text-2xl font-bold">Total Categories</p>
-                <p className="text-base -mt-1 text-gray-400 font-bold">
-                  All Time
-                </p>
-                <p className="text-4xl font-bold mt-1 text-[#4cd54b]">
-                  {totalCategories}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md min-w-[17rem] p-2 h-auto">
-              <div className="flex items-center mb-2">
-                <div className="text-5xl text-[#0a2440]">
-                  <MdOutlinePayment />
-                </div>
-                <p className="text-2xl font-bold">Payments</p>
-              </div>
-              <div>
-                <div className="flex flex-wrap gap-2">
-                  <div className="border-r pr-3">
-                    <p className="text-base -mt-1 text-gray-400 font-bold">
-                      All Time
-                    </p>
-                    <p className="text-xl font-bold mt-1 text-[#ff6262]">
-                      Rs {totalPaymentsAllTime}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-base -mt-1 text-gray-400 font-bold">
-                      Today
-                    </p>
-                    <p className="text-xl font-bold mt-1 text-[#ff6262]">
-                      Rs {totalPaymentsToday}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <div className="flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md min-w-[17rem] p-2 h-auto">
-              <div className="flex items-center mb-2">
-                <div className="text-5xl text-[#0a2440]">
-                  <MdOutlinePayment />
-                </div>
-                <p className="text-2xl font-bold">Visitors</p>
-              </div>
-              <div>
-                <div className="flex flex-wrap items-start w-[8rem] gap-2">
-                  <div className="flex flex-col items-start  w-full">
-                    <p className="text-base -mt-1 text-gray-400 font-bold">
-                      Today
-                    </p>
-                    <p className="text-xl font-bold mt-1 text-[#ff6262]">
-                      Rs {totalVisitsToday}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-base -mt-1 text-gray-400 font-bold">
-                      Today
-                    </p>
-                    <p className="text-xl font-bold mt-1 text-[#ff6262]">
-                      Rs {totalPaymentsToday}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-          </div>
+  <div className="mt-5 flex items-center justify-start gap-2">
+    <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md w-full h-auto p-2">
+      <div className="text-7xl text-[#0a2440] flex justify-center w-[6rem]">
+        <FaShoppingCart />
+      </div>
+      <div className="flex-1">
+        <p className="text-2xl font-bold">Total Orders</p>
+        <p className="text-base -mt-1 text-gray-400 font-bold">Today</p>
+        <p className="text-4xl font-bold mt-1 text-[#ce7cff]">
+          {
+          totalOrders}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div className="mt-5 flex items-center justify-start gap-2">
+    <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md w-full h-auto p-2">
+      <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
+        <AiFillProduct />
+      </div>
+      <div className="flex-1">
+        <p className="text-2xl font-bold">Total Products</p>
+        <p className="text-base -mt-1 text-gray-400 font-bold">All Time</p>
+        <p className="text-4xl font-bold mt-1 text-[#ff7c7c]">
+          {totalProducts === 0 ? <Loader /> : totalProducts}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div className="mt-5 flex items-center justify-start gap-2">
+    <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md w-full h-auto p-2">
+      <div className="text-7xl text-[#0a2440] w-[6rem] flex justify-center">
+        <BiSolidCategory />
+      </div>
+      <div className="flex-1">
+        <p className="text-2xl font-bold">Total Categories</p>
+        <p className="text-base -mt-1 text-gray-400 font-bold">All Time</p>
+        <p className="text-4xl font-bold mt-1 text-[#4cd54b]">
+          {totalCategories === 0 ? <Loader /> : totalCategories}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div className="mt-5 col-span-1 lg:col-span-2 xl:col-span-4 flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md w-full p-2 h-auto">
+    <div className="flex items-center mb-2">
+      <div className="text-5xl text-[#0a2440]">
+        <MdOutlinePayment />
+      </div>
+      <p className="text-2xl font-bold ml-2">Payments</p>
+    </div>
+    <div>
+      <div className="flex flex-wrap gap-4">
+        <div className="border-r pr-3">
+          <p className="text-base -mt-1 text-gray-400 font-bold">All Time</p>
+          <p className="text-xl font-bold mt-1 text-[#ff6262]">
+            Rs {totalPaymentsAllTime.length === 0 ? <Loader /> : totalPaymentsAllTime}
+          </p>
         </div>
+        <div>
+          <p className="text-base -mt-1 text-gray-400 font-bold">Today</p>
+          <p className="text-xl font-bold mt-1 text-[#ff6262]">
+            Rs {totalPaymentsToday.length === 0 ? <Loader /> : totalPaymentsToday}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {/*  */}
+  {/* <div className="mt-5 col-span-1 lg:col-span-2 xl:col-span-4 flex flex-col gap-x-4 items-center justify-center border bg-white rounded-md w-full p-2 h-auto">
+    <div className="flex items-center mb-2">
+      <div className="text-5xl text-[#0a2440]">
+        <MdOutlinePayment />
+      </div>
+      <p className="text-2xl font-bold ml-2">Payments</p>
+    </div>
+    <div>
+      <div className="flex flex-wrap gap-4">
+        <div className="border-r pr-3">
+          <p className="text-base -mt-1 text-gray-400 font-bold">All Time</p>
+          <p className="text-xl font-bold mt-1 text-[#ff6262]">
+            Rs {totalPaymentsAllTime.length === 0 ? <Loader /> : totalPaymentsAllTime}
+          </p>
+        </div>
+        <div>
+          <p className="text-base -mt-1 text-gray-400 font-bold">Today</p>
+          <p className="text-xl font-bold mt-1 text-[#ff6262]">
+            Rs {totalPaymentsToday.length === 0 ? <Loader /> : totalPaymentsToday}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div> */}
+</div>
+
 
         <h1 className="text-3xl font-bold mt-20 mb-5 bg-[#0a2444] w-full p-2 text-white">
           Recent Orders
