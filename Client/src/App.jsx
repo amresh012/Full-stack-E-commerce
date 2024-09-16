@@ -57,14 +57,14 @@ function App() {
     // Simulate an API or data fetching delay
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 8000); // You can adjust this timeout as per your requirement
+    }, 2000); // You can adjust this timeout as per your requirement
 
     return () => clearTimeout(timer); // Clear timeout on component unmount
   }, [location]);
 
   return (
     <Suspense fallback={<Loader />}>
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />

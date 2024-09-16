@@ -7,7 +7,6 @@ import {
   FaPinterest,
   FaTelegram,
 } from "react-icons/fa";
-import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { base_url } from "../../Utils/baseUrl";
 import toast, { Toaster } from "react-hot-toast";
@@ -17,11 +16,10 @@ const Contact = () => {
   const token = localStorage.getItem("token")
   const { values, errors, handleBlur, handleSubmit, handleChange } = useFormik({
     initialValues: {
-      fullname: "",
-      email: "",
+      name: "",
       mobile: "",
-      reason: "",
-      remarks: "",
+      purpose: "",
+      description: "",
     },
 
     onSubmit: async (values, { setSubmitting }) => {
@@ -31,7 +29,7 @@ const Contact = () => {
         return
       }
       try {
-        const response = await axios.post(`${base_url}contact`, values);
+        const response = await axios.post(`https://crmkfsbackend.deepmart.shop/api/support/create-support`, values);
         if (response.data.error) {
           throw new Error(response.data.error);
         } else {
@@ -80,23 +78,17 @@ const Contact = () => {
   ];
   const formfield = [
     {
-      id: "fullname",
+      id: "name",
       label: "Full Name",
       type: "text",
       email: "",
-      fullname: values.fullname,
+      fullname: values.name,
     },
     {
       id: "mobile",
       label: "Mobile No.",
       type: "text",
       mobile: values.mobile,
-    },
-    {
-      id: "email",
-      label: "Email",
-      type: "email",
-      email: values.email,
     },
   ];
   return (
@@ -209,18 +201,18 @@ const Contact = () => {
                 <div className="mt-8 space-y-2">
                   <label htmlFor="Purpose">Purpose</label>
                  <select
-                    id="reason"
+                    id="purpose"
                     onChange={handleChange}
                     className=" p-4 w-full bg-zinc-100 border-2 border-gray-300 rounded-md outline-none "
                   >
                     <option value="Choose" selected>Choose</option>
-                    <option value="GYM Setup">GYM Setup</option>
-                    <option value="Service">Service</option>
-                    <option value="Complaint">Complaint</option>
+                    <option value="gym setup">GYM Setup</option>
+                    <option value="service">Service</option>
+                    <option value="complaint">Complaint</option>
                   </select>
                  </div>
                 <textarea
-                  id="remarks"
+                  id="description"
                   onChange={handleChange}
                   placeholder="write your query here..."
                   className="mt-8 w-full outline-none  px-2 py-2 border-2 rounded-md resize-none no-scrollbar"

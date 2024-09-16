@@ -9,7 +9,7 @@ import { addcarts } from "../../features/cartSlice";
 import { GrPowerReset } from "react-icons/gr";
 import { FaSearch } from "react-icons/fa";
 import toast from "react-hot-toast";
-import Category from "../Home/Category";
+// import Category from "../Home/Category";
 import { Link } from "react-router-dom";
 
 const Product = ({buttonProp , filtervisible , onClickhandler}) => {
@@ -37,11 +37,12 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
 
       // Filter products by categories
       const filteredData = selectedCategories.length > 0
-        ? data.filter(product => selectedCategories.includes(product.category))
+        ? data.filter(product => selectedCategories.includes(product.subcategory.toLowerCase()))
         : data;
-
+      console.log(filteredData)
       setProducts(filteredData);
       setSortedProducts(filteredData);
+      setCurrentPage(1)
       setIsLoading(false);
     };
 
@@ -110,11 +111,16 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
     setSortedProducts(sorted);
     setCurrentPage(1); // Reset to first page when sorting changes
   };
+  const LowerCaseCategory = gym_equipment.map((item)=>(
+    item.toLowerCase()
+  ))
+
+  
 
   // Handle category filter change
   const handleCategoryChange = (category) => {
     setSelectedCategories((prevCategories) =>
-      prevCategories.includes(category)? prevCategories.filter((c) => c !== category): [...prevCategories, category]
+      prevCategories.includes(category.toLowerCase())? prevCategories.filter((c) => c !== category): [...prevCategories, category]
     );
   };
 
@@ -152,10 +158,10 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
              onClick={() => setSelectedCategories([])}
            />
          </div>
-         <div className="p-2 space-y-2">
-           <h1 className="font-bold">Category</h1>
+         <div className="p-2 space-y-2 bg-gray-100 rounded-md">
+           <h1 className="font-bold uppercase text-xl">Category</h1>
            <div className="flex flex-col gap-2 no-scrollbar cursor-pointer">
-             {gym_equipment.map((item, index) => (
+             {LowerCaseCategory.map((item, index) => (
                <div
                  className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md"
                  key={index}
@@ -166,7 +172,7 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
                    onChange={() => handleCategoryChange(item)}
                    checked={selectedCategories.includes(item)}
                  />
-                 <p className="lowercase">{item}</p>
+                 <p className="uppercase">{item}</p>
                </div>
              ))}
            </div>
@@ -213,13 +219,13 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
           </div>
 
           {/* Product List */}
-          <div className="product-list_container p-2 flex flex-wrap gap-2 w-full items-center justify-center lg:justify-center">
+          <div className="product-list_containerproduct-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {isLoading ? (
               <Loader />
             ) : (
               currentProducts.map((product) => (
                 <div
-                  className="card group w-full lg:w-[22rem]  border-2 p-2 rounded-md"
+                  className="card group w-[20rem] border-2 p-2 rounded-md"
                   key={product._id}
                 >
                   <Link to={`/product/${product._id}`}>

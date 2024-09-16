@@ -154,20 +154,6 @@ const ProductdetailPage = () => {
                   </span>
                 )}
             </div>
-            {/* <div className="dimensions flex flex-col gap-2">
-        <h1 className='font-bold text-xl'>Net-Weights</h1>
-        <div className="flex gap-4 ">
-        {
-          [...Array(5)].map((_,i)=>(
-            <div className="border-2 cursor-pointer hover:bg-black hover:text-white duration-150  w-fit p-2 border-black" key={i}>
-              <span>{
-               i *5 >0 ?(i+1)*5:`0${(i+1)*5}` 
-              }</span>
-            </div>
-          ))
-        }
-        </div>
-      </div> */}
             <div className="description w-full mt-4 leading-8 tracking-wider ">
               <div className="desc group w-full">
                 <p className="Font-oswald">
@@ -210,20 +196,14 @@ const ProductdetailPage = () => {
               <p className="text-gray-500 font-bold italic">
                 width: {product?.width}cm
               </p>
-              {/* 
-               height: 200,
-    length: 100,
-    width: 150,
-    weight: 100 */}
             </div>
             <div
               className="action-buttons flex flex-col gap-4 my-6"
               onClick={handleAdd}
             >
-              <button className="border-2 px-12 py-3 border-black  active:scale-95 duration-300 bg-gray-100">
+              <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white active:scale-95  active:scale-95 duration-300 bg-[#0a2444]">
                 Add to Cart
               </button>
-              {/* <button className="px-12 py-3 bg-black text-white active:scale-95 duration-300">Buy it Now</button> */}
             </div>
             <div className="shipping-info ">
               <p className="">

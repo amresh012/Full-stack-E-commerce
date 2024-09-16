@@ -6,8 +6,8 @@ import Avatarupload from '../../components/UserDashComp/Avatarupload'
 import { toast, Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 const Profile = () => {
-  const User = useSelector((state) => state.auth)
-  // console.log(User)
+  const User = useSelector((state) => state.auth.user)
+  console.log(User)
  const user = User?.user;
  const [data, setData] = useState({
    name: "" || user?.name,
@@ -17,8 +17,8 @@ const Profile = () => {
    Pan: "",
    address: [] || user?.address,
  });
-  let id = localStorage.getItem("id") || user._id
-  // console.log(id)
+  let id = localStorage.getItem("id") || user?._id
+  console.log(id)
 
   useEffect(() => {
     const fetchUserDetails = async () => {

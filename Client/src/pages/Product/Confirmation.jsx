@@ -36,36 +36,36 @@ const Confirmation = () => {
     
   // createInvoic
   const { address, items, email } = stat
-  // useEffect(() => {
-  //   const handleInvoiceCreation = async () => {
-  //     try {
-  //       // Step 1: Create Invoice
-  //       const datatosend = { address, items, email, stat };
-  //       const createInvoiceResponse = await axios.post(`${base_url}invoice/create`,{ datatosend}, config);
+  useEffect(() => {
+    const handleInvoiceCreation = async () => {
+      try {
+        // Step 1: Create Invoice
+        const datatosend = { address, items, email, stat };
+        const createInvoiceResponse = await axios.post(`${base_url}invoice/create`,{ datatosend}, config);
           
-  //       if (createInvoiceResponse.data) {
-  //         const invoiceId = createInvoiceResponse.data.id;
-  //         setInvoiceId(invoiceId);
-  //         toast.success('Invoice created successfully!');
+        if (createInvoiceResponse.data) {
+          const invoiceId = createInvoiceResponse.data.id;
+          setInvoiceId(invoiceId);
+          toast.success('Invoice created successfully!');
   
-  //         // Step 2: Fetch Invoice by ID (only after creation is successful)
-  //         const fetchInvoiceResponse = await axios.get(`${base_url}invoice/getbyid/${invoice}`);
-  //         console.log(fetchInvoiceResponse);  // Log the fetched invoice data
+          // Step 2: Fetch Invoice by ID (only after creation is successful)
+          const fetchInvoiceResponse = await axios.get(`${base_url}invoice/getbyid/${invoice}`);
+          console.log(fetchInvoiceResponse);  // Log the fetched invoice data
   
-  //         // Step 3: Set the invoice URL
-  //         setInvoiceUrl(fetchInvoiceResponse.data.short_url);
-  //         toast.success('Invoice fetched successfully!');
-  //       } else {
-  //         throw new Error('Failed to create invoice');
-  //       }
-  //     } catch (error) {
-  //       console.error('Error handling invoice:', error);
-  //       toast.error(error.message || 'Error occurred while handling the invoice');
-  //     }
-  //   };
+          // Step 3: Set the invoice URL
+          setInvoiceUrl(fetchInvoiceResponse.data.short_url);
+          toast.success('Invoice fetched successfully!');
+        } else {
+          throw new Error('Failed to create invoice');
+        }
+      } catch (error) {
+        console.error('Error handling invoice:', error);
+        toast.error(error.message || 'Error occurred while handling the invoice');
+      }
+    };
   
-  //   handleInvoiceCreation();
-  // }, [address, items, email, stat, base_url, config]);
+    handleInvoiceCreation();
+  }, [address, items, email, stat, base_url, config]);
    
   const handleInvoice = () => {
     if (InvoiceUrl == "") {
