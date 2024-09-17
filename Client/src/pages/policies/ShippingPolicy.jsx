@@ -26,22 +26,22 @@ const ShippingPolicy = () => {
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Customs, Duties, and Taxes</h2>
         <p className="text-gray-600 mb-4">
-          [Your Company Name] is not responsible for any customs and taxes applied to your order. All fees imposed during or after shipping are the responsibility of the customer (tariffs, taxes, etc.).
+         <span className='font-bold'> KFS FITNESS</span> is not responsible for any customs and taxes applied to your order. All fees imposed during or after shipping are the responsibility of the customer (tariffs, taxes, etc.).
         </p>
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Damages</h2>
         <p className="text-gray-600 mb-4">
-          [Your Company Name] is not liable for any products damaged or lost during shipping. If you received your order damaged, please contact the shipment carrier to file a claim. Please save all packaging materials and damaged goods before filing a claim.
+        <span className='font-bold'> KFS FITNESS</span> is not liable for any products damaged or lost during shipping. If you received your order damaged, please contact the shipment carrier to file a claim. Please save all packaging materials and damaged goods before filing a claim.
         </p>
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">International Shipping Policy</h2>
         <p className="text-gray-600 mb-4">
-          We currently do not ship outside [your country]. If you need international shipping, please contact us for more details.
+          We currently do not ship outside INDIA. If you need international shipping, please contact us for more details.
         </p>
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Contact Us</h2>
         <p className="text-gray-600">
-          If you have any questions about our Shipping Policy, please contact us at shipping@example.com.
+          If you have any questions about our Shipping Policy, please contact us at <span className='text-blue-400 underline'>support@kfsfitness.com</span>.
         </p>
       </div>
     </div>

@@ -69,6 +69,7 @@ const getcart = asyncHandle(async (req, res) => {
 const addItemToCart = asyncHandle(async (req, res) => {
   const { _id } = req.user;
   const { id, qty } = req.body;
+  console.log(id , qty)
 
   try {
     const product = await Product.findById(id);

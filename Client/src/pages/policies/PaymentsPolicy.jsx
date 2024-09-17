@@ -37,7 +37,7 @@ const PaymentsPolicy = () => {
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Contact Us</h2>
         <p className="text-gray-600">
-          If you have any questions or concerns about our payment methods, please contact us at payments@example.com.
+          If you have any questions or concerns about our payment methods, please contact us at <span className='text-blue-400 underline'>support@kfsfitness.com</span>
         </p>
       </div>
     </div>

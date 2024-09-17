@@ -57,15 +57,8 @@ const ShippingModal = ({ data, isOpen, setIsOpen,onShippingSelect }) => {
             <p><strong >Courier Company Name:</strong> {item.courier_name}</p>
             <p><strong>City:</strong> {item.city}</p>
             <p><strong>State:</strong> {item.state}</p>
-            <p className='font-bold bg-red-200 w-fit p-2 text-red-500'><strong>COD Charges:</strong> {item.cod_charges}</p>
-            <p><strong>Freight Charge:</strong> {item.freight_charge}</p>
-            <p><strong>Estimated Delivery Date:</strong> {item.etd}</p>
-            <p><strong>Courier Type:</strong> {item.courier_type}</p>
-            <p><strong>Charge Weight:</strong> {item.charge_weight}</p>
-            <p><strong>Rating:</strong> {item.rating}</p>
-            <p><strong>Real-time Tracking:</strong> {item.realtime_tracking}</p>
-            <p><strong>RTO Charges:</strong> {item.rto_charges}</p>
-            <p><strong>Pickup Performance:</strong> {item.pickup_performance}</p>
+            <p><strong>Delivery Charge:</strong> {item.freight_charge}</p>
+            <p className='font-bold '><strong>Estimated Delivery Date:</strong> {item.etd}</p>
           </div>
         </div>
       ))}

@@ -72,6 +72,7 @@ const prod = ["Barbells & Plates" ,
     {
       id:5,
       name:"Pre-order T&C",
+      route:"/policies/preorder-t&c"
     },
     {
       id:6,
@@ -88,11 +89,6 @@ const prod = ["Barbells & Plates" ,
       name:"Contact Information",
       route:"/contact"
     },
-    {
-      id:9,
-      name:"Equipment Warranty",
-    },
-
   ]
 const Footer = () => {
   return (
@@ -131,7 +127,7 @@ const Footer = () => {
              {/* info */}
              <div className="p-4 flex items-start justify-start flex-col">
               <h1 className='text-xl font-bold'>Info</h1>
-               <ul className="lg:h-[300px] cursor-pointer flex flex-col flex-wrap">
+               <ul className="lg:h-[200px] cursor-pointer flex flex-col flex-wrap">
                 {
                   polocies.map((item) => (
                    <Link to={item.route} key={item.id}>

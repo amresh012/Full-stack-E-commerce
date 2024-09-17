@@ -17,10 +17,12 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
 
   // Simulating data loading (remove this useEffect if you already manage loading state)
   useEffect(() => {
-    if (!data) {
+    if (!data && data.length ===0) {
       setIsLoading(true);
     } else {
-      setIsLoading(false);
+      setTimeout(()=>{
+        setIsLoading(false);
+      },2000)
     }
   }, [data]);
 

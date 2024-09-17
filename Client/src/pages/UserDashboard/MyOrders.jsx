@@ -28,7 +28,7 @@ const MyOrders = () => {
           const data = await response.json();
            console.log(data)
           if (!data.error) {
-            setOrders({data});
+            setOrders(data.order);
           }
         } catch (error) {
           toast.error(error.message);

@@ -12,6 +12,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { config } from "../../Utils/axiosConfig";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import moment from "moment"
+import { FaCalendar, FaClock } from "react-icons/fa6";
 
 const Loader = ()=>{
   return (
@@ -178,8 +179,19 @@ const Dashboard = () => {
       <Toaster />
       <div className="header p-4 flex  flex-col items-start">
         <div className="bg-[#0a2444] w-full p-2 text-white">
-          <span className="text-[4vmax]">{getGreeting()}! </span>
-          <h1 className="uppercase">Welcome to Admin DashBoard</h1>
+          <span className="text-[2vmax]">{getGreeting()}! </span>
+          <h1 className="uppercase text-sm flex flex-wrap items-end justify-start gap-2">Welcome to Admin DashBoard
+          <div className="flex gap-2 border-l items-baseline " >
+           <span className="flex gap-2 items-center  p-1 rounded-md">
+           <FaCalendar/>
+           {moment().format('MMMM Do YYYY')}
+           </span>
+           <span className="flex gap-2 items-center  p-1 rounded-md">
+           <FaClock/>
+           {moment().format('h:mm:ss a')}
+           </span>
+          </div>
+          </h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
   <div className="mt-5 flex items-center justify-start gap-2">

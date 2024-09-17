@@ -26,7 +26,7 @@ const RefundPolicy = () => {
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Contact Us</h2>
         <p className="text-gray-600 mb-4">
-          If you have any questions on how to return your item to us, contact us at support@example.com.
+          If you have any questions on how to return your item to us, contact us at support@kfsfitness.com.
         </p>
       </div>
     </div>

@@ -114,7 +114,6 @@ const Category = () => {
 
   useEffect(() => {
     const searchParams = window.location.search.split('&');
-    
     let category = '';
     let subcategory = '';
     if(searchParams.length === 0){

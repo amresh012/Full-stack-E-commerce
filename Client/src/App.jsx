@@ -45,6 +45,7 @@ import ListBlogs from './pages/Admin/ListBlogs'
 import EditBlog from "./pages/Admin/EditBlog"
 import Confirmation from './pages/Product/Confirmation'
 import Quotation from './pages/Admin/Quotation'
+import PreOrderTerms from './pages/policies/PreOrderTerms '
 function App() {
 
   const [loading, setLoading] = useState(false);
@@ -88,6 +89,7 @@ function App() {
             <Route path="terms&conditions" element={<TermsAndConditions />} />
             <Route path="shipping-policy" element={<ShippingPolicy />} />
             <Route path="return-policy" element={<ReturnPolicy />} />
+            <Route path="preorder-t&c" element={<PreOrderTerms/>}/>
           </Route>
         </Route>
 

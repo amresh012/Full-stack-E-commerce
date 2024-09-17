@@ -19,7 +19,7 @@ const ReturnPolicy = () => {
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Return Process</h2>
         <p className="text-gray-600 mb-4">
-          To initiate a return, please contact us at returns@example.com with your order number and details about the product you would like to return. We will respond promptly with instructions on how to return your items.
+          To initiate a return, please contact us at <span className='text-blue-400 underline'>support@kfsfitness.com</span> with your order number and details about the product you would like to return. We will respond promptly with instructions on how to return your items.
         </p>
         <p className="text-gray-600 mb-4">
           Please do not send your purchase back to the manufacturer.
@@ -32,12 +32,12 @@ const ReturnPolicy = () => {
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Late or Missing Refunds</h2>
         <p className="text-gray-600 mb-4">
-          If you haven’t received a refund yet, first check your bank account again. Then contact your credit card company, as it may take some time before your refund is officially posted. If you’ve done all of this and you still have not received your refund yet, please contact us at support@example.com.
+          If you haven’t received a refund yet, first check your bank account again. Then contact your credit card company, as it may take some time before your refund is officially posted. If you’ve done all of this and you still have not received your refund yet, please contact us at <span className='text-blue-400 underline'>support@kfsfitness.com</span>
         </p>
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Exchanges</h2>
         <p className="text-gray-600 mb-4">
-          We only replace items if they are defective or damaged. If you need to exchange it for the same item, send us an email at support@example.com and send your item to: [Your Return Address].
+          We only replace items if they are defective or damaged. If you need to exchange it for the same item, send us an email at <span className='text-blue-400 underline'>support@kfsfitness.com</span> and send your item to  <span className='font-bold italic'>Address:<span>Kuber Tower, Ajronda, Sec- 20B Faridabad, Haryana, India 121002.</span></span>
         </p>
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Shipping</h2>
@@ -51,7 +51,7 @@ const ReturnPolicy = () => {
 
         <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-700">Contact Us</h2>
         <p className="text-gray-600">
-          If you have any questions on how to return your item to us, please contact us at support@example.com.
+          If you have any questions on how to return your item to us, please contact us at <span className='text-blue-400 underline'>support@kfsfitness.com</span>
         </p>
       </div>
     </div>

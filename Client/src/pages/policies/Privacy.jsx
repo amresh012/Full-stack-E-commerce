@@ -7,15 +7,9 @@ const privacy = () => {
         <h1 className='text-4xl font-bold text-center underline'>Privacy Policy</h1>
         <div className="p-4 flex flex-col items-center justify-center">
         <p>
-              <span className='underline font-b'>www.kfsFitness.com</span> is an e-commerce platform (hereinafter collectively referred to as “We”, “Us” “site” or ‘Website’) is provided by Sf healthtec private limited.
+       <span className='font-bold italic'> kfsFitness.com</span>, an e-commerce platform (hereinafter collectively referred to as "We," "Us," "Site," or "Website") is provided by Bhati Health Care Pvt. Ltd. We at Bhati Health Care Pvt. Ltd. value the trust you place in us. Therefore, we insist upon maintaining the highest standards for secure transactions and protecting customer information privacy. Please read the following statement to understand our practices for information gathering and dissemination.
 
-            We, Sf healthtec private limited value the trust you place in us. That’s why we insist upon the highest standards for secure transactions and customer information privacy. Please read the following statement to learn about our information gathering and dissemination practices.
-
-            Our privacy policy is subject to change at any time without notice. To make sure you are aware of any changes, please review this policy periodically.
-
-            By visiting this Website you agree to be bound by the terms and conditions of this Privacy Policy. If you do not agree please do not use or access our Website.
-
-            By mere use of the Website, you expressly consent to our use and disclosure of your personal information in accordance with this Privacy Policy. This Privacy Policy is incorporated into and subject to the Terms of Use.
+Our privacy policy is subject to change at any time without prior notice. To ensure you are aware of any updates, please review this policy periodically. By visiting this Website, you agree to be bound by the terms and conditions of this Privacy Policy. If you do not agree, please refrain from using or accessing our Website. By merely using the Website, you expressly consent to our use and disclosure of your personal information as outlined in this Privacy Policy. This Privacy Policy is incorporated into and subject to the Terms of Use.
       </p>
       <ol className='pt-12 list-decimal'>
         <li className='font-bold text-xl'>Collection of Personally Identifiable Information and other Information</li>
@@ -107,7 +101,7 @@ We collect personally identifiable information (email address, name, phone numbe
         <p>In case if you have any grievance, you can reach us at:</p>
         <br/>
         <br/>
-        <p className="text-start italic text-slate-500">Email: <a href="">contact@kfsFitness.com</a></p>
+        <p className="text-start italic text-slate-500">Email: <a href="">support@kfsfitness.com</a></p>
         <br/>
 
 

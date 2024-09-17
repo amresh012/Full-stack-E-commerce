@@ -38,7 +38,7 @@ const Shipping = () => {
     };
     
     fetchData(); 
-  }, [reload]);
+  }, [reload,user]);
 
 
   const handleDeleteAddress = async (addressId) => {

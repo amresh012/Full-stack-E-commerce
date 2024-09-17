@@ -34,12 +34,12 @@ const LeftDrawer = () => {
       <nav
         className={
           expanded
-            ? "flex flex-col items-center justify-between  w-[20rem]"
+            ? "flex flex-col items-center justify-between  w-[15rem]"
             : "w-14 overflow-hidden"
         }
       >
-        <div className="h-24 w-full border-b-2 flex items-center justify-around py-2">
-          <Link to="/" onClick={logoutHandler}>
+        <div className="h-24 w-full flex items-center justify-around py-2">
+          <Link to="/" >
             <img
               src={Kfs_logo}
               alt=""
@@ -65,7 +65,7 @@ const LeftDrawer = () => {
           {linksAdmin.map((item) => (
             <>
               <div
-                className="hover:bg-[#0A2440] hover:text-white duration-300 text-xl"
+                className="hover:bg-[#0A2440] hover:text-white duration-300 "
                 key={item.id}
               >
                 {user !== null &&

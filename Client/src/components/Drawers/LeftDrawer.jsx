@@ -125,7 +125,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
                     </Carousel>
                   </div>
                   <div className="flex items-start w-full  justify-around flex-col">
-                    <p className="font-bold">{item.name.slice(0, 20)}</p>
+                    <p className="font-bold">{item?.name?.slice(0, 20)}</p>
                     <p className="flex items-center">
                       <img src={rupee} alt="" className="h-3" />
                       {(+item.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
@@ -149,7 +149,7 @@ const isDesktop = useMediaQuery('(min-width: 1025px)');
               >
                 <button className=" p-2  uppercase" 
                 >
-                  Check Out
+                  Check Out <span className='pl-2 font-light'>{totalAmount}</span>
                 </button>
               </Link>
 

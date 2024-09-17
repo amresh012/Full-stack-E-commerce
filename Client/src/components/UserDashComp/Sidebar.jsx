@@ -79,7 +79,7 @@ const Sidebar = () => {
     return (
       <>
         <Toaster />
-        <div className=" h-screen lg:w-[20rem] border-r-2 p-2 shadow-md ">
+        <div className=" h-screen lg:w-[15rem] border-r-2 p-2 shadow-md ">
           <div className="h-24 flex items-center justify-center font-bold text-2xl border-b-2">
             <h1>My Account</h1>
           </div>
@@ -100,9 +100,6 @@ const Sidebar = () => {
                         key={link.label}
                         className="flex items-center gap-2 p-2"
                       >
-                        {/* <div className="bg-zinc-200 p-2 rounded-full">
-                           <img src={item.icon} alt={item.label} className='h-6' />
-                           </div> */}
                         <li className="list-none text-base uppercase ">
                           {link.label}
                         </li>

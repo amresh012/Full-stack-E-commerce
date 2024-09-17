@@ -453,7 +453,7 @@ const logout = asyncHandler(async (req, res) => {
 
 const updatedUser = asyncHandler(async (req, res) => {
   console.log(req.body);
-  console.log(req.user)
+  console.log(req.user);
   const { _id } = req.user;
   validateMongoDbId(_id);
 
@@ -461,38 +461,44 @@ const updatedUser = asyncHandler(async (req, res) => {
     // Fetch the current user details
     const currentUser = await User.findById(_id);
 
-    // Prepare update fields
-    const updateFields = {
-      name: req?.body?.name,
-      email: req?.body?.email,
-      mobile: req?.body?.mobile
-    };
+    // Prepare update fields only if they are provided in the request body
+    const updateFields = {};
 
-    // Check and update gstNo if it does not exist
-    if (!currentUser.gstNo && req?.body?.gstNo) {
-      updateFields.gstNo = req?.body?.gstNo;
+    if (req?.body?.name) {
+      updateFields.name = req.body.name;
+    }
+    if (req?.body?.email) {
+      updateFields.email = req.body.email;
+    }
+    if (req?.body?.mobile) {
+      updateFields.mobile = req.body.mobile;
     }
 
-    // Check and update panNo if it does not exist
+    // Check and update gstNo if it does not exist and is provided
+    if (!currentUser.gstNo && req?.body?.gstNo) {
+      updateFields.gstNo = req.body.gstNo;
+    }
+
+    // Check and update panNo if it does not exist and is provided
     if (!currentUser.panNo && req?.body?.panNo) {
-      updateFields.panNo = req?.body?.panNo;
+      updateFields.panNo = req.body.panNo;
     }
 
     // Perform the update operation
     const updatedUser = await User.findByIdAndUpdate(
       _id,
-      updateFields,
-      {
-        new: true,
-      }
+      { $set: updateFields },
+      { new: true }
     );
-    
+
     res.json(updatedUser);
   } catch (error) {
     console.log(error);
     throw new Error(error);
   }
 });
+
+
 
 const updateRole = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -573,16 +579,7 @@ const getallUser = asyncHandler(async (req, res) => {
 const getaUser = async (req, res) => {
   try {
     const _id = req.params.id; // Or you can use req.params.id if you're passing the ID in the URL
-    const user = await User.findById(_id)
-    .populate({
-      path: "address",
-      model: "Address",
-      select: "name address city state zipcode mobile",
-    }).populate({
-      path: "order",
-      model:"Order",
-      select:"orderId amount cartItems"
-    }); 
+    const user = await User.findById(_id).populate("address","name address city state zipcode mobile").populate("order"); 
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
