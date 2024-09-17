@@ -3,6 +3,7 @@ const CouponCodes = require("../models/discountModel");
 const User =require("../models/userModel");
 const Razorpay =require("razorpay");
 const orderModel = require("../models/orderModel");
+const OrderController = require("../controller/orderCtrl")
 
 // gernerating unique id's
 function generateId() {
@@ -51,15 +52,10 @@ const createOrder = async (req, res) => {
 };
 
 const verifyPayment = async (req, res) => {
-  
- console.log(req.body)
   const { paymentId,order_id, razorpay_signature, amount, items, address, user } = req.body;
   const key_secret = process.env.RAZORPAY_SECRET_KEY;
-
   // Prepare the string that needs to be signed
   const body = order_id+"|"+paymentId;
-  
-
   // Generate the expected signature
   const expectedSignature = crypto
     .createHmac("sha256", key_secret)
@@ -67,28 +63,16 @@ const verifyPayment = async (req, res) => {
     .digest("hex");
   const isAuthentic = expectedSignature === razorpay_signature;
   if (isAuthentic) {
-    try {
-      const order = new orderModel({
-        orderId: order_id,
-        paymentId:paymentId,
-        amount: amount, // Convert amount to rupees
-        cartItems:items,
-        address,
-        users:user._id,
-        paymentStatus: "Success"
-      });
-      
-      await order.save();
-      return res.status(200).json({
-        success: true,
-        message: 'Payment verified and order saved successfully'
-      });
-    } catch (err) {
-      console.error("Error saving order:", err);
-      return res.status(500).send("Error saving order");
-    }
+    return res.status(200).json({
+      success:true,
+      message: "Payment Verification is successful",
+
+    })
   } else {
-    return res.status(400).send("Invalid payment verification");
+    return res.status(400).json({
+      success:false,
+      message: "Payment verification failed",
+    });
   }
 };
 

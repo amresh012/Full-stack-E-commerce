@@ -9,54 +9,48 @@ import { config } from "../../Utils/axiosConfig";
 import { selectedAddress } from "../../features/addressSlice";
 import {adduser} from "../../features/authSlice"
 const Shipping = () => {
-  const { user } = useSelector((state) => state.auth);
+  const  user  = useSelector((state) => state?.auth?.user);
   const [reload, setReload] = useState(true)
   const [currentAddress, setCurrentAdd] = useState(null);
   const [addressList, setAddressList] = useState(user?.address || []);
   const dispatch = useDispatch()
- 
-  const id = localStorage.getItem("id")
+  const id = localStorage.getItem("id") || user?._id
 
-  const fetchAddresses = async () => {
-    try {
-      const response = await axios.post(`${base_url}user/adr/${id}`, {}, config);
-      if (response.data) {
-        setAddressList(response.data);
-      } else {
-        throw new Error(response.data.error || 'Failed to fetch addresses.');
+  const fetchUserAddress =  async()=>{
+    try{
+      const response = await axios.get(`${base_url}user/${id}` , config)
+      console.log(response)
+      if(!response.data.error){
+        setAddressList(response.data.address)
       }
-    } catch (error) {
-      console.error('Error fetching addresses:', error);
-      toast.error(`Error: ${error.message}`);
     }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchAddresses(); 
-      // setReload((prev)=>!prev)
-    };
-    
-    fetchData(); 
-  }, [reload,user]);
+    catch(error){
+      console.log(error)
+    }
+   }
+ useEffect(()=>{
+  fetchUserAddress()
+ },[reload])
 
 
   const handleDeleteAddress = async (addressId) => {
     alert("Are You Sure You Want To delete this Address")
     try {
-      const response = await axios.delete(`${base_url}user/adr/delete/${addressId}`, config);
+      const response = await axios.delete(`${base_url}user/adr/delete/${addressId}` ,config);
       console.log(response)
-      if (response.status === 200) {
-        // Refresh address list
-        fetchAddresses();
-        toast.success("Address deleted successfully");
+      if(response.data.error){
+        throw new Error()
       }
-      else {
-        return
+      else{
+        toast.success("Address deleted successfully");
+        fetchUserAddress();
       }
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       toast.error("Failed to delete address. Please try again.");
+    }
+    finally{
+      fetchUserAddress();
     }
   };
 
@@ -78,6 +72,7 @@ const Shipping = () => {
         {
           dispatch(adduser(response.data));
           toast.success(response.data.message);
+          fetchUserAddress();
         }
       } catch (error) {
         if (error.response) {
@@ -90,6 +85,7 @@ const Shipping = () => {
       }
     },
   });
+
 
 
   const handleAddressSelect = (address) => {

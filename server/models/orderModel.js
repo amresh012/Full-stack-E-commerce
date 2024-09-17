@@ -1,135 +1,45 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose"); // Erase if already required
 
-const orderSchema = new mongoose.Schema(
+// Declare the Schema of the Mongo model
+
+var orderSchema = new mongoose.Schema(
   {
-    orderId: {
+    transactionId: {
       type: String,
-      required: true,
+      require: true,
     },
-    paymentId: {
+    invoiceNo: {
       type: String,
-      required: true,
+      require:true
     },
-    amount: {
-      type: Number,
-      required: true,
-    },
-    cartItems: [
+    products: [
       {
-        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-        quantity: { type: Number, required: true },
-        price: { type: Number, required: true },
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "product",
+        },
+        count: Number,
+        total: Number,
       },
     ],
-    invoiceNo: { type: mongoose.Schema.Types.ObjectId, ref: "invoice" },
-    address: {
-      type: {
-        street: String,
-        city: String,
-        state: String,
-        postalCode: String,
-        country: String,
-      },
-      required: true,
+    total: { type: Number, require: true },
+    orderby: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    users: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    paymentStatus: {
+    address: {
       type: String,
-      required: true,
-      default: "Failed",
-      status: ["Success", "Failed"],
+      require:true
     },
     status: {
       type: String,
-      default: "Pending",
-      enum: ["Pending", "Shipped", "Delivered"],
+      default: "Processing",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-const orderModel = mongoose.model('Order', orderSchema);
-
-module.exports = orderModel;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const mongoose = require("mongoose"); // Erase if already required
-// // Declare the Schema of the Mongo model
-
-// var orderSchema = new mongoose.Schema(
-//   {
-//     transactionId: {
-//       type: String,
-//       require: true,
-//     },
-//     Orderid:
-//     {
-//        type:String,
-//        require:true
-//     },
-//     // invoiceNo: {
-//     //   type:mongoose.Schema.Types.ObjectId,
-//     //   ref:"invoice",
-//     //   require:true
-//     // },
-//     products: [
-//       {
-//         product: {
-//           type: mongoose.Schema.Types.ObjectId,
-//           ref: "product",
-//         },
-//         count: Number,
-//         total: Number,
-//       },
-//     ],
-//     total: { type: Number, require: true },
-//     orderby: {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "User",
-//     },
-//     address: {
-//       type:String,
-//       require:true
-//     },
-//     status: {
-//       type: String,
-//       default: "Processing",
-//       statuses: [
-//         'Not Processed', 'Cancelled', 'return Successfully', 'Dispatch', 'return',
-//         'Out Of Delivery', 'Order Confirmed', 'Processing', 'Shipped', 'COD'
-//       ]
-//     },
-//   },{
-//     timestamps: true,
-//   }
-// );
-
-// //Export the model
-// module.exports = mongoose.model("Order", orderSchema);
+//Export the model
+module.exports = mongoose.model("Order", orderSchema);

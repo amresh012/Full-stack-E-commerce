@@ -178,26 +178,21 @@ const CheckOut = () => {
                   }
                 );
                 const orderData = await orderCreateResponse.json();
-                console.log(orderData);
-                // const clone = JSON.parse(JSON.stringify(orderData));
-                // console.log(clone);
-                // const { shippting } = clone;
-                // const { shipment_id, courier_id, status } = shippting;
-                // console.log(shipment_id);
-                // const CreateShipment = await fetch(
-                //   `${base_url}shiprocket/CreateShipment`,
-                //   {
-                //     method: "POST",
-                //     ...config,
-                //     body: JSON.stringify({
-                //       shipment_id: shipment_id,
-                //       courier_id: courier_id || 10,
-                //       status: status,
-                //     }),
-                //   }
-                // );
-                //   const shpmentData =await CreateShipment.json()
-                  // console.log(shpmentData)
+                // create order function 
+                const datatosend = {user , address,...paymentData}
+                console.log(datatosend)
+                const CreateUserOrder = await fetch(
+                  `${base_url}order/create-order`,
+                  {
+                    method: "POST",
+                    ...config,
+                    body: JSON.stringify({
+                      datatosend
+                    }),
+                  }
+                );
+                  const UserOrders = await CreateUserOrder.json()
+                  console.log(UserOrders)
                 console.log(orderData);
                 if (orderData.success) {
                   const ConfirmedOrder = {

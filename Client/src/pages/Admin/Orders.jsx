@@ -33,12 +33,14 @@ const Orders = () => {
   const [Order , setOrder] = useState([])
   const [isLoading  ,setIsLoading] = useState(true)
   const [filteredData, setFilteredData] = useState([]);
+  console.log(Order)
   // coloumns
   const columns = [
     {
       header: "Sr No.",
       accessorKey: "id",
       cell: ({ row }) => {
+        console.log(row)
         const id = row.id;
         return <span>{+id + 1}</span>;
       },
@@ -61,24 +63,32 @@ const Orders = () => {
     {
       header: "Name",
       accessorKey: "orderd_by",
-      cell:({row})=>{
-        const name = row.original.users.name
-        return <span>{name}</span>;
-      }
+      // cell:({row})=>{
+      //   const name = row.original.users.name
+      //   return <span>{name}</span>;
+      // }
+    },
+    {
+      header: "Invoice No",
+      accessorKey: "invoiceNo",
+      // cell:({row})=>{
+      //   const name = row.original.users.name
+      //   return <span>{name}</span>;
+      // }
     },
     {
       header: "Products",
       accessorKey: "cartItems",
-      cell:({row})=>{
-        const name = row?.original?.cartItems[0]?._id?.name.substring(0,20)
-        return <span>{name}</span>;
-      }
+      // cell:({row})=>{
+      //   const name = row?.original?.cartItems[0]?._id?.name.substring(0,20)
+      //   return <span>{name}</span>;
+      // }
     },
     {
       header: "Quantity",
       accessorKey: "cartItems",
       cell:({row})=>{
-        const quantity = row.original.cartItems[0]?.quantity
+        const quantity = row.original.cartItems?.quantity
         return <span>{quantity}</span>;
       }
     },
@@ -96,16 +106,16 @@ const Orders = () => {
     },
     {
         header:"Order Status",
-        cell:({ row }) => {
-          const orderStatus = row.original.status
-        return (
-          <>
-          {
-            orderStatus === "pending" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
-          }
-          </>
-        );
-      },
+      //   cell:({ row }) => {
+      //     const orderStatus = row.original.status
+      //   return (
+      //     <>
+      //     {
+      //       orderStatus === "pending" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
+      //     }
+      //     </>
+      //   );
+      // },
     },
     {
       header: "Action",
@@ -153,7 +163,7 @@ const Orders = () => {
   
       try {
         const response = await fetch(`${base_url}order`);
-        // console.log(response)
+        console.log(response)
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }

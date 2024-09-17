@@ -189,7 +189,8 @@ const Category = () => {
                   key={product._id}
                 >
                   <div className="imagecontainer overflow-clip">
-                  <Link to={`/product/${product._id}`}><Carousel
+                  <Link to={`/product/${product._id}`}>
+                  <Carousel
                       renderIndicator={false}
                       autoPlay={true}
                       infiniteLoop={true}

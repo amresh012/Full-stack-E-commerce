@@ -1,8 +1,120 @@
-const OrderModel =  require("../models/orderModel")
-const Userodel = require("../models/userModel")
-const ProductModel = require("../models/productModel")
+const Order =  require("../models/orderModel")
+const User = require("../models/userModel")
+const Product = require("../models/productModel")
 const InvoiceModel = require("../models/invoiceModel")
-const Invoice = require("../controller/invoiceCtrl")
+const { sendEmail } = require("./emailCtrl");
+const invoice = require("./invoiceCtrl");
+
+
+// CREATE ORDER
+function generateId() {
+  const timestamp = new Date().getTime();
+  const randomDigits = Math.floor(10000000 + Math.random() * 90000000); // Random 8-digit number
+  const orderId = `${timestamp}${randomDigits}`.substring(0, 8);
+  return orderId;
+}
+
+const createOrder = async (req, res,) => {
+  console.log("CreateOrder Request=======================",req.body)
+  const { datatosend } = req.body;
+  const user = datatosend.user ;
+  let address = datatosend.address
+  console.log(address)
+  let transactionId =  datatosend.paymentId;
+  let adr, placeofsup, gstNo;
+  for (let i = 0; i < user.address.length; i++) {
+    if (JSON.stringify(user.address[i]._id) == JSON.stringify(address)) {
+      adr = `${user.address[i].adr} , ${user.address[i].city} , ${user.address[i].state} - ${user.address[i].pincode}`;
+      placeofsup = user.address[i].city;
+      gstNo = user.address[i].gstNo;
+    }
+  }
+  let totalValue = parseInt(user.cart.totalValue);
+  let isCoupon = false;
+  
+  if (user.cart?.products?.length > 0) {
+    if (user.cart.isCouponApplied?.code) {
+      isCoupon = {
+        code: user.cart.isCouponApplied.code,
+        discountrs: parseInt(user.cart.isCouponApplied.discountValue),
+      };
+    }
+    // const newOrder = {
+    //   orderId:OrderId,
+    //   paymentId:transactionId,
+    //   amount: amount, // Convert amount to rupees
+    //   cartItems:items,
+    //   address,
+    //   users:user._id,
+    //   paymentStatus: "Success",
+    //   invoiceNo: generateId(),
+    // }
+    const newOrder = {
+      products: user.cart.products,
+      total: totalValue,
+      users: user._id,
+      address: address,
+      transactionId:transactionId || generateId(),
+      invoiceNo: generateId(),
+    };
+    const createdOrder = await Order.create(newOrder);
+    const orders = await Order.find({ _id: createdOrder._id }).populate({
+      path: "products.product",
+      model: "product",
+    });
+
+    const orderArr = orders.map((order) => ({
+      transactionId: order.transactionId,
+      products: order.products.map((product) => {
+        return {
+          name: product.product.name,
+          image: product.product.images[0],
+          count: product.count,
+          total: product.total,
+          price: product.product.total,
+          hsn: product.product.hsnCode,
+          unit: product.product.unitMeausrement,
+        };
+      }),
+      total: order.total,
+      status: order.status,
+    }));
+console.log("OrderArray======================================",orderArr)
+    // const detail = {
+    //   invoiceno: newOrder.invoiceNo,
+    //   userName: req.user.name,
+    //   userAdress: adr,
+    //   totalPrice: totalValue,
+    //   productDetails: orderArr[0].products,
+    //   isCoupon,
+    //   placeofsup,
+    //   gstNo: gstNo,
+    // };
+    // const invoiced = {
+    //   invoiceNo: newOrder.invoiceNo,
+    //   products: orderArr[0].products,
+    //   invoice: invoice(detail),
+    //   total: orderArr[0].total,
+    //   orderby: req.user._id,
+    // };
+    // await InvoiceModel.create(invoiced);
+    await User.findOneAndUpdate(
+      { _id: user._id },
+      {
+        $push: { order: createdOrder._id },
+        $set: {
+          "cart.products": [],
+          "cart.totalValue": 0,
+          "cart.isCouponApplied": {},
+        },
+      },
+      { new: true }
+    );
+    res.json(createdOrder);
+  } else {
+    res.status(500).send({ error: "No product found in user cart" });
+  }
+};
 
 
 
@@ -10,23 +122,7 @@ const Invoice = require("../controller/invoiceCtrl")
   const getAllOrders = async (req, res) => {
     try {
       // Fetch all orders from the database
-      const orders = await OrderModel.find()
-      .populate({
-        path: "cartItems",
-        populate: [
-          { path: "_id",
-            model: "product",
-            select: "name"
-           },
-        ]
-      }
-      ).populate(
-        {
-          path: "users",
-          model:"User",
-          select: "name email"
-        }
-      )
+      const orders = await Order.find()
       // Send the orders as the response
       res.status(200).json({
         success: true,
@@ -143,7 +239,7 @@ const getSingleOrder = async (req, res) => {
       };
 
 
-module.exports= {getInvoices, editOrderStatus , deleteOrder, getSingleOrder ,getAllOrders}
+module.exports= {getInvoices,createOrder, editOrderStatus , deleteOrder, getSingleOrder ,getAllOrders}
 
 // const { decode } = require("jsonwebtoken");
 // const Order = require("../models/orderModel");

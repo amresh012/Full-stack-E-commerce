@@ -383,21 +383,33 @@ const getAddressById = asyncHandler(async (req, res) => {
 });
 // delete old address
 const deleteAddress = asyncHandler(async (req, res) => {
-  console.log(req.params)
+  console.log(req.params);
   try {
-    // Extract address ID from request parameters or body
+    // Extract address ID from request parameters
     const { id } = req.params; // assuming addressId is passed as a URL parameter
 
     if (!id) {
       return res.status(400).json({ message: "Address ID is required" });
     }
 
-    // Find and delete the address by ID
+    // Find the address by ID to get the associated user ID
+    const address = await Address.findById(id);
+
+    if (!address) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    // Remove the address from the Address collection
     const deletedAddress = await Address.findByIdAndDelete(id);
 
     if (!deletedAddress) {
       return res.status(404).json({ message: "Address not found" });
     }
+
+    // Remove the address from the associated user's addresses array
+    await User.findByIdAndUpdate(address.userId, {
+      $pull: { address: id }  // Assuming 'addresses' is an array of address IDs in the User model
+    });
 
     res.status(200).json({ message: "Address deleted successfully", deletedAddress });
   } catch (error) {
@@ -405,6 +417,31 @@ const deleteAddress = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
+
+
+// const deleteAddress = asyncHandler(async (req, res) => {
+//   console.log(req.params)
+//   try {
+//     // Extract address ID from request parameters or body
+//     const { id } = req.params; // assuming addressId is passed as a URL parameter
+
+//     if (!id) {
+//       return res.status(400).json({ message: "Address ID is required" });
+//     }
+
+//     // Find and delete the address by ID
+//     const deletedAddress = await Address.findByIdAndDelete(id);
+
+//     if (!deletedAddress) {
+//       return res.status(404).json({ message: "Address not found" });
+//     }
+
+//     res.status(200).json({ message: "Address deleted successfully", deletedAddress });
+//   } catch (error) {
+//     console.error("Error deleting address:", error);
+//     res.status(500).json({ message: "Internal server error", error: error.message });
+//   }
+// });
 
 
 
@@ -553,11 +590,7 @@ const updateAccess = asyncHandler(async (req, res)=>{
 const getallUser = asyncHandler(async (req, res) => {
   try {
     const getUsers = await User.find()
-      .populate({
-        path: "address",
-        model: "Address",
-        select: "name address city state zipcode mobile",
-      })
+      .populate("address")
       .populate({
         path: "order",
         model: "Order",
@@ -579,7 +612,7 @@ const getallUser = asyncHandler(async (req, res) => {
 const getaUser = async (req, res) => {
   try {
     const _id = req.params.id; // Or you can use req.params.id if you're passing the ID in the URL
-    const user = await User.findById(_id).populate("address","name address city state zipcode mobile").populate("order"); 
+    const user = await User.findById(_id).populate( "address").populate("order"); 
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

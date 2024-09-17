@@ -111,8 +111,8 @@ const userSchema = new mongoose.Schema(
         type: Object,
       },
     },
-    order:[ { type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
-    address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
+    order:[ { type: mongoose.Types.ObjectId, ref: "Order" }],
+    address: [{ type: mongoose.Types.ObjectId, ref: "Address" }],
     refreshToken: {
       type: String,
     },

@@ -27,7 +27,7 @@ const Confirmation = () => {
   const location = useLocation(); 1
   const stat = location.state || {}
   console.log(stat)
-  const steps = ['Order Confirmed', 'Payment', 'Shipping', 'Review', 'Complete'];
+  const steps = ['Order Confirmed', 'Paid', 'Shipping', 'Review', 'Complete'];
 
     
   // invoiceData
@@ -136,9 +136,9 @@ const Confirmation = () => {
                   <TbTruckDelivery size={25} />
                   <span>Delivery Address</span>
                 </div>
-                <Link to="/profile/shipping-add">
+                {/* <Link to="/profile/shipping-add">
                   <button className="text-[#0a2444] font-bold underline text-xs">Change Address Details</button>
-                </Link>
+                </Link> */}
               </div>
               <div className="p-2">
                 <p className="flex flex-col gap-2">
