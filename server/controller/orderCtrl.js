@@ -15,13 +15,13 @@ function generateId() {
 }
 
 const createOrder = async (req, res,) => {
-  console.log("CreateOrder Request=======================",req.body)
   const { datatosend } = req.body;
   const user = datatosend.user ;
   let address = datatosend.address
-  console.log(address)
   let transactionId =  datatosend.paymentId;
-  let adr, placeofsup, gstNo;
+  let orderId = datatosend.order_id
+
+
   for (let i = 0; i < user.address.length; i++) {
     if (JSON.stringify(user.address[i]._id) == JSON.stringify(address)) {
       adr = `${user.address[i].adr} , ${user.address[i].city} , ${user.address[i].state} - ${user.address[i].pincode}`;
@@ -29,6 +29,8 @@ const createOrder = async (req, res,) => {
       gstNo = user.address[i].gstNo;
     }
   }
+
+
   let totalValue = parseInt(user.cart.totalValue);
   let isCoupon = false;
   
@@ -39,19 +41,10 @@ const createOrder = async (req, res,) => {
         discountrs: parseInt(user.cart.isCouponApplied.discountValue),
       };
     }
-    // const newOrder = {
-    //   orderId:OrderId,
-    //   paymentId:transactionId,
-    //   amount: amount, // Convert amount to rupees
-    //   cartItems:items,
-    //   address,
-    //   users:user._id,
-    //   paymentStatus: "Success",
-    //   invoiceNo: generateId(),
-    // }
     const newOrder = {
       products: user.cart.products,
       total: totalValue,
+      Order_id:orderId,
       users: user._id,
       address: address,
       transactionId:transactionId || generateId(),
@@ -79,25 +72,6 @@ const createOrder = async (req, res,) => {
       total: order.total,
       status: order.status,
     }));
-console.log("OrderArray======================================",orderArr)
-    // const detail = {
-    //   invoiceno: newOrder.invoiceNo,
-    //   userName: req.user.name,
-    //   userAdress: adr,
-    //   totalPrice: totalValue,
-    //   productDetails: orderArr[0].products,
-    //   isCoupon,
-    //   placeofsup,
-    //   gstNo: gstNo,
-    // };
-    // const invoiced = {
-    //   invoiceNo: newOrder.invoiceNo,
-    //   products: orderArr[0].products,
-    //   invoice: invoice(detail),
-    //   total: orderArr[0].total,
-    //   orderby: req.user._id,
-    // };
-    // await InvoiceModel.create(invoiced);
     await User.findOneAndUpdate(
       { _id: user._id },
       {
@@ -148,7 +122,7 @@ console.log("OrderArray======================================",orderArr)
       const id = req.params.id;
   
       // Find and remove the order by its id
-      const order = await OrderModel.deleteOne({ _id: id });
+      const order = await Order.deleteOne({ _id: id });
       
       console.log(order)
       // If the order is not found, return a 404 error
@@ -177,7 +151,7 @@ const getSingleOrder = async (req, res) => {
     const { id } = req.params;
 
     // Find the order by ID and populate related data (like products and invoice)
-    const order = await OrderModel.findById(id)
+    const order = await Order.findById(id)
     console.log(order)
 
     // Check if the order exists

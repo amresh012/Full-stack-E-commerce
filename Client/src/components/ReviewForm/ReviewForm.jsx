@@ -8,8 +8,6 @@ import {base_url}from "../../Utils/baseUrl"
 import { useParams } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
 const ReviewForm = ({ productId, userId }) => {
-  console.log("product", productId);
-  console.log("uesrid", userId);
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
       title: "",
@@ -19,7 +17,6 @@ const ReviewForm = ({ productId, userId }) => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const datatosend = { ...values, userId };
-        console.log(datatosend);
         const response = await axios.post(
           `${base_url}reviews/${productId}`,
           datatosend,
@@ -49,7 +46,7 @@ const ReviewForm = ({ productId, userId }) => {
       <div className="lg:p-12">
         <form
           onSubmit={handleSubmit}
-          className="h-auto lg:p-12 p-4 space-y-8 border-2"
+          className="h-auto lg:p-12 p-4 space-y-8 border shadow-md rounded-md"
         >
           <div className="Rating flex gap-2  py-4 flex-col text-3xl font-bold">
             <label htmlFor="">Rating</label>

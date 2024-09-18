@@ -12,6 +12,7 @@ import { addcarts, removeItem } from "../../features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
+import { useAddCartHook } from "../../hooks/cartHooks";
 
 const ProductdetailPage = () => {
   const { id } = useParams();
@@ -25,6 +26,8 @@ const ProductdetailPage = () => {
   const { carts } = useSelector(state => state.cart);
   const  user  = useSelector((state) => state.auth.user);
   const userId = user?._id
+  // mutation hook
+  const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
 
   const token = localStorage.getItem("token")
   // fetch product by id
@@ -43,10 +46,12 @@ const ProductdetailPage = () => {
   }, [id]);
 
   // add tocart 
-  const handleAdd = (product) => {
-    dispatch(addcarts(product));
-    toast.success("Product added to cart successfully.");
+  const handleCart = (product) => {
+    const { _id } = product;
+    mutation.mutate({ id: _id, qty: 1 });
+    toast.success("Product Added Successfully")
   };
+
   // remove item from cart
   
   useEffect(()=>{
@@ -204,7 +209,7 @@ const ProductdetailPage = () => {
             </div>
             <div
               className="action-buttons flex flex-col gap-4 my-6"
-              onClick={handleAdd}
+              onClick={()=>handleCart(product)}
             >
               <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
                 Add to Cart
@@ -271,7 +276,7 @@ const ProductdetailPage = () => {
               </p>
             </div>
             <div
-              className="rightcontent border-2 flex items-center justify-center gap-2 p-2 hover:bg-black border-black hover:text-white"
+              className="rightcontent border-2 flex items-center justify-center duration-300 gap-2 p-2 hover:bg-black border-black hover:text-white"
               onClick={handleReviewView}
             >
               <button>Write a Review</button>

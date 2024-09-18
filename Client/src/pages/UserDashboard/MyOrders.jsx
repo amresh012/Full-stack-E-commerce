@@ -56,7 +56,7 @@ const MyOrders = () => {
               <span>Invoice No : inv_{order.invoiceNo}</span>
               <p>Order Status :<span className='bg-yellow-200 text-yellow-500 p-1'>{order.status}</span></p>
               <p>Transaction_id :{order.transactionId}</p>
-              <p>Total Amount :{order.total}</p>
+              <p>Total Amount : ₹{order.total}</p>
               <p>Order Time :{moment(order.createdAt).format("YYYY Do MMMM hh:mm a")}</p>
             </div>
           ))

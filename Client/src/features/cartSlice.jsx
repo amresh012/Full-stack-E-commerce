@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { base_url } from "../Utils/baseUrl";
 import axios from "axios";
+import { base_url } from "../Utils/baseUrl";
 import { config } from "../Utils/axiosConfig";
 import { toast } from "react-hot-toast";
 
@@ -10,10 +10,8 @@ const initialState = {
   error: false,
   totalAmount: 0,
   totalQuantity: 0,
-  totalWeight:0
+  totalWeight: 0
 };
-
-
 
 export const applyCouponcode = createAsyncThunk(
   "couponcode",
@@ -27,10 +25,17 @@ export const applyCouponcode = createAsyncThunk(
   }
 );
 
-export const cartSlice = createSlice({
+const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    setCart: (state, action) =>
+       {
+      state.carts = action.payload.products;
+      state.totalAmount = action.payload.totalValue;
+      state.totalQuantity = action.payload.totalQuantity;
+      state.totalWeight = action.payload.totalWeight;
+    },
     addcarts: (state, action) => {
       const newItem = action.payload;
       const existingItemInd = state.carts.findIndex(item => item._id === newItem._id);
@@ -49,18 +54,15 @@ export const cartSlice = createSlice({
         state.totalAmount += +newItem.price;
         state.totalWeight += newItem.weight;
       } else {
-        const index = state.carts.findIndex(item => item._id === newItem._id);
-        state.carts[index].quantity++;
-        state.carts[index].totalPrice += +newItem.price;
+        state.carts[existingItemInd].quantity++;
+        state.carts[existingItemInd].totalPrice += +newItem.price;
         state.totalAmount += +newItem.price;
-
       }
     },
-    removeItem : (state,action)=>{
+    removeItem: (state, action) => {
       const {_id} = action.payload;
-      // 
       const existingItemInd = state.carts.findIndex(item => item._id === _id);
-      
+
       state.totalQuantity--;
       state.totalAmount -= state.carts[existingItemInd].price;
 
@@ -70,15 +72,13 @@ export const cartSlice = createSlice({
         state.carts[existingItemInd].quantity--;
         state.carts[existingItemInd].totalPrice -= state.carts[existingItemInd].price;
       }
-      // IMPROVE LOGIC
     },
-    resetCart: (state)=>{
+    resetCart: (state) => {
       state.carts = [];
       state.totalAmount = 0;
       state.totalQuantity = 0;
-      state.totalWeight=0
-    },
-  
+      state.totalWeight = 0;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -87,11 +87,10 @@ export const cartSlice = createSlice({
       })
       .addCase(applyCouponcode.rejected, (state, action) => {
         state.loading = false;
-        toast.error(action.payload)
-      })
-
-
+        toast.error(action.payload);
+      });
   },
 });
-export const { addcarts,resetCart ,removeItem } = cartSlice.actions;
+
+export const { addcarts, resetCart, removeItem, setCart } = cartSlice.actions;
 export default cartSlice.reducer;

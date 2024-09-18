@@ -30,7 +30,7 @@ const LeftDrawer = () => {
   }
 
   return (
-    <div className="h-screen overflow-y-scroll ">
+    <div className="h-screen flex flex-col justify-between overflow-y-scroll  ">
       <nav
         className={
           expanded
@@ -38,7 +38,7 @@ const LeftDrawer = () => {
             : "w-14 overflow-hidden"
         }
       >
-        <div className="h-24 w-full flex items-center justify-around py-2">
+        <div className="h-24 w-full flex items-center justify-around gap-2 py-2">
           <Link to="/" >
             <img
               src={Kfs_logo}
@@ -163,7 +163,8 @@ const LeftDrawer = () => {
           ))}
         </ul>
 
-        {user !== null && (
+      </nav>
+      {user !== null && (
           <div className=" flex mt-12  w-full bg-[#0A2440] p-4 text-xl text-white items-center justify-center gap-2">
             <button className={expanded ? "uppercase":"hidden"} onClick={logoutHandler}>
               LogOut
@@ -171,7 +172,6 @@ const LeftDrawer = () => {
             <FiLogOut />
           </div>
         )}
-      </nav>
     </div>
   );
 }

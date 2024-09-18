@@ -152,7 +152,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Weight Benches</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/category/weight-benches" className="flex items-center">
+                <Link to="/category?=benches-and-racks&subcategory?=benches" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>

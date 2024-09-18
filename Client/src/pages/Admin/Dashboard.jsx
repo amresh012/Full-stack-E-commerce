@@ -93,14 +93,14 @@ const Dashboard = () => {
       header: "OrderID",
       accessorKey: "orderId",
     },
-    {
-      header: "Name",
-      accessorKey: "orderd_by",
-      cell: ({ row }) => {
-        const name = row.original.users.name;
-        return <span>{name}</span>;
-      },
-    },
+    // {
+    //   header: "Name",
+    //   accessorKey: "orderd_by",
+    //   cell: ({ row }) => {
+    //     const name = row.original.users.name;
+    //     return <span>{name}</span>;
+    //   },
+    // },
     {
       header: "Date",
       accessorKey: "Order_date",
@@ -113,7 +113,7 @@ const Dashboard = () => {
       header: "Status",
       accessorKey: "sataus",
       cell: ({ row }) => {
-        const status = row.original.paymentStatus;
+        const status = row.original.status;
         return <span className={getStatusColor(status)}>{status}</span>;
       },
     },

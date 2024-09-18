@@ -10,6 +10,8 @@ import { Chip, Pagination, Rating } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addcarts } from "../../features/cartSlice";
 import { FaSearch } from "react-icons/fa";
+import { useAddCartHook } from "../../hooks/cartHooks";
+
 
 const Category = () => {
   // const { category } = useParams();
@@ -21,6 +23,8 @@ const Category = () => {
   const [selectedOption, setSelectedOption] = useState("Low to High");
   const productsPerPage = 9;
   const dispatch = useDispatch();
+  const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
+
 
   const fetchProducts = async (category, subcategory) => {
     
@@ -48,9 +52,10 @@ const Category = () => {
     indexOfLastProduct
   );
 
-  const handleAdd = (product) => {
-    dispatch(addcarts(product));
-    toast.success("Product Addes To Cart Successfully")
+  const handleCart = (product) => {
+    const { _id } = product;
+    mutation.mutate({ id: _id, qty: 1 });
+    toast.success("Product Added to Cart")
   };
 
   // debounceing
@@ -276,7 +281,7 @@ const Category = () => {
                     </div>
                     <div
                       className="button w-full flex items-center justify-center p-2 text-white"
-                      onClick={() => handleAdd(product)}
+                      onClick={() => handleCart(product)}
                     >
                       <button className="bg-[#0A2440] p-2 w-full rounded-md">
                         Add To Cart

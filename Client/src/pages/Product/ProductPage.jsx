@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { gym_equipment } from "../../constant"; // Removed unnecessary import
+import { gym_equipment } from "../../constant";
 import { base_url } from "../../Utils/baseUrl";
 import Loader from "../../components/reusablesUI/Loader";
 import { Carousel } from "react-responsive-carousel";
@@ -9,10 +9,10 @@ import { addcarts } from "../../features/cartSlice";
 import { GrPowerReset } from "react-icons/gr";
 import { FaSearch } from "react-icons/fa";
 import toast from "react-hot-toast";
-// import Category from "../Home/Category";
+import { useAddCartHook } from "../../hooks/cartHooks";
 import { Link } from "react-router-dom";
 
-const Product = ({buttonProp , filtervisible , onClickhandler}) => {
+const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -20,36 +20,33 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
   const [selectedOption, setSelectedOption] = useState("Low to High");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [visible , setVisible] = useState(filtervisible)
+  const [visible, setVisible] = useState(filtervisible);
 
-  // number of products per page
   const productsPerPage = 9;
-  const dispatch = useDispatch();
+  const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
 
   // Fetch products and filter based on categories
   useEffect(() => {
     const fetchProducts = async () => {
-      setIsLoading(true); // Set loading while fetching
+      setIsLoading(true);
       let url = `${base_url}product`;
 
       let response = await fetch(url);
       let data = await response.json();
 
-      // Filter products by categories
       const filteredData = selectedCategories.length > 0
         ? data.filter(product => selectedCategories.includes(product.subcategory.toLowerCase()))
         : data;
-      console.log(filteredData)
+
       setProducts(filteredData);
       setSortedProducts(filteredData);
-      setCurrentPage(1)
+      setCurrentPage(1);
       setIsLoading(false);
     };
 
     fetchProducts();
-  }, [selectedCategories]); // Dependency on selectedCategories
+  }, [selectedCategories]);
 
-  // Debounce function to limit API calls
   const debounce = (func, wait) => {
     let timeout;
     return function (...args) {
@@ -61,7 +58,6 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
     };
   };
 
-  // Handle search
   const handleSearch = debounce((searchKey) => {
     setSearch(searchKey);
 
@@ -81,13 +77,11 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
     }
   }, 500);
 
-  // Handle sorting
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
     sortProducts(e.target.value);
   };
 
-  // Sort products by selected option
   const sortProducts = (option) => {
     let sorted = [...sortedProducts];
 
@@ -109,83 +103,80 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
     }
 
     setSortedProducts(sorted);
-    setCurrentPage(1); // Reset to first page when sorting changes
+    setCurrentPage(1);
   };
-  const LowerCaseCategory = gym_equipment.map((item)=>(
-    item.toLowerCase()
-  ))
 
-  
+  const LowerCaseCategory = gym_equipment.map((item) => item.toLowerCase());
 
-  // Handle category filter change
   const handleCategoryChange = (category) => {
     setSelectedCategories((prevCategories) =>
-      prevCategories.includes(category.toLowerCase())? prevCategories.filter((c) => c !== category): [...prevCategories, category]
+      prevCategories.includes(category.toLowerCase())
+        ? prevCategories.filter((c) => c !== category)
+        : [...prevCategories, category]
     );
   };
 
-  // Handle page change
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  // Handle Add to Cart
-  const handleAdd = (product) => {
-    dispatch(addcarts(product));
-    toast.success("Product added to cart successfully.");
+  const handleCart = (product) => {
+    const { _id } = product;
+    mutation.mutate({ id: _id, qty: 1 });
+    toast.success("Product Added Successfully")
   };
 
-  // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = sortedProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  
+
   return (
     <>
-      <div className={"main-wrapper  flex items-start justify-start"}>
+      <div className={"main-wrapper flex items-start justify-start"}>
         <div className="h-24"></div>
-       { visible &&
-         <div className="fillter_wrapper shadow m-2 hidden p-2 min-w-[18rem] space-y-6 lg:flex justify-around flex-col relative">
-         <div className="h-12 w-full flex items-center justify-center text-3xl">
-           <h1 className="w-full uppercase p-2">Filter</h1>
-           <Chip
-             label="Reset"
-             sx={{ bgcolor: "#0A2440", color: "#fff" }}
-             icon={<GrPowerReset size={18} />}
-             onClick={() => setSelectedCategories([])}
-           />
-         </div>
-         <div className="p-2 space-y-2 bg-gray-100 rounded-md">
-           <h1 className="font-bold uppercase text-xl">Category</h1>
-           <div className="flex flex-col gap-2 no-scrollbar cursor-pointer">
-             {LowerCaseCategory.map((item, index) => (
-               <div
-                 className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md"
-                 key={index}
-               >
-                 <input
-                   type="checkbox"
-                   className="cursor-pointer"
-                   onChange={() => handleCategoryChange(item)}
-                   checked={selectedCategories.includes(item)}
-                 />
-                 <p className="uppercase">{item}</p>
-               </div>
-             ))}
-           </div>
-         </div>
-       </div>
-       }
+        {visible && (
+          <div className="fillter_wrapper shadow m-2 hidden p-2 min-w-[18rem] space-y-6 lg:flex justify-around flex-col relative">
+            <div className="h-12 w-full flex items-center justify-center text-3xl">
+              <h1 className="w-full uppercase p-2">Filter</h1>
+              <Chip
+                label="Reset"
+                sx={{ bgcolor: "#0A2440", color: "#fff" }}
+                icon={<GrPowerReset size={18} />}
+                onClick={() => setSelectedCategories([])}
+              />
+            </div>
+            <div className="p-2 space-y-2 bg-gray-100 rounded-md">
+              <h1 className="font-bold uppercase text-xl">Category</h1>
+              <div className="flex flex-col gap-2 no-scrollbar cursor-pointer">
+                {LowerCaseCategory.map((item, index) => (
+                  <div
+                    className="flex gap-2 p-2 hover:bg-[#0A2440] hover:text-white rounded-md"
+                    key={index}
+                  >
+                    <input
+                      type="checkbox"
+                      className="cursor-pointer"
+                      onChange={() => handleCategoryChange(item)}
+                      checked={selectedCategories.includes(item)}
+                    />
+                    <p className="uppercase">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="product_list_all flex w-full flex-col justify-between">
           <div className="mt-4 flex lg:flex-row flex-col justify-between items-center p-4">
-          { visible &&  <p className="lg:text-2xl text-4xl p-2 text-center">
-              Products ({sortedProducts.length})
-            </p>}
-            {/* Search Bar */}
+            {visible && (
+              <p className="lg:text-2xl text-4xl p-2 text-center">
+                Products ({sortedProducts.length})
+              </p>
+            )}
             <div className="searchbar lg:w-2/6 w-full h-full rounded-md flex items-center border ">
               <input
                 type="search"
@@ -218,7 +209,6 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
             </div>
           </div>
 
-          {/* Product List */}
           <div className="product-list_containerproduct-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {isLoading ? (
               <Loader />
@@ -229,24 +219,24 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
                   key={product._id}
                 >
                   <Link to={`/product/${product._id}`}>
-                  <div className="imagecontainer relative overflow-clip">
-                    <Carousel
-                      renderIndicator={false}
-                      autoPlay={true}
-                      infiniteLoop={true}
-                      showStatus={false}
-                      showThumbs={false}
-                      showArrows={false}
-                    >
-                      {product.images.map((image, index) => (
-                        <img
-                          src={image}
-                          key={index}
-                          className="h-[15rem] w-auto object-cover group-hover:scale-95 duration-300"
-                        />
-                      ))}
-                    </Carousel>
-                  </div>
+                    <div className="imagecontainer relative overflow-clip">
+                      <Carousel
+                        renderIndicator={false}
+                        autoPlay={true}
+                        infiniteLoop={true}
+                        showStatus={false}
+                        showThumbs={false}
+                        showArrows={false}
+                      >
+                        {product.images.map((image, index) => (
+                          <img
+                            src={image}
+                            key={index}
+                            className="h-[15rem] w-auto object-cover group-hover:scale-95 duration-300"
+                          />
+                        ))}
+                      </Carousel>
+                    </div>
                   </Link>
                   <div className="product-detail">
                     <div className="stack-2 p-2 group">
@@ -266,20 +256,27 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
                     </div>
                     <h1 className="flex items-center gap-2">
                       <span className="text-red-500 text-sm line-through">
-                      ₹{
-                        product?.corporateDiscount && product?.corporateDiscount !== 0 &&
-                        (product.price - product.price * (product.corporateDiscount / 100)).toFixed(2)
-                      }
+                        ₹
+                        {product?.corporateDiscount &&
+                          product?.corporateDiscount !== 0 &&
+                          (
+                            product.price - 
+                            product.price * (product.corporateDiscount / 100)
+                          ).toFixed(2)}
                       </span>
                       <span className="text-lg font-bold p-2">
-                      ₹ {product.price}{" "}
+                        ₹ {product.price}{" "}
                       </span>
                     </h1>
                   </div>
                   <div className="button-group space-y-2 mt-2">
                     <button
                       className="bg-[#0A2440] text-white w-full py-1 px-2 rounded-md"
-                      onClick={() => !onClickhandler ? handleAdd(product): onClickhandler(product._id)}
+                      onClick={() =>
+                        !onClickhandler
+                          ? handleCart(product)
+                          : onClickhandler(product._id)
+                      }
                     >
                       {buttonProp || "Add to Cart"}
                     </button>
@@ -288,7 +285,6 @@ const Product = ({buttonProp , filtervisible , onClickhandler}) => {
               ))
             )}
           </div>
-          {/* Pagination */}
           <div className="p-2 flex justify-center">
             <Pagination
               count={Math.ceil(sortedProducts.length / productsPerPage)}

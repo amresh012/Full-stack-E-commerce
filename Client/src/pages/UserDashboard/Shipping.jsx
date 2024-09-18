@@ -8,7 +8,11 @@ import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
 import { selectedAddress } from "../../features/addressSlice";
 import {adduser} from "../../features/authSlice"
+import { useNavigate } from "react-router-dom";
+
 const Shipping = () => {
+
+  const navigate = useNavigate()
   const  user  = useSelector((state) => state?.auth?.user);
   const [reload, setReload] = useState(true)
   const [currentAddress, setCurrentAdd] = useState(null);
@@ -19,7 +23,7 @@ const Shipping = () => {
   const fetchUserAddress =  async()=>{
     try{
       const response = await axios.get(`${base_url}user/${id}` , config)
-      console.log(response)
+      // console.log(response)
       if(!response.data.error){
         setAddressList(response.data.address)
       }

@@ -7,6 +7,7 @@ import { adduser } from '../features/authSlice';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import ScrollToTop from "../essentials/ScrollToTop"
+import { setCart } from '../features/cartSlice';
 const Layout = () => {
     const dispatch = useDispatch();
 
@@ -22,11 +23,13 @@ const Layout = () => {
                 })
             });
             const data = await response.json();
-
+             console.log(data)
+             console.log(data.user.cart)
             if (!data.success) {
                 throw new Error(data.message);
             }
             dispatch(adduser({...data.user, token: data.token}));
+            dispatch(setCart(data.user.cart))
             localStorage.setItem('token', data.token);
             // toast.success(data.message);
         }

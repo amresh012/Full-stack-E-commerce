@@ -12,7 +12,7 @@ const getcart = asyncHandle(async (req, res) => {
     const user = await User.findOne({ _id }).populate({
       path: "cart.products.product",
       select:
-        "_id name price images corporatediscount",
+        "_id name price images corporateDiscount weight",
     });
 
     if (!user) {
@@ -20,34 +20,16 @@ const getcart = asyncHandle(async (req, res) => {
     }
     const data = user.cart.products.map((item) => {
       const product = item.product;
-      let discount = 0; // Default discount
-      // if (user?.role) {
-      //   switch (user.role) {
-      //     case "user":
-      //       discount = parseInt(product.retaildiscount);
-      //       break;
-      //     case "silver":
-      //       discount = parseInt(product.silverdiscount);
-      //       break;
-      //     case "gold":
-      //       discount = parseInt(product.golddiscount);
-      //       break;
-      //     case "platinum":
-      //       discount = parseInt(product.platinumdiscount);
-      //       break;
-      //     default:
-      //       discount = parseInt(product.retaildiscount);
-      //       break;
-      //   }
-      // }
+      let discount = 0;
       return {
-        name: product.name, // Include product name
+        name: product.name, 
         price: product.price,
         url: product.images[0],
+        weight:product.weight,
         count: item.count,
         total: item.total,
         _id: product._id,
-        discount,
+        discount:product.corporateDiscount,
       };
     });
     const totalCartValue = user.cart.products.reduce(
@@ -58,8 +40,14 @@ const getcart = asyncHandle(async (req, res) => {
       (total, item) => total + item.product.price * item.count,
       0
     );
+   
+    const totalCartWeight = user.cart.products.reduce((total, item) => {
+      const itemWeight = item.product.weight;  // Assuming weight is in the product model
+      return total + itemWeight * item.count;
+    }, 0);
+
     user.cart.totalValue = totalCartValue;
-    res.json({ products: data, totalCartValue, totalProductPrice });
+    res.json({ products: data, totalCartValue, totalProductPrice , totalCartWeight });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -96,6 +84,8 @@ const addItemToCart = asyncHandle(async (req, res) => {
       (total, item) => total + item.total,
       0
     );
+  
+    // Update the cart's total value and total weight
     user.cart.totalValue = totalCartValue;
     await user.save();
     res.json(user.cart);
@@ -148,7 +138,7 @@ const removeAnItem = asyncHandle(async (req, res) => {
 const updatecart = asyncHandle(async (req, res) => {
   const { _id } = req.user;
   const { id, type } = req.body;
-
+ console.log(req.body)
   try {
     const product = await Product.findById(id);
     if (!product) {
@@ -194,9 +184,6 @@ const updatecart = asyncHandle(async (req, res) => {
       switch (user.role) {
         case "user":
           discount = parseInt(product.corporateDiscount);
-          break;
-          discount = parseInt(product.corporateDiscount);
-          break;
       }
     }
 
@@ -220,10 +207,32 @@ const updatecart = asyncHandle(async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+const resetCart = asyncHandle(async (req, res) => {
+  const { _id } = req.user;
+
+  try {
+    const user = await User.findById(_id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.cart.products = [];
+    user.cart.totalValue = 0;
+
+    await user.save();
+    res.status(200).json({ message: "Cart reset successfully"});
+  } catch (error) {
+    console.error("Error resetting cart:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 module.exports = {
   addItemToCart,
   getcart,
   removeAnItem,
   updatecart,
+  resetCart
+  
 };

@@ -6,6 +6,7 @@ const User = require("../models/userModel");
 const createOrder = async (req, res) => {
   console.log(req.body)
   const {addr,productinfo, email} = req.body
+  console.log(productinfo)
   const useremail = req.body.email;
   const userD = await User.find({ email: useremail });
   const user = userD[0];

@@ -62,60 +62,48 @@ const Orders = () => {
     },
     {
       header: "Name",
-      accessorKey: "orderd_by",
-      // cell:({row})=>{
-      //   const name = row.original.users.name
-      //   return <span>{name}</span>;
-      // }
+      accessorKey: "users",
     },
     {
       header: "Invoice No",
       accessorKey: "invoiceNo",
-      // cell:({row})=>{
-      //   const name = row.original.users.name
-      //   return <span>{name}</span>;
-      // }
     },
     {
       header: "Products",
       accessorKey: "cartItems",
-      // cell:({row})=>{
-      //   const name = row?.original?.cartItems[0]?._id?.name.substring(0,20)
-      //   return <span>{name}</span>;
-      // }
     },
     {
       header: "Quantity",
       accessorKey: "cartItems",
       cell:({row})=>{
-        const quantity = row.original.cartItems?.quantity
+        const quantity = row.original.products?.count
         return <span>{quantity}</span>;
       }
     },
     {
       header: "TransactionID",
-      accessorKey: "paymentId",
+      accessorKey: "transactionId",
     },
     {
       header: "Amount",
-      accessorKey: "amount",
+      accessorKey: "total",
     },
     {
       header: "Status",
-      accessorKey: "paymentStatus",
+      accessorKey: "status",
     },
     {
         header:"Order Status",
-      //   cell:({ row }) => {
-      //     const orderStatus = row.original.status
-      //   return (
-      //     <>
-      //     {
-      //       orderStatus === "pending" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
-      //     }
-      //     </>
-      //   );
-      // },
+        cell:({ row }) => {
+          const orderStatus = row.original.status
+        return (
+          <>
+          {
+            orderStatus === "Processing" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
+          }
+          </>
+        );
+      },
     },
     {
       header: "Action",

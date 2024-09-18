@@ -10,13 +10,13 @@ import Copoun from "../../components/Copoun/Copoun"
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom"
 import ShippingModal from "../../components/Models/ShippingModel";
+import { useCartHooks,useDeleteCartHook } from '../../hooks/cartHooks';
 
 const CheckOut = () => {
   const user = useSelector((state)=>state.auth.user)
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   const deliverpin = newAdd?.zipcode;
-
 
   const navigate = useNavigate();
   const [discount, setDiscount] = useState(0);
@@ -32,18 +32,22 @@ const CheckOut = () => {
     }
   }, [couriercompnies]);
 
+
+
   const dispatch = useDispatch();
-  //  Getting CartItems and Total amount from cartslice
-  const { carts, totalAmount, totalWeight, totalQuantity } = useSelector(
-    (state) => state.cart
-  );
+  const { data:cartItems } = useCartHooks();
+  const { mutation: removeitemCartMutation } = useDeleteCartHook()
+  console.log(cartItems)
+
+  
+
 
   // getting auth fouserId name email mobile data from authSlice
   // calculating total checkout amount after adding Shipping Charges from shiprocket api
   const deliverCharge = Number(
     selectedShiping?.freight_charge?.toFixed(0) || 0
   );
-  let CartTotal = totalAmount + deliverCharge;
+  let CartTotal = cartItems?.totalCartValue + deliverCharge;
 
 
   // calculate discount
@@ -63,7 +67,7 @@ const CheckOut = () => {
   const calculateShippingCharge = async () => {
     const pickup_postcode = "121004"; // Replace with your pickup postcode
     const delivery_postcode = deliverpin || ""; // Use the user's pincode
-    const weight = totalWeight || 0;
+    const weight = cartItems?.totalCartWeight || 0;
 
     const response = await fetch(
       `${base_url}shiprocket/shiprocket-rate-calculation`,
@@ -73,7 +77,7 @@ const CheckOut = () => {
           pickup_postcode,
           delivery_postcode,
           weight,
-          declared_value: totalAmount,
+          declared_value: cartItems?.totalCartValue,
         }),
         ...config,
       }
@@ -89,10 +93,10 @@ const CheckOut = () => {
 
   // Call the shipping charge calculation when the component mounts or address changes
   useEffect(() => {
-    if (carts.length > 0) {
+    if (cartItems?.products?.length > 0) {
       calculateShippingCharge();
     }
-  }, [carts]);
+  }, [cartItems]);
   // Calculate Shipping Charges on Orders
 
   const handleShippingSelect = (shippingData) => {
@@ -114,7 +118,7 @@ const CheckOut = () => {
           amount,
           currency,
           receipt: receiptId,
-          cartItems: carts,
+          cartItems: cartItems?.products,
           address: address,
           user: user,
         }),
@@ -161,9 +165,9 @@ const CheckOut = () => {
               // Check the response content type
               const validateContentType = validateRes.headers.get("content-type");
               if (validateContentType && validateContentType.includes("application/json")) {
-                const jsonRes = await validateRes.json();
-                console.log(jsonRes);
 
+                const jsonRes = await validateRes.json();
+                
                 const orderCreateResponse = await fetch(
                   `${base_url}shiprocket`,
                   {
@@ -172,7 +176,7 @@ const CheckOut = () => {
                     body: JSON.stringify({
                       addr: newAdd,
                       email: user?.email,
-                      productinfo: carts.map((item) => item._id).join(" "),
+                      productinfo: cartItems?.map((item) =>item._id)?.join(" "),
                       amount: order_amount,
                     }),
                   }
@@ -192,8 +196,7 @@ const CheckOut = () => {
                   }
                 );
                   const UserOrders = await CreateUserOrder.json()
-                  console.log(UserOrders)
-                console.log(orderData);
+                  console.log("Create Order response",UserOrders)
                 if (orderData.success) {
                   const ConfirmedOrder = {
                     ...paymentData,
@@ -243,10 +246,11 @@ const CheckOut = () => {
     }
   };
   
-  const handleRemoveItem = (item) => {
-    dispatch(removeItem(item));
-  };
-
+  // handleRemoveItem
+const handleRemoveItem =(item)=>{
+  removeitemCartMutation.mutate(item._id)
+  toast.success("item removed successfully")
+}
   const handleIncr = (item) => {
     dispatch(addcarts(item));
   };
@@ -260,12 +264,12 @@ const CheckOut = () => {
         <div className="left-box w-[100vw] min-w-[40rem] h-full p-4 ">
           <div className="bg-gray-100 rounded-md p-2 ">
             <h1 className="text-2xl font-bold uppercase">Cart CheckOut</h1>
-            <p className="item">{carts.length} Item in your cart</p>
+            <p className="item">{cartItems?.products?.length} Item in your cart</p>
           </div>
           <div className="cart-items">
             <div className="cart-container rounded-b-md  w-full flex flex-col gap-2 items-start justify-star h-auto overflow-y-scroll  no-scrollbar">
               {/* cart items here */}
-              {carts.length === 0 ? (
+              {cartItems?.products?.length === 0 ? (
                 <div className="  mt-12 w-full bg-white  capitalize text-xl font-bold grid place-content-center text-center ">
                   <img
                     src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
@@ -282,10 +286,10 @@ const CheckOut = () => {
                   </Link>
                 </div>
               ) : (
-                carts?.map((item) => (
+                cartItems?.products?.map((item) => (
                   <div
                     className="flex border-b w-full items-start justify-start gap-2 p-2 relative"
-                    key={item.id}
+                    key={item?.id}
                   >
                     <span
                       className="bg-[#0a2444] text-white  cursor-pointer rounded-full absolute right-3 font-bold"
@@ -294,23 +298,23 @@ const CheckOut = () => {
                       <IoIosCloseCircleOutline size={22} />
                     </span>
                     <div className="img p-2 w-fit">
-                      {item.images && (
+                      {item?.url && (
                         <img
-                          src={item.images[0]}
-                          alt={item.name}
+                          src={item?.url[0]}
+                          alt={item?.name}
                           className=" object-cover h-44 w-44"
                         />
                       )}
                     </div>
                     <div className="flex items-start w-full pt-2  justify-around flex-col">
-                      <p className="font-bold">{item.name.slice(0, 20)}</p>
+                      <p className="font-bold">{item?.name?.slice(0, 20)}</p>
                       <p className="flex items-center">
                         <LiaRupeeSignSolid />
-                        {(+item.price)
+                        {(+item?.price)
                           .toFixed(2)
                           .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                       </p>
-                      <p className="quantity">{item.quantity}</p>
+                      <p className="quantity">{item?.count}</p>
                       <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
                         <button
                           className="bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  "
@@ -318,7 +322,7 @@ const CheckOut = () => {
                         >
                           +
                         </button>
-                        <p className="">{item.quantity}</p>
+                        <p className="">{item?.count}</p>
                         <button
                           className="bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white "
                           onClick={() => handleDecr(item)}
@@ -391,7 +395,7 @@ const CheckOut = () => {
                 <p className="">Sub Total</p>
                 <p className=" font-bold flex items-center">
                   <LiaRupeeSignSolid />
-                  {totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  {cartItems?.totalCartValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                 </p>
               </div>
 

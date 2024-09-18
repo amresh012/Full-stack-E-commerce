@@ -31,19 +31,21 @@ const CopounList = () => {
         toast.success(data.message);
         return;
       }
-      setReload((prev) => !prev);
+      // setReload((prev) => !prev);
       toast.success(data.message);
+      FetchCopoun()
     } catch (error) {
       toast.error(error.message);
     }
   };
+  // fetch copoun
+  const FetchCopoun = async () => {
+    let response = await fetch(`${base_url}coupon`);
+    let data = await response.json();
+    setCopoun(data);
+  };
 
   useEffect(() => {
-    const FetchCopoun = async () => {
-      let response = await fetch(`${base_url}coupon`);
-      let data = await response.json();
-      setCopoun(data);
-    };
     FetchCopoun();
     
   }, [reload])

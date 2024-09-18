@@ -8,6 +8,10 @@ var orderSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    order_id:{
+      type:String,
+      require:true
+    },
     invoiceNo: {
       type: String,
       require:true
@@ -23,7 +27,7 @@ var orderSchema = new mongoose.Schema(
       },
     ],
     total: { type: Number, require: true },
-    orderby: {
+    users: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },

@@ -9,6 +9,7 @@ import "./Navbar.css"
 import Logo from "../reusablesUI/Logo";
 import AccountMenu from "../UserDashComp/AccountMenu";
 import { useSelector } from "react-redux";
+import { useCartHooks} from '../../hooks/cartHooks';
 
 
 const links = [
@@ -45,7 +46,7 @@ const Navbar = () => {
   const {totalQuantity} = useSelector((state) => state.cart);
   const token = localStorage.getItem("token")  
   const {user} = useSelector(state => state.auth);
-  
+  const { data, isLoading, isError, error } = useCartHooks();
 
   return (
     <nav className="flex justify-around items-center p-4 bg-black">
@@ -78,7 +79,7 @@ const Navbar = () => {
          </Link>
         }
          <div className="">
-         <Badge badgeContent= {totalQuantity || 0} color="secondary" aria-label="cart">
+         <Badge badgeContent= {data?.products?.length || 0} color="secondary" aria-label="cart">
             <LeftDrawer icon={<BiShoppingBag color="white" size={25} className="" />} />
           </Badge>
          </div>
