@@ -46,7 +46,7 @@ const styles = {
     right: "20px",
     padding: "10px 20px",
     fontSize: "16px",
-    backgroundColor: "#007bff",
+    backgroundColor: "#0a2444",
     color: "white",
     border: "none",
     borderRadius: "5px",

@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   FaInstagram,
   FaTwitter,
   FaFacebook,
   FaYoutube,
-  FaPinterest,
   FaTelegram,
 } from "react-icons/fa";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const Contact = () => {
-  const [suppotdata , setSupportData] =  useState([])
-
   const token = localStorage.getItem("token")
-  const { values, errors, handleBlur, handleSubmit, handleChange } = useFormik({
+  const { values, handleBlur, handleSubmit, handleChange } = useFormik({
     initialValues: {
       name: "",
       mobile: "",
@@ -28,6 +26,12 @@ const Contact = () => {
         toast.error("Please Login First")
         return
       }
+       if (!values.name || !values.purpose || !values.mobile) {
+         toast.error(
+           "Please fill out all required fields (Name, Purpose, Mobile)."
+         );
+         return;
+       }
       try {
         const response = await axios.post(`https://crmkfsbackend.deepmart.shop/api/support/create-support`, values);
         if (response.data.error) {
@@ -46,38 +50,34 @@ const Contact = () => {
 
 
 
-    const socialMedia = [
-    {
-      id: 0,
-      name: "Instageam",
-      icon: <FaInstagram />,
-      link: "",
-    },
-    {
-      id: 1,
-      name: "Twitter",
-      icon: <FaTwitter />,
-      link: "",
-    },
-    {
-      id: 2,
-      name: "Facebook",
-      icon: <FaFacebook />,
-      link: "",
-    },
-    {
-      id: 3,
-      name: "Pintrest",
-      icon: <FaPinterest />,
-      link: "",
-    },
-    {
-      id: 4,
-      name: "Youtube",
-      icon: <FaYoutube />,
-      link: "",
-    },
-  ];
+    
+const socialMedia = [
+  {
+    id: 0,
+    name: "Instageam",
+    icon: <FaInstagram />,
+    link: "https://www.instagram.com/kfs_fitness/",
+  },
+  {
+    id: 1,
+    name: "Twitter",
+    icon: <FaTwitter />,
+    link: "https://x.com/fitnesskfs?lang=en",
+  },
+  {
+    id: 2,
+    name: "Facebook",
+    icon: <FaFacebook />,
+    link: "https://www.facebook.com/kfsfitness/",
+  },
+  {
+    id: 3,
+    name: "Youtube",
+    icon: <FaYoutube />,
+    link: "https://www.youtube.com/@kfsfitness8055",
+  },
+];
+
   const formfield = [
     {
       id: "name",
@@ -101,7 +101,8 @@ const Contact = () => {
           <div className="lg:h-32 flex items-start justify-center flex-col text-white lg:w-1/2 text-[2rem] uppercase lg:bg-white/20 ml-4 lg:backdrop-blur-md p-4">
             <h1>KFS Fitness Contact us</h1>
             <p className=" capitalize lg:text-base text-xs">
-            Get in touch with us for personalized support and inquiries about our fitness equipment and services.
+              Get in touch with us for personalized support and inquiries about
+              our fitness equipment and services.
             </p>
           </div>
         </div>
@@ -162,10 +163,12 @@ const Contact = () => {
                   </div>
                   <div className="flex gap-4 py-4 text-xl flex-wrap mt-2">
                     {socialMedia.map((media) => (
-                      <div key={media.id} className="cursor-pointer ">
-                        <span className="">{media.icon}</span>
-                        <span className="text-xs">{media.name}</span>
-                      </div>
+                      <Link to={media.link} key={media.id}>
+                        <div className="cursor-pointer flex flex-col items-center hover:bg-[#0a2440] p-2 rounded-md hover:scale-105 duration-300 hover:text-white ">
+                          <span>{media.icon}</span>
+                          <span className="text-xs">{media.name}</span>
+                        </div>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -202,17 +205,19 @@ const Contact = () => {
                 </div>
                 <div className="mt-8 space-y-2">
                   <label htmlFor="Purpose">Purpose</label>
-                 <select
+                  <select
                     id="purpose"
                     onChange={handleChange}
                     className=" p-4 w-full bg-zinc-100 border-2 border-gray-300 rounded-md outline-none "
                   >
-                    <option value="Choose" selected>Choose</option>
+                    <option value="Choose" selected>
+                      Choose
+                    </option>
                     <option value="gym setup">GYM Setup</option>
                     <option value="service">Service</option>
                     <option value="complaint">Complaint</option>
                   </select>
-                 </div>
+                </div>
                 <textarea
                   id="description"
                   onChange={handleChange}

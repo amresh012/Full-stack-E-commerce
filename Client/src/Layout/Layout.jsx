@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import ScrollToTop from "../essentials/ScrollToTop"
 import { setCart } from '../features/cartSlice';
+import { WhatsappSupport } from '../essentials/WhatsappSupport';
 const Layout = () => {
     const dispatch = useDispatch();
 
@@ -23,8 +24,8 @@ const Layout = () => {
                 })
             });
             const data = await response.json();
-             console.log(data)
-             console.log(data.user.cart)
+            //  console.log(data)
+            //  console.log(data.user.cart)
             if (!data.success) {
                 throw new Error(data.message);
             }
@@ -39,17 +40,18 @@ const Layout = () => {
     }
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            const token = localStorage.getItem('token');
-            checkAccess(token);
-        }
-    }, [])
+      if (localStorage.getItem("token")) {
+        const token = localStorage.getItem("token");
+        checkAccess(token);
+      }
+    }, []);
 
     return (
         <div className='overflow-clip'>
             <Navbar />
             <Outlet />
-            <ScrollToTop/>
+            <ScrollToTop />
+            <WhatsappSupport/>
             <Footer />
         </div>
     )

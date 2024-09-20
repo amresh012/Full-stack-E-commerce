@@ -43,11 +43,9 @@ const links = [
 ];
 
 const Navbar = () => {
-  const {totalQuantity} = useSelector((state) => state.cart);
   const token = localStorage.getItem("token")  
   const {user} = useSelector(state => state.auth);
-  const { data, isLoading, isError, error } = useCartHooks();
-
+  const { data } = useCartHooks();
   return (
     <nav className="flex justify-around items-center p-4 bg-black">
       <div className="logo-container z-50 ">
@@ -69,7 +67,7 @@ const Navbar = () => {
 
       <div className="flex items-center  justify-center  cursor-pointer z-50  ">
        {
-         user !== null ?
+         user !== null  || token ?
          <AccountMenu/>
          :
           <Link to="/login">

@@ -4,8 +4,6 @@ import { base_url } from "../../Utils/baseUrl";
 import Loader from "../../components/reusablesUI/Loader";
 import { Carousel } from "react-responsive-carousel";
 import { Chip, Pagination, Rating } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { addcarts } from "../../features/cartSlice";
 import { GrPowerReset } from "react-icons/gr";
 import { FaSearch } from "react-icons/fa";
 import toast from "react-hot-toast";
@@ -101,7 +99,6 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
       default:
         break;
     }
-
     setSortedProducts(sorted);
     setCurrentPage(1);
   };
@@ -209,13 +206,13 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
             </div>
           </div>
 
-          <div className="product-list_containerproduct-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+          <div className="product-list_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {isLoading ? (
               <Loader />
             ) : (
               currentProducts.map((product) => (
                 <div
-                  className="card group w-[20rem] border-2 p-2 rounded-md"
+                  className="card group border-2 p-2 rounded-md"
                   key={product._id}
                 >
                   <Link to={`/product/${product._id}`}>
@@ -232,7 +229,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                           <img
                             src={image}
                             key={index}
-                            className="h-[15rem] w-auto object-cover group-hover:scale-95 duration-300"
+                            className="h-[35vh] w-auto object-cover bottom group-hover:scale-95 duration-300"
                           />
                         ))}
                       </Carousel>
@@ -256,11 +253,14 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                     </div>
                     <h1 className="flex items-center gap-2">
                       <span className="text-red-500 text-sm line-through">
-                        ₹
                         {product?.corporateDiscount &&
                           product?.corporateDiscount !== 0 &&
+                          product?.corporateDiscount > 0 && <span>₹</span>}
+                        {product?.corporateDiscount &&
+                          product?.corporateDiscount !== 0 &&
+                          product?.corporateDiscount > 0 &&
                           (
-                            product.price - 
+                            product.price -
                             product.price * (product.corporateDiscount / 100)
                           ).toFixed(2)}
                       </span>

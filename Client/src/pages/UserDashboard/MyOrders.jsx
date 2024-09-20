@@ -7,15 +7,14 @@ import {base_url} from "../../Utils/baseUrl"
 import toast from 'react-hot-toast';
 import moment from "moment"
 import { FaExclamationCircle } from 'react-icons/fa';
-import {useSelector} from "react-redux"
-const id = localStorage.getItem("id")
-console.log(id)
+import { useSelector } from "react-redux"
+
+
+
 const MyOrders = () => {
   const user = useSelector((state) => state.auth.user)
-  // console.log("uesr from my order------------", user)
   const [orders, setOrders] = useState([]);
   const id = localStorage.getItem("id") || user?._id
-  // console.log(id)
 
   
   useEffect(() => {

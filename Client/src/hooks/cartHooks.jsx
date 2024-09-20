@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { base_url } from "../Utils/baseUrl";
 import { config } from "../Utils/axiosConfig";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCart, addcarts, removeItem, resetCart } from "../features/cartSlice";
 
@@ -31,7 +30,6 @@ export const useAddCartHook = () => {
   const mutation = useMutation({
     mutationKey: ["Addcart"],
     mutationFn: async (payload) => {
-      console.log(payload)
       const res = await axios.post(`${base_url}cart`, payload, config);
       return res.data;
     },
@@ -72,10 +70,10 @@ export const useDeleteCartHook = () => {
 // Update Cart Item Hook
 export const useUpdateCartHook = () => {
   const client = useQueryClient();
-  const updateCart = useMutation({
+  const mutation = useMutation({
     mutationKey: ["updatecart"],
     mutationFn: async (payload) => {
-      console.log(payload)
+      console.log(payload);
       const res = await axios.put(`${base_url}cart`, payload, config);
       return res.data;
     },
@@ -87,7 +85,7 @@ export const useUpdateCartHook = () => {
     },
   });
 
-  return { updateCart };
+  return { mutation };
 };
 
 // Reset Cart Hook

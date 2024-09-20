@@ -10,10 +10,15 @@ import Copoun from "../../components/Copoun/Copoun"
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom"
 import ShippingModal from "../../components/Models/ShippingModel";
-import { useCartHooks,useDeleteCartHook } from '../../hooks/cartHooks';
+import {
+  useCartHooks,
+  useDeleteCartHook,
+  useUpdateCartHook,
+} from "../../hooks/cartHooks";
+import toast, { Toaster } from "react-hot-toast";
 
 const CheckOut = () => {
-  const user = useSelector((state)=>state.auth.user)
+  const user = useSelector((state) => state.auth.user);
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   const deliverpin = newAdd?.zipcode;
@@ -27,20 +32,15 @@ const CheckOut = () => {
   const token = localStorage.getItem("token");
   // to close the model if there is no courier company
   useEffect(() => {
-    if (!couriercompnies && couriercompnies?.length <=0) {
+    if (!couriercompnies && couriercompnies?.length <= 0) {
       setIsModalOpen(false);
     }
   }, [couriercompnies]);
 
-
-
   const dispatch = useDispatch();
-  const { data:cartItems } = useCartHooks();
-  const { mutation: removeitemCartMutation } = useDeleteCartHook()
-  console.log(cartItems)
-
-  
-
+  const { data: cartItems } = useCartHooks();
+  const { mutation: removeitemCartMutation } = useDeleteCartHook();
+  const { mutation: updateCartItemMutation } = useUpdateCartHook();
 
   // getting auth fouserId name email mobile data from authSlice
   // calculating total checkout amount after adding Shipping Charges from shiprocket api
@@ -48,7 +48,6 @@ const CheckOut = () => {
     selectedShiping?.freight_charge?.toFixed(0) || 0
   );
   let CartTotal = cartItems?.totalCartValue + deliverCharge;
-
 
   // calculate discount
   if (discountType === "percentage") {
@@ -100,17 +99,16 @@ const CheckOut = () => {
   // Calculate Shipping Charges on Orders
 
   const handleShippingSelect = (shippingData) => {
-    if(shippingData){
-      setSelectedShipping(shippingData)
-    }
-    else{
-      toast.error("No Courier Company Selected")
+    if (shippingData) {
+      setSelectedShipping(shippingData);
+    } else {
+      toast.error("No Courier Company Selected");
     } // Store the selected shipping option in the state
   };
 
   const paymentHandler = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`${base_url}payment/createOrder`, {
         method: "POST",
@@ -124,18 +122,18 @@ const CheckOut = () => {
         }),
         ...config,
       });
-  
+
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         const order = await response.json();
-  
+
         const {
           orderId,
           amount: order_amount,
           cartItems,
           address: orderaddress,
         } = order;
-  
+
         var options = {
           key: "rzp_test_oLA0LztRZUjDkX",
           amount: order_amount,
@@ -152,22 +150,28 @@ const CheckOut = () => {
               amount: order_amount,
               items: cartItems,
               address: orderaddress,
-              user:user
+              user: user,
             };
-  
-            try {
-              const validateRes = await fetch(`${base_url}payment/verifyPayment`, {
-                method: "POST",
-                ...config,
-                body: JSON.stringify(paymentData),
-              });
-  
-              // Check the response content type
-              const validateContentType = validateRes.headers.get("content-type");
-              if (validateContentType && validateContentType.includes("application/json")) {
 
+            try {
+              const validateRes = await fetch(
+                `${base_url}payment/verifyPayment`,
+                {
+                  method: "POST",
+                  ...config,
+                  body: JSON.stringify(paymentData),
+                }
+              );
+
+              // Check the response content type
+              const validateContentType =
+                validateRes.headers.get("content-type");
+              if (
+                validateContentType &&
+                validateContentType.includes("application/json")
+              ) {
                 const jsonRes = await validateRes.json();
-                
+
                 const orderCreateResponse = await fetch(
                   `${base_url}shiprocket`,
                   {
@@ -176,27 +180,29 @@ const CheckOut = () => {
                     body: JSON.stringify({
                       addr: newAdd,
                       email: user?.email,
-                      productinfo: cartItems?.map((item) =>item._id)?.join(" "),
+                      productinfo: cartItems
+                        ?.map((item) => item._id)
+                        ?.join(" "),
                       amount: order_amount,
                     }),
                   }
                 );
                 const orderData = await orderCreateResponse.json();
-                // create order function 
-                const datatosend = {user , address,...paymentData}
-                console.log(datatosend)
+                // create order function
+                const datatosend = { user, address, ...paymentData };
+                console.log(datatosend);
                 const CreateUserOrder = await fetch(
                   `${base_url}order/create-order`,
                   {
                     method: "POST",
                     ...config,
                     body: JSON.stringify({
-                      datatosend
+                      datatosend,
                     }),
                   }
                 );
-                  const UserOrders = await CreateUserOrder.json()
-                  console.log("Create Order response",UserOrders)
+                const UserOrders = await CreateUserOrder.json();
+                console.log("Create Order response", UserOrders);
                 if (orderData.success) {
                   const ConfirmedOrder = {
                     ...paymentData,
@@ -205,21 +211,23 @@ const CheckOut = () => {
                     totalQuantity,
                     selectedShiping,
                     orderData,
-                    email:user.email
+                    email: user.email,
                   };
                   navigate(`/order-confirmed`, { state: ConfirmedOrder });
                   dispatch(resetCart());
-                  
                 }
               } else {
                 const text = await validateRes.text();
-                console.error("Unexpected response format from verifyPayment:", text);
+                console.error(
+                  "Unexpected response format from verifyPayment:",
+                  text
+                );
               }
             } catch (error) {
               console.error("Error validating payment:", error);
             }
           },
-  
+
           prefill: {
             name: user?.name,
             email: user?.email,
@@ -234,37 +242,47 @@ const CheckOut = () => {
         };
         var rzp1 = new window.Razorpay(options);
         rzp1.on("payment.failed");
-        e.preventDefault()
+        e.preventDefault();
         rzp1.open();
       } else {
         const text = await response.text();
         console.error("Unexpected response format:", text);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       console.error("Error processing payment:", error);
     }
   };
-  
-  // handleRemoveItem
-const handleRemoveItem =(item)=>{
-  removeitemCartMutation.mutate(item._id)
-  toast.success("item removed successfully")
-}
-  const handleIncr = (item) => {
-    dispatch(addcarts(item));
-  };
 
+  // handleRemoveItem
+  const handleRemoveItem = (item) => {
+    removeitemCartMutation.mutate(item._id);
+    toast.success("item removed successfully");
+  };
+  // handleQuantity update
+  const handleIncr = (item) => {
+    updateCartItemMutation.mutate({ id: item._id, type: "inc" });
+    toast.success("Product Quantity updated by one Successfully");
+  };
   const handleDecr = (item) => {
-    dispatch(removeItem(item));
+    console.log(item);
+    if (item.count === 1) {
+      toast.error("Product quantity can't be less than 1");
+      return;
+    }
+    updateCartItemMutation.mutate({ id: item._id, type: "dec" });
+    toast.success("Product Quantity updated by one Successfully");
   };
   return (
     <>
+      <Toaster/>
       <div className=" flex lg:flex-row flex-col p-4">
         <div className="left-box w-[100vw] min-w-[40rem] h-full p-4 ">
           <div className="bg-gray-100 rounded-md p-2 ">
             <h1 className="text-2xl font-bold uppercase">Cart CheckOut</h1>
-            <p className="item">{cartItems?.products?.length} Item in your cart</p>
+            <p className="item">
+              {cartItems?.products?.length} Item in your cart
+            </p>
           </div>
           <div className="cart-items">
             <div className="cart-container rounded-b-md  w-full flex flex-col gap-2 items-start justify-star h-auto overflow-y-scroll  no-scrollbar">
@@ -293,7 +311,7 @@ const handleRemoveItem =(item)=>{
                   >
                     <span
                       className="bg-[#0a2444] text-white  cursor-pointer rounded-full absolute right-3 font-bold"
-                      onClick={() =>handleRemoveItem(item)}
+                      onClick={() => handleRemoveItem(item)}
                     >
                       <IoIosCloseCircleOutline size={22} />
                     </span>
@@ -337,9 +355,9 @@ const handleRemoveItem =(item)=>{
             </div>
           </div>
         </div>
-        <div className="right-box h-fit p-4 bg-gray-100 rounded-md shadow-sm mt-4">
-          <div className="address p-4 Copoun-Code rounded-md space-y-4">
-            <h1 className="text-2xl font-bold capitalize">
+        <div className="right-box h-fit p-4 bg-gray-100 md:w-full lg:w-fit rounded-md shadow-sm mt-4">
+          <div className="address p-4 Copoun-Code rounded-md space-y-4 bg-gray-200 shadow-sm">
+            <h1 className="text-2xl font-bold uppercase">
               Address Information
             </h1>
             {newAdd === null ? (
@@ -395,7 +413,9 @@ const handleRemoveItem =(item)=>{
                 <p className="">Sub Total</p>
                 <p className=" font-bold flex items-center">
                   <LiaRupeeSignSolid />
-                  {cartItems?.totalCartValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  {cartItems?.totalCartValue
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                 </p>
               </div>
 
@@ -425,7 +445,8 @@ const handleRemoveItem =(item)=>{
                 <p>Cart Total</p>
                 <p className=" font-bold flex items-center">
                   <LiaRupeeSignSolid />
-                  {CartTotal}
+                  {CartTotal.toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                 </p>
               </div>
             </div>
@@ -435,9 +456,9 @@ const handleRemoveItem =(item)=>{
                   className={`bg-[#0A2440] w-full text-white p-2 rounded-md`}
                   disabled={
                     newAdd === null ||
-                    couriercompnies?.length === 0 &&
-                    couriercompnies === null &&
-                    couriercompnies === undefined
+                    (couriercompnies?.length === 0 &&
+                      couriercompnies === null &&
+                      couriercompnies === undefined)
                       ? true
                       : false
                   }

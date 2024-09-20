@@ -56,7 +56,7 @@ async function srShippingRateCalculation(pickup_postcode, delivery_postcode, wei
       }
 
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       resData.message = 'Error in ShippingRateCalculation';
       reject(resData);
     }

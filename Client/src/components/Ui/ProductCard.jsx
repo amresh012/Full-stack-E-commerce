@@ -11,8 +11,8 @@ const ProductCard = ({ product, addToCartHandler }) => {
   return (
     <div
       key={_id}
-      className="relative inline-block min-w-[350px] h-[507px] rounded bg-white py-2 px-4 border"
-      style={{ boxShadow: "0px 0px 10px 9px #fffbfb" }}
+      className="relative inline-block min-w-[350px] h-[507px] rounded bg-white py-2 px-4 border hover:shadow-md hover:scale-105 duration-300"
+      // style={{ boxShadow: "0px 0px 10px 9px #fffbfb" }}
     >
       <Link to={`/product/${_id}`}>
         <img

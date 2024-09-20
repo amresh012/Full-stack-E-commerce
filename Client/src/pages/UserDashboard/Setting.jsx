@@ -22,22 +22,25 @@ const Setting = () => {
       [e.target.id]: e.target.value,
     });
   };
-  const handleSubmit = async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if(formData.name === null || formData.email === null || formData.mobile === null) {
-      toast.error("Please fill the field(s) you want to update");
-      return;
-     }
+      const hasValue = Object.values(formData).some(
+        (field) => field !== "" && field !== null
+    );
+      if (!hasValue) {
+        toast.error("Please fill at least one field to update the profile.");
+        return;
+      }
     try {
     const res = await dispatch(ProfileResetApi(formData))
     console.log(res)
-    if (res.type === "userprofile/fulfilled" && formData !== "") {
+    if (res.type === "userprofile/fulfilled") {
       toast.success("Profile Updated Successfully");
       }
    }
     catch (error) {
       console.log(error)
-    toast.error("Profile not Updated Please try again");
+      toast.error("Profile not Updated Please try again");
    }
   }
  

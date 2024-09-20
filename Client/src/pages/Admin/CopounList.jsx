@@ -94,7 +94,7 @@ const CopounList = () => {
        <div className="bg-red-200 p-2 rounded-md hover:shadow-md" onClick={() =>deleteProduct(row.original._id)}>
         <FaTrash className='text-red-500'/>
        </div>
-       <div className="bg-blue-200 p-2 rounded-md hover:shadow-md" onClick={() =>fetchProduct(row.original._id)}>
+       <div className="bg-blue-200 p-2 rounded-md hover:shadow-md" >
         <FaEye className='text-blue-500'/>
        </div>
          <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
@@ -104,6 +104,7 @@ const CopounList = () => {
     },
   ];
 
+  // onClick={() =>fetchProduct(row.original._id)}
  
 
   return (

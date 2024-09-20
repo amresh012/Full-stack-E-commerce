@@ -40,14 +40,9 @@ const Orders = () => {
       header: "Sr No.",
       accessorKey: "id",
       cell: ({ row }) => {
-        console.log(row)
         const id = row.id;
         return <span>{+id + 1}</span>;
       },
-    },
-    {
-      header: "OrderID",
-      accessorKey: "orderId",
     },
     {
       header: "Date",
@@ -63,6 +58,10 @@ const Orders = () => {
     {
       header: "Name",
       accessorKey: "users",
+      cell: ({ row }) => {
+        const name = row.original.users.name;
+        return <span>{name}</span>;
+      }
     },
     {
       header: "Invoice No",
@@ -76,7 +75,7 @@ const Orders = () => {
       header: "Quantity",
       accessorKey: "cartItems",
       cell:({row})=>{
-        const quantity = row.original.products?.count
+        const quantity = row.original.products[0]?.count
         return <span>{quantity}</span>;
       }
     },

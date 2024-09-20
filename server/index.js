@@ -67,8 +67,8 @@ app.use(express.static("public"));
 // rate limiting
 app.use(helmet()); // Adds various security headers
 app.use(rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // Limit each IP to 100 requests per 15 minutes
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 1000 // Limit each IP to 100 requests per 15 minutes
 }));
 
 app.use("/api/user", authRouter);

@@ -77,7 +77,7 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
   return (
     <div className=" p-4 Copoun-Code rounded-md space-y-4">
     <div className=" space-y-2">
-    <h1 className="text-2xl font-bold">Copoun Code</h1>
+    <h1 className="text-2xl font-bold uppercase">Copoun Code</h1>
     <p className="some-text capitalize">
     Get more value! Apply your coupon code for an additional discount on our premium products.
     </p>

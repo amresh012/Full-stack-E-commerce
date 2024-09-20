@@ -28,17 +28,22 @@ import achievements7 from "../../assets/achievements-7.jpg";
 import achievements8 from "../../assets/achievements-8.jpg";
 import LatestBlogCard from "../../components/Ui/LatestBlogCard";
 import BMICalculator from "../../components/BMICalculator/BMICalculator";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import {base_url} from '../../Utils/baseUrl';
 import { config } from "../../Utils/axiosConfig";
 import axios from "axios";
 import { addcarts } from "../../features/cartSlice";
 import { useDispatch } from "react-redux";
 import { BiArrowToRight } from "react-icons/bi";
+import { useMediaQuery } from "@mui/material";
+
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
   const dispatch = useDispatch();
+
+  const isTablet = useMediaQuery("(min-width: 601px) and (max-width: 1024px)");
+  let blogNumber = isTablet ? 4 :3
 
   useEffect(() => {
     AOS.init({
@@ -73,7 +78,10 @@ const HomePage = () => {
         className="relative h-[30rem] md:h-[40rem] flex flex-col gap-12 justify-center items-center w-full bg-top bg-cover bg-[#038cccab] bg-blend-multiply"
         style={{ backgroundImage: `url(${hero_bg})` }}
       >
-        <div className="text-white text-7xl lg:w-[73%] w-full text-center uppercase">
+        <div
+          className="text-white text-7xl lg:w-[73%] w-full text-center uppercase"
+          data-aos="zoom-in"
+        >
           <p className="font-semibold lg:text-2xl text-[3rem]">
             Build your dream gym with us
           </p>
@@ -97,11 +105,16 @@ const HomePage = () => {
           Recommended For You
         </h1>
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[170px] bg-[#0a2440] mb-16"></div>
-         <Link to="/product" className="w-full flex justify-end items-center pr-4 p-2 underline  gap-2">
-         <button type="button" className="uppercase">View All</button>
-         <IoIosArrowRoundForward size={30}/>
-         </Link>
-        <div>
+        <Link
+          to="/product"
+          className="w-full flex justify-end items-center pr-4 p-2 underline  gap-2"
+        >
+          <button type="button" className="uppercase">
+            View All
+          </button>
+          <IoIosArrowRoundForward size={30} />
+        </Link>
+        <div data-aos="zoom-out">
           <ProductCarousel addToCartHandler={addToCartHandler} />
         </div>
       </div>
@@ -113,7 +126,10 @@ const HomePage = () => {
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440] mb-16"></div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+          <div
+            className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden "
+            data-aos="zoom-out"
+          >
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -128,7 +144,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -143,7 +159,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -152,13 +168,16 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Weight Benches</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/category?=benches-and-racks&subcategory?=benches" className="flex items-center">
+                <Link
+                  to="/category?=benches-and-racks&subcategory?=benches"
+                  className="flex items-center"
+                >
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -173,7 +192,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -188,7 +207,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -295,24 +314,28 @@ const HomePage = () => {
         </div>
         {/* <div className="flex flex-wrap lg:flex-nowrap gap-12 items-center justify-center "> */}
         <div className="flex flex-wrap items-center justify-center gap-4 p-2">
-          {
-            gymEcommerceSolutions.map((sol)=>(
-               <div className="flex flex-col justify-around z-50 min-h-[25rem] w-[25rem] p-4 hover:shadow-lg hover:shadow-[#0a2444] bg-white hover:scale-105 duration-300 " key={sol.category}>
-                 <h1 className="heading text-center text-2xl font-bold p-4 uppercase">{sol.category}</h1>
-                 <ul>
-            {sol.solutions.map((solution, index) => (
-              <li key={index} className="p-2">
-                <strong className="uppercase">{solution.feature}:</strong> {solution.description}
-              </li>
-            ))}
-          </ul>
-          <div className="bg-[#0a2444] w-fit p-2 text-white cursor-pointer flex gap-2 items-center">
-            <p className="">Know More</p>
-            <BiArrowToRight/>
-          </div>
-               </div>
-            ))
-          }
+          {gymEcommerceSolutions.map((sol) => (
+            <div
+              className="flex flex-col justify-around h-[55vh] md:w-[35vw] lg:w-[30vw] p-4 hover:shadow-lg hover:shadow-[#0a2444] bg-white hover:scale-105 duration-300 "
+              key={sol.category}
+            >
+              <h1 className="heading text-center text-2xl font-bold p-4 uppercase">
+                {sol.category}
+              </h1>
+              <ul>
+                {sol.solutions.map((solution, index) => (
+                  <li key={index} className="p-2">
+                    <strong className="uppercase">{solution.feature}:</strong>{" "}
+                    {solution.description}
+                  </li>
+                ))}
+              </ul>
+              <div className="bg-[#0a2444] w-fit p-2 text-white cursor-pointer flex gap-2 items-center">
+                <p className="">Know More</p>
+                <BiArrowToRight />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -458,7 +481,9 @@ const HomePage = () => {
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440] mb-16"></div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-2">
-          {blogs.slice(0,3).map(blog => <LatestBlogCard blog={blog} />)}
+          {blogs.slice(0, blogNumber).map((blog, i) => (
+            <LatestBlogCard blog={blog} key={i} />
+          ))}
         </div>
       </div>
 
@@ -477,7 +502,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      
       <div className="my-24  px-8">
         <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
           Our Clients
@@ -487,13 +511,18 @@ const HomePage = () => {
         <div>
           <Marquee pauseOnClick={true} speed={50} autoFill={true}>
             {Clients.map((client) => (
-              <div key={client.id} className="cursor-pointer flex items-center flex-col group">
+              <div
+                key={client.id}
+                className="cursor-pointer flex items-center flex-col group"
+              >
                 <img
                   loading="lazy"
                   src={client.imgurl}
                   className="grayscale hover:grayscale-0 h-[10rem] w-[12rem] mx-2 no-scrollbar"
                 />
-                <span className="group-hover:text-red-500">{client.location}</span>
+                <span className="group-hover:text-red-500">
+                  {client.location}
+                </span>
               </div>
             ))}
           </Marquee>

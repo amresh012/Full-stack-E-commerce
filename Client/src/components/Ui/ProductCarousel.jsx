@@ -51,7 +51,7 @@ const ProductCarousel = ({addToCartHandler}) => {
     <div className="relative px-4">
       {prevBtnEnabled && (
         <div
-          className="absolute z-50 text-3xl top-1/2 left-0 bg-[#144170] p-2 text-white rounded hover:scale-105"
+          className="absolute cursor-pointer z-50 text-3xl top-1/2 left-0 bg-[#144170] p-2 text-white rounded hover:scale-105"
           onClick={prevClickHandler}
         >
           <FaChevronLeft />
@@ -59,7 +59,7 @@ const ProductCarousel = ({addToCartHandler}) => {
       )}
       {nextBtnEnabled && (
         <div
-          className="absolute z-50 text-3xl top-1/2 right-0 bg-[#144170] p-2 text-white rounded hover:scale-105"
+          className="absolute cursor-pointer z-50 text-3xl top-1/2 right-0 bg-[#144170] p-2 text-white rounded hover:scale-105"
           onClick={nextClickHandler}
         >
           <FaChevronRight />
@@ -69,7 +69,7 @@ const ProductCarousel = ({addToCartHandler}) => {
         className="flex w-[100%] min-h[1rem] gap-x-2 overflow-hidden scroll-smooth"
         ref={ProductCarouselRef}
       >
-        {products.length > 0 && products.map((product) => {
+        {products.length > 0 && products.slice(0,10).map((product) => {
               return (
                 <ProductCard
                   key={product._id}

@@ -44,16 +44,17 @@ const createOrder = async (req, res,) => {
     const newOrder = {
       products: user.cart.products,
       total: totalValue,
-      Order_id:orderId,
+      order_id: orderId,
       users: user._id,
       address: address,
-      transactionId:transactionId || generateId(),
+      transactionId: transactionId || generateId(),
       invoiceNo: generateId(),
     };
     const createdOrder = await Order.create(newOrder);
     const orders = await Order.find({ _id: createdOrder._id }).populate({
       path: "products.product",
       model: "product",
+      select: "name images price total hsnCode weight ",
     });
 
     const orderArr = orders.map((order) => ({
@@ -83,7 +84,11 @@ const createOrder = async (req, res,) => {
         },
       },
       { new: true }
-    );
+    ).populate({
+      path: "products.product",
+      model: "product",
+      select: "name images price total hsnCode weight ",
+    });;
     res.json(createdOrder);
   } else {
     res.status(500).send({ error: "No product found in user cart" });
@@ -96,7 +101,11 @@ const createOrder = async (req, res,) => {
   const getAllOrders = async (req, res) => {
     try {
       // Fetch all orders from the database
-      const orders = await Order.find()
+      const orders = await Order.find().populate({
+        path: "users",
+        model: "User",
+        select:"name"
+      });
       // Send the orders as the response
       res.status(200).json({
         success: true,

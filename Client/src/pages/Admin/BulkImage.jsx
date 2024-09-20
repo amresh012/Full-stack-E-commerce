@@ -2,17 +2,17 @@ import { Button } from "@mui/material";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { base_url } from "../../Utils/baseUrl";
-import { FaCopy } from "react-icons/fa";
+import { FaCopy, FaTrash } from "react-icons/fa";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const BulkImage = () => {
   const { Dragger } = Upload;
-  const [data, setData] = useState( )
-  console.log(data)
+  const [data, setData] = useState([])
+
 
   // Function for copy to clipboard image URL
   function copyToClipboard(text) {
@@ -26,7 +26,28 @@ const BulkImage = () => {
     textarea.select();
     document.execCommand("copy");
     document.body.removeChild(textarea);
+    toast.success("Url Copied to clipboard")
   }
+
+   const GetImges = async () => {
+     try {
+       const response = await axios.get(`${base_url}images`);
+       // console.log(response);
+       if (response.status === 200) {
+         setData(response.data);
+       } else {
+         throw new Error(response.data.error || "Unable to get Images");
+       }
+     } catch (error) {
+       console.log(error);
+       toast.error(error.message || "something went wrong");
+     }
+   };
+
+  useEffect(() => {
+    GetImges()
+  },[])
+
 
   // Formik for handling form submission
   const { values, setFieldValue, handleSubmit } = useFormik({
@@ -41,7 +62,7 @@ const BulkImage = () => {
         if (response.data.error) {
           throw new Error(response.data.error);
         } else {
-          setData(values);
+           GetImges();
           toast.success("Image Uploaded Successfully");
         }
       } catch (error) {
@@ -69,7 +90,60 @@ const BulkImage = () => {
     },
     onDrop(e) {
       // Handle dropped files if needed
+       const files = e.dataTransfer.files;
+
+       Array.from(files).forEach((file) => {
+         const formData = new FormData();
+         formData.append("file", file);
+
+         axios
+           .post(`https://images.deepmart.shop/upload`, formData)
+           .then((response) => {
+             const info = {
+               file: {
+                 status: "done",
+                 response: response.data, // Assuming the response contains the file URL
+                 name: file.name,
+               },
+             };
+             this.onChange(info);
+           })
+           .catch((error) => {
+             console.log(error)
+             const info = {
+               file: {
+                 status: "error",
+                 name: file.name,
+               },
+             };
+             this.onChange(info);
+           });
+       });
     },
+  };
+
+  const deleteImage = async (id) => {
+    try {
+      const response = await fetch(`${base_url}images/${id}`, {
+        method: "DELETE",
+        // ...config,
+      });
+      const data = await response.json();
+      console.log(data)
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      }
+      if (!data.success) {
+        toast.success(data.message);
+        return;
+      }
+      // setReload((prev) => !prev);
+      toast.success(data.message);
+      GetImges();
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   // Table columns
@@ -78,7 +152,7 @@ const BulkImage = () => {
       header: "ID",
       accessorKey: "id",
       cell: ({ row }) => {
-        console.log(row)
+        // console.log(row)
         const id = row.id;
         return <span>{+id + 1}</span>;
       },
@@ -88,7 +162,11 @@ const BulkImage = () => {
       accessorKey: "image",
       cell: ({ row }) => (
         <div className="p-2">
-          <img className="m-" src={row.original.url} alt={row.original.name} />
+          <img
+            className="h-24"
+            src={row.original.url}
+            alt={row.original.name}
+          />
         </div>
       ),
     },
@@ -103,9 +181,22 @@ const BulkImage = () => {
     {
       header: "Action",
       cell: ({ row }) => (
-        <button onClick={() => copyToClipboard(row.original.url)}>
-          <FaCopy fontSize={30} />
-        </button>
+        <div className="flex  gap-2 items-center justify-center">
+          <button
+            onClick={() => {
+              copyToClipboard(row.original.url);
+            }}
+            className="active:scale-95 duration-300 active:text-green-400 p-2 bg-black/20 rounded-md"
+          >
+            <FaCopy fontSize={20} />
+          </button>
+          <button
+            onClick={() => deleteImage(row.original._id)}
+            className="active:scale-95 duration-300 active:text-red-400 rounded-md bg-red-200 p-2 text-red-500"
+          >
+            <FaTrash fontSize={20} />
+          </button>
+        </div>
       ),
     },
   ];
@@ -154,7 +245,7 @@ const BulkImage = () => {
           </div>
           {/* Upload list */}
           <div className="w-full">
-            <BasicTable columns={columns} data={[]} />
+            <BasicTable columns={columns} data={data || []} />
           </div>
         </div>
       </div>

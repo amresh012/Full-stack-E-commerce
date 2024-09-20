@@ -17,13 +17,6 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
-
-
-
-
-
-
-
 const ProductSchema = new mongoose.Schema(
   {
     name: {

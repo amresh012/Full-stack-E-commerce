@@ -612,7 +612,7 @@ const getallUser = asyncHandler(async (req, res) => {
 const getaUser = async (req, res) => {
   try {
     const _id = req.params.id; // Or you can use req.params.id if you're passing the ID in the URL
-    const user = await User.findById(_id).populate( "address").populate("order"); 
+    const user = await User.findById(_id).populate("address").populate("order"); 
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
