@@ -20,7 +20,7 @@ const adminRoute = require("./routes/adminRoute");
 const orderRoute = require("./routes/orderRoute");
 const payRoute = require("./routes/paymentRoute");
 const couponRoute = require("./routes/couponRoute");
-const InvoiceRoute = require("./routes/invoiceRoute")
+// const InvoiceRoute = require("./routes/invoiceRoute")
 const imageRoute = require("./routes/imageRoute");
 const smsRoute = require("./routes/smsRoute");
 const shipRocketRoute = require("./routes/shiprocketRoute");
@@ -68,7 +68,7 @@ app.use(express.static("public"));
 app.use(helmet()); // Adds various security headers
 app.use(rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
-  max: 1000 // Limit each IP to 100 requests per 15 minutes
+  max: 1000 // Limit each IP to 1000 requests per 5 minutes
 }));
 
 app.use("/api/user", authRouter);
@@ -85,7 +85,7 @@ app.use("/api/payment", payRoute);
 app.use("/api/product", productRoute);
 app.use("/api/review", reviewRoute);
 app.use("/api/coupon", couponRoute);
-app.use("/api/invoice",InvoiceRoute )
+// app.use("/api/invoice",InvoiceRoute )
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/uploads", uploadimageRoute);
 app.use("/api/images", imageRoute);

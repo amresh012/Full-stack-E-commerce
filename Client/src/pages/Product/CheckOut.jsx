@@ -2,7 +2,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import {removeItem,resetCart,addcarts } from "../../features/cartSlice";
+import {resetCart} from "../../features/cartSlice";
 import { base_url } from "../../Utils/baseUrl";
 import {Link} from "react-router-dom"
 import { config } from "../../Utils/axiosConfig";
@@ -18,7 +18,32 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 
 const CheckOut = () => {
-  const user = useSelector((state) => state.auth.user);
+   const [user , setUser] = useState([])
+   console.log(user)
+  //  getUser
+  const User = useSelector((state) => state.auth.user)
+  const id = localStorage.getItem("id") || User?._id
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (id)
+        try {
+          const response = await fetch(`${base_url}user/${id}`, {
+            method: "GET",
+            ...config,
+          });
+          const data = await response.json();
+           console.log(data)
+          if (!data.error) {
+            setUser(data);
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+    };
+    fetchUserDetails();
+  }, []);
+
+
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   const deliverpin = newAdd?.zipcode;
@@ -39,6 +64,7 @@ const CheckOut = () => {
 
   const dispatch = useDispatch();
   const { data: cartItems } = useCartHooks();
+  console.log(cartItems)
   const { mutation: removeitemCartMutation } = useDeleteCartHook();
   const { mutation: updateCartItemMutation } = useUpdateCartHook();
 
@@ -48,7 +74,6 @@ const CheckOut = () => {
     selectedShiping?.freight_charge?.toFixed(0) || 0
   );
   let CartTotal = cartItems?.totalCartValue + deliverCharge;
-
   // calculate discount
   if (discountType === "percentage") {
     CartTotal = CartTotal - CartTotal * (discount / 100);
@@ -188,7 +213,7 @@ const CheckOut = () => {
                   }
                 );
                 const orderData = await orderCreateResponse.json();
-                // create order function
+                console.log(orderData)
                 const datatosend = { user, address, ...paymentData };
                 console.log(datatosend);
                 const CreateUserOrder = await fetch(
@@ -207,8 +232,7 @@ const CheckOut = () => {
                   const ConfirmedOrder = {
                     ...paymentData,
                     deliverCharge,
-                    totalAmount,
-                    totalQuantity,
+                    CartTotal,
                     selectedShiping,
                     orderData,
                     email: user.email,
@@ -265,7 +289,6 @@ const CheckOut = () => {
     toast.success("Product Quantity updated by one Successfully");
   };
   const handleDecr = (item) => {
-    console.log(item);
     if (item.count === 1) {
       toast.error("Product quantity can't be less than 1");
       return;
@@ -284,7 +307,7 @@ const CheckOut = () => {
               {cartItems?.products?.length} Item in your cart
             </p>
           </div>
-          <div className="cart-items">
+          <div className="cart-items w-[95%]">
             <div className="cart-container rounded-b-md  w-full flex flex-col gap-2 items-start justify-star h-auto overflow-y-scroll  no-scrollbar">
               {/* cart items here */}
               {cartItems?.products?.length === 0 ? (
@@ -306,11 +329,11 @@ const CheckOut = () => {
               ) : (
                 cartItems?.products?.map((item) => (
                   <div
-                    className="flex border-b w-full items-start justify-start gap-2 p-2 relative"
+                    className="flex border-b  w-[100%] items-start justify-start gap-2 p-2 relative"
                     key={item?.id}
                   >
                     <span
-                      className="bg-[#0a2444] text-white  cursor-pointer rounded-full absolute right-3 font-bold"
+                      className="cursor-pointer rounded-full absolute right-3 font-bold"
                       onClick={() => handleRemoveItem(item)}
                     >
                       <IoIosCloseCircleOutline size={22} />
@@ -437,7 +460,7 @@ const CheckOut = () => {
                 <p>Shipping Charges</p>
                 <p className=" font-bold flex items-center ">
                   <LiaRupeeSignSolid />
-                  {selectedShiping?.freight_charge || 0}
+                  { cartItems.totalCartValue !==0? selectedShiping?.freight_charge : 0}
                 </p>
               </div>
 
@@ -445,8 +468,8 @@ const CheckOut = () => {
                 <p>Cart Total</p>
                 <p className=" font-bold flex items-center">
                   <LiaRupeeSignSolid />
-                  {CartTotal.toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  {cartItems.totalCartValue !==0?   CartTotal.toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0}
                 </p>
               </div>
             </div>

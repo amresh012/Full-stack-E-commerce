@@ -19,7 +19,7 @@ var orderSchema = new mongoose.Schema(
     products: [
       {
         product: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: mongoose.Types.ObjectId,
           ref: "product",
         },
         count: Number,
@@ -28,7 +28,7 @@ var orderSchema = new mongoose.Schema(
     ],
     total: { type: Number, require: true },
     users: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "User",
     },
     address: {
@@ -38,6 +38,7 @@ var orderSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "Processing",
+      enum:["Processing", "Success", "Order Confirmed", "Shipped", "Deliverd"]
     },
   },
   {

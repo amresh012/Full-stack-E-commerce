@@ -91,16 +91,20 @@ const Dashboard = () => {
     },
     {
       header: "OrderID",
-      accessorKey: "orderId",
+      accessorKey: "order_id",
     },
-    // {
-    //   header: "Name",
-    //   accessorKey: "orderd_by",
-    //   cell: ({ row }) => {
-    //     const name = row.original.users.name;
-    //     return <span>{name}</span>;
-    //   },
-    // },
+    {
+      header: "Name",
+      accessorKey: "orderd_by",
+      cell: ({ row }) => {
+        const name = row.original.users.name;
+        return <span>{name}</span>;
+      },
+    },
+    {
+      header: "Invoice No",
+      accessorKey: "invoiceNo",
+    },
     {
       header: "Date",
       accessorKey: "Order_date",

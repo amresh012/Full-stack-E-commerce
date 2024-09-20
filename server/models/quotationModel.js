@@ -18,13 +18,6 @@ const QuotationSchema = new mongoose.Schema(
     mobile: {
       type: String,
       required: true,
-      // validate: {
-      //   validator: function (value) {
-      //     return /^[6-9]\d{9}$/.test(value);
-      //   },
-      //   message: (props) =>
-      //     `${props.value} is not a valid Indian mobile number.`,
-      // },
     },
     product:{
         type:String,

@@ -16,17 +16,19 @@ function generateId() {
 
 const createOrder = async (req, res,) => {
   const { datatosend } = req.body;
+  // console.log("incoming request data ---------------------------",datatosend)
   const user = datatosend.user ;
   let address = datatosend.address
   let transactionId =  datatosend.paymentId;
   let orderId = datatosend.order_id
-
-
+  let amount = datatosend.amount
+  
+  let adr, placeofsup, gstNo;
   for (let i = 0; i < user.address.length; i++) {
     if (JSON.stringify(user.address[i]._id) == JSON.stringify(address)) {
-      adr = `${user.address[i].adr} , ${user.address[i].city} , ${user.address[i].state} - ${user.address[i].pincode}`;
-      placeofsup = user.address[i].city;
-      gstNo = user.address[i].gstNo;
+      adr = `${user.address[i].adr} , ${user.address[i].city} , ${user.address[i].state} - ${user.address[i].pincode}`
+      placeofsup = user.address[i].city
+      gstNo = user.address[i].gstNo
     }
   }
 
@@ -43,7 +45,7 @@ const createOrder = async (req, res,) => {
     }
     const newOrder = {
       products: user.cart.products,
-      total: totalValue,
+      total: amount,
       order_id: orderId,
       users: user._id,
       address: address,
@@ -51,28 +53,46 @@ const createOrder = async (req, res,) => {
       invoiceNo: generateId(),
     };
     const createdOrder = await Order.create(newOrder);
-    const orders = await Order.find({ _id: createdOrder._id }).populate({
-      path: "products.product",
-      model: "product",
-      select: "name images price total hsnCode weight ",
-    });
-
+    const orders = await Order.find({ _id: createdOrder._id }).populate("products.product");
+    console.log("orders from line 57-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-",orders)
     const orderArr = orders.map((order) => ({
       transactionId: order.transactionId,
       products: order.products.map((product) => {
         return {
           name: product.product.name,
-          image: product.product.images[0],
+          image: product.product.images,
           count: product.count,
           total: product.total,
           price: product.product.total,
           hsn: product.product.hsnCode,
-          unit: product.product.unitMeausrement,
+          unit: product.product.measurment,
         };
       }),
       total: order.total,
       status: order.status,
     }));
+
+    console.log("%5%%%%%%%%%%5%%%55%%%5%%555%5555%%55%5%%%555 line-76",orderArr.products)
+    // const detail = {
+    //         invoiceno: newOrder.invoiceNo,
+    //         userName: user.name,
+    //         userAdress: adr,
+    //         totalPrice: totalValue,
+    //         productDetails: orderArr[0].products,
+    //         isCoupon,
+    //         placeofsup,
+    //         gstNo: gstNo,
+    //       };
+    //       console.log("detail------------------",detail)
+    //       const invoiced = {
+    //         invoiceNo: newOrder.invoiceNo,
+    //         products:orderArr[0].products,
+    //         invoice: invoice(detail),
+    //         total: orderArr[0].total,
+    //         orderby: user._id,
+    //       };
+    //       await InvoiceModel.create(invoiced);
+
     await User.findOneAndUpdate(
       { _id: user._id },
       {
@@ -85,7 +105,7 @@ const createOrder = async (req, res,) => {
       },
       { new: true }
     ).populate({
-      path: "products.product",
+      path: "cart.products.product",
       model: "product",
       select: "name images price total hsnCode weight ",
     });;
@@ -105,7 +125,7 @@ const createOrder = async (req, res,) => {
         path: "users",
         model: "User",
         select:"name"
-      });
+      }).populate("products.product");
       // Send the orders as the response
       res.status(200).json({
         success: true,

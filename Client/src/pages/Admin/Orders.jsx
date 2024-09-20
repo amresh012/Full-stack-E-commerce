@@ -33,7 +33,8 @@ const Orders = () => {
   const [Order , setOrder] = useState([])
   const [isLoading  ,setIsLoading] = useState(true)
   const [filteredData, setFilteredData] = useState([]);
-  console.log(Order)
+
+
   // coloumns
   const columns = [
     {
@@ -45,14 +46,17 @@ const Orders = () => {
       },
     },
     {
+      header: "OrderID",
+      accessorKey: "order_id",
+    },
+    {
       header: "Date",
       accessorKey: "Order_date",
       cell:({row})=>{
         // 
-        console.log(row)
         const date = row.original.createdAt
         // return <span>{date}</span>;
-        return <span>{moment(date).format('DD/MM/YYYY hh:mm')}</span>;
+        return <span>{moment(date).format('DD/MM/YYYY hh:mm a')}</span>;
       }
     },
     {
@@ -70,6 +74,10 @@ const Orders = () => {
     {
       header: "Products",
       accessorKey: "cartItems",
+      cell:({row})=>{
+        const product_name =  row.original?.products[0]?.product?.name
+        return <span>{product_name}</span>
+      }
     },
     {
       header: "Quantity",
@@ -98,7 +106,7 @@ const Orders = () => {
         return (
           <>
           {
-            orderStatus === "Processing" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
+            orderStatus === "Success" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
           }
           </>
         );
@@ -150,7 +158,6 @@ const Orders = () => {
   
       try {
         const response = await fetch(`${base_url}order`);
-        console.log(response)
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
@@ -179,7 +186,7 @@ const Orders = () => {
    const filterByDate = () => {
      if (startDate || endDate) {
        const results = Order.filter((order) => {
-         const orderDate = new Date(order.Order_date);
+         const orderDate = new Date(order.createdAt);
          const start = new Date(startDate);
          const end = new Date(endDate);
          return (
@@ -251,8 +258,8 @@ const Orders = () => {
         <div className="flex items-center justify-between p-4 bg-[#0a2440] text-white  rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
         </div>
-        <div className="flex flex-wrap items-center justify-around mt-4 gap-4">
-  {label.map((item) => (
+        <div className="mt-2 flex gap-2">
+  {/* {label.map((item) => (
     <div className="w-full sm:w-auto" key={item.id}>
       <label htmlFor="" className="uppercase block mb-1">
         {item.label}
@@ -264,9 +271,9 @@ const Orders = () => {
         options={statusOptions}
       />
     </div>
-  ))}
+  ))} */}
 
-  <div className="flex flex-wrap gap-4 items-center w-full sm:w-auto">
+  <div className="flex  gap-2 items-center w-full sm:w-auto">
     <div className="flex flex-col w-full sm:w-auto">
       <label htmlFor="" className="uppercase block mb-1">
         Start Date
@@ -295,7 +302,7 @@ const Orders = () => {
     <label htmlFor="" className="uppercase block mb-1">
       Search
     </label>
-    <div className="relative w-full sm:w-[20rem]">
+    <div className="relative w-full sm:w-[18rem]">
       <input
         type="search"
         value={search}

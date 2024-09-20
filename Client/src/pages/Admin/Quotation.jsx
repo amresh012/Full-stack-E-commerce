@@ -5,6 +5,7 @@ import { List } from '@mui/material';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { config } from '../../Utils/axiosConfig';
+import RefreshButton from '../../components/reusablesUI/RefreshButton';
 
 
 
@@ -21,7 +22,27 @@ const Quotation = () => {
   const [editMode, setEditMode] = useState({});
 
 
-
+  // const rowId = row.original._id;
+  // const name = row.original.name
+  // const [remarks, setRemarks] = useState(row.original?.remarks || '');
+  // return (
+  //     <div className='flex items-center'>
+  //             <>
+  //                 <input
+  //                     type="text"
+  //                     value={remarks} // Set the value from the remarks state
+  //                     onChange={(e) => setRemarks(e.target.value)} // Update the remark on change
+  //                     className='h-10 border placeholder:px-2 px-2'
+  //                     placeholder='Enter remarks'
+  //                 />
+  //                 <button
+  //                     onClick={() => handleRemarkUpdate(rowId,remarks)} // Call update function
+  //                     className='text-white uppercase p-2 bg-[#0a2444] ml-2'
+  //                 >
+  //                     Save
+  //                 </button>
+  //             </>
+  //     </div>
 
 
 
@@ -69,7 +90,7 @@ const Quotation = () => {
                       <>
                           <input
                               type="text"
-                              value={remarks[rowId] || ''} // Set the value from the remarks state
+                              value={remarks[rowId]} // Set the value from the remarks state
                               onChange={(e) => handleRemarkChange(rowId, e.target.value)} // Update the remark on change
                               className='h-10 border placeholder:px-2 px-2'
                               placeholder='Enter remarks'
@@ -107,18 +128,16 @@ const Quotation = () => {
          <div onClick={()=>deleteQuote(row.original._id)} className="bg-red-200 p-2 rounded-md hover:shadow-md">
           <FaTrash className='text-red-500'/>
          </div>
-         {/* <div onClick={()=>fetchQueryDetails(row.original._id)} className="bg-blue-200 p-2 rounded-md hover:shadow-md">
-          <FaEye className='text-blue-500'/>
-         </div> */}
         </List>
     },
   ];
 
   const handleRemarkChange = (id, value) => {
-    setRemarks((prevRemarks) => ({
-        ...prevRemarks,
-        [id]: value, 
-    }));
+    setRemarks({[id]:value})
+    // setRemarks((prevRemarks) => ({
+    //     ...prevRemarks,
+    //     [id]:value, 
+    // }));
 };
 const handleRemarkUpdate = (id,name) => {
   setEditMode((prev) => ({ ...prev, [id]: false })); 
@@ -185,6 +204,7 @@ const handleEdit = (id) => {
         </div>
       </div>
     <div>
+      <RefreshButton/>
       <BasicTable columns={columns} data={data || []}/>
     </div>
     </>

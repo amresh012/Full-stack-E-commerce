@@ -176,13 +176,13 @@ const Confirmation = () => {
             </div>
             <div className="order-summary space-y-6 w-full">
               <div className="bg-[#0a2444] p-2  text-white flex justify-between rounded-md">
-                <span>Order Summary {stat.totalQuantity}</span>
+                {/* <span>Order Summary {stat.totalQuantity}</span> */}
                 <FaChevronRight />
               </div>
               <div className="amout space-y-4 ">
                 <div className="flex justify-between">
                   <p>Sub total</p>
-                  <p>{stat.totalAmount || 0}</p>
+                  <p>{stat.CartTotal || 0}</p>
                 </div>
                 <div className="flex justify-between">
                   <p>Delivery Charges</p>
@@ -190,7 +190,7 @@ const Confirmation = () => {
                 </div>
                 <div className="flex justify-between font-bold text-xl border-t-2 border-black pt-2">
                   <p>Total</p>
-                  <p>{stat.totalAmount + stat.deliverCharge || 0}</p>
+                  <p>{stat.CartTotal + stat.deliverCharge || 0}</p>
                 </div>
               </div>
             </div>

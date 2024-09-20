@@ -80,7 +80,7 @@ const getAdminData = asyncHandle(async (req, res) => {
        {
          $group: {
            _id: null, // Grouping all orders from the current day
-           currentDayPayments: { $sum: "$amount" }, // Summing the `amount` field for today's orders
+           currentDayPayments: { $sum: "$total" }, // Summing the `total` field for today's orders
          },
        },
      ]);
@@ -89,7 +89,7 @@ const getAdminData = asyncHandle(async (req, res) => {
         {
           $group: {
             _id: null, // We want the total sum across all documents
-            totalPayments: { $sum: "$amount" }, // Summing the `amount` field
+            totalPayments: { $sum: "$total" }, // Summing the `amount` field
           },
         },
       ]);
