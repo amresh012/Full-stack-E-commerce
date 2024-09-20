@@ -71,8 +71,8 @@ const HomePage = () => {
   useEffect(()=>{
     allBlogs();
   }, []);
-  const url = "https://kfsecommerce.deepmart.shop/"
-  // const url = "http://localhost:5173/"
+  // const url = "https://kfsecommerce.deepmart.shop/"
+  const url = "http://localhost:5173/"
 
   return (
     <>

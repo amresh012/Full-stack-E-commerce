@@ -161,7 +161,7 @@ const Blog = ({ start, end }) => {
         <div className="mt-10 flex flex-wrap gap-8 w-full lg:w-[80rem] justify-center">
           <div className="w-full lg:flex-1 lg:px-8">
             {filteredBlogs.length === 0 && (
-              <div className="text-xl text-center my-10">No Blog Found.</div>
+              <div className="text-xl text-center my-10 h-[100vh]">No Blog Found.</div>
             )}
             {filteredBlogs.map((blog) => (
               <BlogCard blog={blog} />
