@@ -7,6 +7,7 @@ import {toast, Toaster} from 'react-hot-toast';
 import {config} from '../../Utils/axiosConfig';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Loader from '../../components/reusablesUI/Loader';
+import RefreshButton from '../../components/reusablesUI/RefreshButton';
 
 
 
@@ -197,6 +198,7 @@ const ListProduct = () => {
         </div>
     </div>
       <div className="w-full p-8">
+        <RefreshButton/>
       <BasicTable columns={columns} data={contactDetails} />
       </div>
     </div>

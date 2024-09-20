@@ -13,6 +13,7 @@ import { config } from "../../Utils/axiosConfig";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import moment from "moment"
 import { FaCalendar, FaClock } from "react-icons/fa6";
+import RefreshButton from "../../components/reusablesUI/RefreshButton";
 
 const Loader = ()=>{
   return (
@@ -197,6 +198,9 @@ const Dashboard = () => {
           </div>
           </h1>
         </div>
+        <div className="mt-12">
+         <RefreshButton/>
+         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
   <div className="mt-5 flex items-center justify-start gap-2">
     <div className="flex gap-x-4 items-center justify-center border bg-white rounded-md w-full h-auto p-2">

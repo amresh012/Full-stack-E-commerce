@@ -14,6 +14,7 @@ import BasicModal from "../../components/Models/Model";
 import Loader from "../../components/reusablesUI/Loader";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Select from 'react-select';
+import RefreshButton from "../../components/reusablesUI/RefreshButton";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -488,6 +489,9 @@ const Users = () => {
         </div>
       </div>
       <div className="rounded-md p-2">
+      <div className="mt-12">
+         <RefreshButton/>
+         </div>
         <BasicTable
           columns={columns}
           data={users}

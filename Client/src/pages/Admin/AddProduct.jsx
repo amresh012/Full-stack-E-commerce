@@ -10,6 +10,7 @@ import { base_url } from "../../Utils/baseUrl";
 import { toast, Toaster } from "react-hot-toast";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
+import RefreshButton from "../../components/reusablesUI/RefreshButton";
 
 const AddProduct = () => {
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -114,6 +115,7 @@ const AddProduct = () => {
         <div className="text-3xl font-bold bg-[#0a2440] w-full rounded-md text-center text-white p-4 uppercase">
           <Link to="/admin/product-list">Add Products</Link>
         </div>
+        <RefreshButton/>
         {/* Product add */}
         <form onSubmit={handleSubmit} className="w-full space-y-12">
           {/* SKU Section */}

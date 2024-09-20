@@ -15,6 +15,7 @@ import Loader from "../../components/reusablesUI/Loader";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import RefreshButton from "../../components/reusablesUI/RefreshButton";
 
 const ListBlogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -221,6 +222,9 @@ const ListBlogs = () => {
         </div>
       </div>
       <div className="m-12">
+      <div className="mt-12">
+         <RefreshButton/>
+         </div>
         <BasicTable columns={columns} data={blogs} />
       </div>
     </div>

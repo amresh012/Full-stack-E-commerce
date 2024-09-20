@@ -71,6 +71,8 @@ const HomePage = () => {
   useEffect(()=>{
     allBlogs();
   }, []);
+  const url = "https://kfsecommerce.deepmart.shop/"
+  // const url = "http://localhost:5173/"
 
   return (
     <>
@@ -169,7 +171,7 @@ const HomePage = () => {
               <p className="text-4xl uppercase font-thin">Weight Benches</p>
               <p className="text-xl uppercase font-thin">
                 <Link
-                  to="/category?=benches-and-racks&subcategory?=benches"
+                  to={`${url}product-category/category?=benches-and-racks&subcategory?=benches`}
                   className="flex items-center"
                 >
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
@@ -201,7 +203,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Treadmills</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/category/treadmills" className="flex items-center">
+                <Link to={`${url}product-category/category?=cardio&subcategory?=treadmill`} className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
@@ -216,7 +218,7 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Gym Machines</p>
               <p className="text-xl uppercase font-thin">
-                <Link to="/category/gym-machines" className="flex items-center">
+                <Link to="/product" className="flex items-center">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>

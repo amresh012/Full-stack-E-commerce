@@ -10,6 +10,7 @@ import { base_url } from '../../Utils/baseUrl';
 import {config} from "../../Utils/axiosConfig"
 import moment from "moment"
 import Loader from "../../components/reusablesUI/Loader"
+import RefreshButton from "../../components/reusablesUI/RefreshButton";
 
 const orderStates = [
   "Pending",
@@ -317,6 +318,9 @@ const Orders = () => {
   </div>
 </div>
         <div className="w-full">
+         <div className="mt-12">
+         <RefreshButton/>
+         </div>
           {isLoading && Order.length === 0 ? (
             <Loader />
           ) : (
