@@ -9,7 +9,7 @@ import { Carousel } from "react-responsive-carousel";
 import { base_url } from "../../Utils/baseUrl";
 import { addcarts, removeItem } from "../../features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useAddCartHook } from "../../hooks/cartHooks";
+import { useAddCartHook,useUpdateCartHook } from "../../hooks/cartHooks";
 import axios from "axios"
 import moment from "moment"
 import { config } from "../../Utils/axiosConfig";
@@ -23,8 +23,8 @@ const ProductdetailPage = () => {
   const [reviews, setReviews]= useState([])
   const [like, setLike]= useState(0)
   const [dislike , setDislike] = useState(0)
+ console.log(product)
 
-  
   // const [like , setLike] = useState(() => {
   //   const storedLike = localStorage.getItem(`like`);
   //   return storedLike ? parseInt(storedLike) : 0;
@@ -43,6 +43,8 @@ const ProductdetailPage = () => {
 
   // mutation hook
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
+  const { mutation: updateCartItemMutation } = useUpdateCartHook()
+  
   const token = localStorage.getItem("token")
 
   // fetch Product Reviews
@@ -156,12 +158,20 @@ const ProductdetailPage = () => {
       : toast.error("Your Are Not Logged In");
   };
 
-  const handleIncr = () => {
-    dispatch(addcarts(product));
-  };
-  const handleDecr = (id) => {
-    dispatch(removeItem(product));
-  };
+  // handleQuantity update
+  const handleIncr = (item) => {
+    updateCartItemMutation.mutate({id:item._id , type:"inc"})
+    toast.success("Product Quantity updated by one Successfully")
+  }
+    const handleDecr = (item) => {
+      console.log(item)
+      if (item.count === 1) {
+        toast.error("Product quantity can't be less than 1");
+        return;
+      }
+    updateCartItemMutation.mutate({ id: item._id, type: "dec" });
+    toast.success("Product Quantity updated by one Successfully")
+  }
 
   const getQuantity = ()=>{
     const isExistingInd = carts.findIndex(product => product._id === id);

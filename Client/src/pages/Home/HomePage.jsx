@@ -36,6 +36,7 @@ import { addcarts } from "../../features/cartSlice";
 import { useDispatch } from "react-redux";
 import { BiArrowToRight } from "react-icons/bi";
 import { useMediaQuery } from "@mui/material";
+import { FaCheckCircle } from "react-icons/fa";
 
 
 const HomePage = () => {
@@ -327,8 +328,13 @@ const HomePage = () => {
               <ul>
                 {sol.solutions.map((solution, index) => (
                   <li key={index} className="p-2">
-                    <strong className="uppercase">{solution.feature}:</strong>{" "}
+                    <strong className="uppercase flex">{solution.feature}:</strong>
+                    <div className="flex items-start">
+                    <span className="text-green-500 pt-1"><FcCheckmark/></span>
+                    {" "}
                     {solution.description}
+                    </div>
+                    
                   </li>
                 ))}
               </ul>
