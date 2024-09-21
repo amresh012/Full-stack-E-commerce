@@ -5,8 +5,9 @@ import {useFormik} from "formik"
 import {config} from "../../Utils/axiosConfig"
 import axios from "axios"
 import {base_url}from "../../Utils/baseUrl"
-import { useParams } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
+
+
 const ReviewForm = ({ productId, userId }) => {
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
@@ -16,7 +17,7 @@ const ReviewForm = ({ productId, userId }) => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const datatosend = { ...values, userId };
+        const datatosend = { ...values, userId};
         const response = await axios.post(
           `${base_url}reviews/${productId}`,
           datatosend,

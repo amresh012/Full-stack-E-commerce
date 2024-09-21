@@ -26,6 +26,7 @@ const ProductdetailPage = () => {
   const { carts } = useSelector(state => state.cart);
   const  user  = useSelector((state) => state.auth.user);
   const userId = user?._id
+  const UserName = user?.name
   // mutation hook
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
 
@@ -209,7 +210,7 @@ const ProductdetailPage = () => {
             </div>
             <div
               className="action-buttons flex flex-col gap-4 my-6"
-              onClick={()=>handleCart(product)}
+              onClick={() => handleCart(product)}
             >
               <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
                 Add to Cart
@@ -286,7 +287,7 @@ const ProductdetailPage = () => {
         </div>
         {reviewvisible && (
           <div className="">
-            <ReviewForm productId={id} userId={userId} />
+            <ReviewForm productId={id} userId={userId} UserName={UserName} />
           </div>
         )}
         <div className="rating-container flex flex-wrap  ">
@@ -346,8 +347,14 @@ const ProductdetailPage = () => {
                     <p>{review.review_desc}</p>
                   </div>
                   <div className="flex gap-2 cursor-pointer items-center p-2 w-fit justify-center">
-                   <p  className="flex gap-2  rounded-md p-2 bg-gray-100"><span className="" >Like{" "}{like}</span><FaThumbsUp/></p>
-                   <p  className="flex gap-2 items-center p-2  rounded-md bg-gray-100"><span className="">Dislike{" "}{dislike}</span><FaThumbsDown/></p>
+                    <p className="flex gap-2  rounded-md p-2 bg-gray-100">
+                      <span className="">Like {like}</span>
+                      <FaThumbsUp />
+                    </p>
+                    <p className="flex gap-2 items-center p-2  rounded-md bg-gray-100">
+                      <span className="">Dislike {dislike}</span>
+                      <FaThumbsDown />
+                    </p>
                   </div>
                 </div>
               );
