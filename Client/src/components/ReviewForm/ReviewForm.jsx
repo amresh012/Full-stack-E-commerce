@@ -8,7 +8,7 @@ import {base_url}from "../../Utils/baseUrl"
 import toast, { Toaster } from 'react-hot-toast'
 
 
-const ReviewForm = ({ productId, userId }) => {
+const ReviewForm = ({ productId, userId, func }) => {
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
       title: "",
@@ -19,7 +19,7 @@ const ReviewForm = ({ productId, userId }) => {
       try {
         const datatosend = { ...values, userId};
         const response = await axios.post(
-          `${base_url}reviews/${productId}`,
+          `${base_url}review/${productId}`,
           datatosend,
           config
         );
@@ -27,13 +27,13 @@ const ReviewForm = ({ productId, userId }) => {
         if (response.data.error) {
           throw new Error(response.data.error);
         } else {
-          toast.success(response.data.success);
+          toast.success(response.data.message);
+          func()
           setFieldValue("title", "");
-          setFieldValue("reting", 0);
-          setFieldValue("desc", "");
+          setFieldValue("rating", 0);
+          setFieldValue("review", "");
         }
       } catch (error) {
-        //
         toast.error(error.message);
       } finally {
         setSubmitting(false);
@@ -44,7 +44,7 @@ const ReviewForm = ({ productId, userId }) => {
   return (
     <>
       <Toaster />
-      <div className="lg:p-12">
+      <div className="lg:p-12 p-4">
         <form
           onSubmit={handleSubmit}
           className="h-auto lg:p-12 p-4 space-y-8 border shadow-md rounded-md"

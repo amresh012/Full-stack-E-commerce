@@ -3,14 +3,16 @@ const mongoose = require("mongoose");
 
 const reviewSchema = mongoose.Schema(
   {
-    // name: { type: String, required: true },
+    title: { type: String, required: true },
     rating: { type: Number, required: true },
     review: { type: String, required: true },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       required: true,
-      ref: "User", //relation betwen the review and the user
+      ref: "User",
     },
+    likes: [{ type: mongoose.Types.ObjectId, ref: 'User' }],  // Users who liked the review
+    dislikes: [{ type: mongoose.Types.ObjectId, ref: 'User' }]
   },
   {
     timestamps: true,

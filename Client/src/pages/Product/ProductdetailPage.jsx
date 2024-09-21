@@ -3,16 +3,16 @@ import { useParams } from "react-router-dom";
 import { Avatar, Chip, Rating } from "@mui/material";
 import { FaCheckCircle, FaGlobe, FaLock, FaPen, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 import ReviewForm from "../../components/ReviewForm/ReviewForm";
-import Ratingdata from "../../MOCK_DATA (6).json";
 import { toast, Toaster } from "react-hot-toast";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { base_url } from "../../Utils/baseUrl";
 import { addcarts, removeItem } from "../../features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { config } from "../../Utils/axiosConfig";
 import { useAddCartHook } from "../../hooks/cartHooks";
+import axios from "axios"
+import moment from "moment"
+import { config } from "../../Utils/axiosConfig";
 
 const ProductdetailPage = () => {
   const { id } = useParams();
@@ -20,30 +20,116 @@ const ProductdetailPage = () => {
   const [quantity, setQuantity] = useState(0);
   const [reviewvisible, setReviewVisible] = useState(false);
   const [endrating, setEndRating] = useState(4);
-  const [like , setLike] = useState(0)
+  const [reviews, setReviews]= useState([])
+  const [like, setLike]= useState(0)
   const [dislike , setDislike] = useState(0)
+
+  
+  // const [like , setLike] = useState(() => {
+  //   const storedLike = localStorage.getItem(`like`);
+  //   return storedLike ? parseInt(storedLike) : 0;
+  // })
+  // const [dislike , setDislike] = useState(() => {
+  //   const storedDislike = localStorage.getItem(`dislike`);
+  //   return storedDislike ? parseInt(storedDislike) : 0;
+  // })
+
+  const [userReaction, setUserReaction] = useState(null); 
   const dispatch = useDispatch();
   const { carts } = useSelector(state => state.cart);
   const  user  = useSelector((state) => state.auth.user);
   const userId = user?._id
   const UserName = user?.name
+
   // mutation hook
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
-
   const token = localStorage.getItem("token")
+
+  // fetch Product Reviews
+  const fetchProductReviews = async () => {
+    try{
+      const response = await axios.get(`${base_url}review/${id}`)
+      if(response.data.success){
+        setReviews(response.data.reviews)
+      }
+    }
+    catch(error){
+         console.log(error)
+    }
+  }
+  // like a review
+  const likeReview = async (reviewId) => {
+    try{
+      const response = await axios.post(`${base_url}review/${id}/${reviewId}/like`,{}, config)
+      if(response.data.success){
+        toast.success(response.data.message)
+        if (userReaction === "dislike") {
+          setDislike(dislike - 1);
+        }
+
+        // Update the like count
+        setLike(like + 1);
+        setUserReaction("like");
+        // setLike(response.data.likes)
+      }
+      else{
+        toast.error(response.data.message)
+      }
+      
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+  // like a review
+  const dislikeReview = async (reviewId) => {
+    try{
+      const response = await axios.post(`${base_url}review/${id}/${reviewId}/dislike`,{}, config)
+      if(response.data.success){
+        toast.success(response.data.message)
+        if (userReaction === "like") {
+          setLike(like - 1);
+        }
+
+        // Update the dislike count
+        setDislike(dislike + 1);
+        setUserReaction("dislike");
+        // setDislike(response.data.dislike)
+      }
+      else{
+       throw new Error()
+      }
+      
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+  // useEffect(() => {
+  //   const storedLike = localStorage.getItem(`like`);
+  //   const storedDislike = localStorage.getItem(`dislike`);
+  //   if (storedLike) setLike(parseInt(storedLike));
+  //   if (storedDislike) setDislike(parseInt(storedDislike));
+  // }, [like]);
+
+  useEffect(()=>{
+    fetchProductReviews()
+  },[])
+
   // fetch product by id
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${base_url}product/${id}`);
         const data = await response.json();
-        
         setproduct(data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchProducts();
+    fetchProductReviews()
   }, [id]);
 
   // add tocart 
@@ -54,7 +140,6 @@ const ProductdetailPage = () => {
   };
 
   // remove item from cart
-  
   useEffect(()=>{
     getQuantity();
   }, [carts])
@@ -260,20 +345,21 @@ const ProductdetailPage = () => {
         <div className="heading w-full  font-bold text-3xl lg:text-start p-4 text-center">
           Customer Reviews
         </div>
-        <div className="border-b-2 py-4 px-2 mx-4">
-          <div className="left-content  flex flex-col lg:flex-row justify-between px-12  items-center">
+        <div className="border-b-2  py-4 px-2 mx-4">
+          <div className="left-content  flex  justify-between px-12  items-center">
             <div className=" text-xl font-bold text-center">
               <p className="flex items-center gap-2">
-                4.9{" "}
+                {product?.rating}{" "}
                 <Rating
                   name="half-rating"
-                  value={3.5}
+                  value={product?.rating}
+                  readOnly
                   defaultValue={4.5}
                   precision={0.5}
                 />
               </p>
               <p className="font-medium lg:text-sm text-base">
-                Based on 12 reviews
+                Based on {product?.numReviews} review(s)
               </p>
             </div>
             <div
@@ -287,16 +373,17 @@ const ProductdetailPage = () => {
         </div>
         {reviewvisible && (
           <div className="">
-            <ReviewForm productId={id} userId={userId} UserName={UserName} />
+            <ReviewForm productId={id} userId={userId} UserName={UserName} func={fetchProductReviews} />
           </div>
         )}
-        <div className="rating-container flex flex-wrap  ">
+        
+        <div className="rating-container flex flex-wrap  p-4 ">
           <div className="reviews flex  flex-wrap  justify-center">
-            {Ratingdata.slice(0, endrating).map((review) => {
+            {reviews.slice(0, endrating).map((review) => {
               return (
                 <div
-                  className="each-review lg:w-1/2 w-full gap-2 lg:p-12 p-4 "
-                  key={review.username}
+                  className="each-review  w-[30rem] gap-2 p-4 "
+                  key={review.user.name}
                 >
                   <div className="header flex justify-between   items-start">
                     <div className="left-side-header flex items-start justify-start gap-2">
@@ -308,52 +395,62 @@ const ProductdetailPage = () => {
                           height: 44,
                         }}
                       >
-                        {review.username.slice(0, 2)}
+                        {review.user.name.slice(0, 2)}
                       </Avatar>
-                      <div className="flex items-start ">
+                      <div className="flex gap-12 items-center justify-around w-full ">
                         <div className="text-base font-bold">
-                          <p className="name text-[18px] ">{review.username}</p>
+                          <div className="flex flex-col">
+                          <p className="name ">{review.user.name}</p>
+                          <span className="">
+                          {review?.user?._id ? (
+                            <div className="flex items-center gap-1 text-xs">
+                              <FaCheckCircle
+                                size={9}
+                                className="text-blue-500"
+                              />
+                              <p className="text-zinc-500">Verified User</p>
+                            </div>
+                          ) : (
+                            <p className="text-xs text-gray-500">
+                               Anonymous       
+                            </p>
+                          )}
+                        </span>
+                            
+                          </div>
                           <Rating
                             className=""
                             name="size-small"
                             value={review.rating}
+                            readOnly
                             defaultValue={review.rating}
                             precision={0.5}
                           />
+                          
                         </div>
-                        <span className="pt-1">
-                          {review["user-type"] == "Verified User" ? (
-                            <div className="flex items-center gap-1 text-xs">
-                              <FaCheckCircle
-                                size={15}
-                                className="text-blue-500"
-                              />
-                              <p>{review["user-type"]}</p>
-                            </div>
-                          ) : (
-                            <p className="text-xs text-gray-500">
-                              {review["user-type"]}
-                            </p>
-                          )}
-                        </span>
+                        
                       </div>
                     </div>
                     <div className="date text-xs lg:pt-0 pt-2 text-zinc-600">
-                      <p>{review["review-date"]}</p>
+                      <p>{moment(review.createdAt).format('l LT')}</p>
                     </div>
                   </div>
                   <div className="body">
-                    <h1 className="font-bold text-xl">{review.review_title}</h1>
-                    <p>{review.review_desc}</p>
+                    <h1 className="font-bold text-xl">{review?.title}</h1>
+                    <p>{review?.review}</p>
                   </div>
-                  <div className="flex gap-2 cursor-pointer items-center p-2 w-fit justify-center">
-                    <p className="flex gap-2  rounded-md p-2 bg-gray-100">
-                      <span className="">Like {like}</span>
-                      <FaThumbsUp />
+                  <div className="flex gap-2 cursor-pointer items-center py-2 w-fit justify-center">
+                    <p className="flex gap-2  rounded-md p-1 bg-gray-100">
+                      <span onClick={()=>likeReview(review._id)} className="">Like {like}</span>
+                       <div className={like && "text-blue-500"}>
+                       <FaThumbsUp />
+                       </div>
                     </p>
-                    <p className="flex gap-2 items-center p-2  rounded-md bg-gray-100">
-                      <span className="">Dislike {dislike}</span>
+                    <p className="flex gap-2 items-center p-1  rounded-md bg-gray-100">
+                      <span onClick={()=>dislikeReview(review._id)} className="">Dislike {dislike}</span>
+                      <div className={dislike && "text-red-500"}>
                       <FaThumbsDown />
+                       </div>
                     </p>
                   </div>
                 </div>
@@ -361,12 +458,12 @@ const ProductdetailPage = () => {
             })}
           </div>
         </div>
-        <div
+       {reviews.length >=4 &&  <div
           onClick={handleLoadReviews}
           className="flex text-white active:scale-95 hover:shadow-md duration-300  items-center justify-center m-12 bg-black/50 p-2 w-fit"
         >
           <button>Load More Reviews</button>
-        </div>
+        </div>}
       </div>
     </>
   );

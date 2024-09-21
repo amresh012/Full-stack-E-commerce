@@ -243,7 +243,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                       <div className="flex items-center gap-2 text-sm">
                         <Rating
                           name="size-small"
-                          value={product.rating || 3.5}
+                          value={product.rating}
                           readOnly
                           precision={0.5}
                           size="small"
