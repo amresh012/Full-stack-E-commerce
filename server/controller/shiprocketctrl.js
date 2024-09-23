@@ -6,7 +6,6 @@ const User = require("../models/userModel");
 const createOrder = async (req, res) => {
   console.log(req.body)
   const {addr,productinfo, email} = req.body
-  console.log(productinfo)
   const useremail = req.body.email;
   const userD = await User.find({ email: useremail });
   const user = userD[0];
@@ -59,14 +58,14 @@ const createOrder = async (req, res) => {
     order_date: new Date().toISOString().split("/")[0],
     pickup_location: "Primary",
     billing_customer_name: addr.name,
-    billing_last_name: addr.name,
-    billing_address: addr.address,
-    billing_city:addr.city,
-    billing_pincode: addr.zipcode,
-    billing_state:addr.state,
+    billing_last_name: addr?.name,
+    billing_address: addr?.address,
+    billing_city:addr?.city,
+    billing_pincode: addr?.zipcode,
+    billing_state:addr?.state,
     billing_country: "India",
     billing_email: useremail,
-    billing_phone: addr.mobile,
+    billing_phone: addr?.mobile,
     shipping_is_billing: true,
     order_items: productDetail,
     payment_method: "Prepaid",

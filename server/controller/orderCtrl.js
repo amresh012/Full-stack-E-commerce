@@ -54,7 +54,7 @@ const createOrder = async (req, res,) => {
     };
     const createdOrder = await Order.create(newOrder);
     const orders = await Order.find({ _id: createdOrder._id }).populate("products.product");
-    console.log("orders from line 57-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-",orders)
+    
     const orderArr = orders.map((order) => ({
       transactionId: order.transactionId,
       products: order.products.map((product) => {
@@ -72,26 +72,25 @@ const createOrder = async (req, res,) => {
       status: order.status,
     }));
 
-    console.log("%5%%%%%%%%%%5%%%55%%%5%%555%5555%%55%5%%%555 line-76",orderArr.products)
-    // const detail = {
-    //         invoiceno: newOrder.invoiceNo,
-    //         userName: user.name,
-    //         userAdress: adr,
-    //         totalPrice: totalValue,
-    //         productDetails: orderArr[0].products,
-    //         isCoupon,
-    //         placeofsup,
-    //         gstNo: gstNo,
-    //       };
-    //       console.log("detail------------------",detail)
-    //       const invoiced = {
-    //         invoiceNo: newOrder.invoiceNo,
-    //         products:orderArr[0].products,
-    //         invoice: invoice(detail),
-    //         total: orderArr[0].total,
-    //         orderby: user._id,
-    //       };
-    //       await InvoiceModel.create(invoiced);
+    const detail = {
+            invoiceno: newOrder.invoiceNo,
+            userName: user.name,
+            userAdress: adr,
+            totalPrice: totalValue,
+            productDetails: orderArr[0].products,
+            isCoupon,
+            placeofsup,
+            gstNo: gstNo,
+          };
+          console.log("detail------------------",detail)
+          const invoiced = {
+            invoiceNo: newOrder.invoiceNo,
+            products:orderArr[0].products,
+            invoice: invoice(detail),
+            total: orderArr[0].total,
+            orderby: user._id,
+          };
+          await InvoiceModel.create(invoiced);
 
     await User.findOneAndUpdate(
       { _id: user._id },

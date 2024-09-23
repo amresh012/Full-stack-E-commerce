@@ -31,9 +31,10 @@ const createProductReview = async (req, res) => {
       product.reviews.reduce((acc, ele) => acc + ele.rating, 0) /
       product.numReviews;
     const updatedProduct = await product.save();
-    if (updatedProduct) res.status(200).json({ success: true, message: "Review Added" });
+    if (updatedProduct)
+      return res.status(200).json({ success: true, message: "Review Added" });
   } else {
-    res.status(404);
+     res.status(404);
     throw new Error("Product not available");
   }
 };
@@ -50,12 +51,12 @@ const getProductReviews = async (req, res) => {
   console.log(product.reviews)
 
   if (product) {
-    res.status(200).json({
+   return  res.status(200).json({
       success: true,
       reviews: product.reviews,
     });
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+   return  res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 
@@ -69,7 +70,7 @@ const updateProductReview = async (req, res) => {
     );
 
     if (existingReview) {
-      existingReview.title = title || existingReview.title;
+      existingReview.title = title ||existingReview.title;
       existingReview.rating = rating || existingReview.rating;
       existingReview.review = review || existingReview.review;
 
@@ -77,15 +78,15 @@ const updateProductReview = async (req, res) => {
         product.reviews.reduce((acc, ele) => acc + ele.rating, 0) / product.numReviews;
 
       await product.save();
-      res.status(200).json({ success: true, message: "Review updated" });
+    return   res.status(200).json({ success: true, message: "Review updated" });
     } else {
-      res.status(400).json({
+     return  res.status(400).json({
         success: false,
         message: "You haven't reviewed this product",
       });
     }
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+   return  res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 
@@ -108,13 +109,13 @@ const deleteProductReview = async (req, res) => {
       await product.save();
       res.status(200).json({ success: true, message: "Review deleted" });
     } else {
-      res.status(400).json({
+       res.status(400).json({
         success: false,
         message: "You haven't reviewed this product",
       });
     }
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+     res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 
@@ -137,12 +138,12 @@ const adminDeleteProductReview = async (req, res) => {
           : product.reviews.reduce((acc, ele) => acc + ele.rating, 0) / product.numReviews;
 
       await product.save();
-      res.status(200).json({ success: true, message: "Review deleted by admin" });
+      return res.status(200).json({ success: true, message: "Review deleted by admin" });
     } else {
       res.status(404).json({ success: false, message: "Review not found" });
     }
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+    return res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 
@@ -158,7 +159,7 @@ const likeReview = async (req, res) => {
       // Check if the user has already liked the review
       const hasLiked = review.likes.includes(req.user._id);
       if (hasLiked) {
-        return res.status(400).json({ success: false, message: "You've already liked this review" });
+         res.status(400).json({ success: false, message: "You've already liked this review" });
       }
 
       // Remove dislike if the user has disliked the review before
@@ -170,12 +171,12 @@ const likeReview = async (req, res) => {
       review.likes.push(req.user._id);
 
       await product.save();
-      res.status(200).json({ success: true, message: "Review liked" , likes : review?.likes?.length });
+       res.status(200).json({ success: true, message: "Review liked" , likes : review?.likes?.length });
     } else {
       res.status(404).json({ success: false, message: "Review not found" });
     }
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+   res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 
@@ -203,12 +204,12 @@ const dislikeReview = async (req, res) => {
       review.dislikes.push(req.user._id);
 
       await product.save();
-      res.status(200).json({ success: true, message: "Review disliked",dislike:review?.dislikes?.length });
+      return  res.status(200).json({ success: true, message: "Review disliked",dislike:review?.dislikes?.length });
     } else {
       res.status(404).json({ success: false, message: "Review not found" });
     }
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+    return  res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 
@@ -234,10 +235,10 @@ const removeLike = async (req, res) => {
       await product.save();
       res.status(200).json({ success: true, message: "Like removed" });
     } else {
-      res.status(404).json({ success: false, message: "Review not found" });
+      return  res.status(404).json({ success: false, message: "Review not found" });
     }
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+    return  res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 
@@ -252,7 +253,7 @@ const removeDislike = async (req, res) => {
       // Check if the user has disliked the review
       const hasDisliked = review.dislikes.includes(req.user._id);
       if (!hasDisliked) {
-        return res.status(400).json({ success: false, message: "You haven't disliked this review" });
+       return res.status(400).json({ success: false, message: "You haven't disliked this review" });
       }
 
       // Remove dislike
@@ -263,10 +264,10 @@ const removeDislike = async (req, res) => {
       await product.save();
       res.status(200).json({ success: true, message: "Dislike removed" });
     } else {
-      res.status(404).json({ success: false, message: "Review not found" });
+      return  res.status(404).json({ success: false, message: "Review not found" });
     }
   } else {
-    res.status(404).json({ success: false, message: "Product not found" });
+    return  res.status(404).json({ success: false, message: "Product not found" });
   }
 };
 

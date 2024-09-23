@@ -27,7 +27,7 @@ router.get(
 router.put("/:productId",authMiddleware, updateProductReview);
 
 // Route to delete a review
-router.delete("/:reviewId", deleteProductReview);
+router.delete("/:productId/:reviewId",authMiddleware, deleteProductReview);
 
 // Like a review
 router.post('/:productId/:reviewId/like',authMiddleware, likeReview);

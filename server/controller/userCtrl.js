@@ -128,7 +128,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
           role: findUser?.role,
           cart: findUser?.cart,
           address: findUser?.address,
-          super: findUser?.super,
+          allowedRoute :findUser?.allowedRoutes
         });
       } else {
         res.status(403).send({ message: "you are blocked by Admin" });
@@ -417,33 +417,6 @@ const deleteAddress = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
-
-
-// const deleteAddress = asyncHandler(async (req, res) => {
-//   console.log(req.params)
-//   try {
-//     // Extract address ID from request parameters or body
-//     const { id } = req.params; // assuming addressId is passed as a URL parameter
-
-//     if (!id) {
-//       return res.status(400).json({ message: "Address ID is required" });
-//     }
-
-//     // Find and delete the address by ID
-//     const deletedAddress = await Address.findByIdAndDelete(id);
-
-//     if (!deletedAddress) {
-//       return res.status(404).json({ message: "Address not found" });
-//     }
-
-//     res.status(200).json({ message: "Address deleted successfully", deletedAddress });
-//   } catch (error) {
-//     console.error("Error deleting address:", error);
-//     res.status(500).json({ message: "Internal server error", error: error.message });
-//   }
-// });
-
-
 
 // handle refresh token
 
