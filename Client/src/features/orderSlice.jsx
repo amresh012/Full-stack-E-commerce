@@ -8,7 +8,7 @@ const initialState = {
 };
 export const OrderApi = createAsyncThunk("order", async () => {
   const res = await axios.get(`${base_url}order`, config);
-  
+  console.log(res)
   return res.data;
 });
 

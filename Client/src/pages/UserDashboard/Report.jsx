@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { OrderApi } from "../../features/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import * as XLSX from "xlsx";
+// import * as XLSX from "xlsx";
+import * as XLSX from 'xlsx/xlsx.mjs';
 
 import TransactionTable from "./TransactionTable";
 
@@ -22,8 +23,7 @@ const GenerateReport = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Transactions");
     XLSX.writeFile(workbook, "transactions.xlsx");
   };
-  const [filteredTransactions, setFilteredTransactions] =
-    useState(transactions.data);
+  const [filteredTransactions, setFilteredTransactions] = useState(transactions?.data);
   const [filterAddress, setFilterAddress] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -35,19 +35,19 @@ const GenerateReport = () => {
   useEffect(() => {
     const uniqueCategories = [
       ...new Set(
-        transactions.data.map((t) => t.products.map((p) => p.category))
+        transactions?.data?.map((t) => t.products.map((p) => p.category))
       ),
     ];
-    const uniqueAddresses = [...new Set(transactions.data.map((t) => t.address))];
+    const uniqueAddresses = [...new Set(transactions?.data?.map((t) => t.address))];
     setCategories(uniqueCategories);
     setAddresses(uniqueAddresses);
 
-    generateReports(transactions.data);
+    generateReports(transactions?.data);
   }, [transactions]);
 
   const generateReports = (data) => {
     const categoryReportData = {};
-    data.forEach((transaction) => {
+    data?.forEach((transaction) => {
       transaction.products.forEach((product) => {
         if (!categoryReportData[product.category]) {
           categoryReportData[product.category] = 0;
@@ -59,7 +59,7 @@ const GenerateReport = () => {
 
     // Generate product count report
     const productCountReportData = {};
-    data.forEach((transaction) => {
+    data?.forEach((transaction) => {
       productCountReportData[transaction.transactionId] =
         transaction.products.length;
     });
@@ -67,7 +67,7 @@ const GenerateReport = () => {
 
     // Generate address report
     const addressReportData = {};
-    data.forEach((transaction) => {
+    data?.forEach((transaction) => {
       const address = transaction.address;
       if (!addressReportData[address]) {
         addressReportData[address] = 0;
