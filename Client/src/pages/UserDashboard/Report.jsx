@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { OrderApi } from "../../features/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
-// import * as XLSX from "xlsx";
+import * as XLSX from "xlsx";
 
 import TransactionTable from "./TransactionTable";
 
@@ -10,19 +10,20 @@ const GenerateReport = () => {
 
   const transactions = useSelector((st) => st.userorder.orders);
   const dispatch = useDispatch();
+  console.log(transactions)
 
   useEffect(() => {
     dispatch(OrderApi());
   }, []);
 
   const handleDownload = () => {
-    const worksheet = XLSX.utils.json_to_sheet(transactions);
+    const worksheet = XLSX.utils.json_to_sheet(transactions.data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Transactions");
     XLSX.writeFile(workbook, "transactions.xlsx");
   };
   const [filteredTransactions, setFilteredTransactions] =
-    useState(transactions);
+    useState(transactions.data);
   const [filterAddress, setFilterAddress] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -32,16 +33,16 @@ const GenerateReport = () => {
   const [addressReport, setAddressReport] = useState({});
 
   useEffect(() => {
-    // const uniqueCategories = [
-    //   ...new Set(
-    //     transactions.flatMap((t) => t.products.map((p) => p.category))
-    //   ),
-    // ];
-    const uniqueAddresses = [...new Set(transactions.map((t) => t.address))];
-    // setCategories(uniqueCategories);
+    const uniqueCategories = [
+      ...new Set(
+        transactions.data.map((t) => t.products.map((p) => p.category))
+      ),
+    ];
+    const uniqueAddresses = [...new Set(transactions.data.map((t) => t.address))];
+    setCategories(uniqueCategories);
     setAddresses(uniqueAddresses);
 
-    generateReports(transactions);
+    generateReports(transactions.data);
   }, [transactions]);
 
   const generateReports = (data) => {
@@ -90,12 +91,12 @@ const GenerateReport = () => {
     generateReports(filtered);
   };
   return (
-    <div>
+    <div className="p-4">
       <div className="flex justify-between items-center mb-2">
         <h1 className="h1 text-blue-500 font-bold">Generate report</h1>
-        {/* <button onClick={handleDownload} className="btn btn-outline-success">
+        <button onClick={handleDownload} className="bg-[#0a2444]  p-2 text-white rounded-md">
           Download Report
-        </button> */}
+        </button>
       </div>
       <div className="mb-4 ">
         <h2 className="text-2xl font-bold mb-2">Category Report</h2>

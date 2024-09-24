@@ -5,21 +5,24 @@ import { useDispatch} from "react-redux";
 import { removeuser } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { CgProfile } from "react-icons/cg";
+import { GoChecklist } from "react-icons/go";
 
 
 const links = [
     {
         id:1,
         header:"Orders",
+        icon:<GoChecklist size={24}/>,
         submenu:true,
         sublink:
         [
-            // {
-            //     id:0,
-            //     label:"Report",
-            //     icons:"",
-            //     route:"/profile/report"
-            // },
+            {
+                id:0,
+                label:"Report",
+                icons:"",
+                route:"/profile/report"
+            },
             {
                 id:1,
                 label:"My Orders",
@@ -38,6 +41,7 @@ const links = [
     {
         id:2,
         header:"Profile",
+        icon:<CgProfile size={24}/>,
         submenu : true,
         sublink:[
             {
@@ -86,7 +90,8 @@ const Sidebar = () => {
           <ul className="">
             {links.map((item) => (
               <div className=" h-full border-b-2 " key={item.id}>
-                <li className="font-bold text-2xl bg-[#0a2444] text-white p-2 uppercase">
+                <li className="flex items-center gap-2 font-bold text-xl bg-[#0a2444] text-white p-2 uppercase">
+                  <span>{item.icon}</span>
                   {item.header}
                 </li>
                 {item.submenu &&

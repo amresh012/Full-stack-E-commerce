@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 const TransactionTable = ({ transactions }) => {
+  console.log(transactions)
     return (
-      <div id="transaction-table" className="rounded mx-auto">
-        <table className="min-w-full bg-white border rounded border-gray-300">
+      <div id="transaction-table" className="rounded mx-aut ">
+        <table className="w-full bg-white border rounded border-gray-300">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Transaction ID</th>
@@ -21,12 +22,12 @@ const TransactionTable = ({ transactions }) => {
                   {transaction.products.map((product) => (
                     <div key={product.name} className="flex mb-2">
                       <img
-                        src={product.image}
-                        alt={product.name}
+                        src={product.product.images}
+                        alt={product.product.name}
                         className="w-14 h-auto mr-2 inline"
                       />
                       <div className="text-gray-600 font-semibold">
-                        {product.name} (x{product.count})
+                      {product.product.name} (x{product.count})
                       </div>
                     </div>
                   ))}
