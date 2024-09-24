@@ -160,11 +160,12 @@ const CheckOut = () => {
         } = order;
 
         var options = {
-          key: "rzp_test_oLA0LztRZUjDkX",
+          // key: "rzp_test_oLA0LztRZUjDkX",
+          key:"rzp_live_74Bq9petAbrxL2",
           amount: order_amount,
           currency,
           name: "KFS Fitness",
-          description: "Test Transaction",
+          description: "Transaction",
           image: "https://images.deepmart.shop",
           order_id: orderId,
           handler: async function (response) {

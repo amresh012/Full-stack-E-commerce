@@ -22,7 +22,7 @@ const TransactionTable = ({ transactions }) => {
                   {transaction.products.map((product) => (
                     <div key={product.name} className="flex mb-2">
                       <img
-                        src={product.product.images}
+                        src={product.product.images[0]}
                         alt={product.product.name}
                         className="w-14 h-auto mr-2 inline"
                       />

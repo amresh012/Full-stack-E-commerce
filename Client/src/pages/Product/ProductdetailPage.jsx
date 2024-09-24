@@ -11,6 +11,7 @@ import { addcarts, removeItem } from "../../features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useAddCartHook,useUpdateCartHook } from "../../hooks/cartHooks";
 import axios from "axios"
+import { PiThumbsUpLight ,PiThumbsDownLight  } from "react-icons/pi";
 import moment from "moment"
 import { config } from "../../Utils/axiosConfig";
 
@@ -23,19 +24,7 @@ const ProductdetailPage = () => {
   const [reviews, setReviews]= useState([])
   const [like, setLike]= useState(0)
   const [dislike , setDislike] = useState(0)
- console.log(product)
-
-  // const [like , setLike] = useState(() => {
-  //   const storedLike = localStorage.getItem(`like`);
-  //   return storedLike ? parseInt(storedLike) : 0;
-  // })
-  // const [dislike , setDislike] = useState(() => {
-  //   const storedDislike = localStorage.getItem(`dislike`);
-  //   return storedDislike ? parseInt(storedDislike) : 0;
-  // })
-
   const [userReaction, setUserReaction] = useState(null); 
-  const dispatch = useDispatch();
   const { carts } = useSelector(state => state.cart);
   const  user  = useSelector((state) => state.auth.user);
   const userId = user?._id
@@ -43,7 +32,6 @@ const ProductdetailPage = () => {
 
   // mutation hook
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
-  const { mutation: updateCartItemMutation } = useUpdateCartHook()
   
   const token = localStorage.getItem("token")
 
@@ -72,7 +60,6 @@ const ProductdetailPage = () => {
         // Update the like count
         setLike(like + 1);
         setUserReaction("like");
-        // setLike(response.data.likes)
       }
       else{
         toast.error(response.data.message)
@@ -96,7 +83,6 @@ const ProductdetailPage = () => {
         // Update the dislike count
         setDislike(dislike + 1);
         setUserReaction("dislike");
-        // setDislike(response.data.dislike)
       }
       else{
        throw new Error()
@@ -108,12 +94,6 @@ const ProductdetailPage = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const storedLike = localStorage.getItem(`like`);
-  //   const storedDislike = localStorage.getItem(`dislike`);
-  //   if (storedLike) setLike(parseInt(storedLike));
-  //   if (storedDislike) setDislike(parseInt(storedDislike));
-  // }, [like]);
 
   useEffect(()=>{
     fetchProductReviews()
@@ -158,20 +138,7 @@ const ProductdetailPage = () => {
       : toast.error("Your Are Not Logged In");
   };
 
-  // handleQuantity update
-  const handleIncr = (item) => {
-    updateCartItemMutation.mutate({id:item._id , type:"inc"})
-    toast.success("Product Quantity updated by one Successfully")
-  }
-    const handleDecr = (item) => {
-      console.log(item)
-      if (item.count === 1) {
-        toast.error("Product quantity can't be less than 1");
-        return;
-      }
-    updateCartItemMutation.mutate({ id: item._id, type: "dec" });
-    toast.success("Product Quantity updated by one Successfully")
-  }
+
 
   const getQuantity = ()=>{
     const isExistingInd = carts.findIndex(product => product._id === id);
@@ -272,21 +239,6 @@ const ProductdetailPage = () => {
             </div>
             <div className="qua space-y-4  mt-2">
               <h1 className="font-bold  text-xl">Quantity</h1>
-              <div className="flex items-center  gap-2  rounded-full bg-[#0A2440]/10  w-fit p-2">
-                <button
-                  className="bg-[#0A2440] active:scale-95 h-6 w-6 rounded-full text-white  "
-                  onClick={handleIncr}
-                >
-                  +
-                </button>
-                <p className="">{quantity}</p>
-                <button
-                  className="bg-[#0A2440] h-6 w-6 active:scale-95 rounded-full text-white "
-                  onClick={handleDecr}
-                >
-                  -
-                </button>
-              </div>
             </div>
             <div className="diemnsions p-4">
               <h1 className="text-2xl">Dimensions:</h1>
@@ -322,7 +274,7 @@ const ProductdetailPage = () => {
               {product?.quantity > 0 ? (
                 <p className="flex items-center gap-2 text-xl text-green-500 font-medium">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  In Stock, Ready to Ship
+                 {product?.quantity} In Stock, Ready to Ship
                 </p>
               ) : (
                 <p className="flex items-center gap-2 text-xl text-red-500 font-medium">
@@ -449,18 +401,29 @@ const ProductdetailPage = () => {
                     <h1 className="font-bold text-xl">{review?.title}</h1>
                     <p>{review?.review}</p>
                   </div>
-                  <div className="flex gap-2 cursor-pointer items-center py-2 w-fit justify-center">
-                    <p className="flex gap-2  rounded-md p-1 bg-gray-100">
-                      <span onClick={()=>likeReview(review._id)} className="">Like {like}</span>
+                  <div className="flex cursor-pointer bg-gray-100 items-center rounded-full w-fit justify-center">
+                    <p onClick={()=>likeReview(review._id)}  className="flex relative group gap-2 items-center p-1  rounded-md ">
+                       <span className="absolute top-1 bg-blue-200 rounded-md text-[12px] 
+                        text-blue-500 shadow-lg shadow-blue-500 p-1 opacity-0  duration-500
+                        group-hover:-translate-y-9 group-hover:opacity-100
+                        "
+                        >like</span>
                        <div className={like && "text-blue-500"}>
-                       <FaThumbsUp />
+                       <PiThumbsUpLight />
                        </div>
+                      <span className="">{like}</span>
                     </p>
-                    <p className="flex gap-2 items-center p-1  rounded-md bg-gray-100">
-                      <span onClick={()=>dislikeReview(review._id)} className="">Dislike {dislike}</span>
+                    <span className="w-[1px] h-4 bg-black"></span>
+                    <p  onClick={()=>dislikeReview(review._id)}  className="flex relative group gap-2 items-center p-1  rounded-md">
+                    <span className="absolute top-1 bg-red-200 rounded-md text-[12px] 
+                        text-red-500 shadow-lg shadow-red-500 p-1 opacity-0 duration-500
+                        group-hover:-translate-y-9 group-hover:opacity-100
+                        "
+                        >dislike</span> 
                       <div className={dislike && "text-red-500"}>
-                      <FaThumbsDown />
+                      <PiThumbsDownLight />
                        </div>
+                      <span className="">{dislike}</span>
                     </p>
                   </div>
                 </div>
@@ -468,7 +431,7 @@ const ProductdetailPage = () => {
             })}
           </div>
         </div>
-       {reviews.length >=4 &&  <div
+       {reviews.length >=4 && reviews.length > reviews.length - 1 &&  <div
           onClick={handleLoadReviews}
           className="flex text-white active:scale-95 hover:shadow-md duration-300  items-center justify-center m-12 bg-black/50 p-2 w-fit"
         >

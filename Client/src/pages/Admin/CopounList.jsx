@@ -105,7 +105,6 @@ const CopounList = () => {
     },
   ];
 
-  // onClick={() =>fetchProduct(row.original._id)}
  
 
   return (

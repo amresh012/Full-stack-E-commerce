@@ -36,7 +36,7 @@ import { addcarts } from "../../features/cartSlice";
 import { useDispatch } from "react-redux";
 import { BiArrowToRight } from "react-icons/bi";
 import { useMediaQuery } from "@mui/material";
-import { FaCheckCircle } from "react-icons/fa";
+import { FcCheckmark } from "react-icons/fc";
 
 
 const HomePage = () => {
@@ -117,7 +117,7 @@ const HomePage = () => {
           </button>
           <IoIosArrowRoundForward size={30} />
         </Link>
-        <div data-aos="zoom-out">
+        <div data-aos="zoom-out" data-aos-once="true">
           <ProductCarousel addToCartHandler={addToCartHandler} />
         </div>
       </div>
@@ -132,6 +132,7 @@ const HomePage = () => {
           <div
             className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden "
             data-aos="zoom-out"
+            data-aos-once="true"
           >
             <img
               loading="lazy"
@@ -147,7 +148,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out" data-aos-once="true">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -162,7 +163,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out" data-aos-once="true">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -180,7 +181,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out" data-aos-once="true">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -195,7 +196,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out" data-aos-once="true">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -204,13 +205,13 @@ const HomePage = () => {
             <div className="absolute bottom-3 left-3 text-white">
               <p className="text-4xl uppercase font-thin">Treadmills</p>
               <p className="text-xl uppercase font-thin">
-                <Link to={`${url}product-category/category?=cardio&subcategory?=treadmill`} className="flex items-center">
+                <Link to={`${url}product-category/category?=cardio&subcategory?=treadmill`} className="flex items-center" data-aos-once="true">
                   Shop Now <IoIosArrowRoundForward color="white" size={30} />
                 </Link>
               </p>
             </div>
           </div>
-          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out">
+          <div className="relative h-[25rem] lg:h-[40rem] w-full bg-top bg-cover overflow-hidden" data-aos="zoom-out" data-aos-once="true">
             <img
               loading="lazy"
               className="hover:scale-105 h-[inherit] w-[inherit] duration-500 brightness-50"
@@ -338,10 +339,12 @@ const HomePage = () => {
                   </li>
                 ))}
               </ul>
-              <div className="bg-[#0a2444] w-fit p-2 text-white cursor-pointer flex gap-2 items-center">
+             <Link to="/contact">
+             <div className="bg-[#0a2444] w-fit p-2 text-white cursor-pointer flex gap-2 items-center">
                 <p className="">Know More</p>
                 <BiArrowToRight />
               </div>
+             </Link>
             </div>
           ))}
         </div>

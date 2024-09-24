@@ -235,16 +235,17 @@ const Category = () => {
                       <p className="rating flex items-center gap-2">
                         <Rating
                           name="size-small"
-                          defaultValue={4}
+                          value={product?.rating}
                           precision={0.5}
                           size="small"
                         />
                         <span className="rating-value">
-                          {product.rating / 5 || 4.9}
+                          {product?.rating}
                         </span>
                         <span className="rating-count">
-                          {product.reviews || 110}
-                          {"+"}
+                        <span className="pr-2">reviews</span>
+                         ( {product?.reviews?.length}
+                          {"+"})
                         </span>
                       </p>
                     </div>

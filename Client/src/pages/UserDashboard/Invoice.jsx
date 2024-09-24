@@ -44,9 +44,13 @@ const Invoice = () => {
 
   return (
     <>
-      <p className="text-blueGray-700 text-xl font-bold">Invoice</p>
-
-      <div className="w-full">
+      <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
+          <div className="bg-[#144170] p-2 text-white rounded-full">
+            <FaFileInvoice/>
+          </div>
+          <h1 className="uppercase">My Orders</h1>
+        </div>
+      <div className="w-full p-2">
         {invoice?.map((ele, index) => (
           <div className="border mt-3 p-2 rounded-md" key={index}>
             <div className="flex justify-between items-center">
