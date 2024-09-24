@@ -80,7 +80,7 @@ const createOrder = async (req, res,) => {
             productDetails: orderArr[0].products,
             isCoupon,
             placeofsup,
-            gstNo: gstNo,
+            gstNo
           };
           console.log("detail------------------",detail)
           const invoiced = {
@@ -124,7 +124,7 @@ const createOrder = async (req, res,) => {
         path: "users",
         model: "User",
         select:"name"
-      }).populate("products.product");
+      }).populate("products.product").populate("address");
       // Send the orders as the response
       res.status(200).json({
         success: true,
@@ -232,7 +232,7 @@ const getSingleOrder = async (req, res) => {
 
     const getInvoices = async (req, res) => {
         try {
-          const invoices = await InvoiceModel.find({ orderby: req.user._id }).populate({path:"orderby" , model:"User", select:"name"});
+          const invoices = await InvoiceModel.find({ orderby: req.user._id }).populate({path:"orderd_by" , model:"User", select:"name"});
           res.send(invoices);
         } catch (error) {
           console.error(error);
