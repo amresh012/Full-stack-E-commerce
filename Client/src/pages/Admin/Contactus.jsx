@@ -39,7 +39,7 @@ const ListProduct = () => {
       accessorKey: "name",
       cell:({row})=>{
        const  assignedto= row?.original?.assigned?.name
-       return <span>{assignedto}</span>;
+       return <span>{assignedto || "Not Assigned"}</span>;
       }
     },
     {
@@ -160,7 +160,7 @@ const ListProduct = () => {
          </div>
      
          { 
-          details.map((detail, index) => (
+          details?.map((detail, index) => (
             <div className="text-lg" key={index}>
             <div className="mb-1 flex items-center gap-x-2">
               <span className="font-semibold">Name:</span>
@@ -180,7 +180,7 @@ const ListProduct = () => {
             </div>
             <div className="mb-1 flex items-center gap-x-2">
               <span className="font-semibold">Assigned To:</span>
-              <span className='font-bold'>{detail?.assigned.name}</span>
+              <span className='font-bold'>{detail?.assigned.name || "Not Assigned"}</span>
             </div>
             <div className="mb-1 flex items-center gap-x-2">
               <span className="font-semibold">Status:</span>
