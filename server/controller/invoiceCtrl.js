@@ -223,7 +223,7 @@ const createInvoice = ({
   const conatactNumbers = "9650104416";
   const contactEmail = "info@kfsfitness.com";
   const placeOfSupply = "Faridabad,Haryana(Sec- 20B)";
-  const bankName = `BANK NAME:- UCO BANK BRANCH:-MAIN  &amp; BRANCH FARIDABAD Account No:- 03900510001257 IFSC Code:-
+  const bankName = `BANK NAME:- UCO BANK BRANCH:-MAIN BRANCH FARIDABAD Account No:- 03900510001257 IFSC Code:-
 UCBA0000390`;
   const date = new Date();
   const invoiceDate = JSON.stringify(date).split("T")[0].split('"')[1];
@@ -263,9 +263,9 @@ UCBA0000390`;
 
         .mainContainer {
             border: 1px solid black;
-            max-width: 800px; /* Set a max width for the invoice */
+            // max-width: 100vw; /* Set a max width for the invoice */
             margin: auto; /* Center the invoice */
-            padding: 20px; /* Add some padding */
+            padding: 10px; /* Add some padding */
             overflow: hidden; /* Clear floats */
         }
 
@@ -273,7 +273,7 @@ UCBA0000390`;
             border-bottom: 1px solid black;
             display: flex;
             flex-direction: column;
-            padding: 8px;
+            padding: 4px;
         }
 
         .gst {
@@ -322,7 +322,7 @@ UCBA0000390`;
         }
 
         /* Responsive styles */
-        @media (max-width: 600px) {
+        @media (max-width: 900px) {
             .w-50 {
                 flex: 0 0 100%; /* Make items full width on smaller screens */
             }
@@ -368,7 +368,7 @@ UCBA0000390`;
                 <p>GSTIN: <strong>07AERFS7014R1Z4</strong></p>
                 <p>Original copy</p>
             </div>
-            <h4 class="underline pt-3">TAX INVOICE</h4>
+            <h4 class="underline pt-2">TAX INVOICE</h4>
             <h2 class="text-center">${companyName}</h2>
             <p class="text-center">${compayAdderss}</p>
             <p class="text-center m-0">Tel.: ${conatactNumbers}, email: ${contactEmail}</p>
@@ -379,20 +379,20 @@ UCBA0000390`;
                 <p class="m-0"><span>Dated:</span> ${invoiceDate}</p>
             </div>
             <div class="w-50 border-l pb-4">
-                <p class="m-0"><span>Place of Supply:</span> ${placeofsup}</p>
+                <p class="m-0"><span>Place of Supply:</span> ${placeOfSupply}</p>
                 <p class="m-0"><span>Reverse Charges No:</span> N</p>
             </div>
         </div>
         <div class="shipp border-b flex mb-4">
-            <div class="w-50 border-r pb-4">
+            <div class="w-50 border-r p-4">
                 <p class="m-0 pb bill"><span>Billed to:</span>
-                    <strong>${userName}<br>${userAdress}</strong>
+                    <strong>${userName}<br>${userAdress || ""}</strong>
                 </p>
                 ${gstNo ? `<h4 class="m-0 pb bill"><span>GST NO.:</span> ${gstNo}</h4>` : ""}
             </div>
-            <div class="w-50 border-l pb-4">
+            <div class="w-50 border-l p-4">
                 <p class="m-0 pb bill"><span>Shipped to:</span>
-                    <strong>${userName}<br>${userAdress}</strong>
+                    <strong>${userName}<br>${userAdress || ""}</strong>
                 </p>
                 ${gstNo ? `<h4 class="m-0 pb bill"><span>GST NO.:</span> ${gstNo}</h4>` : ""}
             </div>
@@ -415,7 +415,7 @@ UCBA0000390`;
             <p class="text-end border-b pt-2 m-0 ">${alphabeticalPrice} Rupees only :-</p>
             <p class="border-b pb-4 m-0"><span>Bank Details :</span> &nbsp; ${bankName}</p>
             <div class="shipp border-b flex">
-                <div class="w-50 border-r pb-4">
+                <div class="w-[60vw] border-r pb-4">
                     <p class="m-0 pb bill"><span class="underline">Terms & Conditions:</span>
                         <strong>
                             E.& O.E.<br>

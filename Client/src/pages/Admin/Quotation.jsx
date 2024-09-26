@@ -203,7 +203,7 @@ const handleEdit = (id) => {
           <h1 className="">Quotations</h1>
         </div>
       </div>
-    <div>
+    <div className='pl-4'>
       <RefreshButton/>
       <BasicTable columns={columns} data={data || []}/>
     </div>

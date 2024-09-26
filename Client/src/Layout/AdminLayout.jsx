@@ -28,13 +28,13 @@ const AdminLayout = () => {
         throw new Error(data.message);
       }
       dispatch(adduser({...data.user, token: data.token}));
-      console.log(data.user)
+      // console.log(data.user)
       if(data.user.role !== 'Admin' && data.user.role !== 'Employee'){
         toast.error('You are not authorized to access this route');
         navigate('/');
       }
       localStorage.setItem('token', data.token);
-      // toast.success(data.message);
+      toast.success(data.message);
     }
     catch(err){
       toast.error(err.message);

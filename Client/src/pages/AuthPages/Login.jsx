@@ -31,7 +31,6 @@ const Login = () => {
   const loginWithEmail = async () => {
     try {
       const res = await axios.post(`${base_url}user/login`, formData);
-
       localStorage.setItem("token", res.data.token);
 
       if (res.status === 200) {
@@ -39,9 +38,10 @@ const Login = () => {
         if (res.data.role === "Admin") {
           toast.success("Admin Login Success");
           navigate("/admin");
+          location.reload()
         } else {
           toast.success("Login Success");
-          navigate("/profile");
+          navigate("/profile",{state:res?.data});
         }
       } else {
         throw new Error(res.data);

@@ -26,7 +26,6 @@ const MyOrders = () => {
             ...config,
           });
           const data = await response.json();
-           console.log(data)
           if (!data.error) {
             setOrders(data.order);
           }
@@ -60,8 +59,8 @@ const MyOrders = () => {
             </div>
           ))
           :
-          <div className="h-[50vh] gap-2 w-full flex flex-col items-center justify-center bg-gray-100 mt-4 text-2xl font-bold">
-          <span className="text-orange-400">
+          <div className="h-[50vh] gap-2 w-full flex flex-col items-center justify-center bg-gray-200 mt-4 text-2xl font-bold">
+          <span className="text-orange-500 animate-bounce duration-500 delay-300">
             <FaExclamationCircle size={50} />
           </span>
           <p>No Records Found</p>

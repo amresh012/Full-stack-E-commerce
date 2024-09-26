@@ -17,12 +17,12 @@ const links = [
         submenu:true,
         sublink:
         [
-            // {
-            //     id:0,
-            //     label:"Report",
-            //     icons:"",
-            //     route:"/profile/report"
-            // },
+            {
+                id:0,
+                label:"Report",
+                icons:"",
+                route:"/profile/report"
+            },
             {
                 id:1,
                 label:"My Orders",

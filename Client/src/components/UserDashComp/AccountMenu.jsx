@@ -33,6 +33,7 @@ export default function AccountMenu() {
       dispatch(removeuser());
       toast.success("logged Out Successfully")
       navigate("/login")
+      location.reload()
       
     }
   }

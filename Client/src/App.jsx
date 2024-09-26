@@ -46,6 +46,7 @@ import EditBlog from "./pages/Admin/EditBlog"
 import Confirmation from './pages/Product/Confirmation'
 import Quotation from './pages/Admin/Quotation'
 import PreOrderTerms from './pages/policies/PreOrderTerms '
+import OrderSuccess from "./pages/Product/OrderSuccess"
 function App() {
 
   const [loading, setLoading] = useState(false);
@@ -78,7 +79,7 @@ function App() {
           <Route path="/product/:id" element={<ProductdetailPage />} />
           <Route path="/product-category/*" element={<Category />} />
           <Route path="/checkout" element={<CheckOut />} />
-          <Route path={`/order-confirmed`} element={<Confirmation />} />
+          <Route path={`/order-confirmed`} element={<OrderSuccess />} />
           <Route path="/commercial-gym" element={<CommercialGym />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogView />} />

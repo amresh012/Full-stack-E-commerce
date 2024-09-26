@@ -2,7 +2,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import {resetCart} from "../../features/cartSlice";
 import { base_url } from "../../Utils/baseUrl";
 import {Link} from "react-router-dom"
 import { config } from "../../Utils/axiosConfig";
@@ -14,12 +13,12 @@ import {
   useCartHooks,
   useDeleteCartHook,
   useUpdateCartHook,
+  useResetCartHook
 } from "../../hooks/cartHooks";
 import toast, { Toaster } from "react-hot-toast";
 
 const CheckOut = () => {
    const [user , setUser] = useState([])
-   console.log(user)
   //  getUser
   const User = useSelector((state) => state.auth.user)
   const id = localStorage.getItem("id") || User?._id
@@ -32,7 +31,6 @@ const CheckOut = () => {
             ...config,
           });
           const data = await response.json();
-           console.log(data)
           if (!data.error) {
             setUser(data);
           }
@@ -47,14 +45,17 @@ const CheckOut = () => {
   const selectedAddress = useSelector((state) => state.address); // Access selected address
   const newAdd = selectedAddress?.selectedAddress;
   const deliverpin = newAdd?.zipcode;
-
   const navigate = useNavigate();
   const [discount, setDiscount] = useState(0);
   const [discountType, setDiscountType] = useState("");
   const [couriercompnies, setCourierCompnies] = useState([]);
   const [selectedShiping, setSelectedShipping] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isdisabled , setDisabled]  = useState(false)
+
   const token = localStorage.getItem("token");
+  
+
   // to close the model if there is no courier company
   useEffect(() => {
     if (!couriercompnies && couriercompnies?.length <= 0) {
@@ -62,11 +63,11 @@ const CheckOut = () => {
     }
   }, [couriercompnies]);
 
-  const dispatch = useDispatch();
   const { data: cartItems } = useCartHooks();
-  console.log(cartItems)
   const { mutation: removeitemCartMutation } = useDeleteCartHook();
   const { mutation: updateCartItemMutation } = useUpdateCartHook();
+  const { mutation: resetCartMutation } = useResetCartHook()
+
 
   // getting auth fouserId name email mobile data from authSlice
   // calculating total checkout amount after adding Shipping Charges from shiprocket api
@@ -80,6 +81,13 @@ const CheckOut = () => {
   } else if (discountType === "fixed") {
     CartTotal = CartTotal - discount;
   }
+  // handle reset cart
+  const handleResetCart = () => {
+    resetCartMutation.mutate();
+    toast.success("Cart has been reset!");
+  };
+
+
 
   // data to create order in Razorpay for payments
   const amount = CartTotal;
@@ -120,7 +128,7 @@ const CheckOut = () => {
     if (cartItems?.products?.length > 0) {
       calculateShippingCharge();
     }
-  }, [cartItems]);
+  }, [cartItems , selectedShiping]);
   // Calculate Shipping Charges on Orders
 
   const handleShippingSelect = (shippingData) => {
@@ -133,7 +141,10 @@ const CheckOut = () => {
 
   const paymentHandler = async (e) => {
     e.preventDefault();
-
+    if(!newAdd){
+      toast("Please Select a Shipping Address")
+      return
+    }
     try {
       const response = await fetch(`${base_url}payment/createOrder`, {
         method: "POST",
@@ -160,8 +171,8 @@ const CheckOut = () => {
         } = order;
 
         var options = {
-          // key: "rzp_test_oLA0LztRZUjDkX",
-          key:"rzp_live_74Bq9petAbrxL2",
+          key: "rzp_test_oLA0LztRZUjDkX",
+          // key:"rzp_live_74Bq9petAbrxL2",
           amount: order_amount,
           currency,
           name: "KFS Fitness",
@@ -239,7 +250,8 @@ const CheckOut = () => {
                     email: user.email,
                   };
                   navigate(`/order-confirmed`, { state: ConfirmedOrder });
-                  dispatch(resetCart());
+                  handleResetCart()
+                  
                 }
               } else {
                 const text = await validateRes.text();
@@ -297,6 +309,10 @@ const CheckOut = () => {
     updateCartItemMutation.mutate({ id: item._id, type: "dec" });
     toast.success("Product Quantity updated by one Successfully");
   };
+
+
+
+
   return (
     <>
       <Toaster/>
@@ -388,7 +404,7 @@ const CheckOut = () => {
               <div className="flex gap-2">
                 <p className="text-gray-500">Please select an address</p>
                 {token ? (
-                  <Link to="/profile/shipping-add" className="underline">
+                  <Link to="/profile/shipping-add" >
                     <p>Click here to select address</p>
                   </Link>
                 ) : (
@@ -461,7 +477,7 @@ const CheckOut = () => {
                 <p>Shipping Charges</p>
                 <p className=" font-bold flex items-center ">
                   <LiaRupeeSignSolid />
-                  { cartItems.totalCartValue !==0? selectedShiping?.freight_charge : 0}
+                  { cartItems?.totalCartValue !==0? selectedShiping?.freight_charge : 0}
                 </p>
               </div>
 
@@ -469,7 +485,7 @@ const CheckOut = () => {
                 <p>Cart Total</p>
                 <p className=" font-bold flex items-center">
                   <LiaRupeeSignSolid />
-                  {cartItems.totalCartValue !==0?   CartTotal.toFixed(2)
+                  {cartItems?.totalCartValue !==0?   CartTotal.toFixed(2)
                           .replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0}
                 </p>
               </div>
@@ -477,15 +493,8 @@ const CheckOut = () => {
             {token ? (
               <div className="cursor-not-allowed" onClick={paymentHandler}>
                 <button
-                  className={`bg-[#0A2440] w-full text-white p-2 rounded-md`}
-                  disabled={
-                    newAdd === null ||
-                    (couriercompnies?.length === 0 &&
-                      couriercompnies === null &&
-                      couriercompnies === undefined)
-                      ? true
-                      : false
-                  }
+                  className={"bg-[#0A2440] w-full text-white p-2 rounded-md"}
+                  disabled ={isdisabled}
                 >
                   CheckOut
                 </button>

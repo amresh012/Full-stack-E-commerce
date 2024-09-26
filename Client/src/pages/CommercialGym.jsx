@@ -86,9 +86,9 @@ const CommercialGym = () => {
       </div>
 
       {openModel && (
-        <div ref={modalRef} className="fixed z-50 inset-0 flex items-center justify-center">
+        <div ref={modalRef} className="fixed z-50 inset-0 flex items-center justify-center p-4 h-full">
           <div className="absolute inset-0 bg-black opacity-50"></div> {/* Background overlay */}
-          <div className="relative bg-white shadow-2xl shadow-black rounded-md w-[40rem]  p-4">
+          <div className="relative bg-white shadow-2xl shadow-black rounded-md w-full max-w-[40rem] h-full max-h-screen overflow-y-auto sm:max-w-[30rem] md:max-w-[35rem] lg:max-w-[40rem] p-4 sm:p-2 md:p-3">
             <div className="relative p-2 flex items-center justify-center w-full bg-[#0a2444] text-white text-xl">
               <p>Quotation Form</p>
               <span onClick={() => setOpenModel(false)} className="cursor-pointer absolute right-0 bg-red-500 h-full w-12 flex items-center justify-center">
@@ -98,7 +98,7 @@ const CommercialGym = () => {
             <div className="w-full p-2">
               <div className="flex">
                 <div className="image w-[10rem] h-[8rem] bg-gray-100">
-                  <img src={prod?.images[0]} alt="product image" className="h-full w-full object-cover"/>
+                  <img src={prod?.images} alt="product image" className="h-full w-full object-cover"/>
                 </div>
                 <div className="w-[30rem] bg-gray-100 space-y-2 p-2">
                   <h1 className="uppercase text-xl font-bold">{prod?.name?.slice(0, 20)}...</h1>
@@ -108,7 +108,7 @@ const CommercialGym = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col py-4">
+            <form onSubmit={handleSubmit} className="flex flex-col py-4 ">
               <div className="flex flex-col p-4">
                 <label htmlFor="name">Name</label>
                 <input type="text" id="name" value={formData.name} onChange={handleChange} className="border-2 w-full h-10 placeholder:px-2 outline-none px-2" placeholder="Enter Your full name" required />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { base_url } from '../../Utils/baseUrl'
 import {config} from "../../Utils/axiosConfig"
 import Avatarupload from '../../components/UserDashComp/Avatarupload'
@@ -7,42 +7,49 @@ import { toast, Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 const Profile = () => {
   const User = useSelector((state) => state.auth.user)
-  console.log(User)
+  // console.log(User)
+
+  const location = useLocation(); 1
+    const stat = location.state || {}
+
+
+
  const user = User?.user;
  const [data, setData] = useState({
-   name: "" || user?.name,
-   email: "" || user?.email,
-   mobile: "" || user?.mobile,
+   name: "" || stat?.name,
+   email: "" || stat?.email,
+   mobile: "" || stat?.mobile,
    Gst: "",
    Pan: "",
    address: [] || user?.address,
  });
   let id = localStorage.getItem("id") || user?._id
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const response = await fetch(`${base_url}user/${id}`, {
-          method: "GET",
-          ...config,
+  const fetchUserDetails = async () => {
+    try {
+      const response = await fetch(`${base_url}user/${id}`, {
+        method: "GET",
+        ...config,
+      });
+      const data = await response.json();
+      if (!data.error) {
+        setData({
+          name: data?.name,
+          email: data?.email,
+          mobile: data?.mobile,
+          Gst: data?.gstNo,
+          Pan: data?.panNo,
+          address: data?.address,
         });
-        const data = await response.json();
-        if (!data.error) {
-          setData({
-            name: data?.name,
-            email: data?.email,
-            mobile: data?.mobile,
-            Gst: data?.gstNo,
-            Pan: data?.panNo,
-            address: data?.address,
-          });
-        }
-      } catch (error) {
-        toast.error(error.message);
       }
-    };
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
     fetchUserDetails();
-  }, []);
+  }, [User,id]);
 
   return (
     <>

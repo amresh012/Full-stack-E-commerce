@@ -19,7 +19,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [visible, setVisible] = useState(filtervisible);
-
+  const token =  localStorage.getItem("token")
   const productsPerPage = 9;
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
 
@@ -212,7 +212,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
             ) : (
               currentProducts.map((product) => (
                 <div
-                  className="card group border-2 p-2 rounded-md"
+                  className="card  border-2 p-2 rounded-md"
                   key={product._id}
                 >
                   <Link to={`/product/${product._id}`}>
@@ -236,7 +236,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                     </div>
                   </Link>
                   <div className="product-detail">
-                    <div className="stack-2 p-2 group">
+                    <div className="stack-2 p-2">
                       <h1 className="text-xl font-bold group-hover:underline h-[3.5rem] overflow-clip">
                         {product.name}
                       </h1>
@@ -269,7 +269,14 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                       </span>
                     </h1>
                   </div>
-                  <div className="button-group space-y-2 mt-2">
+                  <div className="button-group group relative space-y-2 mt-2">
+                  <Link to="/login">
+                  {token=== null && visible && <span className="absolute top-1 bg-red-200 rounded-md text-[16px] 
+                        text-red-500 shadow-lg shadow-red-500 p-1 opacity-0 duration-500
+                        group-hover:-translate-y-9 group-hover:opacity-100
+                        
+                    ">Please Login First!</span>}
+                  </Link>
                     <button
                       className="bg-[#0A2440] text-white w-full py-1 px-2 rounded-md"
                       onClick={() =>

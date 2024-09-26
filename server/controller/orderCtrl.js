@@ -16,7 +16,6 @@ function generateId() {
 
 const createOrder = async (req, res,) => {
   const { datatosend } = req.body;
-  // console.log("incoming request data ---------------------------",datatosend)
   const user = datatosend.user ;
   let address = datatosend.address
   let transactionId =  datatosend.paymentId;
@@ -31,6 +30,7 @@ const createOrder = async (req, res,) => {
       gstNo = user.address[i].gstNo
     }
   }
+
 
 
   let totalValue = parseInt(user.cart.totalValue);
@@ -82,7 +82,6 @@ const createOrder = async (req, res,) => {
             placeofsup,
             gstNo
           };
-          console.log("detail------------------",detail)
           const invoiced = {
             invoiceNo: newOrder.invoiceNo,
             products:orderArr[0].products,
@@ -92,6 +91,14 @@ const createOrder = async (req, res,) => {
           };
           await InvoiceModel.create(invoiced);
 
+           // Clear user's cart
+    // const userToUpdate = await User.findById(user._id);
+    // userToUpdate.cart.products = [];   // Clear products
+    // userToUpdate.cart.totalValue = 0;  // Reset total value
+    // userToUpdate.cart.isCouponApplied = {};  // Clear coupon details
+    // await userToUpdate.save();  // Save the updated user document
+
+
     await User.findOneAndUpdate(
       { _id: user._id },
       {
@@ -99,15 +106,11 @@ const createOrder = async (req, res,) => {
         $set: {
           "cart.products": [],
           "cart.totalValue": 0,
-          "cart.isCouponApplied": {},
         },
+        $unset: { "cart.isCouponApplied": "" }
       },
       { new: true }
-    ).populate({
-      path: "cart.products.product",
-      model: "product",
-      select: "name images price total hsnCode weight ",
-    });;
+    )
     res.json(createdOrder);
   } else {
     res.status(500).send({ error: "No product found in user cart" });
@@ -144,7 +147,6 @@ const createOrder = async (req, res,) => {
   };
 
   const deleteOrder = async (req, res) => {
-    console.log(req.params)
     try {
       // Get the order id from the request parameters
       const id = req.params.id;
@@ -152,7 +154,6 @@ const createOrder = async (req, res,) => {
       // Find and remove the order by its id
       const order = await Order.deleteOne({ _id: id });
       
-      console.log(order)
       // If the order is not found, return a 404 error
       if (!order) {
         return res.status(404).json({ error: "Order not found" });
@@ -175,12 +176,10 @@ const createOrder = async (req, res,) => {
 const getSingleOrder = async (req, res) => {
   try {
     // Extract the order ID from the request parameters
-    console.log(req.params)
     const { id } = req.params;
 
     // Find the order by ID and populate related data (like products and invoice)
     const order = await Order.findById(id)
-    console.log(order)
 
     // Check if the order exists
     if (!order) {

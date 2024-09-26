@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaChevronRight } from 'react-icons/fa';
 import { VscLinkExternal } from "react-icons/vsc";
 import {Link, useLocation} from "react-router-dom"
@@ -7,7 +7,7 @@ import { MdOutlineContactPhone } from "react-icons/md";
 
 
 const OrderSuccess = () => {
- 
+  const [tracking, setTracking] = useState()
     const location = useLocation(); 1
     const stat = location.state || {}
     console.log(stat)
@@ -28,7 +28,7 @@ const OrderSuccess = () => {
                  <VscLinkExternal/>
                 </div>
         </div>
-        <div className="address flex flex-wrap   justify-between items-center gap-2 py-2 lg:px-4">
+        <div className=" address flex flex-wrap   justify-between items-center gap-2 py-2 lg:px-4">
             <div className="billing space-y-2 ">
             <h1 className='text-xl font-bold underline'>Billing Address</h1>
                <div className="flex justify-between">

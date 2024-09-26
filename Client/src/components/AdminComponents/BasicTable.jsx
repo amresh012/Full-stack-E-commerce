@@ -48,8 +48,8 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
         </div>
       ) : data.length === 0 ? (
         // Show "No Records Found" when data is empty
-        <div className="h-[50vh] gap-2 w-full flex flex-col items-center justify-center bg-gray-100 mt-4 text-2xl font-bold">
-          <span className="text-orange-400">
+        <div className="h-[50vh] gap-2 w-[77vw] flex flex-col items-center justify-center bg-gray-200 mt-4 text-2xl font-bold">
+          <span className="text-orange-500  animate-bounce">
             <FaExclamationCircle size={50} />
           </span>
           <p>No Records Found</p>

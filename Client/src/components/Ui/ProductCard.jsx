@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 const ProductCard = ({ product, addToCartHandler }) => {
   const { _id, images, name, price, category, corporateDiscount } = product;
   const discountedPrice = (price - price * (corporateDiscount / 100)).toFixed(2);
-
+  const token =  localStorage.getItem("token")
+  
   return (
     <div
       key={_id}
@@ -68,8 +69,15 @@ const ProductCard = ({ product, addToCartHandler }) => {
           </div>
           <button
             onClick={() => addToCartHandler(product)}
-            className="hover:bg-white text-base px-5 py-3 rounded-md bg-[#144170] text-white duration-500 ease-in-out hover:text-[#0a2440]"
+            className="hover:bg-white group hover:border border-black relative text-base px-5 py-3 rounded-md bg-[#144170] text-white duration-500 ease-in-out hover:text-[#0a2440]"
           >
+             <Link to="/login">
+                  {token=== null &&  <span className="absolute top-1 bg-red-200 rounded-md text-[16px] 
+                        text-red-500 shadow-lg shadow-red-500 p-1 opacity-0 duration-500
+                       text-xs group-hover:-translate-y-12 group-hover:opacity-100
+                        
+                    ">Please Login to add Product!</span>}
+                  </Link>
             Add To Cart
           </button>
         </p>  

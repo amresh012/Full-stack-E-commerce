@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Avatar, Chip, Rating } from "@mui/material";
-import { FaCheckCircle, FaGlobe, FaLock, FaPen, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+import { FaCheckCircle, FaGlobe, FaLock, FaPen} from "react-icons/fa";
 import ReviewForm from "../../components/ReviewForm/ReviewForm";
 import { toast, Toaster } from "react-hot-toast";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { base_url } from "../../Utils/baseUrl";
-import { addcarts, removeItem } from "../../features/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useAddCartHook,useUpdateCartHook } from "../../hooks/cartHooks";
+import {  useSelector } from "react-redux";
+import { useAddCartHook } from "../../hooks/cartHooks";
 import axios from "axios"
 import { PiThumbsUpLight ,PiThumbsDownLight  } from "react-icons/pi";
 import moment from "moment"
@@ -24,6 +23,7 @@ const ProductdetailPage = () => {
   const [reviews, setReviews]= useState([])
   const [like, setLike]= useState(0)
   const [dislike , setDislike] = useState(0)
+  const [vsible, setVisible] = useState(false)
   const [userReaction, setUserReaction] = useState(null); 
   const { carts } = useSelector(state => state.cart);
   const  user  = useSelector((state) => state.auth.user);
@@ -34,7 +34,7 @@ const ProductdetailPage = () => {
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
   
   const token = localStorage.getItem("token")
-
+  const Uid = localStorage.getItem("id")|| userId
   // fetch Product Reviews
   const fetchProductReviews = async () => {
     try{
@@ -46,6 +46,9 @@ const ProductdetailPage = () => {
     catch(error){
          console.log(error)
     }
+  }
+  const handleModel =  ()=>{
+    setVisible(!vsible)
   }
   // like a review
   const likeReview = async (reviewId) => {
@@ -94,6 +97,19 @@ const ProductdetailPage = () => {
     }
   }
 
+  const deleteReview =async(reviewid)=>{
+    try{
+      const respo = await axios.delete(`${base_url}review/${id}/${reviewid}`, config)
+      console.log(respo)
+      if(respo.data.success){
+        fetchProductReviews()
+        toast.success(respo.data.message)
+      }
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
 
   useEffect(()=>{
     fetchProductReviews()
@@ -137,6 +153,7 @@ const ProductdetailPage = () => {
       ? setReviewVisible(!reviewvisible)
       : toast.error("Your Are Not Logged In");
   };
+
 
 
 
@@ -255,14 +272,24 @@ const ProductdetailPage = () => {
                 width: {product?.width}cm
               </p>
             </div>
-            <div
+            {
+              token ? <div
               className="action-buttons flex flex-col gap-4 my-6"
               onClick={() => handleCart(product)}
             >
               <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
                 Add to Cart
               </button>
-            </div>
+            </div> :
+            <Link to='/login'>
+             <div className="action-buttons flex flex-col gap-4 my-6">
+              <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
+              Login To add Product In Cart
+              </button>
+              </div>
+            </Link>
+
+            }
             <div className="shipping-info ">
               <p className="">
                 <span className="text-red-500 animate-pulse">**</span> Tax
@@ -303,7 +330,7 @@ const ProductdetailPage = () => {
       </div>
       {/* ********************************************************************************************************************* */}
       {/* customer reviews */}
-      <div className="">
+      <div className="relative">
         <div className="heading w-full  font-bold text-3xl lg:text-start p-4 text-center">
           Customer Reviews
         </div>
@@ -340,7 +367,7 @@ const ProductdetailPage = () => {
         )}
         
         <div className="rating-container flex flex-wrap  p-4 ">
-          <div className="reviews flex  flex-wrap  justify-center">
+          <div className="reviews flex  flex-wrap items-start justify-start">
             {reviews.slice(0, endrating).map((review) => {
               return (
                 <div
@@ -398,8 +425,9 @@ const ProductdetailPage = () => {
                     </div>
                   </div>
                   <div className="body">
-                    <h1 className="font-bold text-xl">{review?.title}</h1>
-                    <p>{review?.review}</p>
+                    <h1 className="font-bold text-xl break-words">{review?.title}</h1>
+                    <p className=" break-words">{review?.review.substring(0,200)}...<span className="text-blue-500 underline cursor-pointer">Read More</span></p>
+                   
                   </div>
                   <div className="flex cursor-pointer bg-gray-100 items-center rounded-full w-fit justify-center">
                     <p onClick={()=>likeReview(review._id)}  className="flex relative group gap-2 items-center p-1  rounded-md ">
@@ -420,11 +448,13 @@ const ProductdetailPage = () => {
                         group-hover:-translate-y-9 group-hover:opacity-100
                         "
                         >dislike</span> 
-                      <div className={dislike && "text-red-500"}>
+                      <div onClick={handleModel} className={dislike && "text-red-500"}>
                       <PiThumbsDownLight />
                        </div>
                       <span className="">{dislike}</span>
                     </p>
+                    {Uid === review?.user?._id && <span onClick={()=>deleteReview(review._id)}
+                     className="pr-1 text-red-500">Delete</span>}
                   </div>
                 </div>
               );

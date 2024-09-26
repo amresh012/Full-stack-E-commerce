@@ -373,9 +373,9 @@ const getAddressById = asyncHandler(async (req, res) => {
     if (!user || !user.address) {
       return res.status(404).json({ error: "Address not found" });
     }
-    console.log(user)
+    console.log(user.address)
     // Return the address data
-    res.json(user.address);
+    res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -394,23 +394,25 @@ const deleteAddress = asyncHandler(async (req, res) => {
 
     // Find the address by ID to get the associated user ID
     const address = await Address.findById(id);
-
+    console.log(address)
+    
     if (!address) {
       return res.status(404).json({ message: "Address not found" });
     }
-
+    
+    // Remove the address from the associated user's addresses array
+    await User.findByIdAndUpdate(address.userId, {
+      $pull: { address: id }  // Assuming 'addresses' is an array of address IDs in the User model
+    });
     // Remove the address from the Address collection
     const deletedAddress = await Address.findByIdAndDelete(id);
+    console.log(deletedAddress)
 
     if (!deletedAddress) {
       return res.status(404).json({ message: "Address not found" });
     }
 
-    // Remove the address from the associated user's addresses array
-    await User.findByIdAndUpdate(address.userId, {
-      $pull: { address: id }  // Assuming 'addresses' is an array of address IDs in the User model
-    });
-
+   
     res.status(200).json({ message: "Address deleted successfully", deletedAddress });
   } catch (error) {
     console.error("Error deleting address:", error);

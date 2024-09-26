@@ -32,17 +32,17 @@ import { toast } from "react-hot-toast";
 import {base_url} from '../../Utils/baseUrl';
 import { config } from "../../Utils/axiosConfig";
 import axios from "axios";
-import { addcarts } from "../../features/cartSlice";
 import { useDispatch } from "react-redux";
 import { BiArrowToRight } from "react-icons/bi";
 import { useMediaQuery } from "@mui/material";
 import { FcCheckmark } from "react-icons/fc";
+import { useAddCartHook } from "../../hooks/cartHooks";
 
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
-  const dispatch = useDispatch();
-
+  const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
+  const token= localStorage.getItem("token")
   const isTablet = useMediaQuery("(min-width: 601px) and (max-width: 1024px)");
   let blogNumber = isTablet ? 4 :3
 
@@ -66,7 +66,9 @@ const HomePage = () => {
   };
 
   const addToCartHandler = (item)=>{
-    dispatch(addcarts(item));
+    const { _id } = item;
+    mutation.mutate({ id: _id, qty: 1 });
+    token && toast.success("Product Added Successfully")
   }
 
   useEffect(()=>{

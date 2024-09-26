@@ -38,10 +38,9 @@ const Shipping = () => {
 
 
   const handleDeleteAddress = async (addressId) => {
-    alert("Are You Sure You Want To delete this Address")
+    confirm("Are You Sure You Want To delete this Address")
     try {
       const response = await axios.delete(`${base_url}user/adr/delete/${addressId}` ,config);
-      console.log(response)
       if(response.data.error){
         throw new Error()
       }
@@ -95,6 +94,10 @@ const Shipping = () => {
   const handleAddressSelect = (address) => {
     setCurrentAdd(address);
     dispatch(selectedAddress(address));
+    toast.success("Address selected successfully");
+    setTimeout(()=>{
+      navigate("/checkout")
+    },2000)
 
   };
   return (
