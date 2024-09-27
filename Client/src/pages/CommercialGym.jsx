@@ -4,6 +4,8 @@ import { IoIosClose } from "react-icons/io";
 import { base_url } from '../Utils/baseUrl';
 import axios from 'axios';
 import {toast, Toaster} from 'react-hot-toast';
+import { Carousel } from "react-responsive-carousel";
+import { Link } from "react-router-dom";
 
 const CommercialGym = () => {
   const [openModel , setOpenModel] =  useState(false);
@@ -16,7 +18,7 @@ const CommercialGym = () => {
     city: "",
     mobile: "",
     desc: "",
-    product:prod?.name
+    product:prod?.name,
   });
 
   const handleChange = (e) => {
@@ -60,7 +62,7 @@ const CommercialGym = () => {
         setProd(data);
         setFormData((prevData) => ({
           ...prevData,
-          product: data.name // Update with product name
+          product: data.name ,// Update with product name
         }));
       } catch (error) {
         console.error(error);
@@ -98,7 +100,26 @@ const CommercialGym = () => {
             <div className="w-full p-2">
               <div className="flex">
                 <div className="image w-[10rem] h-[8rem] bg-gray-100">
-                  <img src={prod?.images} alt="product image" className="h-full w-full object-cover"/>
+                <Link to={`/product/${prod?._id}`}>
+                    <div className="imagecontainer relative overflow-clip">
+                      <Carousel
+                        renderIndicator={false}
+                        autoPlay={true}
+                        infiniteLoop={true}
+                        showStatus={false}
+                        showThumbs={false}
+                        showArrows={false}
+                      >
+                        {prod?.images?.map((image, index) => (
+                          <img
+                            src={image}
+                            key={index}
+                            className="h-[14vh] w-auto object-cover bottom group-hover:scale-95 duration-300"
+                          />
+                        ))}
+                      </Carousel>
+                    </div>
+                  </Link>
                 </div>
                 <div className="w-[30rem] bg-gray-100 space-y-2 p-2">
                   <h1 className="uppercase text-xl font-bold">{prod?.name?.slice(0, 20)}...</h1>

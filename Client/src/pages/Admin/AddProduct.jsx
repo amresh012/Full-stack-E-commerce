@@ -11,6 +11,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import RefreshButton from "../../components/reusablesUI/RefreshButton";
+import Button from "../../components/Ui/Button";
 
 const AddProduct = () => {
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -107,6 +108,14 @@ const AddProduct = () => {
       }
     },
   });
+
+   // generate Product Description With AI
+   const generateDescription = async (productDetails) => {
+    const response = await axios.post(`${base_url}product/generate-product-description`, {productDetails});
+    console.log(response)
+    setFieldValue("mindiscription" , response.data);
+  };
+
 
   return (
     <>
@@ -294,22 +303,6 @@ const AddProduct = () => {
                 placeholder="Enter Corporate Discount"
               />
             </div>
-            {/* <div className="input-1 w-full flex-col flex">
-              <label htmlFor="variant">Select Product Variant</label>
-              <Autocomplete
-                sx={{ width: "100%" }}
-                options={gym_equipment}
-                getOptionLabel={(option) => option.label || ""}
-                onChange={(event, value) => setFieldValue("variant", value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select Variant"
-                    variant="outlined"
-                  />
-                )}
-              />
-            </div> */}
             <div className="input-1 w-full flex-col flex">
               <label htmlFor="weight">Weight (kg)</label>
               <input
@@ -336,6 +329,7 @@ const AddProduct = () => {
               multiline
               rows={4}
             />
+            <Button onClick={() => generateDescription({ name: values.name, category: values.category, features: ['Adjustable weights', 'Rubber grip'] })} text="Generate With AI"/>
           </div>
           {/* Section 7: Image Upload and Submit Button */}
           <div className="flex flex-col space-y-4">

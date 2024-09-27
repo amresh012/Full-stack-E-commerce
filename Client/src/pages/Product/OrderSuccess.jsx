@@ -10,9 +10,11 @@ const OrderSuccess = () => {
   const [tracking, setTracking] = useState()
     const location = useLocation(); 1
     const stat = location.state || {}
-    console.log(stat)
+    // console.log(stat)
     const { address, items, email } = stat
-
+ const handleTracking = ()=>{
+  toast.success("Tracking will be update within 24 hours")
+ }
 
 
   return (
@@ -23,7 +25,7 @@ const OrderSuccess = () => {
             <p className="">Your Order Will be processed within 24 hours during working days. 
                 We will Notify you by email once your order has been shipped 
                  <span> at <span className='text-blue-500 underline italic'>{email || "rgerg"}</span></span></p>
-                <div className="mt-6 flex items-center gap-1 shadow-md bg-[#0a2444] rounded-full  text-white p-2">
+                <div onClick={handleTracking} className="mt-6 flex items-center gap-1 shadow-md bg-[#0a2444] rounded-full  text-white p-2">
                 <button className=''>Track Your Order</button>
                  <VscLinkExternal/>
                 </div>
@@ -91,6 +93,10 @@ const OrderSuccess = () => {
                   <p className="">INDIA</p>
                 </div>
             </div>
+        </div>
+        <div className="action-buttons flex mt-12 items-center w-full justify-start gap-8">
+          <button className='font-bold underline p-1'>Continue Shopping</button>
+          <button className='underline'>Back to home</button>
         </div>
      </div>
      <div className="box pb-24 lg:w-[30rem] w-full bg-gray-100  rounded-md">

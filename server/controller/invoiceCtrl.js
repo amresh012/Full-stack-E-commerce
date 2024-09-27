@@ -213,10 +213,9 @@ const createInvoice = ({
   userAdress,
   productDetails,
   isCoupon,
-  placeofsup,
   gstNo,
 }) => {
-  console.log("invoice no -------------------",invoiceno)
+    console.log("------------------------------------------------------------------",userAdress , isCoupon)
   const companyName = "KFS Fitness ";
   const compayAdderss =
     "Kuber Tower, Ajronda, Sec- 20B Faridabad, Haryana, India 121002";
@@ -251,19 +250,10 @@ UCBA0000390`;
     <title>KFS FITNESS INVOICE</title>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto+Slab&family=Rubik&display=swap");
-        
-        body {
-            font-family: "Poppins", sans-serif;
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-        }
 
         .mainContainer {
             border: 1px solid black;
-            // max-width: 100vw; /* Set a max width for the invoice */
+            max-width: 100%; /* Set a max width for the invoice */
             margin: auto; /* Center the invoice */
             padding: 10px; /* Add some padding */
             overflow: hidden; /* Clear floats */

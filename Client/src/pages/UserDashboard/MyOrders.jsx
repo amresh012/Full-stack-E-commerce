@@ -39,7 +39,7 @@ const MyOrders = () => {
   
   return (
     <>
-     <div className="border-2  mb-4 rounded-md mx-4">
+     <div className="border-2  mb-4 rounded-md mx-4 w-full">
      <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex items-center gap-2">
           <div className="bg-[#144170] p-2 text-white rounded-full">
             <GoChecklist />

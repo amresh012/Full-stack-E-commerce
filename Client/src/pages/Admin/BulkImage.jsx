@@ -1,13 +1,14 @@
-import { Button } from "@mui/material";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { base_url } from "../../Utils/baseUrl";
-import { FaCopy, FaTrash } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import  AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
+
 
 const BulkImage = () => {
   const { Dragger } = Upload;
@@ -192,9 +193,9 @@ const BulkImage = () => {
           </button>
           <button
             onClick={() => deleteImage(row.original._id)}
-            className="active:scale-95 duration-300 active:text-red-400 rounded-md bg-red-200 p-2 text-red-500"
+            className="active:scale-95 duration-300 "
           >
-            <FaTrash fontSize={20} />
+            <AnimatedDeleteButton/>
           </button>
         </div>
       ),

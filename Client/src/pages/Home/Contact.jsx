@@ -54,7 +54,7 @@ const Contact = () => {
 const socialMedia = [
   {
     id: 0,
-    name: "Instageam",
+    name: "Instagram",
     icon: <FaInstagram />,
     link: "https://www.instagram.com/kfs_fitness/",
   },

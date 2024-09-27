@@ -51,7 +51,7 @@ const AdminLayout = () => {
     }
   }, [])
   return (
-    <div className="flex h-[100vh] overflow-hidden">
+    <div className="flex h-[100vh] overflow-clip">
       <div className="">
         <div className="hidden lg:block">
           <LeftDrawer />

@@ -1,5 +1,11 @@
 const asyncHandle = require("express-async-handler");
 const Blogs = require("../models/blogModel");
+const OpenAI = require('openai');
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,  // Your API Key
+});
+
 const addBlog = asyncHandle(async (req, res) => {
   const blog = req.body;
   const alreadyavail = await Blogs.findOne({ title: blog.title });
@@ -92,11 +98,39 @@ const getBlog = asyncHandle(async (req, res)=>{
     res.json("invalid operation");
   }
 })
+const  generateBlogContent = async (req, res) => {
+  console.log(req.body)
+  const {topic} = req.body
+  try {
+    const prompt = `
+     Your Are Expert Gym Trainer with Knowledge of All tge Gym Equipments
+      Write a detailed blog post on the topic: "${topic}".
+      Include key benefits, examples, and practical advice.
+    `;
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo', // or 'gpt-3.5-turbo'
+      messages: [
+        { role: 'system', content: 'You are a blog content writer.' },
+        { role: 'user', content: prompt },
+      ],
+    });
+
+    return res.send({
+      success: true,
+      data: response.choices[0].message.content
+    })
+  } catch (error) {
+    console.error('Error generating blog content:', error);
+  }
+}
+
 
 module.exports = {
   addBlog,
   getallblogs,
   deleteblogs,
   updateblog,
-  getBlog
+  getBlog,
+  generateBlogContent
 };

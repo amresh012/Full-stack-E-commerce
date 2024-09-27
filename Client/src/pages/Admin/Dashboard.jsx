@@ -18,7 +18,15 @@ import RefreshButton from "../../components/reusablesUI/RefreshButton";
 const Loader = ()=>{
   return (
     <>
-    <div className="h-8 border-dashed w-8 animate-spin border-4 rounded-full border-[#0a2444]"></div>
+    <div class="flex-col gap-4 w-full flex items-center justify-center">
+  <div
+    class="w-10 h-10 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full"
+  >
+    <div
+      class="w-12 h-12 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"
+    ></div>
+  </div>
+</div>
     </>
   )
 }
@@ -33,8 +41,6 @@ const Dashboard = () => {
   const [totalVisitsToday, setTotalVisitsToday] = useState([]);
   const [recentorders , setRecentOrders] = useState([])
  
-  console.log(totalPaymentsAllTime)
-  console.log(totalPaymentsAllTime)
 
 
   const [categoriesData, setCategoriesData] = useState({

@@ -80,12 +80,12 @@ const EditBlog = () => {
   return (
     <>
         <Toaster />
-      <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+      <div className="  flex items-center justify-normal  rounded-md p-4">
         <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
           <h1 className="">Edit Blog</h1>
         </div>
       </div>
-      <div className="border-2 shadow-md flex items-center justify-normal m-8 rounded-md p-4">
+      <div className="border-2 shadow-md flex items-center justify-normal m-4 rounded-md p-4">
         <form onSubmit={handleSubmit} className="h-full w-full space-y-2">
           <div className="title w-full space-y-2">
             <h1 className="text-xl font-bold uppercase">Blog Title</h1>

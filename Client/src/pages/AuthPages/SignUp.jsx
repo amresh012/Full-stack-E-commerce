@@ -93,7 +93,7 @@ const SignUp = () => {
                     id="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-2 border text-black rounded"
+                    className="w-full pl-12 pr-4 py-2 border outline-none text-black rounded"
                     required
                   />
                 </div>
@@ -109,7 +109,7 @@ const SignUp = () => {
                     id="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-2 border text-black rounded"
+                    className="w-full pl-12 pr-4 py-2 border text-black outline-none rounded"
                     required
                   />
                 </div>
@@ -125,7 +125,7 @@ const SignUp = () => {
                     id="mobile"
                     value={formData.mobile}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-2 border text-black rounded"
+                    className="w-full pl-12 pr-4 py-2 border text-black outline-none rounded"
                     required
                   />
                 </div>
@@ -141,7 +141,7 @@ const SignUp = () => {
                     id="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-2 border text-black rounded"
+                    className="w-full pl-12 pr-4 py-2 border text-black outline-none rounded"
                     required
                   />
                 </div>

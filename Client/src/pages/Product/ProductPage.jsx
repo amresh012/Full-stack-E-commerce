@@ -9,6 +9,7 @@ import { FaSearch } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useAddCartHook } from "../../hooks/cartHooks";
 import { Link } from "react-router-dom";
+import {noProductFound} from "../../assets/images"
 
 const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,6 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
   const token =  localStorage.getItem("token")
   const productsPerPage = 9;
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
-
   // Fetch products and filter based on categories
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,7 +33,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
       let data = await response.json();
 
       const filteredData = selectedCategories.length > 0
-        ? data.filter(product => selectedCategories.includes(product.subcategory.toLowerCase()))
+        ? data.filter(product => selectedCategories.includes(product.category.toLowerCase() || product.subcategory.toLowerCase()))
         : data;
 
       setProducts(filteredData);
@@ -206,10 +206,16 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
             </div>
           </div>
 
-          <div className="product-list_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            {isLoading ? (
+          <div className="product-list_container  w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+            {isLoading  ? (
               <Loader />
-            ) : (
+            ) :currentProducts.length<=0 ? 
+            <div className="h-[50vh] w-[75vw] text-xl bg-gray-100 flex items-center justify-center">
+              <img src={noProductFound} alt="" />
+              
+            </div>
+             :
+              (
               currentProducts.map((product) => (
                 <div
                   className="card  border-2 p-2 rounded-md"
@@ -240,6 +246,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                       <h1 className="text-xl font-bold group-hover:underline h-[3.5rem] overflow-clip">
                         {product.name}
                       </h1>
+                      <span className="h-[3.5rem] overflow-clip">{product.mindiscription.substring(0,100)}</span>
                       <div className="flex items-center gap-2 text-sm">
                         <Rating
                           name="size-small"

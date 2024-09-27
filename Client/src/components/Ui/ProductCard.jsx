@@ -1,11 +1,10 @@
 import React from "react";
 import { FaStar, FaStarHalf } from "react-icons/fa";
-import product3 from "../../assets/products/product3.webp";
 import { Chip } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, addToCartHandler }) => {
-  const { _id, images, name, price, category, corporateDiscount } = product;
+  const { _id, images, minidescription,name, price, category,rating,reviews, corporateDiscount } = product;
   const discountedPrice = (price - price * (corporateDiscount / 100)).toFixed(2);
   const token =  localStorage.getItem("token")
   
@@ -38,6 +37,9 @@ const ProductCard = ({ product, addToCartHandler }) => {
           <p className="text-xl font-bold text-[#0a2440] h-[3rem] overflow-hidden">
             {name.substr(0, 30) + (name.length > 50 && "...")}
           </p>
+          {/* <p className="text-xl font-bold text-[#0a2440] h-[3rem] overflow-hidden">
+            {minidescription.substr(0, 30) + (minidescription.length > 50 && "...")}
+          </p> */}
         </Link>
         <div className="flex text-base mt-1 mb-1 text-yellow-400 items-center">
           <FaStar />

@@ -12,9 +12,7 @@ const UserProfile = () => {
         <div className="sidebar ">
         <Sidebar/>
         </div>
-        <div className="outlet w-full">
         <Outlet/>
-        </div>
      </div>
      <Footer/>
     </>

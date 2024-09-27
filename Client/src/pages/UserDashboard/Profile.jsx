@@ -53,7 +53,7 @@ const Profile = () => {
 
   return (
     <>
-      <div className="flex h-screen gap-6 p-2 flex-col m-2 rounded-md items-center ">
+      <div className="flex h-screen gap-6 p-2 flex-col w-full m-2 rounded-md items-center ">
         <div className="profileImage rounded-full">
           <Avatarupload />
         </div>

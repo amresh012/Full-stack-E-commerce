@@ -173,7 +173,7 @@ const ProductdetailPage = () => {
       <div className="">
         <div className=" p-12  flex gap-12 lg:flex-row flex-col ">
           {/* image-container */}
-          <div className="w-full">
+          <div className="lg:w-1/2 sm:w-full ">
             <Carousel
               renderIndicator={false}
               autoPlay={true}
@@ -195,8 +195,8 @@ const ProductdetailPage = () => {
             </h1>
             <Rating
               name="half-rating"
-              value={4.9}
-              defaultValue={2.5}
+              value={product?.rating}
+              readOnly
               precision={0.5}
             />
             <p className="product-name text-2xl">{product?.name}</p>
@@ -343,7 +343,6 @@ const ProductdetailPage = () => {
                   name="half-rating"
                   value={product?.rating}
                   readOnly
-                  defaultValue={4.5}
                   precision={0.5}
                 />
               </p>
@@ -426,7 +425,7 @@ const ProductdetailPage = () => {
                   </div>
                   <div className="body">
                     <h1 className="font-bold text-xl break-words">{review?.title}</h1>
-                    <p className=" break-words">{review?.review.substring(0,200)}...<span className="text-blue-500 underline cursor-pointer">Read More</span></p>
+                    <p className=" break-words">{review?.review}</p>
                    
                   </div>
                   <div className="flex cursor-pointer bg-gray-100 items-center rounded-full w-fit justify-center">

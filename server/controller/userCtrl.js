@@ -76,6 +76,26 @@ const createUser = asyncHandler(async (req, res) => {
         newUser = await User.create({...req.body, role: 'Admin', allowedRoutes: ['dashboard', 'users', 'contact us', 'orders', 'products', 'blogs', 'coupon']});
       }
       else{
+        const sendData = 
+        `
+        <div style="width:100">
+         <span>Dear ${req.body.name || "Customer"}</span>
+         <p>Welcome to KFS FITNESS FAMILY! We’re delighted that you’ve chosen to join our community. Whether you're here to explore our products, services, or simply stay informed, we’re committed to making your experience with us truly exceptional.</p>
+         <p>If you have any questions or need assistance, our support team is here for you! Contact us at info@kfsfitness.com.</p>
+         <p>Thanks again for choosing us, ${req.body.name}. We’re thrilled to be part of your journey and can’t wait to help you achieve your goals!</p>
+        <div>
+        <p> Best regards</p>
+        <p>KFS FITNESS TEAM</p>
+        <a href="https://kfsecommerce.deepmart.shop/">Visit KFS FITNESS</a>
+       </div>
+        </div>
+        `;
+        const data = {
+          to: email,
+          subject: `Welcome to KFS FITNESS ${req.body?.name || "Customer"} - Registration Successful!`,
+          html: sendData,
+        };
+        sendEmail(data);
         newUser = await User.create(req.body);
       }
       res.status(200).json(newUser);
@@ -680,8 +700,6 @@ const forgetPasswordToken = asyncHandler(async (req, res) => {
   if (!user) res.json({ error: "Email is not Registered with us !" });
   try {
     const token = await user.createPasswordResetToken();
-
-
     await user.save();
     const sendData = `<h1 style=\"color: #333; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; margin-bottom: 16px;\">Password Reset<\/h1>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 8px;\">Hi there,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">We received a request to reset your password. Please click the link below to reset your password:<\/p>\r\n<p style=\"margin-bottom: 16px;\"><a href='${req.headers.origin}/reset-password/${token}' style=\"background-color: #007bff; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; padding: 10px 16px; text-decoration: none;\">Reset Password<\/a><\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 16px;\">If you did not request a password reset, you can ignore this email and your password will not be changed.<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;\">Thank you,<\/p>\r\n<p style=\"color: #666; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 0;\">KFS Fitness Team<\/p>\r\n`;
     const data = {
@@ -727,7 +745,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   user.passwordResetToken = undefined;
   user.passwordResetExpire = undefined;
   await user.save();
-  res.json("Password was changed Sucessfully");
+  res.json("Password has been changed Sucessfully");
 });
 
 // getAllOrders()

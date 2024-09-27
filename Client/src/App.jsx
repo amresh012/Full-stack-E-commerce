@@ -43,30 +43,14 @@ import Category from './pages/Home/Category'
 import ProductEdit from './pages/Product/ProductEditPage'
 import ListBlogs from './pages/Admin/ListBlogs'
 import EditBlog from "./pages/Admin/EditBlog"
-import Confirmation from './pages/Product/Confirmation'
 import Quotation from './pages/Admin/Quotation'
 import PreOrderTerms from './pages/policies/PreOrderTerms '
 import OrderSuccess from "./pages/Product/OrderSuccess"
 function App() {
 
-  const [loading, setLoading] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    // Trigger the loader when route changes
-    setLoading(true);
-
-    // Simulate an API or data fetching delay
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000); // You can adjust this timeout as per your requirement
-
-    return () => clearTimeout(timer); // Clear timeout on component unmount
-  }, [location]);
 
   return (
     <Suspense fallback={<Loader />}>
-      {/* {loading && <Loader />} */}
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />

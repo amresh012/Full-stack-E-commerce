@@ -11,7 +11,7 @@ import {config} from "../../Utils/axiosConfig"
 import moment from "moment"
 import Loader from "../../components/reusablesUI/Loader"
 import RefreshButton from "../../components/reusablesUI/RefreshButton";
-
+import AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
 const orderStates = [
   "Pending",
   "Processing",       
@@ -117,8 +117,8 @@ const Orders = () => {
       header: "Action",
       cell: ({row}) => {
       return ( <div className="flex w-full justify-around  cursor-pointer ">
-          <div className="bg-red-200 p-2 rounded-md" title="delete order" onClick={() => deleteProduct(row.original._id)}>
-          <FaTrash className="text-red-500" />
+          <div className="" title="delete order" onClick={() => deleteProduct(row.original._id)}>
+          <AnimatedDeleteButton />
           </div>
          <div className="bg-green-200 p-2 rounded-md" title="download invoice">
          <FaDownload className="text-green-500" />

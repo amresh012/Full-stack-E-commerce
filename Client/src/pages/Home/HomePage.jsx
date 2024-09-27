@@ -322,7 +322,7 @@ const HomePage = () => {
         <div className="flex flex-wrap items-center justify-center gap-4 p-2">
           {gymEcommerceSolutions.map((sol) => (
             <div
-              className="flex flex-col justify-around h-[55vh] md:w-[35vw] lg:w-[30vw] p-4 hover:shadow-lg hover:shadow-[#0a2444] bg-white hover:scale-105 duration-300 "
+              className="flex flex-col justify-around h-[55vh]  md:w-[35vw] lg:w-[30vw] p-4 hover:shadow-lg hover:shadow-[#0a2444] bg-white hover:scale-105 duration-300 "
               key={sol.category}
             >
               <h1 className="heading text-center text-2xl font-bold p-4 uppercase">

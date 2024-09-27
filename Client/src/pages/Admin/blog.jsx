@@ -6,13 +6,12 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
+import Button from "../../components/Ui/Button";
 const AdminBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const imageRef = useRef();
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +20,6 @@ const AdminBlog = () => {
       toast.error('Image not selected');
       return;
     }
-
     try {
       setIsAdding(true);
       const formData = new FormData();
@@ -42,6 +40,7 @@ const AdminBlog = () => {
         },
         config
       );
+      console.log(response)
       imageRef.current.files = [];
       setTitle('');
       setContent('');
@@ -51,6 +50,10 @@ const AdminBlog = () => {
     finally{
       setIsAdding(true);
     }
+  };
+  const generateBlog = async (topic) => {
+    const response = await axios.post(`${base_url}blog/generate-blog-content`, { topic });
+    setContent(response.data);
   };
 
 
@@ -78,11 +81,12 @@ const AdminBlog = () => {
               <h1>Blog Desription</h1>
             </div>
             <textarea
-            required
               className="w-full p-2 border-2 rounded-md"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              placeholder="Write Blog Description or Generate with AI"
             ></textarea>
+            <Button onClick={() => generateBlog("fdfvsgvdfbzdfbzdfgd")} text="Generate With AI"/>
           </div>
 
 

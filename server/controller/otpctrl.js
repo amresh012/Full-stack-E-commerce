@@ -34,6 +34,8 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
     }
 
     try {
+      const token = await user.createPasswordResetToken();
+      await user.save()
       await OTP.create({ email, otp });
       let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -50,10 +52,7 @@ const sendOtpOnMail = asyncHandle(async (req, res) => {
         // text: otp, // plain text body
         html: html,
       });
-
-      
-      
-      res.status(200).json({ status: 200, success: true, message: "OTP generated and sent successfully" });
+      res.status(200).json({ status: 200, success: true, message: "OTP generated and sent successfully", token:token });
     } catch (error) {
       console.error("Error generating OTP", error);
       res.status(401).json({ status: 410, success: false, message: "Failed to generate OTP" });

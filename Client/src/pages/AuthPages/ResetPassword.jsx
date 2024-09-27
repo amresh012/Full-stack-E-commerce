@@ -10,11 +10,10 @@ const ResetPassword = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-
-  
+  const token = localStorage.getItem("token")
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -24,17 +23,21 @@ const ResetPassword = () => {
     }
     try {
       // Make the request to your API to update the password
-      const response = await axios.put(`${base_url}user/reset-password/${token}`, { password });
+      const response = await axios.put(`${base_url}user/reset-password/${token}`, password );
       console.log(response)
-      if (response.data) {
+      if (!response.data.error) {
         setSuccess(true); // Show success message
         setMessage("Password has been updated successfully");
         setError(''); // Clear any previous errors
+      }
+      else{
+        setError(response.data.error);
       }
     } catch (error) {
       setError(error.response?.data?.message || "Error updating password");
     }
   };
+  // original ==== $2b$10$32UX86yomDj.FD4b80y7juXrumXZ1ZUKaaWL3yEZ4FwXdPbO.rZ.a
 
   return (
    <>
@@ -61,7 +64,7 @@ const ResetPassword = () => {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value >=8 && e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>

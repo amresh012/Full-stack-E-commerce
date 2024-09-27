@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import BasicTable from '../../components/AdminComponents/BasicTable';
 import { base_url } from '../../Utils/baseUrl';
 import { List } from '@mui/material';
-import { FaEye, FaTrash } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { config } from '../../Utils/axiosConfig';
 import RefreshButton from '../../components/reusablesUI/RefreshButton';
-
+import AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
 
 
 
@@ -21,36 +20,12 @@ const Quotation = () => {
   const [remarks, setRemarks] = useState({});
   const [editMode, setEditMode] = useState({});
 
-
-  // const rowId = row.original._id;
-  // const name = row.original.name
-  // const [remarks, setRemarks] = useState(row.original?.remarks || '');
-  // return (
-  //     <div className='flex items-center'>
-  //             <>
-  //                 <input
-  //                     type="text"
-  //                     value={remarks} // Set the value from the remarks state
-  //                     onChange={(e) => setRemarks(e.target.value)} // Update the remark on change
-  //                     className='h-10 border placeholder:px-2 px-2'
-  //                     placeholder='Enter remarks'
-  //                 />
-  //                 <button
-  //                     onClick={() => handleRemarkUpdate(rowId,remarks)} // Call update function
-  //                     className='text-white uppercase p-2 bg-[#0a2444] ml-2'
-  //                 >
-  //                     Save
-  //                 </button>
-  //             </>
-  //     </div>
-
-
-
   const columns =  [
     {
       header: "Sr.No.",
       accessorKey: "_id",
       cell: ({ row }) => {
+        console.log(row)
         const id = row.id;
         return <span>{(+id)+1}</span>;
       },
@@ -126,7 +101,7 @@ const Quotation = () => {
       cell:({row})=>
         <List className='flex items-center gap-2 justify-center cursor-pointer'>
          <div onClick={()=>deleteQuote(row.original._id)} className="bg-red-200 p-2 rounded-md hover:shadow-md">
-          <FaTrash className='text-red-500'/>
+          <AnimatedDeleteButton/>
          </div>
         </List>
     },

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector , useDispatch} from "react-redux";
-import { FaAddressCard, FaTrash } from "react-icons/fa6";
+import { FaAddressCard} from "react-icons/fa6";
 import { toast, Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { base_url } from "../../Utils/baseUrl";
@@ -9,6 +9,7 @@ import { config } from "../../Utils/axiosConfig";
 import { selectedAddress } from "../../features/addressSlice";
 import {adduser} from "../../features/authSlice"
 import { useNavigate } from "react-router-dom";
+import  AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
 
 const Shipping = () => {
 
@@ -101,9 +102,9 @@ const Shipping = () => {
 
   };
   return (
-    <>
+    <div className="w-full">
       <Toaster />
-      <div className="rounded-md">
+      <div className="rounded-md ">
         <div className="border-b-2 mx-2 p-4 text-3xl font-bold flex flex-wrap items-center gap-2">
           <div className="bg-[#144170] p-2 text-white rounded-full">
             <FaAddressCard />
@@ -234,16 +235,16 @@ const Shipping = () => {
                     </ul>
                     <button
                     onClick={() => handleDeleteAddress(add._id)}
-                    className="ml-auto text-red-500 bg-red-200 p-2 rounded-md"
+                    className="ml-auto shadow-md"
                   >
-                    <FaTrash />
+                   <AnimatedDeleteButton/>
                   </button>
                   </div>
                 ))}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

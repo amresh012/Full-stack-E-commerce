@@ -404,7 +404,7 @@ const CheckOut = () => {
               <div className="flex gap-2">
                 <p className="text-gray-500">Please select an address</p>
                 {token ? (
-                  <Link to="/profile/shipping-add" >
+                  <Link to="/profile/shipping-add"  className="underline font-bold text-red-500">
                     <p>Click here to select address</p>
                   </Link>
                 ) : (

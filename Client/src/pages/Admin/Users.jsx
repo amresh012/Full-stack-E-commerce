@@ -8,13 +8,11 @@ import { MdBlockFlipped } from "react-icons/md";
 import { Space, Switch } from "antd";
 import { CgUnblock } from "react-icons/cg";
 import { config } from "../../Utils/axiosConfig";
-import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
-import BasicModal from "../../components/Models/Model";
-import Loader from "../../components/reusablesUI/Loader";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Select from 'react-select';
 import RefreshButton from "../../components/reusablesUI/RefreshButton";
+import  AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -255,27 +253,14 @@ const Users = () => {
           >
             <div
               onClick={() => deleteUser(row.original._id)}
-              className="bg-red-200 p-2 rounded-md"
             >
-              <FaTrash className="text-red-500" />
+              <AnimatedDeleteButton />
             </div>
             <div
               onClick={() => fetchUserDetails(row.original._id)}
               className="bg-blue-200 p-2 rounded-md"
             >
               <FaEye className="text-blue-500 " />
-              {/* <BasicModal open={open} handleOpen={handleOpen} handleClose={handleClose} icon={<FaEye className="text-blue-500 " />}>
-        <div className="w-1/2 h-[50vh]">
-          {fetchingUser && <div className='flex items-center justify-center h-[inherit] w-full'>Fetching User Details...</div>}
-          {!fetchingUser && <div className=''>
-            <div>
-              <div><span>Name:</span>{userDetails?.name}</div>
-              <div><span>Email:</span>{userDetails?.email}</div>
-              <div><span>Mobile:</span>{userDetails?.mobile}</div>
-            </div>
-          </div>}
-          </div>
-        </BasicModal> */}
             </div>
             <Space direction="vertical">
               <Switch

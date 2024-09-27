@@ -11,6 +11,7 @@ const {
   uploadBulkProduct,
 } = require("../controller/productctrl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
+const {generateProductDescription} = require("../controller/generateWithAiCtrl")
 
 const path = require("path");
 
@@ -35,5 +36,6 @@ router.get("/", getallProduct, searchProduct);
 router.delete("/:id", authMiddleware, isAdmin, deleteProduct);
 router.post("/update", updateproduct);
 router.post("/bulk", upload.single("excelFile"), uploadBulkProduct);
+router.post('/generate-product-description',generateProductDescription);
 
 module.exports = router;
