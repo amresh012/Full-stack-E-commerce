@@ -15,7 +15,7 @@ const invoiceSchema = new mongoose.Schema({
     ref: "User",
   },
   orderd_by:{
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: "User",
   },
   total: {

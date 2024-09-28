@@ -11,7 +11,7 @@ router.get("/", getCoupons);
 router.get("/admin",authMiddleware,isAdmin, getCoupons);
 router.get("/:id", getCouponById);
 router.post("/create",authMiddleware , isAdmin, CreateCopoun);
-router.put("/",isAdmin, updateCoupon);
+router.put("/:id",authMiddleware,isAdmin, updateCoupon);
 router.delete("/:id",authMiddleware,isAdmin,deleteCoupon)
 
 

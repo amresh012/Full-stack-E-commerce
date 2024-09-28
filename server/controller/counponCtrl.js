@@ -91,12 +91,13 @@ const getCouponById = async (req, res) => {
 
 // Update a coupon
 const updateCoupon = async (req, res) => {
+  console.log(req.body)
   try {
     const { id } = req.params;
-    const { code, discountType, discountValue, expiryDate, usageLimit } = req.body;
+    const { discountType, discountValue, expiryDate, usageLimit } = req.body;
     const coupon = await Coupon.findByIdAndUpdate(
       id,
-      { code, discountType, discountValue, expiryDate, usageLimit },
+      {discountType, discountValue, expiryDate, usageLimit },
       { new: true }
     );
     if (!coupon) {

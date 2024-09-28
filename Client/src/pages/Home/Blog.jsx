@@ -145,7 +145,7 @@ const Blog = ({ start, end }) => {
         </h1>
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[70px] bg-[#0a2440]"></div>
         <div className="lg:hidden block">
-          <div className="searchbar w-full rounded-full border mt-12  flex">
+          <div className="searchbar w-full rounded-full border-b border-b-[#0a2444] mt-12  flex">
             <input
               type="search"
               className="search h-12 outline-none  rounded-l-full w-full px-4 placeholder:px-2"
@@ -195,7 +195,7 @@ const Blog = ({ start, end }) => {
             </div>
           </div>
           <div className="flex h-full flex-col gap-4 w-full lg:w-[30rem] items-center lg:flex-1 lg:px-8">
-            <div className="searchbar w-full rounded-full border-2 hidden   lg:flex">
+            <div className="searchbar w-full rounded-full border hidden   lg:flex">
               <input
                 type="search"
                 className="search h-12 outline-none  rounded-l-full w-full px-4 placeholder:px-2"

@@ -8,11 +8,12 @@ import { config } from '../../Utils/axiosConfig';
 import { Toaster, toast } from 'react-hot-toast';
 import moment from "moment"
 import RefreshButton from '../../components/reusablesUI/RefreshButton';
+import {useNavigate} from "react-router-dom"
 
 const CopounList = () => {
   const [copoun , setCopoun] = useState([])
   const [reload, setReload] = useState(false);
-  // fetch copoun
+  const navigate = useNavigate()
   
 
   //delete copoun
@@ -23,7 +24,7 @@ const CopounList = () => {
         ...config,
       });
       const data = await response.json();
-      
+      FetchCopoun()
       if (data.error) {
         toast.error(data.error);
         return;
@@ -32,9 +33,8 @@ const CopounList = () => {
         toast.success(data.message);
         return;
       }
-      // setReload((prev) => !prev);
+      setReload((prev) => !prev);
       toast.success(data.message);
-      FetchCopoun()
     } catch (error) {
       toast.error(error.message);
     }
@@ -95,10 +95,9 @@ const CopounList = () => {
        <div className="bg-red-200 p-2 rounded-md hover:shadow-md" onClick={() =>deleteProduct(row.original._id)}>
         <FaTrash className='text-red-500'/>
        </div>
-       <div className="bg-blue-200 p-2 rounded-md hover:shadow-md" >
-        <FaEye className='text-blue-500'/>
-       </div>
-         <div className="bg-black/20 p-2 rounded-md hover:shadow-md">
+         <div 
+         onClick={() => navigate(`/admin/copoun-edit/${row.original._id}`)}
+         className="bg-black/20 p-2 rounded-md hover:shadow-md">
           <FaPen className='text-black'/>
          </div>
       </List>

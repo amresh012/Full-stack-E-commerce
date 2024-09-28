@@ -31,6 +31,7 @@ const Shipping = () => {
     }
     catch(error){
       console.log(error)
+      toast.error(error.statusText)
     }
    }
  useEffect(()=>{

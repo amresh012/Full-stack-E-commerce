@@ -52,7 +52,7 @@ const AddProduct = () => {
     },
   };
 
-  const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
+  const { values, setFieldValue, handleSubmit, handleChange,resetForm } = useFormik({
     initialValues: {
       name: "",
       images: [],
@@ -87,6 +87,10 @@ const AddProduct = () => {
           toast.error("Please select an image.");
           return;
         }
+        if(values.discount <0){
+          toast.error("Discount cannot be less than 0");
+          return
+        }
         const name = values.name.toLowerCase();
         const category = values.category.toLowerCase();
         const subcategory = values.subcategory.toLowerCase();
@@ -98,7 +102,7 @@ const AddProduct = () => {
         } else {
           toast.success("Product Added Successfully");
           // Optionally, reset the form here
-          // resetForm();
+          resetForm();
         }
       } catch (error) {
         toast.error(error.message);
@@ -110,11 +114,11 @@ const AddProduct = () => {
   });
 
    // generate Product Description With AI
-   const generateDescription = async (productDetails) => {
-    const response = await axios.post(`${base_url}product/generate-product-description`, {productDetails});
-    console.log(response)
-    setFieldValue("mindiscription" , response.data);
-  };
+  //  const generateDescription = async (productDetails) => {
+  //   const response = await axios.post(`${base_url}product/generate-product-description`, {productDetails});
+  //   console.log(response)
+  //   setFieldValue("mindiscription" , response.data);
+  // };
 
 
   return (
@@ -191,7 +195,7 @@ const AddProduct = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="perpiece">Price Per Piece</label>
+              <label htmlFor="perpiece">Price Per Piece()</label>
               <input
                 required
                 type="number"
@@ -242,7 +246,7 @@ const AddProduct = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="measurment">Unit Of Measurement</label>
+              <label htmlFor="measurment">Unit Of Measurement (cm/kg)</label>
               <input
                 required
                 type="text"
@@ -257,7 +261,7 @@ const AddProduct = () => {
           {/* Section 4: Height, Width, Length */}
           <div className="flex flex-col md:flex-row md:space-x-12 space-y-6 md:space-y-0">
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="height">Height</label>
+              <label htmlFor="height">Height in (cm)</label>
               <input
                 type="number"
                 id="height"
@@ -268,7 +272,7 @@ const AddProduct = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="width">Width</label>
+              <label htmlFor="width">Width in (cm)</label>
               <input
                 type="number"
                 id="width"
@@ -279,7 +283,7 @@ const AddProduct = () => {
               />
             </div>
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="length">Length</label>
+              <label htmlFor="length">Length in (cm)</label>
               <input
                 type="number"
                 id="length"
@@ -293,7 +297,7 @@ const AddProduct = () => {
           {/* Section 5: Discount, Variant, Weight */}
           <div className="flex flex-col md:flex-row md:space-x-12 space-y-6 md:space-y-0">
             <div className="input-1 w-full flex-col flex">
-              <label htmlFor="discount">Discount</label>
+              <label htmlFor="discount">Discount(min 0 max 100)</label>
               <input
                 type="number"
                 id="discount"
@@ -329,7 +333,7 @@ const AddProduct = () => {
               multiline
               rows={4}
             />
-            <Button onClick={() => generateDescription({ name: values.name, category: values.category, features: ['Adjustable weights', 'Rubber grip'] })} text="Generate With AI"/>
+            {/* <Button onClick={() => generateDescription({ name: values.name, category: values.category, features: ['Adjustable weights', 'Rubber grip'] })} text="Generate With AI"/> */}
           </div>
           {/* Section 7: Image Upload and Submit Button */}
           <div className="flex flex-col space-y-4">

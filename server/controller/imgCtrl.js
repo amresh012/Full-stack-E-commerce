@@ -22,30 +22,39 @@ const getImg = asyncHandle(async (req, res) => {
 });
 
 const deleteImage = asyncHandle(async (req, res) => {
-    const { id } = req.params; // Image ID is passed as a parameter
-    console.log(req.params);
+  const { id } = req.params; // Ensure the ID is taken from params
+
+  if (!id) {
+    return res.status(400).json({
+      message: "Image ID is required",
+      success: false,
+    });
+  }
+
   try {
-    const image = await imgModel.findByIdAndDelete(id); // Find and delete the image by ID
+    const image = await imgModel.findByIdAndDelete(id); // Find and delete the image by its ID
 
     if (!image) {
-      return res.status(404).send({
+      return res.status(404).json({
         message: "Image not found",
         success: false,
       });
     }
 
-    res.send({
+    res.status(200).json({
       message: "Image deleted successfully",
       success: true,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error("Error deleting image:", error);
+    res.status(500).json({
       message: "Error deleting image",
       success: false,
+      error: mongooseError(error),
     });
   }
 });
+
 
 
 

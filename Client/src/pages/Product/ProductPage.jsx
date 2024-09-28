@@ -169,11 +169,9 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
 
         <div className="product_list_all flex w-full flex-col justify-between">
           <div className="mt-4 flex lg:flex-row flex-col justify-between items-center p-4">
-            {visible && (
-              <p className="lg:text-2xl text-4xl p-2 text-center">
+              <p className="lg:text-2xl text-4xl font-bold p-2 text-center underline underline-offset-2">
                 Products ({sortedProducts.length})
               </p>
-            )}
             <div className="searchbar lg:w-2/6 w-full h-full rounded-md flex items-center border ">
               <input
                 type="search"
@@ -235,18 +233,19 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                           <img
                             src={image}
                             key={index}
+                            loading="lazy"
                             className="h-[35vh] w-auto object-cover bottom group-hover:scale-95 duration-300"
                           />
                         ))}
                       </Carousel>
                     </div>
                   </Link>
-                  <div className="product-detail">
+                  <div className="product-detail min-h-[10rem]">
                     <div className="stack-2 p-2">
-                      <h1 className="text-xl font-bold group-hover:underline h-[3.5rem] overflow-clip">
+                      <h1 className="text-xl uppercase font-bold group-hover:underline h-[3.5rem] overflow-clip">
                         {product.name}
                       </h1>
-                      <span className="h-[3.5rem] overflow-clip">{product.mindiscription.substring(0,100)}</span>
+                      <span className="min-h-[5.5rem] overflow-clip">{product.mindiscription.substring(0,100)}</span>
                       <div className="flex items-center gap-2 text-sm">
                         <Rating
                           name="size-small"

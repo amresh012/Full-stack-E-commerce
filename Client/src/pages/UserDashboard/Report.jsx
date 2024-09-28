@@ -17,20 +17,6 @@ const columns = [
     },
   },
   {
-    header: "OrderID",
-    accessorKey: "order_id",
-  },
-  {
-    header: "Date",
-    accessorKey: "Order_date",
-    cell:({row})=>{
-      // 
-      const date = row?.original?.createdAt
-      // return <span>{date}</span>;
-      return <span>{moment(date).format('DD/MM/YYYY hh:mm a')}</span>;
-    }
-  },
-  {
     header: "Name",
     accessorKey: "users",
     cell: ({ row }) => {
@@ -38,16 +24,18 @@ const columns = [
       return <span>{name}</span>;
     }
   },
-  // {
-  //   header:"Image",
-  //   accessorKey:"products",
-  //   cell:({row})=>{
-  //     console.log(row)
-  //     const imageUrl = row.original.products?.product?.images[0]
-  //     console.log(imageUrl)
-  //     return <img src={imageUrl} alt="image" style={{width:50,height:50}}/>
-  //   }
-  // },
+  {
+    header: "Date",
+    accessorKey: "Order_date",
+    cell:({row})=>{
+      const date = row?.original?.createdAt
+      return <span>{moment(date).format('DD/MM/YYYY hh:mm a')}</span>;
+    }
+  },
+  {
+    header: "OrderID",
+    accessorKey: "order_id",
+  },
   {
     header: "Invoice No",
     accessorKey: "invoiceNo",
@@ -79,20 +67,24 @@ const columns = [
   {
     header: "Status",
     accessorKey: "status",
+    cell:({row})=>{
+      const status = row.original.status
+      return <span>{status}</span>;
+    }
   },
-  {
-      header:"Order Status",
-      cell:({ row }) => {
-        const orderStatus = row.original.status
-      return (
-        <>
-        {
-          orderStatus === "Success" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
-        }
-        </>
-      );
-    },
-  },
+  // {
+  //     header:"Order Status",
+  //     cell:({ row }) => {
+  //       const orderStatus = row.original.status
+  //     return (
+  //       <>
+  //       {
+  //         orderStatus === "Success" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
+  //       }
+  //       </>
+  //     );
+  //   },
+  // },
   // {
   //   header: "Action",
   //   cell: ({row}) => {
@@ -299,7 +291,7 @@ const GenerateReport = () => {
 
   useEffect(() => {
     dispatch(OrderApi()); // Fetch orders
-  }, [dispatch]);
+  }, []);
   const id = localStorage.getItem("id") || user?._id
   // Filter orders belonging to the current logged-in user
   const userOrders = transactions?.data?.filter(
@@ -409,7 +401,7 @@ const GenerateReport = () => {
           Apply Filters
         </button>
       </div>
-      <div className="w-[80%]">
+      <div className="w-[78vw]">
         <BasicTable columns={columns} data={filteredTransactions || []} />
       </div>
     </div>

@@ -44,7 +44,6 @@ if (cluster.isMaster) {
   const orderRoute = require("./routes/orderRoute");
   const payRoute = require("./routes/paymentRoute");
   const couponRoute = require("./routes/couponRoute");
-  // const InvoiceRoute = require("./routes/invoiceRoute")
   const imageRoute = require("./routes/imageRoute");
   const smsRoute = require("./routes/smsRoute");
   const shipRocketRoute = require("./routes/shiprocketRoute");

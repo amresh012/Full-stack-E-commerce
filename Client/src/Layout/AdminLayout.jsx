@@ -34,7 +34,7 @@ const AdminLayout = () => {
         navigate('/');
       }
       localStorage.setItem('token', data.token);
-      toast.success(data.message);
+      // toast.success(data.message);
     }
     catch(err){
       toast.error(err.message);

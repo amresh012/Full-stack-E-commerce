@@ -1,9 +1,7 @@
 // import React from 'react'
 import BasicTable from "../../components/AdminComponents/BasicTable";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import Select from "react-select";
-// import Ordata from "../../MOCK_DATA (4).json"
-import { FaDownload, FaEye, FaSearch, FaTrash } from 'react-icons/fa';
+import { FaDownload, FaEye, FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import {toast, Toaster} from "react-hot-toast"
 import { base_url } from '../../Utils/baseUrl';
@@ -12,22 +10,31 @@ import moment from "moment"
 import Loader from "../../components/reusablesUI/Loader"
 import RefreshButton from "../../components/reusablesUI/RefreshButton";
 import AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
-const orderStates = [
-  "Pending",
-  "Processing",       
-  "Shipped",          
-  "Out for Delivery", 
-  "Delivered",        
-  "Cancelled",        
-  "Returned",         
-  "Refunded",        
-];
+import axios from "axios"
 
+const orderStates = ["Processing", "Success", "Order Confirmed", "Shipped", "Deliverd"];
+
+const getStatusColor = (status) => {
+  switch (status.toLowerCase()) {
+    case "Processing":
+      return "bg-red-200 p-2 text-red-500 rounded-md  uppercase"; // Red color for "Return"
+    case "success":
+      return "text-yellow-500 bg-yellow-200 p-2 rounded-md uppercase"; // Yellow color for "COD"
+    case "order confirmed":
+      return "text-gray-500 bg-gray-200 word-break rounded-md uppercase"; // Gray color for "Not Processed"
+    case "shipped":
+      return "text-blue-500  bg-blue-200 p-2 rounded-md uppercase"; // Blue color for "Shipped"
+    case "deliverd":
+      return "text-green-500  bg-green-200 p-2 rounded-md uppercase"; // Black color for "Cancelled"
+    default:
+      return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
+  }
+};
 
 
 const Orders = () => {
   const [search , setSearch] = useState('');
-  let statusOptions = [{value: '', label: 'All'}]
+  // let statusOptions = [{value: '', label: 'All'}]
   const [reload, setReload] = useState(false);
    const [startDate, setStartDate] = useState("");
    const [endDate, setEndDate] = useState("");
@@ -99,17 +106,27 @@ const Orders = () => {
     {
       header: "Status",
       accessorKey: "status",
+      cell:({row})=>{
+        console.log(row)
+        const status = row.original.status
+        return <span  className={getStatusColor(status)}>{status}</span>
+      }
     },
     {
         header:"Order Status",
         cell:({ row }) => {
-          const orderStatus = row.original.status
+          const orderStatus = row.original.status;
+          const invoiceNo = row.original.invoiceNo;
         return (
-          <>
+         <select className="p-1 border" 
+         onChange={(e) => editOrderStatus(invoiceNo, e.target.value)}
+         >
           {
-            orderStatus === "Success" ? <span className="bg-red-500 text-red-200 p-2 font-bold">Pending</span>:<span className="bg-green-500 text-grren-200 font-bold p-2">Approved</span>
+            orderStates.map((orderstat)=>(
+              <option key={orderstat} value={orderstat}>{orderstat}</option>
+            ))
           }
-          </>
+         </select>
         );
       },
     },
@@ -128,6 +145,29 @@ const Orders = () => {
     },
   ];
 
+ // Edit order status function
+const editOrderStatus = async (invoiceNo, status) => {
+  try {
+    const response = await axios.put(
+      `${base_url}order/edit`,
+      { status, invoiceNo },
+      config
+    );
+    console.log("responseeee ========", response)
+    FetchOrders()
+    if (response.data.success) {
+      toast.success("Order status updated successfully");
+      setReload((prev) => !prev); // Reload the data to reflect changes
+    } else {
+      toast.error("Failed to update order status");
+    }
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    toast.error("Error updating order status");
+  }
+};
+
+
   // delete product
   const deleteProduct = async (id) => {
     try {
@@ -136,7 +176,7 @@ const Orders = () => {
         ...config,
       });
       const data = await response.json();
-      console.log(data)
+      FetchOrders()
       if (data.error) {
         toast.error(data.error);
         return;
@@ -152,30 +192,28 @@ const Orders = () => {
     }
   };
 
+  const FetchOrders = async () => {
+    setIsLoading(true); // Start loader
+
+    try {
+      const response = await fetch(`${base_url}order`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders");
+      }
+      const data = await response.json();
+      setOrder(data.data);
+      setFilteredData(data.data)
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      toast.error("Failed to load orders, please try again later.");
+    } finally {
+      setIsLoading(false); // Stop loader
+    }
+  };
+
 
   useEffect(() => {
-    const FetchOrders = async () => {
-      setIsLoading(true); // Start loader
-  
-      try {
-        const response = await fetch(`${base_url}order`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch orders");
-        }
-        const data = await response.json();
-        setOrder(data.data);
-        setFilteredData(data.data)
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-        toast.error("Failed to load orders, please try again later.");
-      } finally {
-        setIsLoading(false); // Stop loader
-      }
-    };
-  
     FetchOrders();
-
-  
     // Cleanup function to cancel any ongoing requests when the component unmounts
     return () => {
       // If you are using libraries like axios, you can cancel the request here.
@@ -205,7 +243,7 @@ const Orders = () => {
     {
       id: 2,
       label: "Status By",
-      data: [],
+      data:[...orderStates],
       showlabel: "status",
     },
   ];
@@ -213,25 +251,33 @@ const Orders = () => {
 
   const sortByStatus = (status)=>{
     if(status !== ''){
-      const results = Order.filter(order => order.sataus.toLowerCase() === status.toLowerCase());
+      const results = Order.filter(order => order.status.toLowerCase() === status.toLowerCase());
       setFilteredData(results);
     }
     else{
       setFilteredData(Order);
     }
   };
+//  searcjh by email/id/name
 
-  const searchByIdEmailName = ()=>{
-    if(search.trim() === ''){
-      setFilteredData(Order);
-    }
-    else{
-      const results = Order.filter(order => (
-        (order?.id.toString() === search.trim()) || order?.orderd_by?.toLowerCase().includes(search.trim().toLowerCase()) || order?.email?.toLowerCase()?.includes(search.trim().toLowerCase())
-      ));
-      setFilteredData(results)
-    }
+const searchByIdEmailName = () => {
+  if (search.trim() === '') {
+    setFilteredData(Order);
+  } else {
+    const results = Order.filter(order => {
+      const id = order?.id?.toString() || '';
+      const name = order?.users?.name?.toLowerCase() || ''; // Assuming you're searching for users by name
+      const email = order?.email?.toLowerCase() || '';
+
+      return (
+        id === search.trim() || 
+        name.includes(search.trim().toLowerCase()) || 
+        email.includes(search.trim().toLowerCase())
+      );
+    });
+    setFilteredData(results);
   }
+};
 
   useEffect(() => {
     searchByIdEmailName();
@@ -259,20 +305,19 @@ const Orders = () => {
         <div className="flex items-center justify-between p-4 bg-[#0a2440] text-white  rounded-md ">
           <h1 className="font-bold text-xl">Order information</h1>
         </div>
-        <div className="mt-2 flex gap-2">
-  {/* {label.map((item) => (
-    <div className="w-full sm:w-auto" key={item.id}>
-      <label htmlFor="" className="uppercase block mb-1">
-        {item.label}
-      </label>
-
-      <Select
-        onChange={(d) => sortByStatus(d.value)}
-        className="w-full sm:w-[200px]"
-        options={statusOptions}
-      />
-    </div>
-  ))} */}
+        <div className="mt-2 flex flex-wrap gap-2">
+        {label.map((item) => (
+          <div className="w-full sm:w-auto" key={item.id}>
+            <label htmlFor="" className="uppercase block mb-1">
+              {item.label}
+            </label>
+            <Select
+              onChange={(selectedOption) => sortByStatus(selectedOption.value)} // Call sortByStatus with selected status
+              className="w-full sm:w-[200px]"
+              options={[{ value: '', label: 'All' }, ...orderStates.map(state => ({ value: state, label: state }))]}
+            />
+          </div>
+        ))}
 
   <div className="flex  gap-2 items-center w-full sm:w-auto">
     <div className="flex flex-col w-full sm:w-auto">
@@ -303,15 +348,15 @@ const Orders = () => {
     <label htmlFor="" className="uppercase block mb-1">
       Search
     </label>
-    <div className="relative w-full sm:w-[18rem]">
+    <div className=" w-full sm:w-[18rem] flex items-center border-[1px] border-black/30 justify-between pr-2">
       <input
         type="search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="border-[1px] border-black/30 p-2 h-10 w-full rounded-[3px] focus:border-blue-500 outline-none focus:border-2"
+        className="h-10 outline-none px-2 placeholder:px-2 w-full"
         placeholder="id / name / email"
       />
-      <div className="absolute top-3 right-4">
+      <div onClick={searchByIdEmailName} className="cursor-pointer">
         <FaSearch />
       </div>
     </div>

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
-import axios from "axios";
 import { base_url } from "../../Utils/baseUrl";
 import Loader from "../../components/reusablesUI/Loader";
 import { Carousel } from "react-responsive-carousel";
-import { LuEye } from "react-icons/lu";
 import { Chip, Pagination, Rating } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { addcarts } from "../../features/cartSlice";
 import { FaSearch } from "react-icons/fa";
 import { useAddCartHook } from "../../hooks/cartHooks";
+import {noProductFound} from "../../assets/images"
 
 
 const Category = () => {
@@ -22,7 +20,6 @@ const Category = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOption, setSelectedOption] = useState("Low to High");
   const productsPerPage = 9;
-  const dispatch = useDispatch();
   const { mutation } = useAddCartHook(); // React Query hook for adding items to cart
 
 
@@ -145,7 +142,7 @@ const Category = () => {
       {isLoading && <Loader />}
 
       {!isLoading && (
-        <div className="flex flex-col items-end gap-y-3 mt-6 px-10 ml-auto mr-0">
+        <div className="flex justify-between flex-row-reverse items-end gap-y-3 mt-6 px-10 ml-auto mr-0">
           <div className="searchbar lg:w-2/6 w-full h-full  rounded-md  flex items-center border">
             <input
               type="search"
@@ -166,7 +163,7 @@ const Category = () => {
           </div>
 
           <div className="flex flex-col-reverse lg:flex-row items-center pr-4 gap-3 ">
-            <div className="flex items-center rounded-md w-fit border-2">
+            <div className="flex items-center rounded-md w-fit border overflow-clip">
               <div className="bg-[#0A2440] rounded-l-md text-white p-2">
                 <span className="">Sort by:</span>
               </div>
@@ -184,7 +181,14 @@ const Category = () => {
           </div>
         </div>
       )}
-      {!isLoading && (
+      {isLoading ?( <Loader/>)  :
+      currentProducts.length<=0 ? 
+      <div className="h-[50vh] m-2 text-xl bg-gray-100 flex items-center justify-center">
+        <img src={noProductFound} alt="" />
+        
+      </div>
+       :
+       (
         <div className="my-16 px-4 flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2">
             {currentProducts?.map((product) => {

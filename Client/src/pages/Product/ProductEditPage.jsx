@@ -66,30 +66,6 @@ const ProductEdit = () => {
     },
   };
 
-  // const { values, setFieldValue, handleSubmit, handleChange } = useFormik({
-  //   initialValues: product,
-  //   onSubmit: async (values, { setSubmitting }) => {
-  //     try {
-  //       const name = product.name.toLowerCase();
-  //       const category = product.category.toLowerCase();
-  //       const subcategory = product.subcategory.toLowerCase();
-  //       const dataToSend = { ...values, category, subcategory, name };
-  //       const response = await axios.post(`${base_url}product/add`, dataToSend);
-  //       
-  //       if (response.data.error) {
-  //         throw new Error(response.data.error);
-  //       } else {
-  //         toast.success("Product Added Successfully");
-  //       }
-  //     } catch (error) {
-  //       //    
-  //       toast.error(error.message);
-  //     } finally {
-  //       setSubmitting(false);
-  //     }
-  //   },
-  // });
-
   const editProduct = async (e) => {
     e.preventDefault();
     try {

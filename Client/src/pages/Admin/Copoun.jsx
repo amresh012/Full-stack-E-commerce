@@ -8,7 +8,6 @@ import {base_url} from "../../Utils/baseUrl"
 import {config} from "../../Utils/axiosConfig"
 import {toast , Toaster } from "react-hot-toast"
 import { useState } from "react";
-
 const CouponFormSchema = Yup.object().shape({
   usageLimit: Yup.string()
     .required("Copoun Limit  is required")
@@ -70,7 +69,7 @@ const AddCoupon = () => {
           <Form className="flex flex-col w-full ">
             <div className=' flex items-center justify-normal  rounded-md p-4'>
            <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="uppercase">Create Copoun</h1>
+          <h1 className="uppercase">Update Copoun</h1>
            </div>
            </div>
            <div className="flex p-2 shadow-md mx-4 flex-wrap">

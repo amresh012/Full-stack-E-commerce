@@ -1,12 +1,9 @@
 import React, { useRef, useState } from "react";
-import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
 import { base_url } from "../../Utils/baseUrl";
-import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
-import Button from "../../components/Ui/Button";
+// import Button from "../../components/Ui/Button";
 const AdminBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -40,7 +37,6 @@ const AdminBlog = () => {
         },
         config
       );
-      console.log(response)
       imageRef.current.files = [];
       setTitle('');
       setContent('');
@@ -48,13 +44,13 @@ const AdminBlog = () => {
       toast.error(error?.response?.data?.error || 'Something went wrong');
     }
     finally{
-      setIsAdding(true);
+      setIsAdding(false);
     }
   };
-  const generateBlog = async (topic) => {
-    const response = await axios.post(`${base_url}blog/generate-blog-content`, { topic });
-    setContent(response.data);
-  };
+  // const generateBlog = async (topic) => {
+  //   const response = await axios.post(`${base_url}blog/generate-blog-content`, { topic });
+  //   setContent(response.data);
+  // };
 
 
   return (
@@ -86,7 +82,7 @@ const AdminBlog = () => {
               onChange={(e) => setContent(e.target.value)}
               placeholder="Write Blog Description or Generate with AI"
             ></textarea>
-            <Button onClick={() => generateBlog("fdfvsgvdfbzdfbzdfgd")} text="Generate With AI"/>
+            {/* <Button onClick={() => generateBlog("fdfvsgvdfbzdfbzdfgd")} text="Generate With AI"/> */}
           </div>
 
 

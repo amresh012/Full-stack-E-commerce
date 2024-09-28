@@ -1,7 +1,7 @@
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense } from 'react'
 import './App.css'
 import AuthLayout from './Layout/AuthLayout'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Layout from './Layout/Layout'
 import Login from './pages/AuthPages/Login'
 import SignUp from './pages/AuthPages/SignUp'
@@ -46,6 +46,7 @@ import EditBlog from "./pages/Admin/EditBlog"
 import Quotation from './pages/Admin/Quotation'
 import PreOrderTerms from './pages/policies/PreOrderTerms '
 import OrderSuccess from "./pages/Product/OrderSuccess"
+import EditCopoun from './pages/Admin/EditCopoun'
 function App() {
 
 
@@ -111,6 +112,7 @@ function App() {
           <Route path="contactus" element={<Contactus />} />
           <Route path="orders" element={<Orders />} />
           <Route path="coupon" element={<Copoun />} />
+          <Route path="copoun-edit/:id" element={<EditCopoun/>} />
           <Route path="coupon-list" element={<CopounList />} />
           <Route path="blog" element={<AdminBlog />} />
           <Route path="blog-list" element={<ListBlogs />} />

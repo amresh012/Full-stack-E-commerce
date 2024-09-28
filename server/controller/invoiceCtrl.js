@@ -253,7 +253,7 @@ UCBA0000390`;
 
         .mainContainer {
             border: 1px solid black;
-            max-width: 100%; /* Set a max width for the invoice */
+            max-width: auto; /* Set a max width for the invoice */
             margin: auto; /* Center the invoice */
             padding: 10px; /* Add some padding */
             overflow: hidden; /* Clear floats */

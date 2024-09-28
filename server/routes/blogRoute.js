@@ -5,7 +5,7 @@ const {
   deleteblogs,
   updateblog,
   getBlog,
-  generateBlogContent
+  // generateBlogContent
 } = require("../controller/blogctrl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 
@@ -15,6 +15,6 @@ router.get("/", getallblogs);
 router.get("/:id", getBlog);
 router.post("/del", authMiddleware, isAdmin, deleteblogs);
 router.post("/update", updateblog);
-router.post('/generate-blog-content',generateBlogContent);
+// router.post('/generate-blog-content',generateBlogContent);
 
 module.exports = router;

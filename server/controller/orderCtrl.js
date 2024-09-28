@@ -30,9 +30,6 @@ const createOrder = async (req, res,) => {
       gstNo = user.address[i].gstNo
     }
   }
-
-
-
   let totalValue = parseInt(user.cart.totalValue);
   let isCoupon = false;
   
@@ -87,17 +84,9 @@ const createOrder = async (req, res,) => {
             products:orderArr[0].products,
             invoice: invoice(detail),
             total: orderArr[0].total,
-            orderby: user._id,
+            orderd_by: user._id,
           };
           await InvoiceModel.create(invoiced);
-
-           // Clear user's cart
-    // const userToUpdate = await User.findById(user._id);
-    // userToUpdate.cart.products = [];   // Clear products
-    // userToUpdate.cart.totalValue = 0;  // Reset total value
-    // userToUpdate.cart.isCouponApplied = {};  // Clear coupon details
-    // await userToUpdate.save();  // Save the updated user document
-
 
     await User.findOneAndUpdate(
       { _id: user._id },
@@ -111,13 +100,126 @@ const createOrder = async (req, res,) => {
       },
       { new: true }
     )
+    // order confirmation mail
+
+    let orderItemsHTML = user.cart.products.map(product => {
+      return `
+      <tr>
+          <td>${product.name}</td>
+          <td>${product.count}</td>
+          <td>${product.total}</td>
+      </tr>`;
+  }).join('');
+
+    const sendData = 
+    `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .order-details {
+            margin: 20px 0;
+        }
+        .order-details h2 {
+            margin-bottom: 10px;
+        }
+        .order-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .order-details th, .order-details td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Order Confirmation</h1>
+        </div>
+        <div class="content">
+            <h2>Dear ${user.name},</h2>
+            <p>Thank you for your order! We're excited to let you know that your order has been confirmed.</p>
+
+            <div class="order-details">
+                <h2>Order Details:</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${orderItemsHTML}
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Total Amount: ${totalValue}</strong></p>
+            <p>Your order will be shipped to:</p>
+            <p>${address}</p>
+        </div>
+        <div class="footer">
+            <p>Thank you for shopping with us!</p>
+            <p>&copy; ${new Date().getFullYear()} KFS FITNESS. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+    `;
+    const data = {
+      to: user?.email,
+      subject:  `Thank You ${user.name} - Purchase Successful!`,
+      html: sendData,
+    };
+    sendEmail(data);
+    // order confirmation mail end
     res.json(createdOrder);
   } else {
     res.status(500).send({ error: "No product found in user cart" });
   }
 };
-
-
 
   // get All Orders
   const getAllOrders = async (req, res) => {
@@ -127,7 +229,8 @@ const createOrder = async (req, res,) => {
         path: "users",
         model: "User",
         select:"name"
-      }).populate("products.product").populate("address");
+      }).populate("products.product").populate("address").populate({path:"invoiceData" , model:"invoice"});
+
       // Send the orders as the response
       res.status(200).json({
         success: true,
@@ -208,30 +311,31 @@ const getSingleOrder = async (req, res) => {
 
   // edit order status
   const editOrderStatus = async (req, res) => {
-      try {
-        const status = req.body.status;
-        const invoiceNo = req.body.id;
+    try {
+      const { status, invoiceNo } = req.body;
+      console.log("InvoiceNo:", invoiceNo);
+      console.log("Status:", status);
+      const order = await Order.findOneAndUpdate(
+        { invoiceNo },
+        { status }, // Update the status field
+        { new: true } // Return the updated document
+      );
     
-        const order = await OrderModel.findOneAndUpdate(
-          { invoiceNo },
-          { new: true } // Return the modified document
-        );
-    
-        if (!order) {
-          return res.status(404).json({ error: "Order not found" });
-        }
-    
-        
-        res.json({ message: "Order status updated successfully", order });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Internal server error" });
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
       }
-    };
+  
+      res.json({success:true, message: "Order status updated successfully", order });
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+  
 
     const getInvoices = async (req, res) => {
         try {
-          const invoices = await InvoiceModel.find({ orderby: req.user._id }).populate({path:"orderd_by" , model:"User", select:"name"});
+          const invoices = await InvoiceModel.find({ orderd_by: req.user._id }).populate("orderd_by");
           res.send(invoices);
         } catch (error) {
           console.error(error);

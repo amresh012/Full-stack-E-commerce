@@ -1,10 +1,10 @@
 import React from "react";
 import { FaStar, FaStarHalf } from "react-icons/fa";
-import { Chip } from "@mui/material";
+import { Chip, Rating } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, addToCartHandler }) => {
-  const { _id, images, minidescription,name, price, category,rating,reviews, corporateDiscount } = product;
+  const { _id, images,name, price,rating,reviews, corporateDiscount } = product;
   const discountedPrice = (price - price * (corporateDiscount / 100)).toFixed(2);
   const token =  localStorage.getItem("token")
   
@@ -42,12 +42,14 @@ const ProductCard = ({ product, addToCartHandler }) => {
           </p> */}
         </Link>
         <div className="flex text-base mt-1 mb-1 text-yellow-400 items-center">
-          <FaStar />
-          <FaStar />
-          <FaStar />
-          <FaStar />
-          <FaStarHalf />
-          <span className="ml-1 text-black text-lg">reviews(120)</span>
+        <Rating
+         name="size-small"
+         value={rating}
+         readOnly
+         precision={0.5}
+        size="small"
+        />
+          <span className="ml-1 text-black text-lg">reviews ({reviews?.length || 0}){reviews?.length > 5 && "+"}</span>
         </div>
         <p className="flex justify-between items-center">
           <div className="flex flex-col gap-y-0">

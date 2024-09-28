@@ -16,6 +16,10 @@ var orderSchema = new mongoose.Schema(
       type: String,
       require:true
     },
+    invoiceData:{
+      type:mongoose.Types.ObjectId,
+      ref:"invoice"
+    },
     products: [
       {
         product: {

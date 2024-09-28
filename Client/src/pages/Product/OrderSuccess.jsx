@@ -95,8 +95,12 @@ const OrderSuccess = () => {
             </div>
         </div>
         <div className="action-buttons flex mt-12 items-center w-full justify-start gap-8">
-          <button className='font-bold underline p-1'>Continue Shopping</button>
+         <Link to="/product">
+         <button className='font-bold underline p-1'>Continue Shopping</button>
+         </Link>
+          <Link to="/">
           <button className='underline'>Back to home</button>
+          </Link>
         </div>
      </div>
      <div className="box pb-24 lg:w-[30rem] w-full bg-gray-100  rounded-md">
@@ -147,7 +151,9 @@ const OrderSuccess = () => {
               <div className="amout space-y-4 ">
                 <div className="flex justify-between">
                   <p>Sub total</p>
-                  <p>₹{stat?.CartTotal || 0}</p>
+                  <p>₹{stat?.items.map((item)=>(
+                    item.total
+                  )) || 0}</p>
                 </div>
                 <div className="flex justify-between">
                   <p>Delivery Charges</p>
@@ -155,7 +161,7 @@ const OrderSuccess = () => {
                 </div>
                 <div className="flex justify-between font-bold text-xl border-t-2 border-black pt-2">
                   <p>Total</p>
-                  <p>₹{stat?.CartTotal + stat?.deliverCharge || 0}</p>
+                  <p>₹{stat?.CartTotal || 0}</p>
                 </div>
               </div>
             </div>
