@@ -21,7 +21,7 @@ const createOrder = async (req, res,) => {
   let transactionId =  datatosend.paymentId;
   let orderId = datatosend.order_id
   let amount = datatosend.amount
-  
+  console.log("address------============-----------------",address)
   let adr, placeofsup, gstNo;
   for (let i = 0; i < user.address.length; i++) {
     if (JSON.stringify(user.address[i]._id) == JSON.stringify(address)) {
@@ -103,6 +103,7 @@ const createOrder = async (req, res,) => {
     // order confirmation mail
 
     let orderItemsHTML = user.cart.products.map(product => {
+      console.log("line 106 print-------=-=-=-=-=-=-=-=-=",product)
       return `
       <tr>
           <td>${product.name}</td>
@@ -110,6 +111,7 @@ const createOrder = async (req, res,) => {
           <td>${product.total}</td>
       </tr>`;
   }).join('');
+  console.log("Orders Item lijne 113--------------",orderItemsHTML)
 
     const sendData = 
     `
@@ -196,9 +198,14 @@ const createOrder = async (req, res,) => {
                 </table>
             </div>
 
-            <p><strong>Total Amount: ${totalValue}</strong></p>
+            <p><strong>Total Amount(including all taxes): ${amount}</strong></p>
             <p>Your order will be shipped to:</p>
-            <p>${address}</p>
+            <div>
+             <p>${address?.address}</p>
+             <p>${address?.state}</p>
+             <p>${address?.city}</p>
+             <p>${address?.zipcode}</p>
+            </div>
         </div>
         <div class="footer">
             <p>Thank you for shopping with us!</p>
@@ -229,7 +236,12 @@ const createOrder = async (req, res,) => {
         path: "users",
         model: "User",
         select:"name"
-      }).populate("products.product").populate("address").populate({path:"invoiceData" , model:"invoice"});
+      }).populate("products.product")
+      .populate("address")
+      .populate({
+        path:"invoiceData",
+        model:"invoice"
+      });
 
       // Send the orders as the response
       res.status(200).json({

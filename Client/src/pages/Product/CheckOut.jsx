@@ -207,6 +207,7 @@ const CheckOut = () => {
                 validateContentType &&
                 validateContentType.includes("application/json")
               ) {
+                // eslint-disable-next-line no-unused-vars
                 const jsonRes = await validateRes.json();
 
                 const orderCreateResponse = await fetch(

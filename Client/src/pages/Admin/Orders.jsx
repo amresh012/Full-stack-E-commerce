@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import Select from "react-select";
@@ -63,7 +64,6 @@ const Orders = () => {
       cell:({row})=>{
         // 
         const date = row.original.createdAt
-        // return <span>{date}</span>;
         return <span>{moment(date).format('DD/MM/YYYY hh:mm a')}</span>;
       }
     },
@@ -319,7 +319,7 @@ const searchByIdEmailName = () => {
           </div>
         ))}
 
-  <div className="flex  gap-2 items-center w-full sm:w-auto">
+  <div className="flex flex-wrap  gap-2 items-center w-full sm:w-auto">
     <div className="flex flex-col w-full sm:w-auto">
       <label htmlFor="" className="uppercase block mb-1">
         Start Date
