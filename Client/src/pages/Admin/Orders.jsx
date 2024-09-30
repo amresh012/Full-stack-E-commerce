@@ -71,7 +71,7 @@ const Orders = () => {
       header: "Name",
       accessorKey: "users",
       cell: ({ row }) => {
-        const name = row.original.users.name;
+        const name = row.original?.users?.name;
         return <span>{name}</span>;
       }
     },

@@ -52,9 +52,8 @@ const CheckOut = () => {
   const [selectedShiping, setSelectedShipping] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isdisabled , setDisabled]  = useState(false)
-
   const token = localStorage.getItem("token");
-  
+  console.log(discount)
 
   // to close the model if there is no courier company
   useEffect(() => {
@@ -76,7 +75,7 @@ const CheckOut = () => {
   );
   let CartTotal = cartItems?.totalCartValue + deliverCharge;
   // calculate discount
-  if (discountType === "percentage") {
+  if (discountType === "percentage" && discount > 0) {
     CartTotal = CartTotal - CartTotal * (discount / 100);
   } else if (discountType === "fixed") {
     CartTotal = CartTotal - discount;

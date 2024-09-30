@@ -6,7 +6,6 @@ const {createOrder, verifyPayment ,applyCode}  = require("../controller/paymentC
 
 router.post("/createOrder" ,authMiddleware, createOrder)
 router.post("/verifyPayment" , verifyPayment)
-router.post("/couponcode", authMiddleware ,applyCode);
 
 module.exports = router;
 

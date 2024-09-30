@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {base_url} from "../../Utils/baseUrl"
 import { config } from '../../Utils/axiosConfig';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Coupon = ({ setDiscount, setDiscountType }) => {
   const [couponCode, setCouponCode] = useState('');
@@ -14,12 +14,12 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
   const validateCoupon = async () => {
     try {
       const response = await axios.post(`${base_url}coupon/validate`, { code: couponCode });
+      console.log(response)
       if (response.data.coupon) {
         setDiscount(response.data.coupon.discountValue);
         setDiscountType(response.data.coupon.discountType);
         setSuccess(true)
         setMessage('Valid Copoun');
-        setMessage("Copoun Applied Successfully")
     }
     } catch (error) {
       setMessage('Invalid or expired coupon');
@@ -33,32 +33,21 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
       setSuccess(false);
       return;
     }
-  
     try {
-      const response = await axios.post(`${base_url}payment/couponcode`, { code: couponCode }, config);
+      const response = await axios.post(`${base_url}coupon/apply`, { code: couponCode }, config);
       console.log(response)
-      // Check if coupon is successfully applied
-      if (response.data.cart?.isCouponApplied) {
+      if (response.data.success) {
         setDiscount(response.data.cart.isCouponApplied.discountValue);
         setSuccess(true);
-        setMessage("Coupon applied successfully!");
-        // Clear the message after 5 seconds
+        setMessage(response?.data?.message);
         setTimeout(() => {
           setMessage("");
         }, 5000);
-      } else {
-        setMessage("Failed to apply the coupon.");
-        setSuccess(false);
-      }
+      } 
     } catch (error) {
-      // Handle error response from the server
-      if (error.response && error.response.data) {
-        console.log(error.response && error.response.data)
-        setMessage(error.response.data.message);
-      } else {
-        setMessage("Network or server error. Please try again.");
-      }
-      setSuccess(false);
+      // console.log(error)
+       toast.error(error.response?.data?.error || "Something went wrong")
+       setSuccess(false);
     }
   };
   
@@ -75,6 +64,8 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
   
 
   return (
+    <>
+    <Toaster/>
     <div className=" p-4 Copoun-Code rounded-md space-y-4">
     <div className=" space-y-2">
     <h1 className="text-2xl font-bold uppercase">Copoun Code</h1>
@@ -101,6 +92,7 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
     </button>
   </div> 
       </div>
+    </>
   );
 };
 

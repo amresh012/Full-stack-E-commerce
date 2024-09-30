@@ -76,71 +76,10 @@ const verifyPayment = async (req, res) => {
   }
 };
 
-const applyCode = async (req, res, next) => {
-  try {
-    // Ensure coupon code exists in the request body
-    const { code } = req.body;
-    if (!code) {
-      return res.status(400).send("Coupon code is required.");
-    }
 
-    // Fetch the user by ID and populate their cart details if necessary
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(404).send("User not found.");
-    }
-
-    // Check if a coupon is already applied
-    if (user.cart.isCouponApplied?.code) {
-      return res.status(400).send("You have already applied a coupon.");
-    }
-
-    // Find the coupon by code
-    const coupon = await CouponCodes.findOne({ code });
-    if (!coupon) {
-      return res.status(400).send("Invalid coupon code.");
-    }
-
-    // Calculate the discount value based on the coupon type (percentage or fixed amount)
-    let discountValue = 0;
-    if (coupon.type === "percentage") {
-      discountValue = (user.cart.totalValue * coupon.discountValue) / 100;
-    } else {
-      discountValue = coupon.discountValue;
-    }
-  console.log(discountValue)
-    // Ensure the totalValue doesn't go negative after applying the discount
-    const newTotalValue = user.cart.totalValue - discountValue;
-    console.log(newTotalValue)
-    if (newTotalValue < 0) {
-      return res.status(400).send("Discount exceeds the cart total value.");
-    }
-
-    // Apply the coupon to the user's cart
-    user.cart.totalValue = newTotalValue;
-    user.cart.isCouponApplied = {
-      code: coupon.code,
-      discountValue: discountValue,
-    };
-
-    // Save the updated user cart
-    await user.save();
-
-    // Send the updated cart back to the client
-    res.status(200).json({
-      message: "Coupon applied successfully!",
-      cart: user.cart,
-    });
-  } catch (error) {
-    // Handle unexpected server errors
-    console.error("Error applying coupon:", error);
-    res.status(500).send("An error occurred while applying the coupon.");
-  }
-};
 
 
 module.exports={
   createOrder,
   verifyPayment,
-  applyCode
 }

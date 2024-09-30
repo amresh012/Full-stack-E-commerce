@@ -16,6 +16,6 @@ router.delete("/:id",authMiddleware,isAdmin,deleteCoupon)
 
 
 router.post('/validate', ValidateCopoun);        // Validate a coupon
-router.post('/apply', ApplyCopoun);              // Apply a coupon
+router.post('/apply',authMiddleware, ApplyCopoun);              // Apply a coupon
 
 module.exports = router;

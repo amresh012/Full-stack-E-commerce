@@ -182,21 +182,21 @@ const createOrder = async (req, res,) => {
             <h2>Dear ${user.name},</h2>
             <p>Thank you for your order! We're excited to let you know that your order has been confirmed.</p>
 
-            <div class="order-details">
-                <h2>Order Details:</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${orderItemsHTML}
-                    </tbody>
-                </table>
-            </div>
+            // <div class="order-details">
+            //     <h2>Order Details:</h2>
+            //     <table>
+            //         <thead>
+            //             <tr>
+            //                 <th>Item</th>
+            //                 <th>Quantity</th>
+            //                 <th>Price</th>
+            //             </tr>
+            //         </thead>
+            //         <tbody>
+            //             ${orderItemsHTML}
+            //         </tbody>
+            //     </table>
+            // </div>
 
             <p><strong>Total Amount(including all taxes): ${amount}</strong></p>
             <p>Your order will be shipped to:</p>
@@ -217,7 +217,7 @@ const createOrder = async (req, res,) => {
     `;
     const data = {
       to: user?.email,
-      subject:  `Thank You ${user.name} - Purchase Successful!`,
+      subject:  `Thank You ${user.name}-Purchase Successful!`,
       html: sendData,
     };
     sendEmail(data);

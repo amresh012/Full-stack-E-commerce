@@ -28,10 +28,13 @@ const Shipping = () => {
       if(!response.data.error){
         setAddressList(response.data.address)
       }
+      else{
+        throw new Error(response.data.error)
+      }
     }
     catch(error){
       console.log(error)
-      toast.error(error.statusText)
+      toast.error(error.message)
     }
    }
  useEffect(()=>{
