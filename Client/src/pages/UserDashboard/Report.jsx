@@ -144,24 +144,33 @@ const GenerateReport = () => {
   const [isdisabled , setDisabled] = useState(false)
 
 
+
   useEffect(() => {
+    // const uniqueCategories = [
+    //   ...Array.from( new Set(
+    //     userOrders?.map((t) => t.products.map((p) => p.category))
+    //   )),
+    // ];
     const uniqueCategories = [
       ...new Set(
-        userOrders?.map((t) => t.products.map((p) => p.category)).flat()
+        userOrders?.flatMap((t) => t.products.map((p) => p.product?.category))
       ),
     ];
+  
+
     setCategories(uniqueCategories);
     generateReports(userOrders);
-  }, [userOrders]);
+  }, []);
 
   const generateReports = (data) => {
     const categoryReportData = {};
     data?.forEach((transaction) => {
       transaction.products.forEach((product) => {
-        if (!categoryReportData[product.category]) {
-          categoryReportData[product.category] = 0;
+
+        if (!categoryReportData[product?.product?.category]) {
+          categoryReportData[product?.product?.category] = 0;
         }
-        categoryReportData[product.category]++;
+        categoryReportData[product.product.category]++;
       });
     });
     setCategoryReport(categoryReportData);
@@ -172,7 +181,7 @@ const GenerateReport = () => {
       (transaction) =>
         filterCategory === "" ||
         transaction.products.some((product) =>
-          product.category.includes(filterCategory)
+          product.product.category.includes(filterCategory)
         )
     );
     setFilteredTransactions(filtered);
@@ -192,7 +201,7 @@ const GenerateReport = () => {
         <ul>
           {Object.entries(categoryReport).map(([category, count]) => (
             <li className="text-gray-600 text-xl font-semibold" key={category}>
-              {category}: {count} products
+              {category}: {count} product(s)
             </li>
           ))}
         </ul>
@@ -202,7 +211,7 @@ const GenerateReport = () => {
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
-          className="mr-2 w-[30vw] p-2 border text-red-500 border-gray-300"
+          className="mr-2 w-[30vw] p-2 border border-gray-300"
         >
           <option value="">All Categories</option>
           {categories.map((category) => (

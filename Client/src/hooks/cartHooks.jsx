@@ -73,7 +73,6 @@ export const useUpdateCartHook = () => {
   const mutation = useMutation({
     mutationKey: ["updatecart"],
     mutationFn: async (payload) => {
-      console.log(payload);
       const res = await axios.put(`${base_url}cart`, payload, config);
       return res.data;
     },

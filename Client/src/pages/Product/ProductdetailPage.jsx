@@ -13,6 +13,8 @@ import axios from "axios"
 import { PiThumbsUpLight ,PiThumbsDownLight  } from "react-icons/pi";
 import moment from "moment"
 import { config } from "../../Utils/axiosConfig";
+import ImageMagnifier from "../../components/ImageMagnify/Imgmagnify";
+
 
 const ProductdetailPage = () => {
   const { id } = useParams();
@@ -44,7 +46,6 @@ const ProductdetailPage = () => {
       }
     }
     catch(error){
-         console.log(error)
     }
   }
   const handleModel =  ()=>{
@@ -100,7 +101,6 @@ const ProductdetailPage = () => {
   const deleteReview =async(reviewid)=>{
     try{
       const respo = await axios.delete(`${base_url}review/${id}/${reviewid}`, config)
-      console.log(respo)
       if(respo.data.success){
         fetchProductReviews()
         toast.success(respo.data.message)
@@ -254,24 +254,21 @@ const ProductdetailPage = () => {
             <div className="pt-2 text-gray-500 font-bold italic">
               <p>UPI & Cards Accepted , Online approvals in 2 minute</p>
             </div>
-            <div className="qua space-y-4  mt-2">
-              <h1 className="font-bold  text-xl">Quantity</h1>
-            </div>
-            <div className="diemnsions p-4">
+            <ul className="diemnsions p-4 list-decimal">
               <h1 className="text-2xl">Dimensions:</h1>
-              <p className="text-gray-500 font-bold italic">
+              <li className="text-gray-500 font-bold italic">
                 length: {product?.length}cm
-              </p>
-              <p className="text-gray-500 font-bold italic">
+              </li>
+              <li className="text-gray-500 font-bold italic">
                 height: {product?.height}cm
-              </p>
-              <p className="text-gray-500 font-bold italic">
+              </li>
+              <li className="text-gray-500 font-bold italic">
                 weight: {product?.weight}kg
-              </p>
-              <p className="text-gray-500 font-bold italic">
+              </li>
+              <li className="text-gray-500 font-bold italic">
                 width: {product?.width}cm
-              </p>
-            </div>
+              </li>
+            </ul>
             {
               token ? <div
               className="action-buttons flex flex-col gap-4 my-6"

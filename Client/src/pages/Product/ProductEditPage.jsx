@@ -30,9 +30,10 @@ const ProductEdit = () => {
     measurment: "",
     quantity: "",
     description: "",
-    discount: 0,
+    corporateDiscount: 0,
     mindiscription: "",
   });
+  console.log(product.corporateDiscount)
 
   const { Dragger } = Upload;
   const props = {
@@ -74,20 +75,24 @@ const ProductEdit = () => {
         toast.error('Please wait while the images are uploading.');
         return;
       }
-
+      if (product.corporateDiscount < 0) {
+        toast.error("Corporate Discount cannot be less than 0");
+        return;
+      }
       const name = product.name.toLowerCase();
       const category = product.category.toLowerCase();
       const subcategory = product.subcategory.toLowerCase();
       const dataToSend =
         images?.length > 0
-          ? { ...product, category, subcategory, name, images }
+          ? { ...product, category, subcategory, name, images}
           : { ...product, category, subcategory, name, images: undefined };
       const response = await axios.post(
         `${base_url}product/update`,
         dataToSend,
         config
       );
-      if (response.data?.success) {
+      console.log(response)
+      if (response?.data?.success) {
         toast.success("Product Updated Successfully");
       } else {
         throw new Error(response.data.error);

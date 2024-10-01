@@ -9,7 +9,7 @@ const MobileNav = ({ navlinks }) => {
 
 
   const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState('top');
+  const [placement, setPlacement] = useState('left');
   const showDrawer = () => {
     setOpen(true);
   };

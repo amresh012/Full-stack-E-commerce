@@ -229,7 +229,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                         showThumbs={false}
                         showArrows={false}
                       >
-                        {product.images.map((image, index) => (
+                        {product.images.slice(0,1).map((image, index) => (
                           <img
                             src={image}
                             key={index}
@@ -239,7 +239,6 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                         ))}
                       </Carousel>
                     </div>
-                  </Link>
                   <div className="product-detail min-h-[10rem]">
                     <div className="stack-2 p-2">
                       <h1 className="text-xl uppercase font-bold group-hover:underline h-[3.5rem] overflow-clip">
@@ -257,8 +256,8 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                         <span>({product.numReviews} Reviews)</span>
                       </div>
                     </div>
-                    <h1 className="flex items-center gap-2">
-                      <span className="text-red-500 text-sm line-through">
+                    <h1 className={product.corporateDiscount&&"flex items-center gap-2 justify-start"}>
+                      <span className="font-bold text-xl">
                         {product?.corporateDiscount &&
                           product?.corporateDiscount !== 0 &&
                           product?.corporateDiscount > 0 && <span>₹</span>}
@@ -270,11 +269,13 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
                             product.price * (product.corporateDiscount / 100)
                           ).toFixed(2)}
                       </span>
-                      <span className="text-lg font-bold p-2">
+                      <span className={product.corporateDiscount ? "text-sm text-red-500 line-through":"text-xl font-bold"}>
                         ₹ {product.price}{" "}
                       </span>
                     </h1>
                   </div>
+                 </Link>
+                  {/*  */}
                   <div className="button-group group relative space-y-2 mt-2">
                   <Link to="/login">
                   {token=== null && visible && <span className="absolute top-1 bg-red-200 rounded-md text-[16px] 

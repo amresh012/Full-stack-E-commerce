@@ -504,7 +504,7 @@ const HomePage = () => {
         <BMICalculator />
       </div>
 
-      <div className="mt-24 mb-16">
+      {/* <div className="mt-24 mb-16">
         <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
           Testimonials
         </h1>
@@ -513,7 +513,7 @@ const HomePage = () => {
         <div className="px-4">
           <TestimonialCarousel />
         </div>
-      </div>
+      </div> */}
 
       <div className="my-24  px-8">
         <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">

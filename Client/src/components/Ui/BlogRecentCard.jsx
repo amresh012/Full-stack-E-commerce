@@ -10,7 +10,7 @@ const BlogRecentCard = ({blog}) => {
       <div className="h-[inherit] w-[50%] bg-[#02a2440] px-4 py-2">
         <p className="text-lg font-medium text-[#ababab]">{moment(createdAt).format('DD-MM-yyyy')}</p>
         <p className="lg:text-xl text-base  font-bold text-[#0a2440]">
-          {title.substr(0,50) || (title.length > 50 && '...')}
+          {title.substr(0,50) || (title.length > 50 ? '...':'')}
         </p>
       </div>
     </div></Link>

@@ -25,7 +25,6 @@ const Quotation = () => {
       header: "Sr.No.",
       accessorKey: "_id",
       cell: ({ row }) => {
-        console.log(row)
         const id = row.id;
         return <span>{(+id)+1}</span>;
       },
@@ -100,7 +99,7 @@ const Quotation = () => {
       header: "Action",
       cell:({row})=>
         <List className='flex items-center gap-2 justify-center cursor-pointer'>
-         <div onClick={()=>deleteQuote(row.original._id)} className="bg-red-200 p-2 rounded-md hover:shadow-md">
+         <div onClick={()=>deleteQuote(row.original._id)} className="">
           <AnimatedDeleteButton/>
          </div>
         </List>

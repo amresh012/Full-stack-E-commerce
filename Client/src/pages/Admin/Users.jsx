@@ -82,7 +82,6 @@ const Users = () => {
         })
       });
       const data = await response.json();
-      console.log(data);
       if(!data.success){
         throw new Error(data.message);
       }
@@ -203,7 +202,7 @@ const Users = () => {
         return (
           <select
             value={row.original.role}
-            onChange={(e) => { console.log(row.original); handleRoleChange(row.original._id, e.target.value) }}
+            onChange={(e) => {handleRoleChange(row.original._id, e.target.value) }}
             className="border-2 p-2 outline-none rounded-md border-[#038CCC]"
           >
             <option value="Admin">Admin</option>

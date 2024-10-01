@@ -36,7 +36,8 @@ var orderSchema = new mongoose.Schema(
       ref: "User",
     },
     address: {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref:"Address",
       require:true
     },
     status: {

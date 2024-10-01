@@ -52,7 +52,6 @@ const handleRemoveItem =(item)=>{
   toast.success("Product Quantity updated by one Successfully")
 }
   const handleDecr = (item) => {
-    console.log(item)
     if (item.count === 1) {
       toast.error("Product quantity can't be less than 1");
       return;

@@ -53,7 +53,6 @@ const CheckOut = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isdisabled , setDisabled]  = useState(false)
   const token = localStorage.getItem("token");
-  console.log(discount)
 
   // to close the model if there is no courier company
   useEffect(() => {
@@ -123,11 +122,11 @@ const CheckOut = () => {
   };
 
   // Call the shipping charge calculation when the component mounts or address changes
-  useEffect(() => {
-    if (cartItems?.products?.length > 0) {
-      calculateShippingCharge();
-    }
-  }, [cartItems , selectedShiping]);
+  // useEffect(() => {
+  //   if (cartItems?.products?.length > 0) {
+  //     calculateShippingCharge();
+  //   }
+  // }, [cartItems , selectedShiping]);
   // Calculate Shipping Charges on Orders
 
   const handleShippingSelect = (shippingData) => {
@@ -225,9 +224,7 @@ const CheckOut = () => {
                   }
                 );
                 const orderData = await orderCreateResponse.json();
-                console.log(orderData)
                 const datatosend = { user, address, ...paymentData };
-                console.log(datatosend);
                 const CreateUserOrder = await fetch(
                   `${base_url}order/create-order`,
                   {
@@ -239,7 +236,6 @@ const CheckOut = () => {
                   }
                 );
                 const UserOrders = await CreateUserOrder.json();
-                console.log("Create Order response", UserOrders);
                 if (orderData.success) {
                   const ConfirmedOrder = {
                     ...paymentData,

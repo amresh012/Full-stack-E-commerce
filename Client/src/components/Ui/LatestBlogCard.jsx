@@ -20,7 +20,9 @@ const LatestBlogCard = ({ blog }) => {
           </span>
         </p>
         <p className="text-2xl font-bold text-[#0a2440] my-1">
-          {title.substr(0, 50) + (title.length > 50 && "...")}
+          {/* {title.substr(0, 50) + (title.length > 50 && "...")} */}
+          {title.substr(0,50).trim()}{(title.length > 50 ? '...':'')}
+
         </p>
         <div>
           <Link to={`/blog/${_id}`} state={{ title, image, content, createdAt }}>

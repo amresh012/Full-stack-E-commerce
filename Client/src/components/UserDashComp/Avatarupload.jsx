@@ -15,7 +15,6 @@ const Avatarupload = () => {
   };
   const onPreview = async (file) => {
     let src = file.url;
-    console.log(src);
     if (!src) {
       src = await new Promise((resolve) => {
         const reader = new FileReader();

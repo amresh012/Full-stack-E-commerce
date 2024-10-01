@@ -3,7 +3,6 @@ import { CChart } from "@coreui/react-chartjs";
 
 export const LineChart = ({label, labels, data}) => {
  const [ChartColors , setChartColors] = useState([])
- console.log(ChartColors)
   useEffect(()=>{
     function generateRandomHexColorsArray(numColors) {
       const colorsArray = [];

@@ -14,7 +14,6 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
   const validateCoupon = async () => {
     try {
       const response = await axios.post(`${base_url}coupon/validate`, { code: couponCode });
-      console.log(response)
       if (response.data.coupon) {
         setDiscount(response.data.coupon.discountValue);
         setDiscountType(response.data.coupon.discountType);
@@ -35,8 +34,8 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
     }
     try {
       const response = await axios.post(`${base_url}coupon/apply`, { code: couponCode }, config);
-      console.log(response)
       if (response.data.success) {
+        toast.success("copoun applied successfully")
         setDiscount(response.data.cart.isCouponApplied.discountValue);
         setSuccess(true);
         setMessage(response?.data?.message);
@@ -45,7 +44,6 @@ const Coupon = ({ setDiscount, setDiscountType }) => {
         }, 5000);
       } 
     } catch (error) {
-      // console.log(error)
        toast.error(error.response?.data?.error || "Something went wrong")
        setSuccess(false);
     }

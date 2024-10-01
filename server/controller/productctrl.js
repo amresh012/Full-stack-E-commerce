@@ -87,6 +87,7 @@ const deleteProduct = asyncHandle(async (req, res) => {
 });
 
 const updateproduct = asyncHandle(async (req, res) => {
+  console.log(req.body)
   if (req.body._id) {
     const { _id } = req.body;
     try {
@@ -94,7 +95,7 @@ const updateproduct = asyncHandle(async (req, res) => {
         { _id },
         req.body
       );
-      res.status(200).json({ success: true });
+      res.status(200).json({ success: true , newupdatedproducrt:updateproduct });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
     }

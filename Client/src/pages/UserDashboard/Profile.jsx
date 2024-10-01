@@ -7,7 +7,6 @@ import { toast, Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 const Profile = () => {
   const User = useSelector((state) => state.auth.user)
-  // console.log(User)
 
   const location = useLocation(); 1
     const stat = location.state || {}

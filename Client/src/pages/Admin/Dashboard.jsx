@@ -33,7 +33,7 @@ const Loader = ()=>{
 
 const Dashboard = () => {
   const [totalOrders, setTotalOrders] = useState(0);
-  const [totalNewCustomers, setTotalNewCustomers] = useState(0);
+  const [totalNewCustomers, setTotalNewCustomers] = useState();
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalCategories, setTotalCategories] = useState(0);
   const [totalPaymentsAllTime, setTotalPaymentsAllTime] = useState([]);
@@ -41,7 +41,6 @@ const Dashboard = () => {
   const [totalVisitsToday, setTotalVisitsToday] = useState([]);
   const [recentorders , setRecentOrders] = useState([])
  
-
 
   const [categoriesData, setCategoriesData] = useState({
     labels: [],
@@ -137,7 +136,6 @@ const Dashboard = () => {
         ...config,
       });
       const data = await response.json();
-      // console.log(data)
       if (!data?.success) {
         throw new Error(data?.error || 'Something went wrong');
       }
@@ -217,7 +215,7 @@ const Dashboard = () => {
         <p className="text-2xl font-bold">New Customers</p>
         <p className="text-base -mt-1 text-gray-400 font-bold">This Month</p>
         <p className="text-4xl font-bold mt-1 text-[#619edd]">
-          {totalNewCustomers === 0 ? <Loader /> : totalNewCustomers}
+          {totalNewCustomers === undefined  ? <Loader /> : totalNewCustomers}
         </p>
       </div>
     </div>

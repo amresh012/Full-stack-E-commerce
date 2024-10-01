@@ -13,22 +13,22 @@ import RefreshButton from "../../components/reusablesUI/RefreshButton";
 import AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
 import axios from "axios"
 
-const orderStates = ["Processing", "Success", "Order Confirmed", "Shipped", "Deliverd"];
+const orderStates = ["Processing", "Success", "Order Confirmed", "Shipped", "Delivered"];
 
 const getStatusColor = (status) => {
   switch (status.toLowerCase()) {
     case "Processing":
-      return "bg-red-200 p-2 text-red-500 rounded-md  uppercase"; // Red color for "Return"
+      return "bg-red-200 p-1 text-red-100 rounded-md  uppercase"; // Red color for "Return"
     case "success":
-      return "text-yellow-500 bg-yellow-200 p-2 rounded-md uppercase"; // Yellow color for "COD"
+      return "text-yellow-500 bg-yellow-100 p-1 rounded-md uppercase"; // Yellow color for "COD"
     case "order confirmed":
-      return "text-gray-500 bg-gray-200 word-break rounded-md uppercase"; // Gray color for "Not Processed"
+      return "text-gray-500 bg-gray-100 word-break rounded-md uppercase"; // Gray color for "Not Processed"
     case "shipped":
-      return "text-blue-500  bg-blue-200 p-2 rounded-md uppercase"; // Blue color for "Shipped"
-    case "deliverd":
-      return "text-green-500  bg-green-200 p-2 rounded-md uppercase"; // Black color for "Cancelled"
+      return "text-blue-500  bg-blue-100 p-1 rounded-md uppercase"; // Blue color for "Shipped"
+    case "delivered":
+      return "text-green-500  bg-green-100 p-1 rounded-md uppercase"; // Black color for "Cancelled"
     default:
-      return "text-gray-800  bg-gray-200 p-2 rounded-md uppercase"; // Default color
+      return "text-gray-800  bg-gray-100 p-1 rounded-md uppercase"; // Default color
   }
 };
 
@@ -107,7 +107,6 @@ const Orders = () => {
       header: "Status",
       accessorKey: "status",
       cell:({row})=>{
-        console.log(row)
         const status = row.original.status
         return <span  className={getStatusColor(status)}>{status}</span>
       }
@@ -137,13 +136,39 @@ const Orders = () => {
           <div className="" title="delete order" onClick={() => deleteProduct(row.original._id)}>
           <AnimatedDeleteButton />
           </div>
-         <div className="bg-green-200 p-2 rounded-md" title="download invoice">
+         <div
+          id="invoice-content"
+         onClick={()=>{fetchInvoice(row.original?.invoiceNo)}} 
+          className="bg-green-200 p-2 rounded-md" title="download invoice">
          <FaDownload className="text-green-500" />
          </div>
         </div>)
     },
     },
   ];
+
+  const fetchInvoice =async (invoiceNo)=>{
+    try{
+      const response = await axios.get(`${base_url}order/invoice/${invoiceNo}`, config) 
+      console.log(response)
+      if(response.data.success){
+        handlePrint(response?.data?.invoiceData)
+      }
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+  // handlePrint
+  const handlePrint = (invoice) => {
+    const invoiceContent = document.getElementById("invoice-content");
+    if (invoiceContent) {
+      const popupWin = window.open("");
+      popupWin.document.open();
+      popupWin.document.write(`${invoice}`); // Directly write invoice content
+      popupWin.print();
+    }
+  };
 
  // Edit order status function
 const editOrderStatus = async (invoiceNo, status) => {
@@ -153,7 +178,6 @@ const editOrderStatus = async (invoiceNo, status) => {
       { status, invoiceNo },
       config
     );
-    console.log("responseeee ========", response)
     FetchOrders()
     if (response.data.success) {
       toast.success("Order status updated successfully");

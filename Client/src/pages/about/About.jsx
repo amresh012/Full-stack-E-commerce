@@ -104,7 +104,7 @@ const About = () => {
           className="hover:border hover:bg-white hover:scale-105 ease-in-out duration-500 w-[600px] h-[200px] flex"
           style={{ boxShadow: "0 10px 38px 0 rgba(0,0,0,.11)" }}
         >
-          <div className="h-[inherit] flex-1 rounded-sm flex-row justify-center items-center px-4 flex flex-col sm:flex-row">
+          <div className="h-[inherit] flex-1 rounded-sm justify-center items-center px-4 flex flex-col sm:flex-row">
             <div className="sm:flex-1">
               <p className="text-3xl sm:text-5xl font-bold text-[#144170]">150+</p>
               <p className="text-xl sm:text-3xl font-bold mt-3 text-[#00000063]">
@@ -123,7 +123,7 @@ const About = () => {
           className="hover:border hover:bg-white hover:scale-105 ease-in-out duration-500 w-[600px] h-[200px] flex"
           style={{ boxShadow: "0 10px 38px 0 rgba(0,0,0,.11)" }}
         >
-          <div className="h-[inherit] flex-1 rounded-sm flex-row justify-center items-center px-4 flex flex-col sm:flex-row">
+          <div className="h-[inherit] flex-1 rounded-sm  justify-center items-center px-4 flex flex-col sm:flex-row">
             <div className="sm:flex-1">
               <p className="text-3xl sm:text-5xl font-bold text-[#144170]">5K+</p>
               <p className="text-xl sm:text-3xl font-bold mt-3 text-[#00000063]">

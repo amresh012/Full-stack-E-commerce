@@ -24,7 +24,6 @@ const ResetPassword = () => {
     try {
       // Make the request to your API to update the password
       const response = await axios.put(`${base_url}user/reset-password/${token}`, password );
-      console.log(response)
       if (!response.data.error) {
         setSuccess(true); // Show success message
         setMessage("Password has been updated successfully");

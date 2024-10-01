@@ -3,7 +3,7 @@ import { base_url } from "../../Utils/baseUrl";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
-// import Button from "../../components/Ui/Button";
+import Button from "../../components/Ui/Button";
 const AdminBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -47,10 +47,7 @@ const AdminBlog = () => {
       setIsAdding(false);
     }
   };
-  // const generateBlog = async (topic) => {
-  //   const response = await axios.post(`${base_url}blog/generate-blog-content`, { topic });
-  //   setContent(response.data);
-  // };
+
 
 
   return (

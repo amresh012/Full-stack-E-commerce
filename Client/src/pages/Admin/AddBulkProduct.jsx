@@ -20,7 +20,6 @@ const AddBulkProduct = () => {
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-       
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
@@ -60,9 +59,9 @@ const AddBulkProduct = () => {
       <span className="text-red-500">
         ** Make a comma sepration in image field in excel to add multiple mages
       </span>
-      <a href="#">
+      {/* <a href="#">
         <Button sx={{backgroundColor: "#0a2444"}} variant="contained">Download Excel</Button>
-      </a>
+      </a> */}
     </div>
   );
 }

@@ -33,7 +33,6 @@ const BulkImage = () => {
    const GetImges = async () => {
      try {
        const response = await axios.get(`${base_url}images`);
-       // console.log(response);
        if (response.status === 200) {
          setData(response.data);
        } else {
@@ -59,7 +58,6 @@ const BulkImage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await axios.post(`${base_url}images`, values);
-        console.log(response);
         if (response.data.error) {
           throw new Error(response.data.error);
         } else {
@@ -152,7 +150,6 @@ const BulkImage = () => {
       header: "ID",
       accessorKey: "id",
       cell: ({ row }) => {
-        // console.log(row)
         const id = row.id;
         return <span>{+id + 1}</span>;
       },

@@ -1,9 +1,8 @@
 
 
-import { Autocomplete, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { gym_equipment } from "../../constant";
 import { useFormik } from "formik";
 import axios from "axios";
 import { base_url } from "../../Utils/baseUrl";
@@ -11,7 +10,6 @@ import { toast, Toaster } from "react-hot-toast";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import RefreshButton from "../../components/reusablesUI/RefreshButton";
-import Button from "../../components/Ui/Button";
 
 const AddProduct = () => {
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -112,13 +110,6 @@ const AddProduct = () => {
       }
     },
   });
-
-   // generate Product Description With AI
-  //  const generateDescription = async (productDetails) => {
-  //   const response = await axios.post(`${base_url}product/generate-product-description`, {productDetails});
-  //   console.log(response)
-  //   setFieldValue("mindiscription" , response.data);
-  // };
 
 
   return (

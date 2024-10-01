@@ -16,7 +16,7 @@ const ListProduct = () => {
   const [contactDetails, setContactDetails] = useState([]);
   const [open, setOpen] = useState(false);
   const [details ,setDetails] = useState([])
-  console.log(details)
+
   const columns = [
     {
       header: "Sr.No.",
@@ -87,7 +87,6 @@ const ListProduct = () => {
         }
       });
       const data = await response.json();
-      console.log(data)
       if(!data.success){
         toast.error(data.message);
         return;
@@ -109,7 +108,6 @@ const ListProduct = () => {
         }
       });
       const data = await response.json();
-      console.log(data)
       if(!data.success){
         toast.error(data.message);
         return;

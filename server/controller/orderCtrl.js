@@ -181,23 +181,7 @@ const createOrder = async (req, res,) => {
         <div class="content">
             <h2>Dear ${user.name},</h2>
             <p>Thank you for your order! We're excited to let you know that your order has been confirmed.</p>
-
-            // <div class="order-details">
-            //     <h2>Order Details:</h2>
-            //     <table>
-            //         <thead>
-            //             <tr>
-            //                 <th>Item</th>
-            //                 <th>Quantity</th>
-            //                 <th>Price</th>
-            //             </tr>
-            //         </thead>
-            //         <tbody>
-            //             ${orderItemsHTML}
-            //         </tbody>
-            //     </table>
-            // </div>
-
+            <p>Your Total ${user?.cart?.products?.length} item(s) will be deliverd soon</p>
             <p><strong>Total Amount(including all taxes): ${amount}</strong></p>
             <p>Your order will be shipped to:</p>
             <div>
@@ -235,13 +219,9 @@ const createOrder = async (req, res,) => {
       const orders = await Order.find().populate({
         path: "users",
         model: "User",
-        select:"name"
+        select:"name address "
       }).populate("products.product")
       .populate("address")
-      .populate({
-        path:"invoiceData",
-        model:"invoice"
-      });
 
       // Send the orders as the response
       res.status(200).json({
@@ -355,8 +335,23 @@ const getSingleOrder = async (req, res) => {
         }
       };
 
+      const getInvoiceByNo = async(req,res)=>{
+        console.log(req.params)
+        try{
+          const invoice = await InvoiceModel.findOne({invoiceNo:req.params.id})
+          console.log(invoice)
+          res.status(200).send({
+            success:true,
+            invoiceData:invoice.invoice
+          })
+        }
+        catch(error){
+          console.log(error)
+        }
+      }
 
-module.exports= {getInvoices,createOrder, editOrderStatus , deleteOrder, getSingleOrder ,getAllOrders}
+
+module.exports= {getInvoices,createOrder,getInvoiceByNo, editOrderStatus , deleteOrder, getSingleOrder ,getAllOrders}
 
 // const { decode } = require("jsonwebtoken");
 // const Order = require("../models/orderModel");

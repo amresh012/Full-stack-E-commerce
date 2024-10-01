@@ -10,7 +10,6 @@ const OrderSuccess = () => {
   const [tracking, setTracking] = useState()
     const location = useLocation(); 1
     const stat = location.state || {}
-    // console.log(stat)
     const { address, items, email } = stat
  const handleTracking = ()=>{
   toast.success("Tracking will be update within 24 hours")
