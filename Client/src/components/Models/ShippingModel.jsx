@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 // Modal component
 const ShippingModal = ({ data, isOpen, setIsOpen,onShippingSelect }) => {
-    if(data?.length === 0 || data === null || data === undefined) return;
-
+  
   const [selectedShipping, setSelectedShipping] = useState(null);
   useEffect(() => {
     if (isOpen) {
@@ -19,7 +18,8 @@ const ShippingModal = ({ data, isOpen, setIsOpen,onShippingSelect }) => {
     setIsOpen(false)
     
   };
-
+  if(data?.length === 0 || data === null || data === undefined) return;
+  
   if (!isOpen) return null;
 
   return (

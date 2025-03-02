@@ -47,9 +47,10 @@ import Quotation from './pages/Admin/Quotation'
 import PreOrderTerms from './pages/policies/PreOrderTerms '
 import OrderSuccess from "./pages/Product/OrderSuccess"
 import EditCopoun from './pages/Admin/EditCopoun'
+import DashboardNew from './pages/Admin/DashboardNew'
+
+
 function App() {
-
-
   return (
     <Suspense fallback={<Loader />}>
       <Routes>
@@ -101,7 +102,7 @@ function App() {
         {/* Admin Routes */}
 
         <Route path="/admin/*" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<DashboardNew />} />
           <Route path="users" element={<Users />} />
           <Route path="products" element={<AddProduct />} />
           <Route path="product-edit/:id" element={<ProductEdit />} />

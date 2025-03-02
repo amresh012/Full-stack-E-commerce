@@ -201,13 +201,11 @@ const BulkImage = () => {
   return (
     <>
       <Toaster />
-      <div className="gap-12 h-auto flex flex-col items-center justify-around">
-        <div className="space-y-4 w-full m-auto p-2">
-          <div className="flex items-center justify-normal rounded-md">
-            <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full rounded-md">
+      <div className="border m-2 p-2 rounded-md">
+        <div className="space-y-4 w-full   ">
+            <div className="border-b p-4">
               <h1 className="uppercase">Add Images</h1>
             </div>
-          </div>
           <form
             onSubmit={handleSubmit}
             className="flex flex-col w-full gap-4 p-2"
@@ -229,16 +227,16 @@ const BulkImage = () => {
             <div className="flex items-center justify-center w-full">
               <button
                 type="submit"
-                className="bg-[#0a2440] w-2/4 p-2 text-white rounded-md active:shadow-md"
+                className="bg-[#0a2440] p-2 text-white rounded-md active:shadow-md"
               >
                 Upload Images
               </button>
             </div>
           </form>
         </div>
-        <div className="flex flex-col w-full p-2 gap-5">
-          <div className="flex justify-between px-12">
-            <h1 className="text-xl">Previous Uploaded Files</h1>
+        <div className="flex flex-col w-full  gap-5  rounded-md border">
+          <div className="border-b p-4">
+            <h1 className="font-medium text-gray-700 uppercase">Previous Uploaded Files</h1>
           </div>
           {/* Upload list */}
           <div className="w-full">

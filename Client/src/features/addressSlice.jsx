@@ -10,7 +10,6 @@ const addressSlice = createSlice({
   initialState,
   reducers: {
     selectedAddress: (state, action) => {
-      console.log(action.payload);
       state.selectedAddress = action.payload;
     },
     clearSelectedAddress: (state) => {

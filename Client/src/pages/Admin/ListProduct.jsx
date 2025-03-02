@@ -6,7 +6,7 @@ import { FaAddressCard, FaEye, FaPen, FaTrash } from "react-icons/fa";
 import { List } from "@mui/material";
 import { toast, Toaster } from "react-hot-toast";
 import { config } from "../../Utils/axiosConfig";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 const ListProduct = () => {
@@ -64,7 +64,7 @@ const ListProduct = () => {
         ...config,
       });
       const data = await response.json();
-      
+
       setProductDetails({
         name: data?.name,
         images: data?.images,
@@ -98,7 +98,7 @@ const ListProduct = () => {
       setIsLoading(false);
     };
     FetchProduct();
-    // 
+    //
   }, [reload]);
 
   const columns = [
@@ -107,7 +107,7 @@ const ListProduct = () => {
       accessorKey: "_id",
       cell: ({ row }) => {
         const id = row.id;
-        return <span>{(+id)+1}</span>;
+        return <span>{+id + 1}</span>;
       },
     },
     {
@@ -126,9 +126,9 @@ const ListProduct = () => {
     {
       header: "Product Name",
       accessorKey: "name",
-      cell:({row})=>{
-        return <span>{row.original.name.substring(0,30)}</span>;
-      }
+      cell: ({ row }) => {
+        return <span>{row.original.name.substring(0, 30)}</span>;
+      },
     },
     {
       header: "Price / unit",
@@ -304,13 +304,19 @@ const ListProduct = () => {
           </div>
         </div>
       )}
-      <div className="p-2 flex items-center justify-normal ">
-        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="">Product List</h1>
+      <div className="border m-2 rounded-md  flex flex-col items-center justify-normal">
+        <div className="text-gray-700 font-medium uppercase border-b p-4 flex items-center justify-between w-full">
+          <h1>Product List</h1>
+          <Link
+            to="/admin/products"
+            className="bg-gray-100  p-2 rounded-md"
+          >
+            Add Product
+          </Link>
         </div>
-      </div>
-      <div className="w-full">
-        <BasicTable columns={columns} data={product} />
+        <div className="w-full">
+          <BasicTable columns={columns} data={product} />
+        </div>
       </div>
     </>
   );

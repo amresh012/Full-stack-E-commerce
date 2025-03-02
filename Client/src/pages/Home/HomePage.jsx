@@ -17,7 +17,6 @@ import dumbbell from "../../assets/GymEquipmentPng/dumbbell.jpg";
 import why_us_1 from "../../assets/why-us-1.jpg";
 import why_us_2 from "../../assets/why-us-2.jpg";
 import ProductCarousel from "../../components/Ui/ProductCarousel";
-import TestimonialCarousel from "../../components/Ui/TestimonialCarousel";
 import achievements1 from "../../assets/achievements-1.jpg";
 import achievements2 from "../../assets/achievements-2.jpg";
 import achievements3 from "../../assets/achievements-3.jpg";
@@ -80,11 +79,11 @@ const HomePage = () => {
   return (
     <>
       <div
-        className="relative h-[30rem] md:h-[40rem] flex flex-col gap-12 justify-center items-center w-full bg-top bg-cover bg-[#038cccab] bg-blend-multiply"
+        className="relative overflow-clip h-[30rem] md:h-[40rem] flex flex-col gap-12 justify-center items-center w-full bg-top bg-cover bg-[#038cccab] bg-blend-multiply"
         style={{ backgroundImage: `url(${hero_bg})` }}
       >
         <div
-          className="text-white text-7xl lg:w-[73%] w-full text-center uppercase"
+          className="text-white space-y-2  lg:w-[73%] w-full text-center uppercase"
           data-aos="zoom-in"
         >
           <p className="font-semibold lg:text-2xl text-[3rem]">
@@ -94,7 +93,7 @@ const HomePage = () => {
             Ultimate Fitness Equipment Brand
           </p>
 
-          <button className="uppercase text-lg lg:text-2xl bg-white px-8 py-3 rounded-md font-semibold text-[#0c0c0cdb] hover:bg-[#144170] hover:text-white duration-500 ease-in-out">
+          <button className="uppercase  hover:bg-white px-8 py-3 rounded-md font-semibold hover:text-[#0c0c0cdb] bg-[#144170] text-white duration-500 ease-in-out">
             <Link to="/product">
               <div className="flex font-light items-center justify-center gap-x-1">
                 Shop Now
@@ -105,21 +104,22 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mt-24">
-        <h1 className="uppercase text-center text-[#0a2440] text-2xl lg:text-4xl font-bold">
+      <div className="mt-24 overflow-clip mb-4 p-6">
+       <div className="flex items-center justify-between w-full px-6 py-4">
+       <h1 className="uppercase text-center min-w-max text-[#0a2440] text-2xl lg:text-4xl font-bold">
           Recommended For You
         </h1>
-        <div className="mx-auto mt-2 rounded-md h-[6px] w-[170px] bg-[#0a2440] mb-16"></div>
         <Link
           to="/product"
-          className="w-full flex justify-end items-center pr-4 p-2 underline  gap-2"
+          className=" flex justify-end text-xs  items-center  p-2   gap-2"
         >
           <button type="button" className="uppercase">
             View All
           </button>
-          <IoIosArrowRoundForward size={30} />
+          <IoIosArrowRoundForward size={25} />
         </Link>
-        <div data-aos="zoom-out" data-aos-once="true">
+       </div>
+        <div data-aos="zoom-out" className="" data-aos-once="true">
           <ProductCarousel addToCartHandler={addToCartHandler} />
         </div>
       </div>
@@ -237,7 +237,7 @@ const HomePage = () => {
         </h1>
         <div className="mx-auto mt-2 rounded-md h-[6px] w-[220px] bg-[#0a2440] mb-8"></div>
 
-        <p className="text-lg font-light mb-8">
+        <p className="text-lg font-light mb-8 text-center max-w-3xl mx-auto">
           At our core, we are passionate about helping our customers lead
           healthier, more active lives. These nominations are a testament to our
           commitment to excellence and the impact we have made in the fitness
@@ -318,11 +318,10 @@ const HomePage = () => {
             hassle free
           </p>
         </div>
-        {/* <div className="flex flex-wrap lg:flex-nowrap gap-12 items-center justify-center "> */}
-        <div className="flex flex-wrap items-center justify-center gap-4 p-2">
+        <div className="grid grid-cols-3 gap-4 p-2">
           {gymEcommerceSolutions.map((sol) => (
             <div
-              className="flex flex-col justify-around h-[55vh]  md:w-[35vw] lg:w-[30vw] p-4 hover:shadow-lg hover:shadow-[#0a2444] bg-white hover:scale-105 duration-300 "
+              className="flex flex-col justify-around p-4   bg-white rounded-2xl duration-300 "
               key={sol.category}
             >
               <h1 className="heading text-center text-2xl font-bold p-4 uppercase">

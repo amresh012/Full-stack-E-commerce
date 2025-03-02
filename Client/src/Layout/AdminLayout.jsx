@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import LeftDrawer from "../components/AdminComponents/LeftDrawer"
 import toast from 'react-hot-toast';
 import {base_url} from '../Utils/baseUrl';
 import { adduser } from '../features/authSlice';
 import { useDispatch } from 'react-redux';
-import MobileSideBar from '../components/AdminComponents/Mobilesidebar';
+import AdminHeader from '../components/AdminComponents/AdminHeader';
 
 const AdminLayout = () => {
   const navigate = useNavigate
@@ -50,17 +50,15 @@ const AdminLayout = () => {
       navigate('/')
     }
   }, [])
+
+  
   return (
-    <div className="flex h-[100vh] overflow-clip">
-      <div className="">
-        <div className="hidden lg:block">
+    <div className="">
+      <div className="fixed ">
           <LeftDrawer />
-        </div>
-        <div className="block lg:hidden">
-          <MobileSideBar />
-        </div>
       </div>
-      <div className="w-full h-[100vh] overflow-auto">
+      <div className="ml-[15rem]">
+        <AdminHeader/>
         <Outlet />
       </div>
     </div>

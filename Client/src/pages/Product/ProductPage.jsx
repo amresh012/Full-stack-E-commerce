@@ -125,7 +125,7 @@ const Product = ({ buttonProp, filtervisible, onClickhandler }) => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = sortedProducts.slice(
+  const currentProducts = sortedProducts?.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );

@@ -109,16 +109,13 @@ const CopounList = () => {
   return (
     <>
     <Toaster/>
-    <div className='flex flex-col justify-around gap-12 items-center h-auto rounded-md m-1'>
-    <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full  rounded-md ">
-          <h1 className="uppercase">Copouns</h1>
+    <div className='border m-2 rounded-md'>
+    <div className="border-b p-4 w-full">
+          <h1 className="uppercase text-gray-700 font-medium">Copouns</h1>
         </div>
-    </div>
-    <div className="w-full ml-4 ">
-    <div className="mt-12">
-         <RefreshButton/>
-         </div>
+    <div className=" ">
     <BasicTable columns={columns} data={copoun}/>
+    </div>
     </div>
     </>
   )

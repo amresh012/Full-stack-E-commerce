@@ -8,5 +8,5 @@ const {
 
 const router = express.Router();
 router.get("/", getConfig);
-router.post("/", updateConfig);// authMiddleware, isAdmin, add these here
+router.post("/",authMiddleware, isAdmin, updateConfig);// , add these here
 module.exports = router;

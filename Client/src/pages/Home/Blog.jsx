@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
 import React, { useEffect, useState } from "react";
-import { blog } from "../../constant";
 import { Pagination } from "@mui/material";
 import BlogCard from "../../components/Ui/BlogCard";
 import BlogRecentCard from "../../components/Ui/BlogRecentCard";

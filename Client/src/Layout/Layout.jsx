@@ -47,7 +47,7 @@ const Layout = () => {
     }, []);
 
     return (
-        <div className='overflow-clip'>
+        <div className=''>
             <Navbar />
             <Outlet />
             <ScrollToTop />

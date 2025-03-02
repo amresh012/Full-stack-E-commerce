@@ -111,28 +111,30 @@ const WebsitePage = () => {
       id: 8,
       label: "Add Website Name",
       Id: "name",
+      placeholder: "Enter Website Name",
     },
     {
       id: 9,
       label: "Add Website Title",
       Id: "title",
+      placeholder: "Enter Website Title",
     },
   ];
 
   return (
     <>
       <Toaster />
-      <div className="border-2 mt-12 rounded-md shadow-md  h-auto flex flex-col items-center justify-around mx-12 p-2  ">
-        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="">Website Configuration</h1>
+      <div className="border m-2 ">
+        <div className="p-4 border-b">
+          <h1 className="text-gray-700 uppercase font-medium">Website Configuration</h1>
         </div>
         {/* section-2 */}
         {/* form */}
         <form
           onSubmit={handleSubmit}
-          className="w-full h-full p-4 flex  flex-col gap-12"
+          className="w-full h-full p-4 flex  flex-col gap-4"
         >
-          <div className="flex gap-12 items-center justify-around w-full">
+          <div className="flex gap-12 items-center justify-around w-full p-4">
             {configlabel.slice(8).map((label) => (
               <div key={label.id} className="input-1 w-full flex-col flex">
                 <label htmlFor="">{label.label}:</label>
@@ -141,49 +143,50 @@ const WebsitePage = () => {
                   id={label.Id}
                   value={values[Field.Id]}
                   onChange={handleChange}
-                  className="h-12 border-2 rounded-md outline-none px-2 "
+                  className="h-12 border rounded-md outline-none px-2 "
+                  placeholder={label.placeholder}
                 />
               </div>
             ))}
           </div>
           {/* section-3 */}
-          <div className="flex gap-4 w-full p-4 ">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4  p-4">
             {configlabel.slice(0, 3).map((label) => (
-              <div className="input-1 w-full flex-col flex" key={label.id}>
+              <div className="input-1  flex-col flex" key={label.id}>
                 <label htmlFor="">{label.label}:</label>
-                <div className="flex  ">
+                <div className="flex border w-full justify-between rounded-md overflow-clip">
                   <input
                     type="text"
                     name=""
                     id={label.Id}
                     value={values[label.Id]}
                     onChange={handleChange}
-                    className="outline-none border-2 h-12 px-2 lg:w-fit w-full"
+                    className="outline-none w-full  h-12 px-2 "
                   />
                   <input
                     type="color"
                     id={label.Id}
                     value={values[label.Id]}
                     onChange={handleChange}
-                    className="h-12 border-2  outline-none"
+                    className="h-full   outline-none"
                   />
                 </div>
               </div>
             ))}
           </div>
           {/* section-4 */}
-          <div className="flex gap-4 w-full  p-4  ">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4  p-4">
             {configlabel.slice(3, 6).map((label) => (
               <div className="input-1 w-full flex-col flex" key={label.id}>
                 <label htmlFor="">{label.label}:</label>
-                <div className="flex  ">
+                <div className="flex justify-between border w-full rounded-md overflow-clip">
                   <input
                     type="text"
                     name=""
                     id={label.Id}
                     value={values[label.Id]}
                     onChange={handleChange}
-                    className="outline-none border-2 h-12 px-2  lg:w-fit w-full"
+                    className="outline-none h-12 px-2 w-full"
                   />
 
                   <input
@@ -191,21 +194,21 @@ const WebsitePage = () => {
                     id={label.Id}
                     value={values[label.Id]}
                     onChange={handleChange}
-                    className="h-12 border-2  outline-none"
+                    className="h-full  outline-none"
                   />
                 </div>
               </div>
             ))}
           </div>
           {/* section-5 */}
-          <div className="flex gap-12 items-center justify-around w-full ">
+          <div className="grid grid-cols-2 gap-4 p-4">
             <div className="border-2 flex  items-center border-dashed p-2 rounded-md">
               <span className="w-max p-2 rounded-l-md text-white bg-[#0A2440]">Upload <span>Max(1)</span></span>
-              <input type="file" className="border-2 p-2 rounded-md" ref={imageRef} accept=".jpg, .png, .webp"  />
+              <input type="file" className=" p-2 rounded-md" ref={imageRef} accept=".jpg, .png, .webp"  />
             </div>
             <div className="border-2 flex  items-center border-dashed p-2 rounded-md">
               <span className="w-max rounded-l-md text-white bg-[#0A2440] p-2">Upload <span>Max(3)</span></span>
-              <input type="file" className="border-2 p-2 rounded-md" />
+              <input type="file" className=" p-2 rounded-md" />
             </div>
           </div>
           {/* section-6 */}

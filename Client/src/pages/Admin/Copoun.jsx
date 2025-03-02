@@ -9,7 +9,7 @@ import {config} from "../../Utils/axiosConfig"
 import {toast , Toaster } from "react-hot-toast"
 import { useState } from "react";
 const CouponFormSchema = Yup.object().shape({
-  usageLimit: Yup.string()
+  usageLimit: Yup.number()
     .required("Copoun Limit  is required")
     .min(1, "Coupon Usage Limit must be greater than or equal to 1"),
     discountType: Yup.string()
@@ -66,20 +66,18 @@ const AddCoupon = () => {
     >
       {({ errors, touched }) => {
         return (
-          <Form className="flex flex-col w-full ">
-            <div className=' flex items-center justify-normal  rounded-md p-4'>
-           <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="uppercase">Update Copoun</h1>
+          <Form className="flex flex-col  border rounded-md m-2 py-2">
+           <div className="p-4 border-b ">
+          <h1 className="uppercase text-gray-700 font-medium">Update Copoun</h1>
            </div>
-           </div>
-           <div className="flex p-2 shadow-md mx-4 flex-wrap">
+           <div className="flex p-2  flex-wrap">
             <div className=" flex flex-col gap-2  w-1/2 p-2">
               <label htmlFor="code">Copoun Limit</label>
               <Field
-                type="text"
+                type="number"
                 id="usageLimit"
                 name="usageLimit"
-                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                className={`rounded-md h-12 outline-none border px-2 ${
                   touched.code && errors.code ? "is-invalid" : ""
                 }`}
                 placeholder="Enter 6 Digit Copoun Code"
@@ -92,7 +90,7 @@ const AddCoupon = () => {
               <Field
                 as="select"
                 id="discountType"
-                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                className={`rounded-md h-12 outline-none border px-2 ${
                   touched.code && errors.code ? "is-invalid" : ""
                 }`}
                 name="discountType"
@@ -116,7 +114,7 @@ const AddCoupon = () => {
                 type="number"
                 id="discountValue"
                 name="discountValue"
-                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                className={`rounded-md h-12 outline-none border px-2 ${
                   touched.code && errors.code ? "is-invalid" : ""
                 }`}
                  placeholder="Enter Copoun Value 1-100"
@@ -129,7 +127,7 @@ const AddCoupon = () => {
                 type="number"
                 id="daysValid"
                 name="daysValid"
-                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                className={`rounded-md h-12 outline-none border px-2 ${
                   touched.code && errors.code ? "is-invalid" : ""
                 }`}
                  placeholder="Enter Copoun Value 1-30"
@@ -142,7 +140,7 @@ const AddCoupon = () => {
                 type="number"
                 id="usageCount"
                 name="usageCount"
-                className={`rounded-md h-12 outline-none border-2 px-2 ${
+                className={`rounded-md h-12 outline-none border px-2 ${
                   touched.code && errors.code ? "is-invalid" : ""
                 }`}
                  placeholder="Enter Copoun usage limit "

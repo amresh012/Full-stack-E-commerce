@@ -20,9 +20,6 @@ if (cluster.isMaster) {
   });
 
 } else {
-  // This is the worker process. Workers can share any TCP connection
-  // In this case, it is an HTTP server
-
   const bodyParser = require("body-parser");
   const mongoose = require("mongoose");
   const dbConnect = require("./config/dbConnect");
@@ -52,11 +49,11 @@ if (cluster.isMaster) {
   const path = require("path");
   const helmet = require("helmet");
   const rateLimit = require("express-rate-limit");
-  const PORT = process.env.PORT || 7021;
-
   dotenv.config();
-
   const app = express();
+  
+  const PORT = process.env.PORT || 7021;
+// db connect
   mongoose.set("strictQuery", true);
   dbConnect();
 

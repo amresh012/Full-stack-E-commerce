@@ -27,7 +27,8 @@ const AddProduct = () => {
   const props = {
     name: "file",
     multiple: true,
-    action: `https://images.deepmart.shop/upload`,
+    action: `http://localhost:5000/upload`,
+    // action: `https://images.deepmart.shop/upload`,
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
@@ -115,13 +116,13 @@ const AddProduct = () => {
   return (
     <>
       <Toaster />
-      <div className="mb-4 rounded-md gap-12 h-auto flex flex-col items-center justify-around p-6">
-        <div className="text-3xl font-bold bg-[#0a2440] w-full rounded-md text-center text-white p-4 uppercase">
-          <Link to="/admin/product-list">Add Products</Link>
+      <div className="border m-2  rounded-md">
+        <div className="text-gray-700 font-medium uppercase border-b p-4 flex items-center justify-between">
+          <h1>Add Product</h1>
+          <Link to="/admin/product-list" className="bg-gray-100  p-2 rounded-md">View Product List</Link>
         </div>
-        <RefreshButton/>
         {/* Product add */}
-        <form onSubmit={handleSubmit} className="w-full space-y-12">
+        <form onSubmit={handleSubmit} className="w-full space-y-12 p-4">
           {/* SKU Section */}
           <div className="input-1 w-full flex-col flex">
             <label htmlFor="sku">SKU (Auto-generated)</label>

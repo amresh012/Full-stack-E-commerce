@@ -23,7 +23,7 @@ export const LineChart = ({label, labels, data}) => {
 
   return (
     <CChart
-      type="line"
+      type="bar"
       data={{
         labels: labels,
         datasets: [
@@ -79,7 +79,7 @@ export const LineChart = ({label, labels, data}) => {
 export const DoughnutChart = ({labels, data, ChartColors}) => {
   return (
     <CChart
-      type="doughnut"
+      type="pie"
       data={{
         labels: labels,
         datasets: [
@@ -88,12 +88,6 @@ export const DoughnutChart = ({labels, data, ChartColors}) => {
             data: data,
           },
         ],
-        // datasets: [
-        //   {
-        //     backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16", "#ea73ff", "#ff7600", "#8263ff", "#e0e329"],
-        //     data: data,
-        //   },
-        // ],
       }}
       options={{
         plugins: {

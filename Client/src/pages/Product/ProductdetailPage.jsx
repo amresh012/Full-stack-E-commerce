@@ -13,8 +13,8 @@ import axios from "axios"
 import { PiThumbsUpLight ,PiThumbsDownLight  } from "react-icons/pi";
 import moment from "moment"
 import { config } from "../../Utils/axiosConfig";
-import ImageMagnifier from "../../components/ImageMagnify/Imgmagnify";
-
+import AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
+import { IoMdTrash } from "react-icons/io";
 
 const ProductdetailPage = () => {
   const { id } = useParams();
@@ -45,7 +45,8 @@ const ProductdetailPage = () => {
         setReviews(response.data.reviews)
       }
     }
-    catch(error){
+    catch (error) {
+      console.log(error)
     }
   }
   const handleModel =  ()=>{
@@ -193,6 +194,7 @@ const ProductdetailPage = () => {
               {capitalizeFirstLetter(product?.category)} /{" "}
               <span>{capitalizeFirstLetter(product?.subcategory)}</span>
             </h1>
+            {product?.rating <= 0 ? <p>no rating yet</p> : product?.rating}
             <Rating
               name="half-rating"
               value={product?.rating}
@@ -269,24 +271,24 @@ const ProductdetailPage = () => {
                 width: {product?.width}cm
               </li>
             </ul>
-            {
-              token ? <div
-              className="action-buttons flex flex-col gap-4 my-6"
-              onClick={() => handleCart(product)}
-            >
-              <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
-                Add to Cart
-              </button>
-            </div> :
-            <Link to='/login'>
-             <div className="action-buttons flex flex-col gap-4 my-6">
-              <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
-              Login To add Product In Cart
-              </button>
+            {token ? (
+              <div
+                className="action-buttons flex flex-col gap-4 my-6"
+                onClick={() => handleCart(product)}
+              >
+                <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
+                  Add to Cart
+                </button>
               </div>
-            </Link>
-
-            }
+            ) : (
+              <Link to="/login">
+                <div className="action-buttons flex flex-col gap-4 my-6">
+                  <button className="border px-12 py-3 hover:bg-[#0a2444]/80 text-white   active:scale-95 duration-300 bg-[#0a2444]">
+                    Login To add Product In Cart
+                  </button>
+                </div>
+              </Link>
+            )}
             <div className="shipping-info ">
               <p className="">
                 <span className="text-red-500 animate-pulse">**</span> Tax
@@ -298,7 +300,7 @@ const ProductdetailPage = () => {
               {product?.quantity > 0 ? (
                 <p className="flex items-center gap-2 text-xl text-green-500 font-medium">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                 {product?.quantity} In Stock, Ready to Ship
+                  {product?.quantity} In Stock, Ready to Ship
                 </p>
               ) : (
                 <p className="flex items-center gap-2 text-xl text-red-500 font-medium">
@@ -340,6 +342,7 @@ const ProductdetailPage = () => {
                   name="half-rating"
                   value={product?.rating}
                   readOnly
+                  // defaultValue={2}
                   precision={0.5}
                 />
               </p>
@@ -348,20 +351,25 @@ const ProductdetailPage = () => {
               </p>
             </div>
             <div
-              className="rightcontent border-2 flex items-center justify-center duration-300 gap-2 p-2 hover:bg-black border-black hover:text-white"
+              className="rightcontent flex border-b border-gray-700 cursor-pointer items-center justify-center duration-300 gap-2 p-2 hover:bg-black  hover:text-white"
               onClick={handleReviewView}
             >
-              <button>Write a Review</button>
+              <button>Write review</button>
               <FaPen />
             </div>
           </div>
         </div>
         {reviewvisible && (
           <div className="">
-            <ReviewForm productId={id} userId={userId} UserName={UserName} func={fetchProductReviews} />
+            <ReviewForm
+              productId={id}
+              userId={userId}
+              UserName={UserName}
+              func={fetchProductReviews}
+            />
           </div>
         )}
-        
+
         <div className="rating-container flex flex-wrap  p-4 ">
           <div className="reviews flex  flex-wrap items-start justify-start">
             {reviews.slice(0, endrating).map((review) => {
@@ -385,23 +393,22 @@ const ProductdetailPage = () => {
                       <div className="flex gap-12 items-center justify-around w-full ">
                         <div className="text-base font-bold">
                           <div className="flex flex-col">
-                          <p className="name ">{review.user.name}</p>
-                          <span className="">
-                          {review?.user?._id ? (
-                            <div className="flex items-center gap-1 text-xs">
-                              <FaCheckCircle
-                                size={9}
-                                className="text-blue-500"
-                              />
-                              <p className="text-zinc-500">Verified User</p>
-                            </div>
-                          ) : (
-                            <p className="text-xs text-gray-500">
-                               Anonymous       
-                            </p>
-                          )}
-                        </span>
-                            
+                            <p className="name ">{review.user.name}</p>
+                            <span className="">
+                              {review?.user?._id ? (
+                                <div className="flex items-center gap-1 text-xs">
+                                  <FaCheckCircle
+                                    size={9}
+                                    className="text-blue-500"
+                                  />
+                                  <p className="text-zinc-500">Verified User</p>
+                                </div>
+                              ) : (
+                                <p className="text-xs text-gray-500">
+                                  Anonymous
+                                </p>
+                              )}
+                            </span>
                           </div>
                           <Rating
                             className=""
@@ -411,58 +418,80 @@ const ProductdetailPage = () => {
                             defaultValue={review.rating}
                             precision={0.5}
                           />
-                          
                         </div>
-                        
                       </div>
                     </div>
                     <div className="date text-xs lg:pt-0 pt-2 text-zinc-600">
-                      <p>{moment(review.createdAt).format('l LT')}</p>
+                      <p>{moment(review.createdAt).format("l LT")}</p>
                     </div>
                   </div>
                   <div className="body">
-                    <h1 className="font-bold text-xl break-words">{review?.title}</h1>
+                    <h1 className="font-bold text-xl break-words">
+                      {review?.title}
+                    </h1>
                     <p className=" break-words">{review?.review}</p>
-                   
                   </div>
                   <div className="flex cursor-pointer bg-gray-100 items-center rounded-full w-fit justify-center">
-                    <p onClick={()=>likeReview(review._id)}  className="flex relative group gap-2 items-center p-1  rounded-md ">
-                       <span className="absolute top-1 bg-blue-200 rounded-md text-[12px] 
+                    <p
+                      onClick={() => likeReview(review._id)}
+                      className="flex relative group gap-2 items-center p-1  rounded-md "
+                    >
+                      <span
+                        className="absolute top-1 bg-blue-200 rounded-md text-[12px] 
                         text-blue-500 shadow-lg shadow-blue-500 p-1 opacity-0  duration-500
                         group-hover:-translate-y-9 group-hover:opacity-100
                         "
-                        >like</span>
-                       <div className={like && "text-blue-500"}>
-                       <PiThumbsUpLight />
-                       </div>
+                      >
+                        like
+                      </span>
+                      <div className={like && "text-blue-500"}>
+                        <PiThumbsUpLight />
+                      </div>
                       <span className="">{like}</span>
                     </p>
                     <span className="w-[1px] h-4 bg-black"></span>
-                    <p  onClick={()=>dislikeReview(review._id)}  className="flex relative group gap-2 items-center p-1  rounded-md">
-                    <span className="absolute top-1 bg-red-200 rounded-md text-[12px] 
+                    <p
+                      onClick={() => dislikeReview(review._id)}
+                      className="flex relative group gap-2 items-center p-1  rounded-md"
+                    >
+                      <span
+                        className="absolute top-1 bg-red-200 rounded-md text-[12px] 
                         text-red-500 shadow-lg shadow-red-500 p-1 opacity-0 duration-500
                         group-hover:-translate-y-9 group-hover:opacity-100
                         "
-                        >dislike</span> 
-                      <div onClick={handleModel} className={dislike && "text-red-500"}>
-                      <PiThumbsDownLight />
-                       </div>
+                      >
+                        dislike
+                      </span>
+                      <div
+                        onClick={handleModel}
+                        className={dislike && "text-red-500"}
+                      >
+                        <PiThumbsDownLight />
+                      </div>
                       <span className="">{dislike}</span>
                     </p>
-                    {Uid === review?.user?._id && <span onClick={()=>deleteReview(review._id)}
-                     className="pr-1 text-red-500">Delete</span>}
+                    {Uid === review?.user?._id && (
+                      <span
+                        onClick={() => deleteReview(review._id)}
+                        className="p-2 rounded-full bg-red-200 text-red-500"
+                      >
+                        <IoMdTrash/>
+                      </span>
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
-       {reviews.length >=4 && reviews.length > reviews.length - 1 &&  <div
-          onClick={handleLoadReviews}
-          className="flex text-white active:scale-95 hover:shadow-md duration-300  items-center justify-center m-12 bg-black/50 p-2 w-fit"
-        >
-          <button>Load More Reviews</button>
-        </div>}
+        {reviews.length >= 4 && reviews.length > reviews.length - 1 && (
+          <div
+            onClick={handleLoadReviews}
+            className="flex text-white active:scale-95 hover:shadow-md duration-300  items-center justify-center m-12 bg-black/50 p-2 w-fit"
+          >
+            <button>Load More Reviews</button>
+          </div>
+        )}
       </div>
     </>
   );

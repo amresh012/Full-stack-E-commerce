@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BasicTable from "../../components/AdminComponents/BasicTable";
 import { base_url } from "../../Utils/baseUrl";
-import { FaEye, FaTrash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { List } from "@mui/material";
 import { MdBlockFlipped } from "react-icons/md";
 import { Space, Switch } from "antd";
@@ -219,7 +219,7 @@ const Users = () => {
         const [selectedPermissions, setSelectedPermissions] = useState([]);
 
         return (
-          <div className="w-[16rem] gap-2 flex">
+          <div className="w-[16rem] gap-2 flex items-center justify-center">
           <Select
             isDisabled={row.original.role !== 'Employee'}
             className="rounded mt-2 disabled:cursor-not-allowed"
@@ -232,7 +232,7 @@ const Users = () => {
             isSearchable={true}
             isMulti={true}
           />
-          <button className="bg-[#0a2440] text-white px-3 py-0 rounded" onClick={() => updateAccess(row.original._id, selectedPermissions)}>Update</button>
+          <button className="bg-[#0a2440] text-white p-1.5 rounded" onClick={() => updateAccess(row.original._id, selectedPermissions)}>Update</button>
           </div>
         );
       },
@@ -301,17 +301,17 @@ const Users = () => {
         ...config,
       });
       const data = await response.json();
-      // if(!data.success){
-      //   toast.error(data.message);
-      //   return;
-      // }
+      if(!data.success){
+        toast.error(data.message);
+        return;
+      }
       setUserDetails({
         name: data?.getaUser?.name,
         email: data?.getaUser?.email,
         mobile: data?.getaUser?.mobile,
       });
       setOpen(true);
-      // setFetchingUser(false);
+      setFetchingUser(false);
     } catch (error) {
       toast.error(error.message);
     }
@@ -371,15 +371,15 @@ const Users = () => {
 
 
   return (
-    <div>
+    <div className="p-2">
       <Toaster />
       {showSmsModal && (
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[50%] h-[30rem] bg-white p-5 rounded-md z-10 overflow-auto"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[50%] h-[30rem] bg-white p-5 rounded-md z-10"
           style={{ boxShadow: "0 0 4px 1px #c3bcbc" }}
         >
-          <div className="flex justify-between text-3xl">
-            <h1 className="font-bold text-3xl">Send SMS</h1>
+          <div className="flex justify-between text-xl cursor-pointer">
+            <h1 className="font-bold">Send SMS</h1>
             <div
               onClick={toggleModalHandler}
               className="hover:text-red-500"
@@ -392,29 +392,37 @@ const Users = () => {
             <form className="mt-3">
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Template ID</label>
-                <input value={templateId} onChange={(e) => setTemplateId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
+                <input
+                placeholder="Enter template ID"
+                 value={templateId} onChange={(e) => setTemplateId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
               </div>
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Sender ID</label>
-                <input value={senderId} onChange={(e) => setSenderId(e.target.value)} className="border rounded text-lg px-3 py-1" type="text" />
+                <input
+                placeholder="Enter sender ID"
+                 value={senderId} onChange={(e) => setSenderId(e.target.value)} className="border rounded text-lg px-3 py-1" type="text" />
               </div>
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Entity ID</label>
-                <input value={entityId} onChange={(e) => setEntityId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
+                <input
+                placeholder="Enter entity ID"
+                value={entityId} onChange={(e) => setEntityId(e.target.value)} className="border rounded text-lg px-3 py-1" type="number" />
               </div>
               <div className="mb-3 flex flex-col gap-y-2">
                 <label>Message</label>
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)} className="border rounded text-lg px-3 py-1" />
+                <textarea
+                placeholder="Enter your message here"
+                 value={message} onChange={(e) => setMessage(e.target.value)} className="border rounded text-lg px-3 py-1" />
               </div>
               <div className="flex justify-end gap-x-2 mb-3">
                 <button type="submit"
-                  className="px-6 rounded py-3 text-lg bg-[#0a2440] border border-[#0a2440] text-white hover:bg-white hover:text-[#0a2440]"
+                  className="p-3 rounded  bg-[#0a2440] border border-[#0a2440] text-white hover:bg-white hover:text-[#0a2440]"
                   onClick={sendSmsToSelected}
                 >
                   Send SMS to selected
                 </button>
                 <button type="submit"
-                  className="px-6 rounded py-3 text-lg bg-white border border-[#0a2440] text-[#0a2440] hover:bg-[#0a2440] hover:text-white"
+                  className="p-3 rounded  bg-white border border-[#0a2440] text-[#0a2440] hover:bg-[#0a2440] hover:text-white"
                   onClick={sendSmsToAll}
                 >
                   Send SMS to all
@@ -467,21 +475,18 @@ const Users = () => {
           </div>
         </div>
       )}
-      <div className="m-2 rounded-md gap-4 h-auto flex flex-col items-center justify-around  overflow-auto">
-      <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="uppercase">Users</h1>
+      <div className="border flex flex-col  gap-2 rounded-md ">
+        <div className="p-4 border-b">
+          <h1 className="text-gray-700 font-medium uppercase">Users</h1>
         </div>
-      </div>
-      <div className="rounded-md p-2">
-      <div className="mt-12">
-         <RefreshButton/>
-         </div>
+      <div className="">
         <BasicTable
           columns={columns}
           data={users}
           toggleModalHandler={toggleModalHandler}
-        />
+          />
       </div>
+          </div>
     </div>
   );
 };

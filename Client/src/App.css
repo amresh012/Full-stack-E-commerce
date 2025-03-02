@@ -82,34 +82,32 @@ input[type=file]::-webkit-file-upload-button{
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100vw;
-  border-radius: 10px;
-  border: 0.5px solid lightgray;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 100%;
 
 }
 
 th {
   text-align: center;
-  padding:15px;
-  color: white;
-  min-width: 10rem;
-  background-color: #0a2440;
-}
+  padding:10px;
+  border-bottom: 1px solid lightgray;
+
+  }
+
 td{
   text-align: center;
   padding: 20px;
-
 }
 
-/* 
+
 tr:hover{
   cursor: pointer;
-  background: #038CCC;
-  color:#fff
-} */
-tr{
-  border: 0.5px solid lightgray;
+  background: rgba(211, 211, 211, 0.31);
 }
+/* tr{
+  border: 1px solid lightgray;
+} */
 
 .card{
  display: block;

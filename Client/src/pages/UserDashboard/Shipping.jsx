@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { base_url } from "../../Utils/baseUrl";
 import axios from "axios";
 import { config } from "../../Utils/axiosConfig";
-import { selectedAddress } from "../../features/addressSlice";
+import { selectedAddress , clearSelectedAddress } from "../../features/addressSlice";
 import {adduser} from "../../features/authSlice"
 import { useNavigate } from "react-router-dom";
 import  AnimatedDeleteButton from "../../components/Ui/AnimatedDeleteButton"
@@ -59,6 +59,7 @@ const Shipping = () => {
     }
     finally{
       fetchUserAddress();
+      clearSelectedAddress()
     }
   };
 

@@ -484,8 +484,8 @@ const logout = asyncHandler(async (req, res) => {
 // Update a user
 
 const updatedUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  console.log(req.user);
+  // console.log(req.body);
+  // console.log(req.user);
   const { _id } = req.user;
   validateMongoDbId(_id);
 

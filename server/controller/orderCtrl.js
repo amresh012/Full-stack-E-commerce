@@ -21,8 +21,8 @@ const createOrder = async (req, res,) => {
   let transactionId =  datatosend.paymentId;
   let orderId = datatosend.order_id
   let amount = datatosend.amount
-  console.log("address------============-----------------",address)
   let adr, placeofsup, gstNo;
+  
   for (let i = 0; i < user.address.length; i++) {
     if (JSON.stringify(user.address[i]._id) == JSON.stringify(address)) {
       adr = `${user.address[i].adr} , ${user.address[i].city} , ${user.address[i].state} - ${user.address[i].pincode}`

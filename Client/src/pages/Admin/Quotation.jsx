@@ -77,11 +77,11 @@ const Quotation = () => {
                           </button>
                       </>
                   ) : (
-                      <div className='flex items-center min-w-[16rem] justify-between'>
-                          <span className=''>{remarks[rowId] || 'No remarks'}</span>
+                      <div className='flex items-center min-w-[16rem] justify-between border'>
+                          <span className='px-2'>{remarks[rowId] || 'No remarks'}</span>
                           <button
                               onClick={() => handleEdit(rowId)} // Enable edit mode
-                              className='text-white uppercase p-2 bg-[#0a2444] ml-2'
+                              className='text-white uppercase p-2 bg-[#0a2444] '
                           >
                               Edit
                           </button>
@@ -172,15 +172,14 @@ const handleEdit = (id) => {
   return (
     <>
     <Toaster/>
-    <div className=" p-2 flex items-center justify-normal rounded-md">
-        <div className="text-3xl font-bold p-8 bg-[#0a2440] text-white w-full shadow-md rounded-md ">
-          <h1 className="">Quotations</h1>
+    <div className=" border rounded-md m-2 ">
+        <div className="border-b p-4">
+          <h1 className="text-gray-700 uppercase font-medium">Quotations</h1>
         </div>
-      </div>
-    <div className='pl-4'>
-      <RefreshButton/>
+        <div className=''>
       <BasicTable columns={columns} data={data || []}/>
     </div>
+      </div>
     </>
   )
 }

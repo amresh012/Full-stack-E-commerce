@@ -1,6 +1,6 @@
 // /* eslint-disable react/prop-types */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -42,13 +42,13 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
     <>
       {isLoading ? (
         // Show loader while data is being fetched
-        <div className="h-[50vh] flex flex-col items-center justify-center">
+        <div className=" w-full flex flex-col items-center justify-center">
           <Loader /> {/* Replace this with your loader component */}
           <p className="mt-2 text-2xl font-bold text-gray-500">Loading...</p>
         </div>
       ) : data.length === 0 ? (
         // Show "No Records Found" when data is empty
-        <div className="h-[50vh] gap-2 w-[77vw] flex flex-col items-center justify-center bg-gray-200 mt-4 text-2xl font-bold">
+        <div className=" gap-2 m-2  min-h-[50vh]  flex flex-col items-center justify-center  mt-4 text-2xl font-bold">
           <span className="text-orange-500  animate-bounce">
             <FaExclamationCircle size={50} />
           </span>
@@ -56,32 +56,18 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
         </div>
       ) : (
         <div>
-          <select
-            className="border-2 p-2 outline-none m-4 w-54"
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-
-          {toggleModalHandler && (
+          {/* {toggleModalHandler && (
             <button
-              className="px-6 rounded py-3 text-lg bg-[#0a2440] border border-[#0a2440] text-white hover:bg-white hover:text-[#0a2440]"
+              className="p-3 rounded bg-[#0a2440] border border-[#0a2440] text-white hover:bg-white hover:text-[#0a2440]"
               onClick={toggleModalHandler}
             >
               Send SMS
             </button>
-          )}
+          )} */}
 
-          <div className="shadow-md rounded-md p-2 w-[99%] overflow-x-scroll">
-            <table className="overflow-scroll">
-              <thead>
+          <div className=" p-2  overflow-x-scroll no-scrollbar">
+            <table className="rounded-lg">
+              <thead  className="">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
@@ -152,6 +138,28 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
                   className="border p-1 rounded outline-none w-16"
                 />
               </span>
+              {/*  */}
+              <select
+            className="border rounded-lg p-2 outline-none m-4 w-54"
+            value={table.getState().pagination.pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value));
+            }}
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+          {toggleModalHandler && (
+            <button
+              className="p-2 rounded bg-[#0a2440] border border-[#0a2440] text-white hover:bg-white hover:text-[#0a2440]"
+              onClick={toggleModalHandler}
+            >
+              Send SMS
+            </button>
+          )}
             </div>
           </div>
 
@@ -159,8 +167,8 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
             <button
               className={
                 !table.getCanPreviousPage()
-                  ? "cursor-not-allowed"
-                  : "p-2 bg-[#0a2440] rounded-md text-white"
+                  ? "cursor-not-allowed bg-gray-100 p-2 rounded-md"
+                  : " bg-gray-200 p-2 rounded-md"
               }
               disabled={!table.getCanPreviousPage()}
               onClick={() => table.setPageIndex(0)}
@@ -192,8 +200,8 @@ const BasicTable = ({ columns, data, toggleModalHandler }) => {
             <button
               className={
                 !table.getCanNextPage()
-                  ? "cursor-not-allowed"
-                  : "p-2 bg-[#0a2440] text-white rounded-md"
+                  ? "cursor-not-allowed bg-gray-100 p-2 rounded-md"
+                  : "bg-gray-200 p-2 rounded-md"
               }
               disabled={!table.getCanNextPage()}
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}

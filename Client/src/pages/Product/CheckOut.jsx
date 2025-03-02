@@ -1,5 +1,5 @@
 // import React from 'react'
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { base_url } from "../../Utils/baseUrl";
@@ -22,6 +22,7 @@ const CheckOut = () => {
   //  getUser
   const User = useSelector((state) => state.auth.user)
   const id = localStorage.getItem("id") || User?._id
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       if (id)
@@ -72,7 +73,9 @@ const CheckOut = () => {
   const deliverCharge = Number(
     selectedShiping?.freight_charge?.toFixed(0) || 0
   );
+
   let CartTotal = cartItems?.totalCartValue + deliverCharge;
+
   // calculate discount
   if (discountType === "percentage" && discount > 0) {
     CartTotal = CartTotal - CartTotal * (discount / 100);
@@ -391,7 +394,7 @@ const CheckOut = () => {
             </div>
           </div>
         </div>
-        <div className="right-box h-fit p-4 bg-gray-100 md:w-full lg:w-fit rounded-md shadow-sm mt-4">
+        <div className="right-box  p-4 bg-gray-100 md:w-full lg:w-fit rounded-md shadow-sm mt-4">
           <div className="address p-4 Copoun-Code rounded-md space-y-4 bg-gray-200 shadow-sm">
             <h1 className="text-2xl font-bold uppercase">
               Address Information

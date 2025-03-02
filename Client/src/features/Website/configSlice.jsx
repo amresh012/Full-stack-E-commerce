@@ -12,7 +12,7 @@ export const updateSiteConfig = createAsyncThunk(
   "updateSiteConfiguration",
   async (siteCfg) => {
     const res = await axios.post(`${base_url}config`, siteCfg, config);
-    
+    console.log(res)
     toast.success(res.data.message)
     return res.data;
   }
@@ -22,7 +22,8 @@ export const configSlice = createSlice({
   name: "WebsiteConfiguration",
   initialState,
   reducers: {
-    webconfig:(state,action)=>{
+    webconfig: (state, action) => {
+      console.log(action.payload);
       state.data=action.payload
     }
   },

@@ -160,7 +160,7 @@ const ListBlogs = () => {
   }, [reload]);
 
   return (
-    <div className="ml-2 w-[63rem]">
+    <div className="m-2">
       <Toaster />
       {open && (
         <div
@@ -216,16 +216,13 @@ const ListBlogs = () => {
           </div>
         </div>
       )}
-      <div className="  bg-[#0a2444] rounded-md shadow-md gap-4 h-auto flex flex-col items-center justify-around p-6 overflow-auto">
-        <div className="w-full text-white">
+      <div className="border rounded-md">
+        <div className="border-b w-full p-4">
           <h1 className="text-2xl font-bold uppercase">List Of Blogs</h1>
         </div>
-      </div>
-      <div className="w-full">
-      <div className="mt-12">
-         <RefreshButton/>
-         </div>
-        <BasicTable columns={columns} data={blogs} />
+        <div className="w-full">
+          <BasicTable columns={columns} data={blogs} />
+        </div>
       </div>
     </div>
   );

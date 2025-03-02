@@ -4,7 +4,6 @@ const axios = require("axios");
 const User = require("../models/userModel");
 
 const createOrder = async (req, res) => {
-  console.log(req.body)
   const {addr,productinfo, email} = req.body
   const useremail = req.body.email;
   const userD = await User.find({ email: useremail });
@@ -40,7 +39,6 @@ const createOrder = async (req, res) => {
     };
     productDetail.push(pro);
   }
-  console.log(productDetail);
   // getting user adress
   const n = user.address.length - 1
   const addid = user.address[n];

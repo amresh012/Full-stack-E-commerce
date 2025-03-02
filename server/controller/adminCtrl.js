@@ -1,6 +1,5 @@
 const asyncHandle = require("express-async-handler");
 const Products = require("../models/productModel");
-const User = require("../models/userModel");
 const Contact = require("../models/contactUsModel");
 const Bulk = require("../models/bulkModel");
 const Order = require("../models/orderModel");
@@ -94,14 +93,8 @@ const getAdminData = asyncHandle(async (req, res) => {
         },
       ]);
     
-     const paymentsTodayValue =
-       totalPaymentsToday.length > 0
-         ? totalPaymentsToday[0].currentDayPayments
-         : 0;
-     const paymentsAllTimeValue =
-       totalPaymentsAllTime.length > 0
-         ? totalPaymentsAllTime[0].totalPayments
-         : 0;
+     const paymentsTodayValue = totalPaymentsToday.length > 0 ? totalPaymentsToday[0].currentDayPayments : 0;
+     const paymentsAllTimeValue =totalPaymentsAllTime.length > 0 ? totalPaymentsAllTime[0].totalPayments : 0;
 
     
     

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,29 +32,12 @@ const ScrollToTop = () => {
   return (
     <div>
       {isVisible && (
-        <button onClick={scrollToTop} style={styles.scrollToTopBtn}>
-          ⬆ Scroll to Top
+        <button onClick={scrollToTop} className="fixed bottom-5 right-5 bg-black/50 p-4 rounded-full text-white">
+          <MdOutlineKeyboardDoubleArrowUp/>
         </button>
       )}
     </div>
   );
-};
-
-const styles = {
-  scrollToTopBtn: {
-    position: "fixed",
-    bottom: "20px",
-    right: "20px",
-    padding: "10px 20px",
-    fontSize: "16px",
-    backgroundColor: "#0a2444",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-    zIndex: 1000,
-  },
 };
 
 export default ScrollToTop;

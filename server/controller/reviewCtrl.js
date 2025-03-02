@@ -29,7 +29,7 @@ const createProductReview = async (req, res) => {
     product.numReviews = product.reviews.length;
     product.rating =
       product.reviews.reduce((acc, ele) => acc + ele.rating, 0) /
-      product.numReviews;
+      product.numReviews.toFixed(1);
     const updatedProduct = await product.save();
     if (updatedProduct)
       return res.status(200).json({ success: true, message: "Review Added" });
